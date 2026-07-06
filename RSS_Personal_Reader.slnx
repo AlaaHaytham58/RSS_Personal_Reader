@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="RSS_Personal_Reader.csproj" />
+  <Project Path="Tests/Tests.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+</Solution>

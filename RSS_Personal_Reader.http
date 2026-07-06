@@ -1,0 +1,6 @@
+@RSS_Personal_Reader_HostAddress = http://localhost:5207
+
+GET {{RSS_Personal_Reader_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
