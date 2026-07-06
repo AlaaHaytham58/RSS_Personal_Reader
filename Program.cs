@@ -42,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Ensure data directory and initial feeds.json exist
 var settings = app.Services.GetRequiredService<AppSettings>();
@@ -64,5 +66,7 @@ app.MapGet("/healthz", () => Results.Json(new { status = "ok" }));
 // Map API endpoints
 Endpoints.FeedEndpoints.MapFeedEndpoints(app);
 Endpoints.ArticleEndpoints.MapArticleEndpoints(app);
+
+app.MapFallbackToFile("index.html");
 
 app.Run();
