@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#F8F9FA" />
+  <title>RSS Personal Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar__brand">
+        <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebarDrawer">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div>
+          <p class="eyebrow">Personal RSS Reader</p>
+          <h1>River of News</h1>
+        </div>
+      </div>
+
+      <div class="topbar__actions">
+        <label class="search" for="searchInput">
+          <span class="search__icon" aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search articles or feeds" autocomplete="off" />
+        </label>
+        <button class="primary-button" type="button" id="refreshAllButton">Refresh all</button>
+      </div>
+    </header>
+
+    <div class="app-layout">
+      <aside class="sidebar" id="sidebarDrawer" aria-label="Feed navigation">
+        <section class="sidebar__section sidebar__section--profile">
+          <div>
+            <p class="eyebrow">Workspace</p>
+            <h2>Feed management</h2>
+          </div>
+          <p class="sidebar__description">Organize subscriptions, refresh sources, and keep the river focused on the latest stories.</p>
+        </section>
+
+        <section class="sidebar__section">
+          <div class="section-heading">
+            <h3>Subscribe to a feed</h3>
+          </div>
+          <form id="addFeedForm" class="feed-form">
+            <label class="field">
+              <span>RSS or Atom URL</span>
+              <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/feed.xml" required />
+            </label>
+            <button class="primary-button primary-button--full" type="submit">Add feed</button>
+            <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="sidebar__section sidebar__section--feeds">
+          <div class="section-heading">
+            <h3>Subscriptions</h3>
+            <span class="count-pill" id="feedCount">0</span>
+          </div>
+          <div class="feed-list" id="feedList"></div>
+        </section>
+      </aside>
+
+      <main class="content">
+        <section class="hero card">
+          <div class="hero__copy">
+            <p class="eyebrow">Focused reading</p>
+            <h2>Stay informed without losing the thread.</h2>
+            <p>Browse your newest articles in a clean, responsive river designed for quick scanning and comfortable reading on every device.</p>
+          </div>
+          <div class="hero__stats" aria-label="Reader statistics">
+            <div class="stat">
+              <span class="stat__label">Feeds</span>
+              <strong id="statFeeds">0</strong>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Articles</span>
+              <strong id="statArticles">0</strong>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Updated</span>
+              <strong id="statUpdated">—</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="river-toolbar card">
+          <div>
+            <p class="eyebrow">River of News</p>
+            <h3>Latest articles</h3>
+          </div>
+          <div class="toolbar-meta">
+            <span class="status-dot"></span>
+            <span id="statusText">Loading feeds and articles...</span>
+          </div>
+        </section>
+
+        <section class="river" id="articleFeed" aria-label="Articles"></section>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  </div>
+
+  <template id="feedItemTemplate">
+    <button type="button" class="feed-item">
+      <div class="feed-item__main">
+        <strong class="feed-item__title"></strong>
+        <span class="feed-item__meta"></span>
+      </div>
+      <span class="feed-item__badge"></span>
+    </button>
+  </template>
+
+  <template id="articleCardTemplate">
+    <article class="article-card card">
+      <div class="article-card__header">
+        <div>
+          <p class="article-card__source"></p>
+          <h4 class="article-card__title"></h4>
+        </div>
+        <time class="article-card__time"></time>
+      </div>
+      <p class="article-card__summary"></p>
+      <div class="article-card__footer">
+        <span class="article-card__feed"></span>
+        <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+      </div>
+    </article>
+  </template>
+
+  <script src="/js/app.js" defer></script>
+</body>
+</html>
