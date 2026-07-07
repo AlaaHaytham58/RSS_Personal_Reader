@@ -3,6 +3,7 @@ const state = {
   articles: [],
   search: '',
   selectedFeedId: 'all',
+  readArticleIds: new Set(),
 };
 
 const elements = {
@@ -15,12 +16,9 @@ const elements = {
   feedUrlInput: document.getElementById('feedUrlInput'),
   feedFormMessage: document.getElementById('feedFormMessage'),
   feedList: document.getElementById('feedList'),
-  feedCount: document.getElementById('feedCount'),
   articleFeed: document.getElementById('articleFeed'),
   statusText: document.getElementById('statusText'),
-  statFeeds: document.getElementById('statFeeds'),
-  statArticles: document.getElementById('statArticles'),
-  statUpdated: document.getElementById('statUpdated'),
+  topbarStat: document.getElementById('topbarStat'),
   feedItemTemplate: document.getElementById('feedItemTemplate'),
   articleCardTemplate: document.getElementById('articleCardTemplate'),
 };
@@ -38,10 +36,39 @@ const sectionFormatter = new Intl.DateTimeFormat(undefined, {
   year: 'numeric',
 });
 
+const readStorageKey = 'rss-reader-read-articles';
+
+let toastHost;
+let toastTimers = [];
+
 function stripHtml(value) {
   const temp = document.createElement('div');
   temp.innerHTML = value ?? '';
   return temp.textContent?.trim() ?? '';
+}
+
+function loadReadState() {
+  try {
+    const raw = window.localStorage.getItem(readStorageKey);
+    const values = raw ? JSON.parse(raw) : [];
+    state.readArticleIds = new Set(Array.isArray(values) ? values : []);
+  } catch {
+    state.readArticleIds = new Set();
+  }
+}
+
+function saveReadState() {
+  window.localStorage.setItem(readStorageKey, JSON.stringify([...state.readArticleIds]));
+}
+
+function markArticleRead(articleId) {
+  if (!articleId || state.readArticleIds.has(articleId)) {
+    return;
+  }
+
+  state.readArticleIds.add(articleId);
+  saveReadState();
+  renderArticles();
 }
 
 function formatTime(value) {
@@ -86,6 +113,82 @@ function setStatus(message, tone = 'neutral') {
 function setFeedMessage(message, tone = 'neutral') {
   elements.feedFormMessage.textContent = message;
   elements.feedFormMessage.dataset.tone = tone;
+}
+
+function clearFeedMessage() {
+  elements.feedFormMessage.textContent = '';
+  delete elements.feedFormMessage.dataset.tone;
+}
+
+function ensureToastHost() {
+  if (!toastHost) {
+    toastHost = document.createElement('div');
+    toastHost.className = 'toast-host';
+    toastHost.setAttribute('aria-live', 'polite');
+    toastHost.setAttribute('aria-atomic', 'true');
+    document.body.append(toastHost);
+  }
+
+  return toastHost;
+}
+
+function showToast(message, tone = 'neutral') {
+  if (!message) {
+    return;
+  }
+
+  const host = ensureToastHost();
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  if (tone !== 'neutral') {
+    toast.dataset.tone = tone;
+  }
+  toast.textContent = message;
+  host.append(toast);
+
+  const timer = window.setTimeout(() => {
+    toast.classList.add('is-leaving');
+    window.setTimeout(() => toast.remove(), 180);
+  }, 3200);
+
+  toastTimers.push(timer);
+}
+
+function getFeedById(feedId) {
+  return state.feeds.find((feed) => feed.id === feedId);
+}
+
+function getFeedAccent(seed) {
+  const text = `${seed ?? ''}`;
+  let hash = 0;
+  for (let i = 0; i < text.length; i += 1) {
+    hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+  }
+
+  const palette = ['#5b6b2f', '#2f5d62', '#8a5a3c', '#6b4e71', '#556b8d'];
+  return palette[hash % palette.length];
+}
+
+function getFeedHost(feed) {
+  const source = feed?.siteUrl || feed?.url;
+  if (!source) {
+    return '';
+  }
+
+  try {
+    return new URL(source).hostname.replace(/^www\./i, '');
+  } catch {
+    return source;
+  }
+}
+
+function getFaviconUrl(feed) {
+  const host = getFeedHost(feed);
+  if (!host) {
+    return '';
+  }
+
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=64`;
 }
 
 function openDrawer() {
@@ -168,9 +271,20 @@ function buildFeedChip(feed) {
   const chip = document.createElement('div');
   chip.className = `feed-item${state.selectedFeedId === feed.id ? ' is-active' : ''}`;
   chip.dataset.feedId = feed.id;
+  chip.style.setProperty('--item-accent', getFeedAccent(feed.title || feed.url));
 
   const main = document.createElement('div');
   main.className = 'feed-item__main';
+
+  const favicon = document.createElement('img');
+  favicon.className = 'feed-item__favicon';
+  favicon.alt = '';
+  favicon.loading = 'lazy';
+  favicon.referrerPolicy = 'no-referrer';
+  const faviconUrl = getFaviconUrl(feed);
+  if (faviconUrl) {
+    favicon.src = faviconUrl;
+  }
 
   const title = document.createElement('strong');
   title.className = 'feed-item__title';
@@ -178,18 +292,17 @@ function buildFeedChip(feed) {
 
   const meta = document.createElement('span');
   meta.className = 'feed-item__meta';
-  meta.textContent = feed.siteUrl || feed.url;
+  meta.textContent = getFeedHost(feed) || feed.siteUrl || feed.url;
 
-  const badge = document.createElement('span');
-  badge.className = 'feed-item__badge';
-  badge.textContent = feed.articleCount ?? 0;
-
+  if (faviconUrl) {
+    main.append(favicon);
+  }
   main.append(title, meta);
   const selectButton = document.createElement('button');
   selectButton.type = 'button';
   selectButton.className = 'feed-item__select';
   selectButton.setAttribute('aria-label', `View articles from ${getFeedDisplayName(feed)}`);
-  selectButton.append(main, badge);
+  selectButton.append(main);
 
   selectButton.addEventListener('click', () => {
     state.selectedFeedId = feed.id;
@@ -210,10 +323,10 @@ function buildFeedChip(feed) {
     try {
       await refreshFeed(feed.id);
       await loadData();
-      setFeedMessage(`Updated ${getFeedDisplayName(feed)}.`, 'success');
+      showToast(`Updated ${getFeedDisplayName(feed)}.`, 'success');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unable to refresh feed.';
-      setFeedMessage(getFriendlyFeedError(message, 'Unable to refresh feed.'), 'error');
+      showToast(getFriendlyFeedError(message, 'Unable to refresh feed.'), 'error');
     } finally {
       refreshButton.disabled = false;
     }
@@ -235,10 +348,10 @@ function buildFeedChip(feed) {
         state.selectedFeedId = 'all';
       }
       await loadData();
-      setFeedMessage(`Removed ${getFeedDisplayName(feed)}.`, 'success');
+      showToast(`Removed ${getFeedDisplayName(feed)}.`, 'success');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unable to delete feed.';
-      setFeedMessage(getFriendlyFeedError(message, 'Unable to delete feed.'), 'error');
+      showToast(getFriendlyFeedError(message, 'Unable to delete feed.'), 'error');
     } finally {
       deleteButton.disabled = false;
     }
@@ -302,19 +415,54 @@ function renderArticles() {
 
     for (const article of groupedArticles) {
       const card = elements.articleCardTemplate.content.firstElementChild.cloneNode(true);
-      card.querySelector('.article-card__source').textContent = article.feedTitle || 'Unknown source';
+      const feed = getFeedById(article.feedId);
+      const feedAccent = getFeedAccent(feed?.title || article.feedTitle || article.feedId);
+      const source = card.querySelector('.article-card__source');
+      const sourceText = feed?.title || article.feedTitle || 'Unknown source';
+      const faviconUrl = getFaviconUrl(feed);
+      source.style.setProperty('--feed-accent', feedAccent);
+      if (faviconUrl) {
+        card.classList.add('article-card--with-favicon');
+        const favicon = document.createElement('img');
+        favicon.className = 'article-card__favicon';
+        favicon.alt = '';
+        favicon.loading = 'lazy';
+        favicon.referrerPolicy = 'no-referrer';
+        favicon.src = faviconUrl;
+        source.append(favicon);
+      }
+      source.append(document.createTextNode(sourceText));
       card.querySelector('.article-card__title').textContent = article.title || 'Untitled article';
       card.querySelector('.article-card__time').textContent = formatTime(article.publishedAt);
-      card.querySelector('.article-card__summary').textContent = stripHtml(article.summary) || 'No summary available.';
-      card.querySelector('.article-card__feed').textContent = article.feedTitle || '';
+      const summaryText = stripHtml(article.summary);
+      const summary = card.querySelector('.article-card__summary');
+      if (summaryText) {
+        summary.textContent = summaryText;
+      } else {
+        summary.remove();
+        card.classList.add('article-card--compact');
+      }
+
+      const feedLabel = card.querySelector('.article-card__feed');
+      const feedHost = getFeedHost(feed);
+      feedLabel.textContent = feedHost ? feedHost : (article.feedTitle || '');
+      if (feedHost) {
+        feedLabel.style.setProperty('--feed-accent', feedAccent);
+      }
+
+      card.dataset.read = state.readArticleIds.has(article.id) ? 'true' : 'false';
+      card.style.setProperty('--feed-accent', feedAccent);
       const link = card.querySelector('.article-card__link');
       link.href = article.link || '#';
+      link.textContent = article.link ? 'Open' : 'No link';
       link.setAttribute('aria-label', `Open article ${article.title || ''}`.trim());
       if (!article.link) {
         link.setAttribute('aria-disabled', 'true');
         link.tabIndex = -1;
         link.style.pointerEvents = 'none';
         link.style.opacity = '0.55';
+      } else {
+        link.addEventListener('click', () => markArticleRead(article.id));
       }
       list.append(card);
     }
@@ -339,11 +487,8 @@ function renderFeeds() {
   const allMeta = document.createElement('span');
   allMeta.className = 'feed-item__meta';
   allMeta.textContent = 'View everything in the river';
-  const allBadge = document.createElement('span');
-  allBadge.className = 'feed-item__badge';
-  allBadge.textContent = state.articles.length;
   allMain.append(allTitle, allMeta);
-  allButton.append(allMain, allBadge);
+  allButton.append(allMain);
   allButton.addEventListener('click', () => {
     state.selectedFeedId = 'all';
     render();
@@ -359,23 +504,24 @@ function renderFeeds() {
 
   elements.feedList.innerHTML = '';
   elements.feedList.append(fragment);
-  elements.feedCount.textContent = state.feeds.length;
 }
 
 function renderStats() {
-  elements.statFeeds.textContent = state.feeds.length;
-  elements.statArticles.textContent = state.articles.length;
   const latestArticle = [...state.articles].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())[0];
-  elements.statUpdated.textContent = latestArticle ? formatTime(latestArticle.publishedAt) : '—';
+  elements.topbarStat.textContent = `${state.feeds.length} feeds · ${state.articles.length} articles · updated ${latestArticle ? formatTime(latestArticle.publishedAt) : '—'}`;
+}
+
+function updateViewStatus() {
+  const descriptor = state.selectedFeedId === 'all' ? 'all feeds' : (state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || 'selected feed');
+  const query = state.search.trim();
+  setStatus(query ? `Viewing ${descriptor}. Search active.` : `Viewing ${descriptor}.`);
 }
 
 function render() {
   renderFeeds();
   renderArticles();
   renderStats();
-  const count = filteredArticles().length;
-  const descriptor = state.selectedFeedId === 'all' ? 'all feeds' : (state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || 'selected feed');
-  setStatus(`${count} article${count === 1 ? '' : 's'} shown from ${descriptor}.`);
+  updateViewStatus();
 }
 
 async function loadData() {
@@ -425,7 +571,8 @@ async function addFeed(url) {
   });
 
   if (response.ok) {
-    setFeedMessage('Feed added successfully.', 'success');
+    showToast('Feed added.', 'success');
+    clearFeedMessage();
     elements.feedUrlInput.value = '';
     await loadData();
     return;
@@ -439,7 +586,7 @@ async function addFeed(url) {
     // keep fallback message
   }
 
-  setFeedMessage(getFriendlyFeedError(message, 'Unable to add feed.'), 'error');
+  showToast(getFriendlyFeedError(message, 'Unable to add feed.'), 'error');
 }
 
 function wireEvents() {
@@ -448,18 +595,16 @@ function wireEvents() {
   elements.searchInput.addEventListener('input', (event) => {
     state.search = event.target.value;
     renderArticles();
-    const count = filteredArticles().length;
-    const descriptor = state.selectedFeedId === 'all' ? 'all feeds' : (state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || 'selected feed');
-    setStatus(`${count} article${count === 1 ? '' : 's'} shown from ${descriptor}.`);
+    updateViewStatus();
   });
 
   elements.refreshAllButton.addEventListener('click', async () => {
     elements.refreshAllButton.disabled = true;
     try {
       await refreshAllFeeds();
-      setFeedMessage('Feeds refreshed.', 'success');
+      showToast('Feeds refreshed.', 'success');
     } catch (error) {
-      setFeedMessage(error instanceof Error ? error.message : 'Failed to refresh feeds.', 'error');
+      showToast(error instanceof Error ? error.message : 'Failed to refresh feeds.', 'error');
     } finally {
       elements.refreshAllButton.disabled = false;
     }
@@ -478,7 +623,7 @@ function wireEvents() {
     try {
       await addFeed(url);
     } catch (error) {
-      setFeedMessage(error instanceof Error ? error.message : 'Unable to add feed.', 'error');
+      showToast(error instanceof Error ? error.message : 'Unable to add feed.', 'error');
     }
   });
 
@@ -497,12 +642,13 @@ function wireEvents() {
 
 async function init() {
   wireEvents();
+  loadReadState();
   try {
     await loadData();
     setFeedMessage('');
   } catch (error) {
     setStatus('Unable to load data right now.', 'error');
-    setFeedMessage(error instanceof Error ? error.message : 'An unexpected error occurred.', 'error');
+    showToast(error instanceof Error ? error.message : 'An unexpected error occurred.', 'error');
     elements.articleFeed.innerHTML = `
       <div class="empty-state">
         <h4>Content unavailable</h4>

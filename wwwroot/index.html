@@ -20,10 +20,7 @@
           <span></span>
           <span></span>
         </button>
-        <div>
-          <p class="eyebrow">Personal RSS Reader</p>
-          <h1>River of News</h1>
-        </div>
+        <h1>RSS Reader</h1>
       </div>
 
       <div class="topbar__actions">
@@ -32,6 +29,7 @@
           <input id="searchInput" type="search" placeholder="Search articles or feeds" autocomplete="off" />
         </label>
         <button class="primary-button" type="button" id="refreshAllButton">Refresh all</button>
+        <p class="topbar__meta" id="topbarStat" aria-live="polite">0 feeds · 0 articles · updated —</p>
       </div>
     </header>
 
@@ -39,20 +37,19 @@
       <aside class="sidebar" id="sidebarDrawer" aria-label="Feed navigation">
         <section class="sidebar__section sidebar__section--profile">
           <div>
-            <p class="eyebrow">Workspace</p>
-            <h2>Feed management</h2>
+            <h2>Subscriptions</h2>
           </div>
-          <p class="sidebar__description">Organize subscriptions, refresh sources, and keep the river focused on the latest stories.</p>
+          <p class="sidebar__description">Add a feed URL, refresh sources, or remove one you do not need.</p>
         </section>
 
         <section class="sidebar__section">
           <div class="section-heading">
-            <h3>Subscribe to a feed</h3>
+            <h3>Add feed</h3>
           </div>
           <form id="addFeedForm" class="feed-form">
             <label class="field">
               <span>RSS or Atom URL</span>
-              <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/feed.xml" required />
+              <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/rss.xml" required />
             </label>
             <button class="primary-button primary-button--full" type="submit">Add feed</button>
             <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
@@ -62,44 +59,15 @@
         <section class="sidebar__section sidebar__section--feeds">
           <div class="section-heading">
             <h3>Subscriptions</h3>
-            <span class="count-pill" id="feedCount">0</span>
           </div>
           <div class="feed-list" id="feedList"></div>
         </section>
       </aside>
 
       <main class="content">
-        <section class="hero card">
-          <div class="hero__copy">
-            <p class="eyebrow">Focused reading</p>
-            <h2>Stay informed without losing the thread.</h2>
-            <p>Browse your newest articles in a clean, responsive river designed for quick scanning and comfortable reading on every device.</p>
-          </div>
-          <div class="hero__stats" aria-label="Reader statistics">
-            <div class="stat">
-              <span class="stat__label">Feeds</span>
-              <strong id="statFeeds">0</strong>
-            </div>
-            <div class="stat">
-              <span class="stat__label">Articles</span>
-              <strong id="statArticles">0</strong>
-            </div>
-            <div class="stat">
-              <span class="stat__label">Updated</span>
-              <strong id="statUpdated">—</strong>
-            </div>
-          </div>
-        </section>
-
-        <section class="river-toolbar card">
-          <div>
-            <p class="eyebrow">River of News</p>
-            <h3>Latest articles</h3>
-          </div>
-          <div class="toolbar-meta">
-            <span class="status-dot"></span>
-            <span id="statusText">Loading feeds and articles...</span>
-          </div>
+        <section class="river-toolbar">
+          <h2>Latest articles</h2>
+          <p class="toolbar-meta" id="statusText">Loading feeds and articles...</p>
         </section>
 
         <section class="river" id="articleFeed" aria-label="Articles"></section>
