@@ -869,12 +869,24 @@ svg {
 }
 
 @media (max-width: 767.98px) {
+
     :root {
         --header-height: 72px;
     }
 
+    /* ---------- Header ---------- */
+
     .topbar {
-        padding-inline: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: .75rem;
+        padding: 1rem;
+        min-height: auto;
+    }
+
+    .topbar__brand {
+        width: 100%;
     }
 
     .topbar__menu {
@@ -882,37 +894,62 @@ svg {
     }
 
     .topbar__actions {
-        min-width: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: .75rem;
+        width: 100%;
+    }
+
+    .theme-toggle {
+        width: 48px;
+        height: 48px;
     }
 
     .search {
+        width: 100%;
         min-width: 0;
-        padding-block: 0.7rem;
     }
 
     .primary-button {
-        padding-inline: 0.9rem;
+        grid-column: 1 / -1;
+        width: 100%;
     }
 
     .topbar__meta {
-        width: 100%;
+        grid-column: 1 / -1;
+        text-align: center;
         white-space: normal;
     }
 
+    /* ---------- Layout ---------- */
+
     .app-layout {
-        grid-template-columns: minmax(0, 1fr);
-        padding-top: 1rem;
+        display: block;
+        padding: 0;
     }
+
+    .content {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    /* ---------- Sidebar Drawer ---------- */
 
     .sidebar {
         position: fixed;
-        inset: var(--header-height) auto 0 0;
-        width: min(88vw, 21rem);
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
         max-height: none;
-        border-radius: 0 20px 20px 0;
-        transform: translateX(-105%);
-        transition: transform var(--transition);
-        z-index: 40;
+        padding: 1rem;
+        border: none;
+        border-radius: 0;
+        background: var(--surface);
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+        z-index: 100;
     }
 
         .sidebar.is-open {
@@ -921,77 +958,56 @@ svg {
 
     .drawer-backdrop {
         position: fixed;
-        inset: var(--header-height) 0 0;
-        z-index: 35;
-        background: var(--backdrop);
-        backdrop-filter: blur(2px);
+        inset: var(--header-height) 0 0 0;
+        background: rgba(0,0,0,.45);
+        z-index: 99;
+        display: none;
     }
 
         .drawer-backdrop.is-open {
             display: block;
         }
 
+    /* ---------- Articles ---------- */
+
     .river-toolbar {
-        display: grid;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .4rem;
+    }
+
+    .article-card {
+        padding: 1rem 0;
     }
 
     .article-card__header,
     .article-card__footer {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
+        gap: .5rem;
     }
 
-    .feed-item {
-        grid-template-columns: 1fr;
+    .article-card__feed,
+    .article-card__time {
+        align-self: flex-start;
     }
 
-    .feed-item__select {
-        padding-right: 0.9rem;
-    }
-
-    .feed-item__actions {
-        position: static;
-        justify-content: stretch;
-        width: 100%;
-        border-left: 0;
-        border-top: 1px solid var(--actions-panel-border);
-        padding: 0.45rem 0.55rem 0.55rem;
-        background: transparent;
-        box-shadow: none;
-        opacity: 1;
-        transform: none;
-        pointer-events: auto;
-    }
-
-    .feed-item__action {
-        flex: 1 1 0;
-    }
-
-    .article-card__link,
-    .feed-item,
-    .feed-item__select,
-    .feed-item__action,
-    .primary-button,
-    .icon-button {
-        min-height: 2.75rem;
-    }
-}
-
-@media (max-width: 479.98px) {
-    .topbar__actions {
-        gap: 0.55rem;
-    }
-
-    .topbar h1 {
-        font-size: 1.25rem;
-    }
-
-    .river-toolbar {
-        padding-inline: 1rem;
+    .article-card__title {
+        font-size: 1.05rem;
+        line-height: 1.45;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     .article-card__summary {
-        margin-bottom: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .article-card__link {
+        width: 100%;
+        justify-content: center;
     }
 }
 

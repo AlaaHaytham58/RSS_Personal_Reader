@@ -1,4 +1,322 @@
 {
   "SchemaVersion": 1,
-  "Feeds": []
+  "Feeds": [
+    {
+      "Id": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+      "Url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "Title": "BBC News",
+      "SiteUrl": "https://www.bbc.co.uk/news",
+      "AddedAt": "2026-07-07T21:53:29.1290537+00:00",
+      "LastRefreshedAt": "2026-07-07T21:53:29.1291926+00:00",
+      "LastRefreshStatus": 1,
+      "Articles": [
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c0ly51kzdz3o#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Farage resigns as MP and vows to fight by-election amid finances row",
+          "Link": "https://www.bbc.co.uk/news/articles/c0ly51kzdz3o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Labour, the Conservatives, the Lib Dems and Restore Britain rule out standing in the by-election, in an effective boycott.",
+          "PublishedAt": "2026-07-07T19:07:18+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1254809+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c1my1g29gk7o#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Chris Mason: Farage attempts to seize back the agenda",
+          "Link": "https://www.bbc.co.uk/news/articles/c1my1g29gk7o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "His aim throughout the forthcoming campaign is to clearly frame this by-election as \u0022the people versus the establishment\u0022.",
+          "PublishedAt": "2026-07-07T19:35:19+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.126232+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cwykq59jwpvo#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "US launches strikes on Iran after tankers hit in Strait of Hormuz",
+          "Link": "https://www.bbc.co.uk/news/articles/cwykq59jwpvo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The US Central Command says the strikes are intended to impose \u0022heavy costs\u0022 on Iran.",
+          "PublishedAt": "2026-07-07T21:48:19+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1263612+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c9324nyqwjno#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Harry loses High Court privacy case against Daily Mail publisher",
+          "Link": "https://www.bbc.co.uk/news/articles/c9324nyqwjno?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Judge Mr Justice Nicklin says the claimants had failed to prove the allegations.",
+          "PublishedAt": "2026-07-07T17:57:40+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1263807+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/ckg06d3dgnlo#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Trump looms large as Nato grapples with challenge of rearming Europe",
+          "Link": "https://www.bbc.co.uk/news/articles/ckg06d3dgnlo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The US president\u0027s inflammatory words have punctuated the image of unity at this crucial gathering, Security Correspondent Frank Gardner writes.",
+          "PublishedAt": "2026-07-07T18:56:19+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264053+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c7vygl3zymjo#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Marine Le Pen to run for French presidency and appeal conviction in top court",
+          "Link": "https://www.bbc.co.uk/news/articles/c7vygl3zymjo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The hard-right National Rally leader has ended months of speculation, after a court ruled she could run but would have to wear a tag for a year.",
+          "PublishedAt": "2026-07-07T19:55:59+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264297+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c5yz3770yg8o#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Woman suspected of Monaco bomb attack found dead in Ukraine",
+          "Link": "https://www.bbc.co.uk/news/articles/c5yz3770yg8o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Police had been hunting Anastasiia Berezovska after a Ukrainian millionaire was injured in the blast.",
+          "PublishedAt": "2026-07-07T17:58:48+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264427+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/videos/c3wy0d3v9epo#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Watch: Clacton\u0027s mixed views on Farage\u0027s resignation",
+          "Link": "https://www.bbc.co.uk/news/videos/c3wy0d3v9epo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Nigel Farage announced he is resigning as an MP, triggering a by-election he will stand in.",
+          "PublishedAt": "2026-07-07T16:28:50+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264563+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c07yy3pgrlmo#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Lawyer says detained Gaza doctor was severely beaten in Israeli jail",
+          "Link": "https://www.bbc.co.uk/news/articles/c07yy3pgrlmo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The lawyer for Dr Hussam Abu Safiya tells the BBC his client was so badly beaten he could not recognise him during a visit last week.",
+          "PublishedAt": "2026-07-07T16:10:14+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264712+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cvgdlnvg2n5o#0",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Murder inquiry after mother and children found dead",
+          "Link": "https://www.bbc.co.uk/news/articles/cvgdlnvg2n5o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A mother and her two children are found dead in a property, police say.",
+          "PublishedAt": "2026-07-07T14:20:43+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1264919+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/c1my1pr18jmo#1",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Fifa investigating alleged racist abuse of IShowSpeed",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/c1my1pr18jmo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Fifa has opened an investigation following allegations of racist abuse involving American social media influencer IShowSpeed and a supporter during Argentina\u0027s 3-2 win over Cape Verde on Friday.",
+          "PublishedAt": "2026-07-07T19:13:36+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1265185+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/czx5qev7nqno#1",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "England players to be told not to jump hoardings",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/czx5qev7nqno?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "England players will be advised not to jump over advertising hoardings after Jordan Henderson suffered a freak injury.",
+          "PublishedAt": "2026-07-07T17:49:34+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1265345+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/cr7xk8r9xl4o#1",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Can Scotland learn from history-making Norway?",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/cr7xk8r9xl4o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Norway, a nation of a similar size to Scotland, are through to the World Cup quarter-finals, so can lessons be learned from their neighbours from across the North Sea?",
+          "PublishedAt": "2026-07-07T15:54:46+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1265504+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cm20gyzl3g2o#1",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Jude Bellingham station to keep name until Monday",
+          "Link": "https://www.bbc.co.uk/news/articles/cm20gyzl3g2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The station was renamed to give England a boost before the match with Mexico - in which Jude Bellingham shone.",
+          "PublishedAt": "2026-07-07T12:38:36+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1265689+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/ckg5v6n29g6o#2",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Harry\u0027s bad news lands at wrong time, but prince sticks to script",
+          "Link": "https://www.bbc.co.uk/news/articles/ckg5v6n29g6o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The Duke of Sussex has returned to the UK, but his first day of engagements was overshadowed by his defeat in court.",
+          "PublishedAt": "2026-07-07T19:42:43+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1265816+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c4gyy4p0x3no#2",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Alan Carr is keeping one unwanted item from his castle auction \u2013 see what was sold",
+          "Link": "https://www.bbc.co.uk/news/articles/c4gyy4p0x3no?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A concrete cow was the only one of the hundreds of items from Ayton Castle that failed to find a buyer.",
+          "PublishedAt": "2026-07-07T10:35:29+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1270026+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cevlm2rlgwmo#2",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Presidency bid while continuing court fight a gamble for Le Pen",
+          "Link": "https://www.bbc.co.uk/news/articles/cevlm2rlgwmo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Hard-right leader Marine Le Pen is appealing her case to France\u0027s top civil court, but it could backfire.",
+          "PublishedAt": "2026-07-07T20:13:13+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1270422+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/tennis/articles/c1e2nlj58zxo#2",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "The man who invented a sport and played tennis with Willy Wonka",
+          "Link": "https://www.bbc.co.uk/sport/tennis/articles/c1e2nlj58zxo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Brad Parks came up with the idea for a new sport while on a family picnic 50 years ago.",
+          "PublishedAt": "2026-07-07T06:39:44+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1270702+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c3wy56v4ge6o#2",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "\u0027I wear it on my middle finger\u0027: The rise of the defiant divorce ring",
+          "Link": "https://www.bbc.co.uk/news/articles/c3wy56v4ge6o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Around the world women are marking their split with new - or repurposed engagement - rings.",
+          "PublishedAt": "2026-07-06T23:30:40+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1270838+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cgevwq1pndgo#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Hungary\u0027s public news broadcasts halted in bid to scrap Orban-era propaganda",
+          "Link": "https://www.bbc.co.uk/news/articles/cgevwq1pndgo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The country\u0027s main state TV channel displayed a message saying it was \u0022sorry\u0022 for lying on Tuesday.",
+          "PublishedAt": "2026-07-07T18:34:45+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1271343+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cze9kpxx6d8o#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "One million more UK homeowners set  to face higher mortgages",
+          "Link": "https://www.bbc.co.uk/news/articles/cze9kpxx6d8o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Homeowners face paying \u00A345 a month more on average when they move onto a new deal over the next two years.",
+          "PublishedAt": "2026-07-07T15:18:00+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1271772+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cvg49lq1jw6o#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Public to be asked who should pay for social care as part of major review",
+          "Link": "https://www.bbc.co.uk/news/articles/cvg49lq1jw6o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Baroness Louise Casey, who is leading the review, has called the current system \u0022impossible\u0022.",
+          "PublishedAt": "2026-07-07T11:05:01+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1271937+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cqj1xvy44xno#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Online gamblers betting more than \u00A31,000 to face new checks",
+          "Link": "https://www.bbc.co.uk/news/articles/cqj1xvy44xno?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Punters who bet more than \u00A31,000 online in a 24-hour window will have to undergo an assessment, the regulator says.",
+          "PublishedAt": "2026-07-07T14:18:25+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272189+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/olympics/articles/cp8leyjn38zo#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Russia could compete at LA 2028 Olympics",
+          "Link": "https://www.bbc.co.uk/sport/olympics/articles/cp8leyjn38zo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Russian athletes could be allowed to compete for their country at the 2028 Olympic Games in Los Angeles after the International Olympic Committee provisionally lifted their suspension.",
+          "PublishedAt": "2026-07-07T19:54:34+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272375+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/clyx94y8we1o#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Teacher \u0027feared she would die\u0027 after being stabbed in head by pupil, court hears",
+          "Link": "https://www.bbc.co.uk/news/articles/clyx94y8we1o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A jury heard the 16-year-old launched at her with a large kitchen knife and stabbed her in the head.",
+          "PublishedAt": "2026-07-07T15:22:28+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272517+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cj9gggjekyjo#4",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "MI5 knew agent was misogynist \u0027obsessed\u0027 with violence, watchdog finds",
+          "Link": "https://www.bbc.co.uk/news/articles/cj9gggjekyjo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A secret inquiry by the security service\u0027s watchdog concluded there were \u0027serious failings in MI5\u0027s management of Agent X\u2019.",
+          "PublishedAt": "2026-07-07T11:28:24+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272655+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/10628994#5",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "BBC News app",
+          "Link": "https://www.bbc.co.uk/news/10628994?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Top stories, breaking news, live reporting, and follow news topics that match your interests",
+          "PublishedAt": "2025-04-30T14:04:28+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272792+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sounds/play/p0nx5dtz#6",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Nigel Farage Resigns As MP",
+          "Link": "https://www.bbc.co.uk/sounds/play/p0nx5dtz?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Nigel Farage resigns as MP but says he\u2019ll fight the by-election.",
+          "PublishedAt": "2026-07-07T19:05:00+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1272919+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sounds/play/w3ct8lz9#6",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "After 250 years, do US citizens still believe in the American Dream?",
+          "Link": "https://www.bbc.co.uk/sounds/play/w3ct8lz9?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Historian Heather Cox Richardson on what history tells us about modern America",
+          "PublishedAt": "2026-07-03T17:00:00+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1273153+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/cz6v407y3qjo#8",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Tears of relief? Messi adds another incredible chapter to World Cup career",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/cz6v407y3qjo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Argentina great Lionel Messi sheds tears as they fight back to beat Egypt and reach the World Cup quarter-finals.",
+          "PublishedAt": "2026-07-07T20:28:19+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1273305+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/cricket/articles/cn59nkwp275o#8",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Superb England inflict record T20 defeat on India",
+          "Link": "https://www.bbc.co.uk/sport/cricket/articles/cn59nkwp275o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "England inflict a record defeat on India in the third Twenty20 at Trent Bridge to give the home side a 2-0 lead with two matches in the series remaining.",
+          "PublishedAt": "2026-07-07T19:45:38+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1273594+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/tennis/articles/c0qyv12xyw5o#8",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "\u0027How?!\u0027 - Gauff battles into first Wimbledon semi-final ",
+          "Link": "https://www.bbc.co.uk/sport/tennis/articles/c0qyv12xyw5o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Coco Gauff surprised even herself by overcoming her recent grass-court struggles to reach a first Wimbledon semi-final against Karolina Muchova.",
+          "PublishedAt": "2026-07-07T18:08:20+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1273794+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/c5yzd23jll5o#8",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "The fury and heartbreak of Egypt\u0027s stunning World Cup collapse",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/c5yzd23jll5o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "BBC Sport unpicks a game that will go down in World Cup history for featuring a team who were two goals down so late on, but who went on to win without needing extra time.",
+          "PublishedAt": "2026-07-07T21:33:21+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1274083+00:00"
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/c70ygx549d0o#8",
+          "FeedId": "ee67327d-93e5-4d97-a79b-3d2371215ea3",
+          "Title": "Shades of Keane and Gerrard in Bellingham display - Rooney",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/c70ygx549d0o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Wayne Rooney believes Jude Bellingham\u0027s performance against Mexico ranks alongside iconic Steven Gerrard and Roy Keane displays",
+          "PublishedAt": "2026-07-07T19:23:35+00:00",
+          "FetchedAt": "2026-07-07T21:53:29.1274255+00:00"
+        }
+      ]
+    }
+  ]
 }
