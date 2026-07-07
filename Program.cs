@@ -7,6 +7,10 @@ using Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Bind to Railway's assigned port (falls back to 8080 for local/other environments)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Bind AppSettings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
@@ -39,9 +43,11 @@ if (app.Environment.IsDevelopment())
 {
     //app.UseSwagger();
     //app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
+// Note: HTTPS redirection is skipped in production because Railway's proxy
+// terminates TLS and forwards plain HTTP internally to the container.
 
-app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
