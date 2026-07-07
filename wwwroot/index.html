@@ -1,109 +1,115 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="light" />
-  <meta name="theme-color" content="#F8F9FA" />
-  <title>RSS Personal Reader</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/site.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#F8F9FA" />
+    <title>RSS Personal Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="topbar__brand">
-        <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebarDrawer">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <h1>RSS Reader</h1>
-      </div>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="topbar__brand">
+                <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebarDrawer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1>RSS Reader</h1>
+            </div>
 
-      <div class="topbar__actions">
-        <label class="search" for="searchInput">
-          <span class="search__icon" aria-hidden="true">⌕</span>
-          <input id="searchInput" type="search" placeholder="Search articles or feeds" autocomplete="off" />
-        </label>
-        <button class="primary-button" type="button" id="refreshAllButton">Refresh all</button>
-        <p class="topbar__meta" id="topbarStat" aria-live="polite">0 feeds · 0 articles · updated —</p>
-      </div>
-    </header>
+            <div class="topbar__actions">
+                <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="bi bi-sun-fill theme-toggle__icon--sun" aria-hidden="true"></i>
+                    <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
+                </button>
 
-    <div class="app-layout">
-      <aside class="sidebar" id="sidebarDrawer" aria-label="Feed navigation">
-        <section class="sidebar__section sidebar__section--profile">
-          <div>
-            <h2>Subscriptions</h2>
-          </div>
-          <p class="sidebar__description">Add a feed URL, refresh sources, or remove one you do not need.</p>
-        </section>
+                <label class="search" for="searchInput">
+                    <span class="search__icon" aria-hidden="true">⌕</span>
+                    <input id="searchInput" type="search" placeholder="Search articles or feeds" autocomplete="off" />
+                </label>
+                <button class="primary-button" type="button" id="refreshAllButton">Refresh all</button>
+                <p class="topbar__meta" id="topbarStat" aria-live="polite">0 feeds · 0 articles · updated —</p>
+            </div>
+        </header>
 
-        <section class="sidebar__section">
-          <div class="section-heading">
-            <h3>Add feed</h3>
-          </div>
-          <form id="addFeedForm" class="feed-form">
-            <label class="field">
-              <span>RSS or Atom URL</span>
-              <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/rss.xml" required />
-            </label>
-            <button class="primary-button primary-button--full" type="submit">Add feed</button>
-            <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
-          </form>
-        </section>
+        <div class="app-layout">
+            <aside class="sidebar" id="sidebarDrawer" aria-label="Feed navigation">
+                <section class="sidebar__section sidebar__section--profile">
+                    <div>
+                        <h2>Subscriptions</h2>
+                    </div>
+                    <p class="sidebar__description">Add a feed URL, refresh sources, or remove one you do not need.</p>
+                </section>
 
-        <section class="sidebar__section sidebar__section--feeds">
-          <div class="section-heading">
-            <h3>Subscriptions</h3>
-          </div>
-          <div class="feed-list" id="feedList"></div>
-        </section>
-      </aside>
+                <section class="sidebar__section">
+                    <div class="section-heading">
+                        <h3>Add feed</h3>
+                    </div>
+                    <form id="addFeedForm" class="feed-form">
+                        <label class="field">
+                            <span>RSS or Atom URL</span>
+                            <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/rss.xml" required />
+                        </label>
+                        <button class="primary-button primary-button--full" type="submit">Add feed</button>
+                        <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
+                    </form>
+                </section>
 
-      <main class="content">
-        <section class="river-toolbar">
-          <h2>Latest articles</h2>
-          <p class="toolbar-meta" id="statusText">Loading feeds and articles...</p>
-        </section>
+                <section class="sidebar__section sidebar__section--feeds">
+                    <div class="section-heading">
+                        <h3>Subscriptions</h3>
+                    </div>
+                    <div class="feed-list" id="feedList"></div>
+                </section>
+            </aside>
 
-        <section class="river" id="articleFeed" aria-label="Articles"></section>
-      </main>
+            <main class="content">
+                <section class="river-toolbar">
+                    <h2>Latest articles</h2>
+                    <p class="toolbar-meta" id="statusText">Loading feeds and articles...</p>
+                </section>
+
+                <section class="river" id="articleFeed" aria-label="Articles"></section>
+            </main>
+        </div>
+
+        <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
     </div>
 
-    <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
-  </div>
+    <template id="feedItemTemplate">
+        <button type="button" class="feed-item">
+            <div class="feed-item__main">
+                <strong class="feed-item__title"></strong>
+                <span class="feed-item__meta"></span>
+            </div>
+            <span class="feed-item__badge"></span>
+        </button>
+    </template>
 
-  <template id="feedItemTemplate">
-    <button type="button" class="feed-item">
-      <div class="feed-item__main">
-        <strong class="feed-item__title"></strong>
-        <span class="feed-item__meta"></span>
-      </div>
-      <span class="feed-item__badge"></span>
-    </button>
-  </template>
+    <template id="articleCardTemplate">
+        <article class="article-card card">
+            <div class="article-card__header">
+                <div>
+                    <p class="article-card__source"></p>
+                    <h4 class="article-card__title"></h4>
+                </div>
+                <time class="article-card__time"></time>
+            </div>
+            <p class="article-card__summary"></p>
+            <div class="article-card__footer">
+                <span class="article-card__feed"></span>
+                <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+            </div>
+        </article>
+    </template>
 
-  <template id="articleCardTemplate">
-    <article class="article-card card">
-      <div class="article-card__header">
-        <div>
-          <p class="article-card__source"></p>
-          <h4 class="article-card__title"></h4>
-        </div>
-        <time class="article-card__time"></time>
-      </div>
-      <p class="article-card__summary"></p>
-      <div class="article-card__footer">
-        <span class="article-card__feed"></span>
-        <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
-      </div>
-    </article>
-  </template>
-
-  <script src="/js/app.js" defer></script>
+    <script src="/js/app.js" defer></script>
 </body>
 </html>
