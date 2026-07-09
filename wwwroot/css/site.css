@@ -773,6 +773,44 @@ svg {
     padding-left: 0.35rem;
 }
 
+/* ---------- Article image ---------- */
+.article-card__media {
+    margin: 0.85rem 0 0;
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 20rem;
+    background: var(--surface-alt);
+}
+
+.article-card__image {
+    width: 100%;
+    height: auto;
+    max-height: 20rem;
+    object-fit: cover;
+    display: block;
+}
+
+.article-card--with-image .article-card__summary {
+    margin-top: 0.6rem;
+}
+
+/* ---------- RTL direction support ---------- */
+[dir="rtl"] {
+    text-align: right;
+}
+
+.article-card__title[dir="rtl"],
+.article-card__summary[dir="rtl"] {
+    direction: rtl;
+    unicode-bidi: plaintext;
+}
+
+/* Adjust source dot position for RTL */
+.article-card__source[dir="rtl"] {
+    direction: ltr; /* source label stays LTR since it's a domain name */
+    text-align: right;
+}
+
 .article-card__feed,
 .article-card__time {
     justify-self: end;

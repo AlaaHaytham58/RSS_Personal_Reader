@@ -40,6 +40,15 @@ const sectionFormatter = new Intl.DateTimeFormat(undefined, {
 const readStorageKey = 'rss-reader-read-articles';
 const themeStorageKey = 'rss-reader-theme';
 
+/**
+ * Applies automatic text direction (RTL/LTR) to an element based on its text content.
+ * Uses the browser's native `dir="auto"` for robust RTL detection across
+ * Arabic, Urdu, Hebrew, Persian, and other RTL scripts.
+ */
+function applyDirection(element, _text) {
+  element.setAttribute('dir', 'auto');
+}
+
 let toastHost;
 let toastTimers = [];
 
@@ -473,13 +482,35 @@ function renderArticles() {
                 favicon.src = faviconUrl;
                 source.append(favicon);
             }
-            source.append(document.createTextNode(sourceText));
-            card.querySelector('.article-card__title').textContent = article.title || 'Untitled article';
+                        source.append(document.createTextNode(sourceText));
+
+            // --- Title with RTL support ---
+            const titleEl = card.querySelector('.article-card__title');
+            const articleTitle = article.title || 'Untitled article';
+            titleEl.textContent = articleTitle;
+            applyDirection(titleEl, articleTitle);
+
             card.querySelector('.article-card__time').textContent = formatTime(article.publishedAt);
+
+            // --- Image display ---
+            const mediaContainer = card.querySelector('.article-card__media');
+            const img = card.querySelector('.article-card__image');
+            if (article.imageUrl) {
+                img.src = article.imageUrl;
+                img.alt = articleTitle;
+                mediaContainer.hidden = false;
+                card.classList.add('article-card--with-image');
+            } else {
+                mediaContainer.hidden = true;
+                img.removeAttribute('src');
+            }
+
+            // --- Summary with RTL support ---
             const summaryText = stripHtml(article.summary);
             const summary = card.querySelector('.article-card__summary');
             if (summaryText) {
                 summary.textContent = summaryText;
+                applyDirection(summary, summaryText);
             } else {
                 summary.remove();
                 card.classList.add('article-card--compact');
@@ -497,7 +528,7 @@ function renderArticles() {
             const link = card.querySelector('.article-card__link');
             link.href = article.link || '#';
             link.textContent = article.link ? 'Open' : 'No link';
-            link.setAttribute('aria-label', `Open article ${article.title || ''}`.trim());
+            link.setAttribute('aria-label', `Open article ${articleTitle}`.trim());
             if (!article.link) {
                 link.setAttribute('aria-disabled', 'true');
                 link.tabIndex = -1;
