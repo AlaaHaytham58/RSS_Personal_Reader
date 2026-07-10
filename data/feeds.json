@@ -2,433 +2,12 @@
   "SchemaVersion": 1,
   "Feeds": [
     {
-      "Id": "5804b015-3cfc-414d-8493-52631ecb7886",
-      "Url": "https://feeds.bbci.co.uk/news/rss.xml",
-      "Title": "BBC News",
-      "SiteUrl": "https://www.bbc.co.uk/news",
-      "AddedAt": "2026-07-09T10:12:13.4774847+00:00",
-      "LastRefreshedAt": "2026-07-09T10:15:45.2809354+00:00",
-      "LastRefreshStatus": 1,
-      "Articles": [
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c4gyp1knzzxo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Why heatwaves hit women harder",
-          "Link": "https://www.bbc.co.uk/news/articles/c4gyp1knzzxo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Experts are calling for better awareness of the heat-related risks to women and more targeted efforts to protect them.",
-          "PublishedAt": "2026-07-08T23:49:12+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4227741+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/czrxj5vvey0o#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Disability benefit not fit for purpose, minister leading review says",
-          "Link": "https://www.bbc.co.uk/news/articles/czrxj5vvey0o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Sir Stephen Timms says personal independence payments (Pip) in England and Wales need changing.",
-          "PublishedAt": "2026-07-09T08:23:13+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4742406+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c77y0n7k801o#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Burnham on course for No 10 as Labour nominations open",
-          "Link": "https://www.bbc.co.uk/news/articles/c77y0n7k801o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The former mayor of Greater Manchester is unopposed in the race to replace Sir Keir Starmer.",
-          "PublishedAt": "2026-07-09T09:00:32+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4746561+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/czxq4ge246wo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "It was \u0027love at first sight\u0027 with their adopted baby - then they were told he may have been trafficked",
-          "Link": "https://www.bbc.co.uk/news/articles/czxq4ge246wo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "When they adopted Marcus, David and Ally\u0027s dream of having a child was complete - but now they could lose him.",
-          "PublishedAt": "2026-07-08T23:31:53+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4747124+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c20y9g2v2wvo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Starmer hints at bank holiday if England win World Cup",
-          "Link": "https://www.bbc.co.uk/news/articles/c20y9g2v2wvo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The prime minister says he does not want to \u0022jinx it\u0022 but \u0022ask me again if we get to the final\u0022.",
-          "PublishedAt": "2026-07-09T01:25:24+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4747555+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cevlw4wnlmxo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Most popular baby names for boys and girls in 2025 revealed",
-          "Link": "https://www.bbc.co.uk/news/articles/cevlw4wnlmxo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The Office for National Statistics releases its annual data on baby names, with Olivia remaining most popular for girls and Muhammad for boys.",
-          "PublishedAt": "2026-07-09T10:03:37+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4748384+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cgev4jq4jngo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Met investigates donation to Jenrick\u0027s Tory leadership campaign",
-          "Link": "https://www.bbc.co.uk/news/articles/cgev4jq4jngo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The former Conservative, now Reform UK, MP says the allegations are \u0022entirely false\u0022.",
-          "PublishedAt": "2026-07-09T00:50:56+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.474883+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c79yj09nd4qo#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "\u0027They said it isn\u0027t real\u0027: Ebola rumours fuel attacks on health workers",
-          "Link": "https://www.bbc.co.uk/news/articles/c79yj09nd4qo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "False claims about Ebola are linked to attacks on treatment facilities, assaults on health workers and disruptions to burials.",
-          "PublishedAt": "2026-07-09T05:02:07+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4749363+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c9v229434p2o#0",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Democrat Graham Platner suspends campaign for key US Senate race after assault allegation",
-          "Link": "https://www.bbc.co.uk/news/articles/c9v229434p2o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The decision came days after a woman accused him of sexual assault, an accusation he says is \u0022categorically false\u0022.",
-          "PublishedAt": "2026-07-09T02:18:21+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4749744+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cly76jlxljlo#1",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "No air con? Here\u0027s how to get the most out of your electric fan ",
-          "Link": "https://www.bbc.co.uk/news/articles/cly76jlxljlo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Point it at your face? Use a bowl of ice? Open a window? Our experts separate fact from fiction.",
-          "PublishedAt": "2026-07-08T17:07:05+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4750124+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/ckgl51jjp3jo#1",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "What to do if you think someone has heat exhaustion or heatstroke",
-          "Link": "https://www.bbc.co.uk/news/articles/ckgl51jjp3jo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Know the signs and what to do if someone is unwell in hot weather.",
-          "PublishedAt": "2026-06-22T11:05:28+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4750489+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/videos/crm0e20jk04o#1",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Watch: How did people cope during the 1976 heatwave?",
-          "Link": "https://www.bbc.co.uk/news/videos/crm0e20jk04o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "A look into the BBC Points West archive during the famous heatwave five decades ago.",
-          "PublishedAt": "2026-06-23T12:13:21+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4750839+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cg5pd9z2487o#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Bonnie Tyler, the gravel-voiced star who sang her way into music history",
-          "Link": "https://www.bbc.co.uk/news/articles/cg5pd9z2487o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The Welsh star known for songs including Total Eclipse of the Heart has died aged 75.",
-          "PublishedAt": "2026-07-09T10:07:43+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4751213+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cd7wldr3prro#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "I run the UK\u0027s biggest bank, here are five ways to manage your money",
-          "Link": "https://www.bbc.co.uk/news/articles/cd7wldr3prro?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The CEO of Lloyds Bank talks about how to save, budget, avoid scams and manage money in a relationship.",
-          "PublishedAt": "2026-07-08T23:10:10+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.475174+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/tennis/articles/cm2dgm39mz6o#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Wimbledon thought it had seen everything - then Fery arrived",
-          "Link": "https://www.bbc.co.uk/sport/tennis/articles/cm2dgm39mz6o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Wimbledon has witnessed some extraordinary days on Centre Court - but British wildcard Arthur Fery reaching the semi-finals is among the very best.",
-          "PublishedAt": "2026-07-08T19:40:38+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4752206+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c24ym9yd8p6o#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "How rise in ADHD benefits claims is adding to welfare spending challenge",
-          "Link": "https://www.bbc.co.uk/news/articles/c24ym9yd8p6o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "More than 100,000 people with ADHD as their main condition receive Pip, latest figures show, an increase of 40% since Labour came to power.",
-          "PublishedAt": "2026-07-09T08:35:18+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4752638+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cj0gel72mlgo#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "A country that made huge progress on measles now reports 120,000 cases",
-          "Link": "https://www.bbc.co.uk/news/articles/cj0gel72mlgo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "More than 120,000 suspected and confirmed measles cases have been reported in Bangladesh, where hospitals are overwhelmed.",
-          "PublishedAt": "2026-07-08T22:03:05+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4753036+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cy8we3j14ndo#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Bowen: For all his bluster, Trump has no better option than talks with Iran",
-          "Link": "https://www.bbc.co.uk/news/articles/cy8we3j14ndo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The negotiating process is fragile and recent US strikes show how hard it will be to reach agreement, writes BBC\u0027s International Editor Jeremy Bowen.",
-          "PublishedAt": "2026-07-08T15:30:00+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4753405+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/videos/cpq309jrve4o#2",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Watch: We\u0027re a step closer to finding out if bees have feelings, here\u0027s why",
-          "Link": "https://www.bbc.co.uk/news/videos/cpq309jrve4o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "New research found bumblebees showed \u0022emotion-like behaviours\u0022 previously only seen in mammals.",
-          "PublishedAt": "2026-07-09T00:28:16+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4753775+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/c5yzzz54kllo#3",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "How Kane and Haaland compare - who would you pick?",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/c5yzzz54kllo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Two of the world\u0027s best strikers - Harry Kane and Erling Haaland - meet in the World Cup quarter-finals - but who would you rather have?",
-          "PublishedAt": "2026-07-09T05:18:59+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4754133+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/c78y0j7vvg8o#3",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Olise yellow card stands as Saibari out for Morocco",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/c78y0j7vvg8o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "France fail in their bid to have forward Michael Olise\u0027s yellow card overturned, while Morocco are without Ismael Saibari for the quarter-final at Boston Stadium.",
-          "PublishedAt": "2026-07-09T07:28:30+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4754501+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c1wyx7g9e1do#3",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Justin Bieber joins Madonna, Shakira and BTS for Fifa World Cup final half-time show",
-          "Link": "https://www.bbc.co.uk/news/articles/c1wyx7g9e1do?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The Super Bowl-style show marks the Canadian singer\u0027s latest big performance after his comeback shows at Coachella.",
-          "PublishedAt": "2026-07-08T20:58:21+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4754842+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/ce8m526mjmeo#3",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "A Golden Boot race for the ages - but who will come out on top?",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/ce8m526mjmeo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "It\u0027s fast becoming a World Cup Golden Boot for the ages. But who will win it?",
-          "PublishedAt": "2026-07-08T16:31:05+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4755133+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cx235xy2ky4o#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Drug mules carrying cannabis from Thailand face tougher penalties",
-          "Link": "https://www.bbc.co.uk/news/articles/cx235xy2ky4o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The National Crime Agency and Thai authorities have launched a crackdown on drug smugglers.",
-          "PublishedAt": "2026-07-09T05:05:10+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4755475+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c98205r7dylo#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Nato chief tells BBC that Trump comments are like \u0027family argument\u0027",
-          "Link": "https://www.bbc.co.uk/news/articles/c98205r7dylo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Mark Rutte says Nato is stronger than ever, and that he is 100% convinced of the US president\u0027s commitment to the alliance.",
-          "PublishedAt": "2026-07-08T20:58:10+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4755884+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/cdx78n4nkvyo#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Jackdaw boss warns of winter fuel shortages if gas field not approved",
-          "Link": "https://www.bbc.co.uk/news/articles/cdx78n4nkvyo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Adura says the UK government must approve North Sea production urgently to avoid domestic supply shortages.",
-          "PublishedAt": "2026-07-09T05:04:17+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4756236+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/articles/cy047zjr5rqo#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Paralympic great Dame Sarah Storey retires from GB competition",
-          "Link": "https://www.bbc.co.uk/sport/articles/cy047zjr5rqo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Dame Sarah Storey, Great Britain\u0027s most-decorated Paralympian, retires from international competition with immediate effect.",
-          "PublishedAt": "2026-07-08T23:01:17+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4756603+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/crel4yyxwd1o#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "MenB vaccine offers men no protection from gonorrhoea, claims major study",
-          "Link": "https://www.bbc.co.uk/news/articles/crel4yyxwd1o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The Meningitis B vaccine does not prevent gonorrhoea infections despite being offered to at-risk men, scientists say.",
-          "PublishedAt": "2026-07-08T21:06:53+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4756969+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c9928zr2m5xo#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "International court tells BBC of breakthrough in Sudan war crimes probe",
-          "Link": "https://www.bbc.co.uk/news/articles/c9928zr2m5xo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The ICC has been looking into atrocities committed in Darfur over the past three years.",
-          "PublishedAt": "2026-07-09T08:49:45+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4757314+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/articles/c3wy0xz4018o#5",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "HMP Pentonville handed my son a death sentence",
-          "Link": "https://www.bbc.co.uk/news/articles/c3wy0xz4018o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Gareth Chumber-Kelly died by suicide at HMP Pentonville just four days after arriving. Now, his mother wants the prison closed down.",
-          "PublishedAt": "2026-07-09T05:02:47+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4757674+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/news/10628994#6",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "BBC News app",
-          "Link": "https://www.bbc.co.uk/news/10628994?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Top stories, breaking news, live reporting, and follow news topics that match your interests",
-          "PublishedAt": "2025-04-30T14:04:28+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4758028+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sounds/play/p0nx5f8d#7",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Newscast",
-          "Link": "https://www.bbc.co.uk/sounds/play/p0nx5f8d?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The US and Iran exchange fire as Trump says the ceasefire is over\u2026 or is it?",
-          "PublishedAt": "2026-07-08T19:10:00+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4758353+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sounds/play/w3ct8lz9#7",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "After 250 years, do US citizens still believe in the American Dream?",
-          "Link": "https://www.bbc.co.uk/sounds/play/w3ct8lz9?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Historian Heather Cox Richardson on what history tells us about modern America",
-          "PublishedAt": "2026-07-03T17:00:00+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4758763+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/iplayer/episode/b06t4m5p?at_mid=BksTiHhbnY\u0026at_campaign=Mrs_Browns_Boys_D_Movie\u0026at_medium=display_ad\u0026at_campaign_type=owned\u0026at_nation=NET\u0026at_audience_id=SS\u0026at_product=iplayer\u0026at_brand=b06t4m5p\u0026at_ptr_name=bbc\u0026at_ptr_type=media\u0026at_format=image\u0026at_objective=consumption\u0026at_link_title=Mrs_Browns_Boys_D_Movie\u0026at_bbc_team=BBC#8",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "A chaotic big-screen adventure for Mrs Brown",
-          "Link": "https://www.bbc.co.uk/iplayer/episode/b06t4m5p?at_mid=BksTiHhbnY\u0026at_campaign=Mrs_Browns_Boys_D_Movie\u0026at_medium=display_ad\u0026at_campaign_type=owned\u0026at_nation=NET\u0026at_audience_id=SS\u0026at_product=iplayer\u0026at_brand=b06t4m5p\u0026at_ptr_name=bbc\u0026at_ptr_type=media\u0026at_format=image\u0026at_objective=consumption\u0026at_link_title=Mrs_Browns_Boys_D_Movie\u0026at_bbc_team=BBC",
-          "Summary": "Mrs Brown faces car chases and ninjas as she battles to save her Dublin market stall.",
-          "PublishedAt": "2026-06-30T01:13:45+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4759124+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/c5yzzz54kllo#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "How Kane and Haaland compare - who would you pick?",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/c5yzzz54kllo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Two of the world\u0027s best strikers - Harry Kane and Erling Haaland - meet in the World Cup quarter-finals - but who would you rather have?",
-          "PublishedAt": "2026-07-09T05:18:59+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.476492+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/c78y0j7vvg8o#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "France fail with Olise appeal \u0026 Saibari ruled out",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/c78y0j7vvg8o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "France fail in their bid to have forward Michael Olise\u0027s yellow card overturned, while Morocco are without Ismael Saibari for the quarter-final at Boston Stadium.",
-          "PublishedAt": "2026-07-09T07:28:30+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4765437+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/cricket/articles/cjdg4me54rro#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "\u0027Sack him\u0027 - Stokes on potential retirement rule breach",
-          "Link": "https://www.bbc.co.uk/sport/cricket/articles/cjdg4me54rro?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Ben Stokes reacts after the ICC contacted the ECB over a potential rule breach linked to his retirement announcement.",
-          "PublishedAt": "2026-07-09T08:38:14+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.476581+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/tennis/articles/ckg49gzm3k0o#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "McEnroe, Henman \u0026 Murray on why Fery is ruling Wimbledon",
-          "Link": "https://www.bbc.co.uk/sport/tennis/articles/ckg49gzm3k0o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Good tennis IQ and inner belief - how British wildcard Arthur Fery has reached defied the odds to reach a shock Wimbledon semi-final.",
-          "PublishedAt": "2026-07-09T09:55:45+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.476617+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/football/articles/cr7xkgd8vdko#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Man Utd agree \u00A350m deal for Chelsea\u0027s Santos",
-          "Link": "https://www.bbc.co.uk/sport/football/articles/cr7xkgd8vdko?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Manchester United agree a \u00A350m deal with Chelsea for their Brazilian midfielder Andrey Santos.",
-          "PublishedAt": "2026-07-08T17:09:53+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4766524+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/tennis/articles/c74ygemyk29o#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "The 15-year-old Wimbledon sensation who finally loves grass",
-          "Link": "https://www.bbc.co.uk/sport/tennis/articles/c74ygemyk29o?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "The four Wimbledon women\u0027s singles semi-finalists have had a complicated relationship with grass courts - but they have cracked the code this year.",
-          "PublishedAt": "2026-07-09T05:42:11+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4766877+00:00",
-          "ImageUrl": null
-        },
-        {
-          "Id": "https://www.bbc.co.uk/sport/tennis/videos/czdemd6mrjeo#9",
-          "FeedId": "5804b015-3cfc-414d-8493-52631ecb7886",
-          "Title": "Wildcard Fery storms past Cobolli and makes Wimbledon history",
-          "Link": "https://www.bbc.co.uk/sport/tennis/videos/czdemd6mrjeo?at_medium=RSS\u0026at_campaign=rss",
-          "Summary": "Arthur Fery makes history at Wimbledon by defeating Italy\u0027s Flavio Cobolli in straight sets to become the first British wildcard and only the second in tournament history, to reach the semi-finals.",
-          "PublishedAt": "2026-07-08T18:44:42+00:00",
-          "FetchedAt": "2026-07-09T10:12:13.4767378+00:00",
-          "ImageUrl": null
-        }
-      ]
-    },
-    {
       "Id": "788a9f15-28ae-45e9-bd49-2e9c0c983770",
       "Url": "https://feeds.npr.org/1001/rss.xml",
       "Title": "NPR Topics: News",
       "SiteUrl": "https://www.npr.org/templates/story/story.php?storyId=1001",
       "AddedAt": "2026-07-09T10:13:01.7604609+00:00",
-      "LastRefreshedAt": "2026-07-09T10:15:45.6146975+00:00",
+      "LastRefreshedAt": "2026-07-10T21:51:19.9297106+00:00",
       "LastRefreshStatus": 1,
       "Articles": [
         {
@@ -539,7 +118,7 @@
       "Title": "World news | The Guardian",
       "SiteUrl": "https://www.theguardian.com/world",
       "AddedAt": "2026-07-09T10:13:33.7671633+00:00",
-      "LastRefreshedAt": "2026-07-09T10:15:46.0062154+00:00",
+      "LastRefreshedAt": "2026-07-10T21:51:20.4351523+00:00",
       "LastRefreshStatus": 1,
       "Articles": [
         {
@@ -991,6 +570,1019 @@
           "PublishedAt": "2026-07-09T01:37:30+00:00",
           "FetchedAt": "2026-07-09T10:13:33.7669771+00:00",
           "ImageUrl": null
+        }
+      ]
+    },
+    {
+      "Id": "979d6739-cd9f-429d-8920-2818b1be3360",
+      "Url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "Title": "BBC News",
+      "SiteUrl": "https://www.bbc.co.uk/news",
+      "AddedAt": "2026-07-10T21:44:48.6345906+00:00",
+      "LastRefreshedAt": "2026-07-10T21:51:20.8518007+00:00",
+      "LastRefreshStatus": 1,
+      "Articles": [
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cvg50lk22jpo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Man arrested on suspicion of murder after death of Ann Widdecombe",
+          "Link": "https://www.bbc.co.uk/news/articles/cvg50lk22jpo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "There was initially no suggestion of suspicious circumstances when her death was announced on Friday morning.",
+          "PublishedAt": "2026-07-10T21:38:20+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6288305+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/czrxdnmlk5no#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Pugnacious, charismatic and she always answered the question - Chris Mason on Widdecombe",
+          "Link": "https://www.bbc.co.uk/news/articles/czrxdnmlk5no?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Plenty in Westminster who knew her, whether they agreed with her or not, found her immensely likeable.",
+          "PublishedAt": "2026-07-10T21:27:28+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6290557+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cx2vq71473yo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Triple murder suspect arrested in South Africa",
+          "Link": "https://www.bbc.co.uk/news/articles/cx2vq71473yo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Prosecutors in the UK authorise charges against Ndodana Mkhanyisi Tshuma.",
+          "PublishedAt": "2026-07-10T20:09:57+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6291603+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cj4g79exkzlo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Harry visits King with Meghan and children for first time in four years",
+          "Link": "https://www.bbc.co.uk/news/articles/cj4g79exkzlo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "It is the first time the King has seen his grandchildren Archie, seven, and Lilibet, five, in person in more than four years.",
+          "PublishedAt": "2026-07-10T18:50:54+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.629358+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cx2xd555levo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Man pulls wheelies then throws electric motorbike off bridge after police chase",
+          "Link": "https://www.bbc.co.uk/news/articles/cx2xd555levo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Owen Pendree was sentenced to 12 months and has been banned from driving after his \u0022stupid\u0022 actions.",
+          "PublishedAt": "2026-07-10T18:17:47+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6294918+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cn94rdz3e59o#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Sam Fender and Olivia Dean make UK chart history with Rein Me In",
+          "Link": "https://www.bbc.co.uk/news/articles/cn94rdz3e59o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "They break the record for the longest-running number one single of all time by a British act.",
+          "PublishedAt": "2026-07-10T17:07:43+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6296392+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c8e2382jk7jo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Wildfire in southern Spain leaves at least 12 dead and 23 missing",
+          "Link": "https://www.bbc.co.uk/news/articles/c8e2382jk7jo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A local official said four of the victims may be British after a fire broke out near Los Gallardos, Almer\u00EDa.",
+          "PublishedAt": "2026-07-10T14:08:26+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6297549+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/tennis/articles/ckg475qdnd7o#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Fery\u0027s Wimbledon run ended by Zverev in semi-finals",
+          "Link": "https://www.bbc.co.uk/sport/tennis/articles/ckg475qdnd7o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Arthur Fery\u0027s unforgettable Wimbledon run comes to an end as Alexander Zverev beats the British wildcard to secure a place in the final.",
+          "PublishedAt": "2026-07-10T15:36:30+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6298584+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/videos/c992zv2xpdjo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Watch: What links a bomb in Monaco and a shooting in Ukraine?",
+          "Link": "https://www.bbc.co.uk/news/videos/c992zv2xpdjo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A Ukrainian intelligence agent who confessed to killing the woman suspected of trying to assassinate a multimillionaire in Monaco, has now claimed he did not pull the trigger.",
+          "PublishedAt": "2026-07-10T18:04:39+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6299968+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cp8leyy42nvo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Pitbull fans set Guinness World Record at BST Hyde Park show",
+          "Link": "https://www.bbc.co.uk/news/articles/cp8leyy42nvo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Mr Worldwide\u0027s fans have set the Guinness World Record for the largest gathering of people wearing bald caps.",
+          "PublishedAt": "2026-07-10T20:35:05+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6300826+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cwy091zzgpdo#0",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Eight charged over alleged conspiracy to attack White House UFC event",
+          "Link": "https://www.bbc.co.uk/news/articles/cwy091zzgpdo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Thousands of people attended the event last month, including President Trump and Vice-President JD Vance.",
+          "PublishedAt": "2026-07-10T19:27:32+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6302935+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cm2d370npe4o#1",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Anton du Beke \u0027devastated\u0027 at death of Strictly co-star Ann Widdecombe",
+          "Link": "https://www.bbc.co.uk/news/articles/cm2d370npe4o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Kemi Badenoch said the Conservative Party was \u0022reeling\u0022 as the former minister\u0027s death is investigated as murder.",
+          "PublishedAt": "2026-07-10T20:11:44+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6304041+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c3vyqkqkvr9o#1",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Ann Widdecombe murder probe: What we know so far",
+          "Link": "https://www.bbc.co.uk/news/articles/c3vyqkqkvr9o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Police say they are searching for a suspect in connection with the former MP\u0027s death at her home on Dartmoor.",
+          "PublishedAt": "2026-07-10T17:04:40+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6305089+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/videos/c1ly3glepr1o#1",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Watch: Police confirm 26 year-old suspect in custody",
+          "Link": "https://www.bbc.co.uk/news/videos/c1ly3glepr1o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "A 26-year-old man has been arrested on suspicion of murder following the death of Ann Widdecombe, police say.",
+          "PublishedAt": "2026-07-10T17:18:02+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6306369+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/videos/c0lydpe9722o#1",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Watch: \u0027Shocked\u0027 and \u0027upset\u0027 - Starmer, Badenoch and Farage respond",
+          "Link": "https://www.bbc.co.uk/news/videos/c0lydpe9722o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The prime minister and opposition leader spoke after the police announced a murder investigation into the death of Ann Widdecombe.",
+          "PublishedAt": "2026-07-10T16:47:24+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6307331+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/c5yz0g0mg4no#2",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "\u0027What old-timers can do\u0027 - the evolution of Belgium\u0027s golden generation",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/c5yz0g0mg4no?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "BBC Sport explores what is behind Belgium\u0027s progress to the last eight of the World Cup, and whether they were too easily discounted among the contenders.",
+          "PublishedAt": "2026-07-10T11:38:58+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.630849+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cz9l8pzxv7vo#2",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Football\u0027s best bromance: Why Bellingham and Haaland break the mould",
+          "Link": "https://www.bbc.co.uk/news/articles/cz9l8pzxv7vo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The two players have won an army of admirers from social media clips and their honesty in interviews.",
+          "PublishedAt": "2026-07-10T19:53:49+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6309362+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/cwyez8r7ve8o#2",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "How De la Fuente\u0027s Spain are closing in on greatness",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/cwyez8r7ve8o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Before Spain\u0027s World Cup quarter-final against Belgium, Guillem Balague talks to Spain boss Luis de la Fuente about their identity and Lamine Yamal.",
+          "PublishedAt": "2026-07-10T06:47:29+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6310435+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/cx2j3dglq5jo#2",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Hacking worry for Argentine FA over World Cup emails",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/cx2j3dglq5jo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Argentina\u0027s football association signals it may have suffered a cyber attack after emails from its accounts reportedly criticised refereeing in the dramatic win against Egypt at the World Cup.",
+          "PublishedAt": "2026-07-10T17:26:14+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6311394+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cg74e270p13o#3",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "How an undercover police sting solved a 1984 murder and sent two brothers to jail",
+          "Link": "https://www.bbc.co.uk/news/articles/cg74e270p13o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The brothers, who had been on a violent crime spree attacking men they thought were gay, are jailed after an undercover operation that involved bugged cars and covert officers.",
+          "PublishedAt": "2026-07-10T11:45:08+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6313856+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cvg4y289ppjo#3",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "\u0027People don\u0027t realise how at risk they are\u0027: A day with an ambulance service in a heatwave",
+          "Link": "https://www.bbc.co.uk/news/articles/cvg4y289ppjo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The BBC join a crew based in Exeter as the UK sizzles in one of its longest-running heatwaves.",
+          "PublishedAt": "2026-07-10T10:18:28+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6314989+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c932zyex1w2o#3",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "\u0027Really frightening, unbelievably quick\u0027: Witnesses describe fleeing deadly Spain wildfire",
+          "Link": "https://www.bbc.co.uk/news/articles/c932zyex1w2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Holidaymakers tell the BBC how they grabbed a change of clothes, bundled into cars and fled the flames and smoke.",
+          "PublishedAt": "2026-07-10T18:56:06+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6315875+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/ce8kkerxz74o#3",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "We\u0027ve saved \u00A36,000 on holidays by swapping homes with strangers",
+          "Link": "https://www.bbc.co.uk/news/articles/ce8kkerxz74o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The BBC looks at the growing trend of people swapping homes to cut holiday costs.",
+          "PublishedAt": "2026-07-10T08:26:00+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.631677+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cyv0zjg2623o#3",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "I was needle spiked in a nightclub on my first holiday with friends",
+          "Link": "https://www.bbc.co.uk/news/articles/cyv0zjg2623o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Teenage footballer Taylor Coulter needed hospital treatment after being injected by a stranger in the Spanish resort of Magaluf.",
+          "PublishedAt": "2026-07-10T08:58:11+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6317792+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cewq9vznzz5o#5",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Top Boy actor Micheal Ward found not guilty of rape",
+          "Link": "https://www.bbc.co.uk/news/articles/cewq9vznzz5o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Micheal Ward told the jury the encounter with his accuser was \u0022wholly consensual\u0022.",
+          "PublishedAt": "2026-07-10T14:52:59+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6318677+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cgk65knkyzdo#5",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Man nearly sucked out of window mid-air on Ryanair plane, passengers say",
+          "Link": "https://www.bbc.co.uk/news/articles/cgk65knkyzdo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "The man\u0027s wife held onto his legs for around five minutes to stop him from being sucked out, officials say.",
+          "PublishedAt": "2026-07-10T16:42:24+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6320084+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cz6vz56326vo#5",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Disney\u0027s \u0027dismal\u0027 live-action Moana panned by critics",
+          "Link": "https://www.bbc.co.uk/news/articles/cz6vz56326vo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Dwayne Johnson reprises his role as demigod Maui, a decade after the original hit animation.",
+          "PublishedAt": "2026-07-10T11:24:36+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6321144+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/c05y4gd2r0ro#5",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Legionnaires\u0027 outbreak hits New York as officials rush to test water towers",
+          "Link": "https://www.bbc.co.uk/news/articles/c05y4gd2r0ro?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "To date, 46 people have been infected from breathing mist from bacteria-filled water coolers on the Upper East side.",
+          "PublishedAt": "2026-07-10T16:06:54+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6323654+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/articles/cy04erw9y42o#5",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Longest-serving Archers star Patricia Greene dies aged 95",
+          "Link": "https://www.bbc.co.uk/news/articles/cy04erw9y42o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "She was best known for playing Jill Archer in the BBC Radio 4 soap for nearly 70 years.",
+          "PublishedAt": "2026-07-10T13:29:41+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6324717+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/news/10628994#6",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "BBC News app",
+          "Link": "https://www.bbc.co.uk/news/10628994?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Top stories, breaking news, live reporting, and follow news topics that match your interests",
+          "PublishedAt": "2025-04-30T14:04:28+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6325896+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sounds/play/p0nx5fgs#7",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Andy Burnham (Almost) Wins",
+          "Link": "https://www.bbc.co.uk/sounds/play/p0nx5fgs?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Burnham on track to be next PM as 322 Labour MPs back him.",
+          "PublishedAt": "2026-07-09T18:46:00+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6327732+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sounds/play/w3ct8lz9#7",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "After 250 years, do US citizens still believe in the American Dream?",
+          "Link": "https://www.bbc.co.uk/sounds/play/w3ct8lz9?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Historian Heather Cox Richardson on what history tells us about modern America",
+          "PublishedAt": "2026-07-03T17:00:00+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6328861+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/tennis/articles/ckg475qdnd7o#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Fery\u0027s Wimbledon run ended by Zverev in semi-finals",
+          "Link": "https://www.bbc.co.uk/sport/tennis/articles/ckg475qdnd7o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Arthur Fery\u0027s unforgettable Wimbledon run comes to an end as Alexander Zverev beats the British wildcard to secure a place in the final.",
+          "PublishedAt": "2026-07-10T15:36:30+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6329755+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/cq61n2gqqv0o#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "England favourites to reach semis, says Norway boss",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/cq61n2gqqv0o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "England are favourites to reach the semi-finals of the World Cup, Norway boss Stale Solbakken has told BBC Sport.",
+          "PublishedAt": "2026-07-10T20:10:44+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6330659+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/cricket/articles/cwylvdn7gdyo#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Ecclestone breaks record - in front of those who paved the way",
+          "Link": "https://www.bbc.co.uk/sport/cricket/articles/cwylvdn7gdyo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Sophie Ecclestone is a fitting player to take the headlines after a momentous opening day at Lord\u0027s, where past England players were honoured for paving the way.",
+          "PublishedAt": "2026-07-10T19:42:46+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6332734+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/football/articles/c9d2z59596eo#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Man Utd\u0027s Ederson move in doubt",
+          "Link": "https://www.bbc.co.uk/sport/football/articles/c9d2z59596eo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Manchester United\u0027s attempt to complete a \u00A335m deal for Atalanta midfielder is in doubt",
+          "PublishedAt": "2026-07-10T20:27:18+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6334051+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/tennis/articles/c33yxe5npnxo#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "\u0027Good but not good enough\u0027 for \u0027blessed and cursed\u0027 Djokovic",
+          "Link": "https://www.bbc.co.uk/sport/tennis/articles/c33yxe5npnxo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Most players would be satisfied with reaching a Wimbledon semi-final and the Australian Open final in the space of six months. Not Novak Djokovic.",
+          "PublishedAt": "2026-07-10T20:35:25+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6335005+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/sport/videos/c621y3m89p2o#9",
+          "FeedId": "979d6739-cd9f-429d-8920-2818b1be3360",
+          "Title": "Merino pounces on Lammens\u0027 mistake to score late winner for Spain",
+          "Link": "https://www.bbc.co.uk/sport/videos/c621y3m89p2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "Mikel Merino pounces on a mistake by substitute goalkeeper Senne Lammens to score an 88th-minute winning goal for Spain in their World Cup quarter final win over Belgium.",
+          "PublishedAt": "2026-07-10T21:11:28+00:00",
+          "FetchedAt": "2026-07-10T21:44:48.6336492+00:00",
+          "ImageUrl": null
+        }
+      ]
+    },
+    {
+      "Id": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+      "Url": "https://feeds.bbci.co.uk/arabic/rss.xml",
+      "Title": "BBC Arabic",
+      "SiteUrl": "https://www.bbc.co.uk/arabic",
+      "AddedAt": "2026-07-10T21:47:14.4623257+00:00",
+      "LastRefreshedAt": "2026-07-10T21:51:21.065575+00:00",
+      "LastRefreshStatus": 1,
+      "Articles": [
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cjdgvmzj55vo#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u062A\u0631\u0627\u0645\u0628 \u064A\u0648\u0627\u0641\u0642 \u0639\u0644\u0649 \u0645\u0648\u0627\u0635\u0644\u0629 \u0627\u0644\u0645\u062D\u0627\u062F\u062B\u0627\u062A \u0645\u0639 \u0625\u064A\u0631\u0627\u0646\u060C \u0648\u0637\u0647\u0631\u0627\u0646 \u062A\u062A\u0648\u0639\u062F \u0628\u0642\u0635\u0641 \u0625\u0633\u0631\u0627\u0626\u064A\u0644 \u0631\u062F\u0627\u064B \u0639\u0644\u0649 \u0623\u064A \u0647\u062C\u0648\u0645 \u0636\u062F \u0627\u0644\u0628\u0646\u064A\u0629 \u0627\u0644\u062A\u062D\u062A\u064A\u0629",
+          "Link": "https://www.bbc.com/arabic/articles/cjdgvmzj55vo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0642\u0635\u0641 \u0645\u062A\u0628\u0627\u062F\u0644 \u0628\u064A\u0646 \u0648\u0627\u0634\u0646\u0637\u0646 \u0648\u0637\u0647\u0631\u0627\u0646\u060C \u0648\u0645\u0641\u0627\u0648\u0636\u0627\u062A \u0645\u0633\u062A\u0645\u0631\u0629 \u062E\u0644\u0641 \u0627\u0644\u0643\u0648\u0627\u0644\u064A\u0633\u060C \u0648\u0633\u0637 \u062A\u0642\u0627\u0631\u064A\u0631 \u0639\u0646 \u0645\u062E\u0637\u0637 \u0625\u064A\u0631\u0627\u0646\u064A \u0645\u0632\u0639\u0648\u0645 \u0644\u0627\u0633\u062A\u0647\u062F\u0627\u0641 \u062A\u0631\u0627\u0645\u0628 \u0648\u062A\u0648\u062A\u0631\u0627\u062A \u0645\u062A\u0635\u0627\u0639\u062F\u0629 \u0628\u064A\u0646 \u0627\u0644\u062D\u0644\u0641\u0627\u0621.",
+          "PublishedAt": "2026-07-10T18:31:51+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4569698+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.co.uk/arabic/live/c14yd41jmm0t#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645: \u0645\u064A\u0631\u064A\u0646\u0648 \u064A\u0639\u0628\u0631 \u0628\u0625\u0633\u0628\u0627\u0646\u064A\u0627 \u0625\u0644\u0649 \u0646\u0635\u0641 \u0627\u0644\u0646\u0647\u0627\u0626\u064A \u0628\u0641\u0648\u0632 \u0645\u062A\u0623\u062E\u0631 \u0639\u0644\u0649 \u0628\u0644\u062C\u064A\u0643\u0627",
+          "Link": "https://www.bbc.co.uk/arabic/live/c14yd41jmm0t?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u064A\u0642\u062A\u0631\u0628 \u0628\u0637\u0644 \u0623\u0648\u0631\u0648\u0628\u0627 \u0645\u0646\u062A\u062E\u0628 \u0625\u0633\u0628\u0627\u0646\u064A\u0627 \u0645\u0646 \u0645\u0648\u0627\u062C\u0647\u0629 \u0642\u0645\u0651\u0629 \u0623\u0645\u0627\u0645 \u0641\u0631\u0646\u0633\u0627 \u0628\u0642\u064A\u0627\u062F\u0629 \u0643\u064A\u0644\u064A\u0627\u0646 \u0645\u0628\u0627\u0628\u064A \u0641\u064A \u0646\u0635\u0641 \u0646\u0647\u0627\u0626\u064A \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026 \u0644\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645\u060C \u0641\u064A \u062D\u0627\u0644 \u062A\u062E\u0637\u0651\u0649 \u0646\u0638\u064A\u0631\u0647 \u0627\u0644\u0628\u0644\u062C\u064A\u0643\u064A \u0641\u064A \u0631\u0628\u0639 \u0627\u0644\u0646\u0647\u0627\u0626\u064A \u0627\u0644\u062C\u0645\u0639\u0629.",
+          "PublishedAt": "2026-07-10T21:47:14.4571018+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4571022+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cgk65v47z7go#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0627\u0644\u062B\u0648\u0631\u0627\u0646 \u0627\u0644\u0628\u0631\u0643\u0627\u0646\u064A \u0627\u0644\u0630\u064A \u0623\u062D\u062F\u062B \u0623\u0639\u0644\u0649 \u0635\u0648\u062A \u0641\u064A \u0627\u0644\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0645\u064F\u0648\u062B\u0651\u0642",
+          "Link": "https://www.bbc.com/arabic/articles/cgk65v47z7go?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u062B\u0627\u0631 \u0628\u0631\u0643\u0627\u0646 \u0641\u064A \u0625\u0646\u062F\u0648\u0646\u064A\u0633\u064A\u0627 \u0647\u0630\u0627 \u0627\u0644\u0623\u0633\u0628\u0648\u0639\u060C \u0625\u0644\u0627 \u0623\u0646 \u062B\u0648\u0631\u0627\u0646\u0627\u064B \u0622\u062E\u0631 \u0641\u064A \u0627\u0644\u0645\u0648\u0642\u0639 \u0646\u0641\u0633\u0647 \u0639\u0627\u0645 1883 \u0643\u0627\u0646 \u0623\u0643\u062B\u0631 \u062A\u062F\u0645\u064A\u0631\u0627\u064B \u0628\u0643\u062B\u064A\u0631.",
+          "PublishedAt": "2026-07-10T13:54:40+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4571771+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c20yrne2vj9o#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u064A\u0641 \u0623\u0635\u0628\u062D \u0647\u064A\u062B\u0645 \u062D\u0633\u0646 \u062D\u062F\u064A\u062B \u0627\u0644\u0634\u0627\u0631\u0639 \u0627\u0644\u0643\u0631\u0648\u064A \u0628\u0639\u062F \u062A\u0623\u0644\u0642\u0647 \u0627\u0644\u0644\u0627\u0641\u062A \u0623\u0645\u0627\u0645 \u0627\u0644\u0623\u0631\u062C\u0646\u062A\u064A\u0646\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c20yrne2vj9o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0645\u0646 \u0647\u0648 \u0647\u064A\u062B\u0645 \u062D\u0633\u0646\u060C \u0644\u0627\u0639\u0628 \u0645\u0646\u062A\u062E\u0628 \u0645\u0635\u0631 \u0627\u0644\u0630\u064A \u0644\u0641\u062A \u0623\u0646\u0638\u0627\u0631 \u0627\u0644\u0639\u0627\u0644\u0645 \u0625\u0644\u064A\u0647 \u0628\u0623\u062F\u0627\u0626\u0647 \u0641\u064A \u0645\u0628\u0627\u0631\u0627\u0629 \u0627\u0644\u0623\u0631\u062C\u0646\u062A\u064A\u0646 \u0628\u0627\u0644\u062F\u0648\u0631 \u0627\u0644\u0633\u062A\u0629 \u0639\u0634\u0631 \u0641\u064A \u0627\u0644\u0646\u0633\u062E\u0629 \u0627\u0644\u0645\u0642\u0627\u0645\u0629 \u062D\u0627\u0644\u064A\u0627\u064B \u0645\u0646 \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645\u061F",
+          "PublishedAt": "2026-07-10T17:10:47+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.457246+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c0lyr32k188o#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0647\u062F\u0646\u0629 \u0625\u064A\u0631\u0627\u0646 \u0648\u0623\u0645\u0631\u064A\u0643\u0627 \u0627\u0646\u0647\u0627\u0631\u062A \u062D\u062A\u0649 \u0642\u0628\u0644 \u0625\u0639\u0644\u0627\u0646 \u062A\u0631\u0627\u0645\u0628 \u0646\u0647\u0627\u064A\u062A\u0647\u0627... \u0644\u0645\u0627\u0630\u0627\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c0lyr32k188o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u064A\u0628\u062F\u0648 \u0623\u0646 \u0648\u0627\u0634\u0646\u0637\u0646 \u0648\u0637\u0647\u0631\u0627\u0646 \u062A\u062A\u062C\u0647\u0627\u0646 \u0628\u0633\u0631\u0639\u0629 \u0646\u062D\u0648 \u0627\u0633\u062A\u0626\u0646\u0627\u0641 \u0627\u0644\u0635\u0631\u0627\u0639 \u0639\u0644\u0649 \u0646\u0637\u0627\u0642 \u0648\u0627\u0633\u0639\u060C \u0641\u064A \u0638\u0644 \u0631\u0641\u0636 \u0643\u0644 \u0645\u0646\u0647\u0645\u0627 \u0627\u0644\u062A\u062E\u0644\u064A \u0639\u0646 \u0645\u0648\u0642\u0639 \u0627\u0644\u0642\u0648\u0629.",
+          "PublishedAt": "2026-07-10T11:33:00+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4573405+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cz0jzd1dpm8o#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0647\u0644 \u0627\u0644\u0623\u0632\u0647\u0627\u0631 \u0623\u0643\u062B\u0631 \u0643\u0627\u0626\u0646\u0627\u062A \u0627\u0644\u0637\u0628\u064A\u0639\u0629 \u062F\u0647\u0627\u0621\u064B \u0648\u0645\u0643\u0631\u0627\u064B\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/cz0jzd1dpm8o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0637\u0648\u0631\u062A \u0628\u0639\u0636 \u0627\u0644\u0623\u0632\u0647\u0627\u0631 \u062D\u064A\u0644\u0627\u064B \u0645\u0627\u0643\u0631\u0629 \u0644\u0627\u0633\u062A\u062F\u0631\u0627\u062C \u0627\u0644\u0645\u0644\u0642\u062D\u0627\u062A\u060C \u0645\u0646 \u0645\u062D\u0627\u0643\u0627\u0629 \u0625\u0646\u0627\u062B \u0627\u0644\u062D\u0634\u0631\u0627\u062A \u0625\u0644\u0649 \u0625\u0636\u0627\u0641\u0629 \u0627\u0644\u0643\u0627\u0641\u064A\u064A\u0646 \u0625\u0644\u0649 \u0631\u062D\u064A\u0642\u0647\u0627.",
+          "PublishedAt": "2026-07-10T16:14:09+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4577965+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c0ey3egp79xo#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0628\u0648\u0646\u064A \u062A\u0627\u064A\u0644\u0631... \u0627\u0644\u0635\u0648\u062A \u0627\u0644\u0623\u062C\u0634 \u0627\u0644\u0630\u064A \u063A\u064A\u0651\u0631 \u0627\u0644\u0623\u063A\u0646\u064A\u0629 \u0627\u0644\u0639\u0627\u0637\u0641\u064A\u0629 \u0627\u0644\u0635\u0627\u062E\u0628\u0629",
+          "Link": "https://www.bbc.com/arabic/articles/c0ey3egp79xo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0645\u0646 \u0627\u0628\u0646\u0629 \u0639\u0627\u0645\u0644 \u0645\u0646\u062C\u0645 \u0641\u064A \u0648\u064A\u0644\u0632 \u0625\u0644\u0649 \u0635\u0627\u062D\u0628\u0629 \u0648\u0627\u062D\u062F\u0629 \u0645\u0646 \u0623\u0634\u0647\u0631 \u0623\u063A\u0646\u064A\u0627\u062A \u0627\u0644\u062B\u0645\u0627\u0646\u064A\u0646\u064A\u0627\u062A\u060C \u0635\u0646\u0639\u062A \u0628\u0648\u0646\u064A \u062A\u0627\u064A\u0644\u0631 \u0645\u062C\u062F\u0647\u0627 \u0628\u0635\u0648\u062A \u0623\u062C\u0634 \u0648\u0623\u062F\u0627\u0621 \u062F\u0631\u0627\u0645\u064A \u062D\u0648\u0651\u0644\u0627 \u0627\u0644\u0627\u0646\u0643\u0633\u0627\u0631 \u0627\u0644\u0639\u0627\u0637\u0641\u064A \u0625\u0644\u0649 \u0623\u063A\u0646\u064A\u0627\u062A \u0639\u0627\u0628\u0631\u0629 \u0644\u0644\u0623\u062C\u064A\u0627\u0644. \u0647\u0630\u0647 \u0642\u0635\u0629 \u0645\u0633\u064A\u0631\u062A\u0647\u0627\u060C \u0648\u0635\u0639\u0648\u062F \u0022\u0643\u0633\u0648\u0641 \u0643\u0644\u064A \u0644\u0644\u0642\u0644\u0628\u0022\u060C \u0648\u062D\u0636\u0648\u0631\u0647\u0627 \u0627\u0644\u0630\u064A \u0627\u0645\u062A\u062F \u0645\u0646 \u0645\u0633\u0627\u0631\u062D \u0623\u0648\u0631\u0648\u0628\u0627 \u0625\u0644\u0649 \u0630\u0627\u0643\u0631\u0629 \u0627\u0644\u062C\u0645\u0647\u0648\u0631 \u0627\u0644\u0639\u0631\u0628\u064A.",
+          "PublishedAt": "2026-07-10T12:47:28+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4579475+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c9d2w7xllx1o#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0022\u0644\u0627 \u062A\u0648\u062C\u062F \u062E\u0637\u0629 \u0643\u0628\u0631\u0649 \u0628\u0634\u0623\u0646 \u0625\u064A\u0631\u0627\u0646\u0022 - \u0645\u0642\u0627\u0644 \u0641\u064A \u0627\u0644\u0641\u0627\u064A\u0646\u0646\u0634\u0627\u0644 \u062A\u0627\u064A\u0645\u0632",
+          "Link": "https://www.bbc.com/arabic/articles/c9d2w7xllx1o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u062A\u062A\u062D\u062F\u062B \u0627\u0644\u0635\u062D\u0641 \u0627\u0644\u0639\u0627\u0644\u0645\u064A\u0629 \u062D\u0648\u0644 \u0627\u0644\u0627\u0633\u062A\u0631\u0627\u062A\u064A\u062C\u064A\u0629 \u0627\u0644\u0623\u0645\u0631\u064A\u0643\u064A\u0629 \u062D\u0648\u0644 \u0625\u064A\u0631\u0627\u0646\u060C \u0648\u0639\u0646 \u062A\u0641\u0627\u0648\u062A \u0627\u0644\u0623\u062C\u0648\u0631 \u0628\u064A\u0646 \u0627\u0644\u0645\u062F\u064A\u0631\u064A\u0646 \u0627\u0644\u062A\u0646\u0641\u064A\u0630\u064A\u064A\u0646 \u0648\u0627\u0644\u0639\u0645\u0627\u0644 \u0641\u064A \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0645\u062A\u062D\u062F\u0629\u060C \u0648\u0639\u0646 \u0627\u0644\u062A\u0642\u0627\u0637\u0639\u0627\u062A \u0627\u0644\u0633\u064A\u0627\u0633\u064A\u0629 \u0641\u064A \u0628\u0637\u0648\u0644\u0629 \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 \u0644\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645.",
+          "PublishedAt": "2026-07-10T10:03:22+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4580203+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c0kyldvy5p2o#0",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u064A\u0641 \u062A\u062D\u0631\u0643 \u0627\u0644\u0646\u0633\u0627\u0621 \u0623\u062D\u062F\u0627\u062B \u0645\u0644\u062D\u0645\u0629 \u0022\u0627\u0644\u0623\u0648\u062F\u064A\u0633\u0629\u0022 \u0644\u0647\u0648\u0645\u064A\u0631\u0648\u0633\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c0kyldvy5p2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0631\u063A\u0645 \u0623\u0646 \u0623\u0648\u062F\u064A\u0633\u064A\u0648\u0633 \u0647\u0648 \u0628\u0637\u0644 \u0645\u0644\u062D\u0645\u0629 \u0022\u0627\u0644\u0623\u0648\u062F\u064A\u0633\u0629\u0022 \u0644\u0647\u0648\u0645\u064A\u0631\u0648\u0633\u060C \u0625\u0644\u0627 \u0623\u0646 \u0627\u0644\u0646\u0633\u0627\u0621 \u0647\u0646 \u0627\u0644\u0645\u062D\u0631\u0643 \u0627\u0644\u062D\u0642\u064A\u0642\u064A \u0644\u0623\u062D\u062F\u0627\u062B\u0647\u0627\u060C \u0648\u0628\u062E\u0637\u0637\u0647\u0646 \u0648\u0625\u063A\u0631\u0627\u0621\u0627\u062A\u0647\u0646 \u0648\u0645\u0624\u0627\u0645\u0631\u0627\u062A\u0647\u0646 \u062A\u062A\u062C\u0627\u0648\u0632 \u0627\u0644\u0645\u0644\u062D\u0645\u0629 \u062D\u062F\u0648\u062F \u0642\u0635\u0629 \u0627\u0644\u0628\u0637\u0648\u0644\u0629 \u0644\u062A\u0635\u0628\u062D \u0642\u0635\u0629 \u0625\u0646\u0633\u0627\u0646\u064A\u0629.",
+          "PublishedAt": "2026-07-10T03:53:57+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4581788+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cjdgvdvyev2o#1",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u062D\u0633\u0627\u0645 \u0648\u0625\u0628\u0631\u0627\u0647\u064A\u0645 \u062D\u0633\u0646.. \u062D\u0643\u0627\u064A\u0629 \u0627\u0644\u062A\u0648\u0623\u0645\u064A\u0646 \u0645\u0639 \u0645\u0646\u062A\u062E\u0628 \u0645\u0635\u0631",
+          "Link": "https://www.bbc.com/arabic/articles/cjdgvdvyev2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u062E\u0644\u0627\u0644 \u0645\u0633\u064A\u0631\u0629 \u062D\u0633\u0627\u0645 \u062D\u0633\u0646 \u0644\u0627\u0639\u0628\u0627\u064B \u0648\u0645\u062F\u0631\u0628\u0627\u064B\u060C \u0638\u0644 \u0634\u0642\u064A\u0642\u0647 \u0627\u0644\u062A\u0648\u0623\u0645\u060C \u0625\u0628\u0631\u0627\u0647\u064A\u0645. \u0648\u0645\u0639\u0627\u064B \u062D\u0642\u0642\u0627 \u0627\u0644\u0639\u062F\u064A\u062F \u0645\u0646 \u0627\u0644\u0623\u0644\u0642\u0627\u0628 \u0648\u0634\u0627\u0631\u0643\u0627 \u0641\u064A \u0625\u0646\u062C\u0627\u0632 \u0645\u0635\u0631 \u0641\u064A \u0628\u0637\u0648\u0644\u0629 \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026.",
+          "PublishedAt": "2026-07-10T11:41:00+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4582818+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cwy0jqzq95go#1",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0645\u0646 \u0633\u064A\u0641\u0648\u0632 \u0628\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026\u061F \u0647\u0643\u0630\u0627 \u064A\u062A\u0648\u0642\u0639 \u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064A",
+          "Link": "https://www.bbc.com/arabic/articles/cwy0jqzq95go?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0645\u0639 \u062A\u0642\u062F\u0645 \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026 \u0646\u062D\u0648 \u0645\u0631\u0627\u062D\u0644\u0647 \u0627\u0644\u062D\u0627\u0633\u0645\u0629\u060C \u062A\u062F\u062E\u0644 \u062A\u0648\u0642\u0639\u0627\u062A \u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064A \u0639\u0644\u0649 \u062E\u0637 \u062A\u0631\u0634\u064A\u062D \u0627\u0644\u0641\u0627\u0626\u0632 \u0627\u0644\u0645\u062A\u0648\u0642\u0639 \u0641\u064A \u0627\u0644\u0628\u0637\u0648\u0644\u0629. \u0648\u0628\u062D\u0633\u0628 \u0623\u062D\u062F\u062B \u062D\u0633\u0627\u0628\u0627\u062A \u062D\u0627\u0633\u0648\u0628 \u0623\u0648\u0628\u062A\u0627 \u0627\u0644\u0641\u0627\u0626\u0642 \u062D\u062A\u0649 7 \u064A\u0648\u0644\u064A\u0648/\u062A\u0645\u0648\u0632\u060C \u062A\u062A\u0635\u062F\u0631 \u0641\u0631\u0646\u0633\u0627 \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0645\u0631\u0634\u062D\u064A\u0646 \u0644\u0644\u0641\u0648\u0632 \u0628\u0627\u0644\u0644\u0642\u0628\u060C \u062A\u0644\u064A\u0647\u0627 \u0625\u0633\u0628\u0627\u0646\u064A\u0627 \u062B\u0645 \u0625\u0646\u062C\u0644\u062A\u0631\u0627 \u0648\u0627\u0644\u0623\u0631\u062C\u0646\u062A\u064A\u0646.",
+          "PublishedAt": "2026-07-08T15:01:58+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4583534+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cnv9nzzm53qo#1",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0628\u064A \u0628\u064A \u0633\u064A \u062A\u0643\u0634\u0641 \u0623\u0646 \u0625\u0646\u0633\u062A\u063A\u0631\u0627\u0645 \u064A\u0639\u0631\u0636 \u0625\u0639\u0644\u0627\u0646\u0627\u062A \u062A\u0631\u0648\u062C \u0644\u0645\u0648\u0627\u062F \u0627\u0633\u062A\u063A\u0644\u0627\u0644 \u062C\u0646\u0633\u064A \u0644\u0644\u0623\u0637\u0641\u0627\u0644 \u0641\u064A \u0627\u0644\u0647\u0646\u062F",
+          "Link": "https://www.bbc.com/arabic/articles/cnv9nzzm53qo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0643\u0634\u0641 \u062A\u062D\u0642\u064A\u0642 \u062C\u062F\u064A\u062F \u0623\u062C\u0631\u062A\u0647 BBC Eye \u0623\u0646 \u0625\u0646\u0633\u062A\u063A\u0631\u0627\u0645 \u064A\u0639\u0631\u0636 \u0625\u0639\u0644\u0627\u0646\u0627\u062A \u062A\u0631\u0648\u062C \u0644\u0645\u0648\u0627\u062F \u0627\u0633\u062A\u063A\u0644\u0627\u0644 \u062C\u0646\u0633\u064A \u0644\u0644\u0623\u0637\u0641\u0627\u0644 \u0641\u064A \u0627\u0644\u0647\u0646\u062F\u060C \u0648\u064A\u062C\u0646\u064A \u0645\u0646\u0647\u0627 \u0623\u0631\u0628\u0627\u062D\u0627\u064B.",
+          "PublishedAt": "2026-07-07T11:03:16+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4584235+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c4gy0j5v1n3o#1",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u064A\u0641 \u0623\u0635\u0628\u062D\u062A \u0627\u0644\u0648\u0644\u0627\u064A\u0627\u062A \u0627\u0644\u0645\u062A\u062D\u062F\u0629 \u0627\u0644\u0623\u0645\u0631\u064A\u0643\u064A\u0629 \u062F\u0648\u0644\u0629\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c4gy0j5v1n3o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u064A\u0635\u0627\u062F\u0641 \u0627\u0644\u0631\u0627\u0628\u0639 \u0645\u0646 \u064A\u0648\u0644\u064A\u0648/\u062A\u0645\u0648\u0632 \u0627\u0644\u0630\u0643\u0631\u0649 \u0627\u0644\u0640 250 \u0644\u062A\u0623\u0633\u064A\u0633 \u0627\u0644\u0648\u0644\u0627\u064A\u0627\u062A \u0627\u0644\u0645\u062A\u062D\u062F\u0629 \u0627\u0644\u0623\u0645\u0631\u064A\u0643\u064A\u0629. \u0648\u0644\u0643\u0646 \u0643\u064A\u0641 \u0623\u0635\u0628\u062D\u062A \u0623\u0645\u0631\u064A\u0643\u0627 \u062F\u0648\u0644\u0629\u064B \u0641\u064A \u0627\u0644\u0645\u0642\u0627\u0645 \u0627\u0644\u0623\u0648\u0644\u061F",
+          "PublishedAt": "2026-07-04T08:13:47+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4584825+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cp8ldz25gd7o#1",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0022\u0642\u0628\u0629 \u062D\u0631\u0627\u0631\u064A\u0629\u0022 \u0645\u0633\u0624\u0648\u0644\u0629 \u0639\u0646 \u0644\u0647\u064A\u0628 \u0623\u0648\u0631\u0648\u0628\u0627\u060C \u0641\u0645\u0627 \u0633\u0631 \u0647\u0630\u0647 \u0627\u0644\u0638\u0627\u0647\u0631\u0629\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/cp8ldz25gd7o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0634\u0647\u062F\u062A \u0623\u0648\u0631\u0648\u0628\u0627 \u0645\u0648\u062C\u0629 \u062D\u0631 \u063A\u064A\u0631 \u0645\u0633\u0628\u0648\u0642\u0629\u060C \u062A\u062C\u0627\u0648\u0632\u062A \u062E\u0644\u0627\u0644\u0647\u0627 \u062F\u0631\u062C\u0627\u062A \u0627\u0644\u062D\u0631\u0627\u0631\u0629 40 \u0645\u0626\u0648\u064A\u0629 \u0641\u064A \u0639\u062F\u0629 \u062F\u0648\u0644. \u0648\u064A\u0642\u0641 \u0648\u0631\u0627\u0621 \u0647\u0630\u0647 \u0627\u0644\u0645\u0648\u062C\u0629 \u0022\u0642\u0628\u0629 \u062D\u0631\u0627\u0631\u064A\u0629\u0022 \u062A\u062A\u0634\u0643\u0644 \u0628\u0633\u0628\u0628 \u0646\u0645\u0637 \u062C\u0648\u064A \u064A\u064F\u0639\u0631\u0641 \u0628\u0627\u0633\u0645 \u0022\u062D\u0627\u062C\u0632 \u0623\u0648\u0645\u064A\u063A\u0627.\u0022",
+          "PublishedAt": "2026-07-02T14:51:22+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4585504+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c707l8z10rno#2",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026: \u062C\u062F\u0648\u0644 \u0627\u0644\u0645\u0628\u0627\u0631\u064A\u0627\u062A ",
+          "Link": "https://www.bbc.com/arabic/articles/c707l8z10rno?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0644\u0644\u0645\u0631\u0629 \u0627\u0644\u0623\u0648\u0644\u0649 \u0641\u064A \u062A\u0627\u0631\u064A\u062E \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645\u060C \u062A\u064F\u0642\u0627\u0645 \u0627\u0644\u0628\u0637\u0648\u0644\u0629 \u0641\u064A \u062B\u0644\u0627\u062B \u062F\u0648\u0644 \u0645\u0636\u064A\u0641\u0629 \u0647\u064A: \u0627\u0644\u0648\u0644\u0627\u064A\u0627\u062A \u0627\u0644\u0645\u062A\u062D\u062F\u0629 \u0648\u0643\u0646\u062F\u0627 \u0648\u0627\u0644\u0645\u0643\u0633\u064A\u0643.",
+          "PublishedAt": "2026-07-01T06:15:15+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4586129+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c0qy4q51yl4o#2",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645: \u0627\u0644\u0645\u063A\u0631\u0628 \u064A\u0637\u064A\u062D \u0628\u0647\u0648\u0644\u0646\u062F\u0627\u060C \u0648\u0627\u0644\u0628\u0627\u0631\u0627\u063A\u0648\u0627\u064A \u062A\u0642\u0635\u064A \u0623\u0644\u0645\u0627\u0646\u064A\u0627\u060C \u0648\u0627\u0644\u0628\u0631\u0627\u0632\u064A\u0644 \u062A\u0646\u062C\u0648 \u0641\u064A \u0627\u0644\u0644\u062D\u0638\u0627\u062A \u0627\u0644\u0623\u062E\u064A\u0631\u0629",
+          "Link": "https://www.bbc.com/arabic/articles/c0qy4q51yl4o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0623\u0637\u0627\u062D \u0627\u0644\u0645\u0646\u062A\u062E\u0628 \u0627\u0644\u0645\u063A\u0631\u0628\u064A\u060C \u0631\u0627\u0628\u0639 \u0627\u0644\u0646\u0633\u062E\u0629 \u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0641\u064A \u0642\u0637\u0631 2022\u060C \u0628\u0646\u0638\u064A\u0631\u0647 \u0627\u0644\u0647\u0648\u0644\u0646\u062F\u064A \u0648\u0628\u0644\u063A \u062B\u0645\u0646 \u0627\u0644\u0646\u0647\u0627\u0626\u064A \u0639\u0646\u062F\u0645\u0627 \u062A\u063A\u0644\u0628 \u0639\u0644\u064A\u0647 3-2 \u0628\u0631\u0643\u0644\u0627\u062A \u0627\u0644\u062A\u0631\u062C\u064A\u062D \u0628\u0639\u062F \u062A\u0639\u0627\u062F\u0644\u0647\u0645\u0627 1-1 \u0641\u064A \u0627\u0644\u0648\u0642\u062A\u064A\u0646 \u0627\u0644\u0623\u0635\u0644\u064A \u0648\u0627\u0644\u0625\u0636\u0627\u0641\u064A \u0641\u064A \u0645\u062F\u064A\u0646\u0629 \u0645\u0648\u0646\u062A\u064A\u0631\u064A \u0627\u0644\u0645\u0643\u0633\u064A\u0643\u064A\u0629 \u0641\u064A \u062F\u0648\u0631 \u0627\u0644\u064032 \u0644\u0645\u0648\u0646\u062F\u064A\u0627\u0644 \u0623\u0645\u0631\u064A\u0643\u0627 \u0627\u0644\u0634\u0645\u0627\u0644\u064A\u0629 \u0644\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645.",
+          "PublishedAt": "2026-06-30T04:50:28+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4590108+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c3rypl25gr2o#2",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0633\u062D\u0631 \u0648\u0635\u0644\u0648\u0627\u062A \u0648\u062A\u0645\u0627\u0626\u0645... \u0643\u064A\u0641 \u064A\u0633\u062A\u0646\u062C\u062F \u0645\u0634\u062C\u0639\u0648 \u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 \u0628\u0627\u0644\u063A\u064A\u0628 \u0644\u0646\u0635\u0631\u0629 \u0645\u0646\u062A\u062E\u0628\u0627\u062A\u0647\u0645\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c3rypl25gr2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0645\u0646 \u0627\u0644\u0634\u0645\u0648\u0639 \u0648\u0627\u0644\u0635\u0644\u0648\u0627\u062A \u0625\u0644\u0649 \u0627\u0644\u0637\u0642\u0648\u0633 \u0627\u0644\u063A\u0627\u0645\u0636\u0629\u060C \u0643\u064A\u0641 \u0627\u0645\u062A\u0632\u062C \u0627\u0644\u0625\u064A\u0645\u0627\u0646 \u0648\u0627\u0644\u062E\u0631\u0627\u0641\u0629 \u0628\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645 \u0648\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645\u061F",
+          "PublishedAt": "2026-06-29T05:48:52+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4591562+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/czdeg83m2e0o#2",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645: \u0643\u064A\u0641 \u062D\u0643\u0649 \u0627\u0644\u0639\u0631\u0628 \u0642\u0635\u062A\u0647\u0645 \u0641\u064A \u062F\u0648\u0631 \u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0627\u062A (\u0628\u0627\u0644\u0623\u0631\u0642\u0627\u0645)",
+          "Link": "https://www.bbc.com/arabic/articles/czdeg83m2e0o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0623\u0631\u0642\u0627\u0645 \u0022\u0641\u064A\u0641\u0627\u0022 \u062A\u0643\u0634\u0641 \u0643\u064A\u0641 \u0642\u062F\u0651\u0645\u062A \u0627\u0644\u0645\u0646\u062A\u062E\u0628\u0627\u062A \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0646\u0641\u0633\u0647\u0627 \u0641\u064A \u062F\u0648\u0631 \u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0627\u062A \u0628\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645\u060C \u0628\u064A\u0646 \u062A\u0623\u0647\u0644 \u062B\u0644\u0627\u062B\u0629 \u0645\u0646\u062A\u062E\u0628\u0627\u062A \u0648\u062E\u0631\u0648\u062C \u062E\u0645\u0633\u0629.",
+          "PublishedAt": "2026-06-28T08:13:02+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4594105+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cd6ex91xzw0o#2",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645: \u0627\u0644\u062C\u0632\u0627\u0626\u0631 \u062A\u0628\u0644\u063A \u062F\u0648\u0631 \u0627\u0644\u064032 \u0628\u0639\u062F \u062A\u0639\u0627\u062F\u0644\u0647\u0627 \u0627\u0644\u0645\u062B\u064A\u0631\u060C \u0648\u0627\u0644\u0623\u0631\u062F\u0646 \u064A\u0648\u062F\u0639 \u0627\u0644\u0628\u0637\u0648\u0644\u0629\u060C \u0648\u0645\u064A\u0633\u064A \u064A\u0633\u062C\u0644 \u0647\u062F\u0641\u0647 \u0627\u0644\u0645\u0648\u0646\u062F\u064A\u0627\u0644\u064A \u0627\u0644\u064019",
+          "Link": "https://www.bbc.com/arabic/articles/cd6ex91xzw0o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u062D\u062C\u0632 \u0627\u0644\u0645\u0646\u062A\u062E\u0628 \u0627\u0644\u062C\u0632\u0627\u0626\u0631\u064A \u0628\u0637\u0627\u0642\u0629 \u0627\u0644\u0639\u0628\u0648\u0631 \u0625\u0644\u0649 \u062F\u0648\u0631 \u0627\u0644\u064032 \u0644\u0643\u0623\u0633 \u0627\u0644\u0639\u0627\u0644\u0645 2026 \u0644\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645\u060C \u0628\u062A\u0639\u0627\u062F\u0644\u0647 \u0623\u0645\u0627\u0645 \u0646\u0638\u064A\u0631\u0647 \u0627\u0644\u0646\u0645\u0633\u0627\u0648\u064A \u0627\u0644\u0645\u062A\u0623\u0647\u0644 \u0623\u064A\u0636\u0627\u064B \u0628\u0646\u062A\u064A\u062C\u0629 3-3\u060C \u0627\u0644\u0633\u0628\u062A\u060C \u0628\u0639\u062F \u0645\u0628\u0627\u0631\u0627\u0629 \u0634\u0647\u062F\u062A \u0646\u0647\u0627\u064A\u0629 \u0645\u062B\u064A\u0631\u0629 \u062C\u062F\u0627\u064B \u0636\u0645\u0646 \u0627\u0644\u062C\u0648\u0644\u0629 \u0627\u0644\u062B\u0627\u0644\u062B\u0629 \u0648\u0627\u0644\u0623\u062E\u064A\u0631\u0629 \u0645\u0646 \u0645\u0646\u0627\u0641\u0633\u0627\u062A \u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0629 \u0627\u0644\u0639\u0627\u0634\u0631\u0629.",
+          "PublishedAt": "2026-06-28T05:03:14+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4595112+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cx268gvgk2eo#5",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0623\u0634\u0631\u0641 \u0642\u0627\u0633\u0645 \u0641\u064A \u0628\u0644\u0627 \u0642\u064A\u0648\u062F: \u0627\u0644\u0645\u0646\u062A\u062E\u0628 \u0627\u0644\u0645\u0635\u0631\u064A \u062A\u0639\u0631\u0636\u0022 \u0644\u0633\u0631\u0642\u0629\u0022 \u062F\u0627\u062E\u0644 \u0627\u0644\u0645\u0644\u0639\u0628",
+          "Link": "https://www.bbc.com/arabic/articles/cx268gvgk2eo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0623\u0634\u0631\u0641 \u0642\u0627\u0633\u0645 \u0641\u064A \u0628\u0644\u0627 \u0642\u064A\u0648\u062F: \u0627\u0644\u0645\u0646\u062A\u062E\u0628 \u0627\u0644\u0645\u0635\u0631\u064A \u062A\u0639\u0631\u0636\u0022 \u0644\u0633\u0631\u0642\u0629\u0022 \u062F\u0627\u062E\u0644 \u0627\u0644\u0645\u0644\u0639\u0628",
+          "PublishedAt": "2026-07-10T21:19:16+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.459599+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c07yyznnvgro#5",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0645\u0646\u0635\u0629 \u0630\u0643\u064A\u0629 \u0644\u0644\u062A\u062C\u0627\u0631\u0629 \u0627\u0644\u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A\u0629",
+          "Link": "https://www.bbc.com/arabic/articles/c07yyznnvgro?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0645\u0646\u0635\u0629 \u0630\u0643\u064A\u0629 \u0644\u0644\u062A\u062C\u0627\u0631\u0629 \u0627\u0644\u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A\u0629",
+          "PublishedAt": "2026-07-05T17:33:18+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4611532+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cvglzr3ry91o#5",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u064A\u0641 \u064A\u0639\u0645\u0644 \u0022Donna\u0022 \u0644\u062A\u0633\u0647\u064A\u0644 \u0645\u0647\u0627\u0645 \u0645\u0646\u062F\u0648\u0628\u064A \u0627\u0644\u0645\u0628\u064A\u0639\u0627\u062A\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/cvglzr3ry91o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0643\u064A\u0641 \u064A\u0639\u0645\u0644 \u0022Donna\u0022 \u0644\u062A\u0633\u0647\u064A\u0644 \u0645\u0647\u0627\u0645 \u0645\u0646\u062F\u0648\u0628\u064A \u0627\u0644\u0645\u0628\u064A\u0639\u0627\u062A\u061F",
+          "PublishedAt": "2026-07-04T12:54:35+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.461458+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/ce8kj2e0lz6o#5",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0645\u0627\u0630\u0627 \u062A\u0639\u0646\u064A \u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645 \u0644\u0644\u0634\u0628\u0627\u0628 \u0641\u064A \u0627\u0644\u0645\u0646\u0637\u0642\u0629\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/ce8kj2e0lz6o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645 \u0623\u0643\u062B\u0631 \u0645\u0646 \u0645\u062C\u0631\u062F \u0644\u0639\u0628\u0629 \u0628\u0627\u0644\u0646\u0633\u0628\u0629 \u0644\u0644\u0643\u062B\u064A\u0631 \u0645\u0646 \u0627\u0644\u0634\u0628\u0627\u0628 \u0641\u064A \u0645\u0646\u0637\u0642\u0629 \u0627\u0644\u0634\u0631\u0642 \u0627\u0644\u0623\u0648\u0633\u0637 \u0648\u0634\u0645\u0627\u0644 \u0623\u0641\u0631\u064A\u0642\u064A\u0627. \u0641\u0643\u064A\u0641 \u064A\u0639\u0628\u0651\u0631\u0648\u0646 \u0639\u0646 \u0634\u063A\u0641\u0647\u0645 \u0628\u0647\u0627\u061F \u0648\u0645\u0627\u0630\u0627 \u062A\u0639\u0646\u064A \u0644\u0647\u0645 \u0647\u0630\u0647 \u0627\u0644\u0631\u064A\u0627\u0636\u0629 \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062A\u0648\u064A\u064A\u0646 \u0627\u0644\u0634\u062E\u0635\u064A \u0648\u0627\u0644\u0627\u062C\u062A\u0645\u0627\u0639\u064A\u061F",
+          "PublishedAt": "2026-07-02T10:06:52+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.461527+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cx26dyzd3y6o#5",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0644\u064A\u062B \u062D\u0633\u064A\u0646 \u0641\u064A \u0628\u0644\u0627 \u0642\u064A\u0648\u062F: \u062A\u0646\u0638\u064A\u0645 \u0627\u0644\u0645\u0648\u0646\u062F\u064A\u0627\u0644 \u0641\u064A \u062B\u0644\u0627\u062B \u062F\u0648\u0644 \u0623\u0636\u0627\u0639 \u062D\u0644\u0627\u0648\u062A\u0647",
+          "Link": "https://www.bbc.com/arabic/articles/cx26dyzd3y6o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0623\u0643\u062F \u0627\u0644\u0643\u0627\u0628\u062A\u0646 \u0644\u064A\u062B \u062D\u0633\u064A\u0646 \u0627\u0644\u0644\u0627\u0639\u0628 \u0627\u0644\u062F\u0648\u0644\u064A \u0627\u0644\u0639\u0631\u0627\u0642\u064A \u0627\u0644\u0633\u0627\u0628\u0642 \u0648\u0645\u0633\u062A\u0634\u0627\u0631 \u0631\u0626\u064A\u0633 \u0627\u0644\u0644\u062C\u0646\u0629 \u0627\u0644\u0623\u0648\u0644\u0645\u0628\u064A\u0629 \u0627\u0644\u0639\u0631\u0627\u0642\u064A\u0629 \u0639\u0644\u0649 \u0623\u0646\u0651 \u0627\u062A\u062D\u0627\u062F \u0643\u0631\u0629 \u0627\u0644\u0642\u062F\u0645 \u0627\u0644\u0639\u0631\u0627\u0642\u064A \u064A\u062A\u062D\u0645\u0644 \u0627\u0644\u0645\u0633\u0624\u0648\u0644\u064A\u0629 \u0639\u0646 \u062A\u0644\u0643 \u0627\u0644\u0646\u062A\u0627\u0626\u062C \u0627\u0644\u062A\u064A \u062A\u0639\u0631\u0636 \u0644\u0647\u0627 \u0627\u0644\u0645\u0646\u062A\u062E\u0628 \u0627\u0644\u0639\u0631\u0627\u0642\u064A \u0623\u0645\u0627\u0645 \u0645\u0646\u062A\u062E\u0628\u064A \u0641\u0631\u0646\u0633\u0627 \u0648\u0627\u0644\u0646\u0631\u0648\u064A\u062C \u0644\u0623\u0646\u0651\u0647 \u0645\u0646 \u064A\u0636\u0639 \u0625\u0633\u062A\u0631\u0627\u062A\u064A\u062C\u064A\u0629 \u0627\u0644\u0645\u0646\u062A\u062E\u0628\u060C \u062D\u0633\u0628 \u0642\u0648\u0644\u0647.",
+          "PublishedAt": "2026-06-26T20:26:51+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4616196+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/media-49522519#6",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0634\u0627\u0647\u062F \u0627\u0644\u0628\u062B \u0627\u0644\u0645\u0628\u0627\u0634\u0631 \u0644\u062A\u0644\u0641\u0632\u064A\u0648\u0646 \u0628\u064A \u0628\u064A \u0633\u064A",
+          "Link": "https://www.bbc.com/arabic/media-49522519?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0634\u0627\u0647\u062F \u0627\u0644\u0628\u062B \u0627\u0644\u0645\u0628\u0627\u0634\u0631 \u0644\u062A\u0644\u0641\u0632\u064A\u0648\u0646 \u0628\u064A \u0628\u064A \u0633\u064A",
+          "PublishedAt": "2019-08-30T08:36:18+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4617562+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c9q2e5yj3g2o#7",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0643\u064A\u0641 \u062A\u0635\u0641 \u0627\u0644\u0635\u064A\u0646 \u0639\u0642\u064A\u062F\u062A\u0647\u0627 \u0627\u0644\u0646\u0648\u0648\u064A\u0629\u061F \u0648\u0645\u0627 \u0627\u0644\u0630\u064A \u062A\u0642\u0648\u0644\u0647 \u0627\u0644\u062A\u0642\u062F\u064A\u0631\u0627\u062A \u0627\u0644\u063A\u0631\u0628\u064A\u0629\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c9q2e5yj3g2o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u062A\u0642\u0648\u0644 \u0627\u0644\u0635\u064A\u0646 \u0625\u0646 \u0628\u0631\u0646\u0627\u0645\u062C\u0647\u0627 \u0627\u0644\u0646\u0648\u0648\u064A \u062F\u0641\u0627\u0639\u064A \u0648\u064A\u0642\u062A\u0635\u0631 \u0639\u0644\u0649 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649 \u0627\u0644\u0644\u0627\u0632\u0645 \u0644\u0644\u0623\u0645\u0646 \u0627\u0644\u0642\u0648\u0645\u064A\u060C \u0644\u0643\u0646\u0647\u0627 \u062A\u0648\u0627\u062C\u0647 \u062A\u0642\u062F\u064A\u0631\u0627\u062A \u063A\u0631\u0628\u064A\u0629 \u062A\u0634\u064A\u0631 \u0625\u0644\u0649 \u062A\u0648\u0633\u0639 \u0633\u0631\u064A\u0639 \u0641\u064A \u062A\u0631\u0633\u0627\u0646\u062A\u0647\u0627 \u0627\u0644\u0646\u0648\u0648\u064A\u0629 \u0648\u062A\u062D\u062F\u064A\u062B \u0642\u062F\u0631\u0627\u062A\u0647\u0627\u060C \u0648\u0633\u0637 \u0627\u0633\u062A\u0645\u0631\u0627\u0631 \u0628\u0643\u064A\u0646 \u0641\u064A \u0625\u0638\u0647\u0627\u0631 \u0642\u0648\u062A\u0647\u0627 \u0627\u0644\u0646\u0648\u0648\u064A\u0629 \u0639\u0628\u0631 \u062A\u062C\u0627\u0631\u0628 \u0648\u0627\u0633\u062A\u0639\u0631\u0627\u0636\u0627\u062A \u0639\u0633\u0643\u0631\u064A\u0629.",
+          "PublishedAt": "2026-06-28T04:55:18+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4618185+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c24ylmqj1jvo#7",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0647\u0644 \u0627\u0644\u062E\u0644\u064A\u062C \u0647\u0648 \u0627\u0644\u062E\u0627\u0633\u0631 \u0627\u0644\u0623\u0643\u0628\u0631 \u0628\u0639\u062F \u0627\u0644\u062D\u0631\u0628 \u0627\u0644\u0623\u0645\u0631\u064A\u0643\u064A\u0629 \u0627\u0644\u0625\u0633\u0631\u0627\u0626\u064A\u0644\u064A\u0629 \u0645\u0639 \u0625\u064A\u0631\u0627\u0646\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/c24ylmqj1jvo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0647\u062F\u0623 \u0627\u0644\u062A\u0635\u0639\u064A\u062F \u0627\u0644\u0639\u0633\u0643\u0631\u064A\u060C \u0648\u0648\u064F\u0642\u0651\u0639\u062A \u0645\u0630\u0643\u0631\u0629 \u0627\u0644\u062A\u0641\u0627\u0647\u0645 \u0628\u064A\u0646 \u0627\u0644\u0648\u0644\u0627\u064A\u0627\u062A \u0627\u0644\u0645\u062A\u062D\u062F\u0629 \u0648\u0625\u064A\u0631\u0627\u0646.\n\u0635\u062D\u064A\u062D \u0623\u0646 \u0627\u0644\u0645\u0641\u0627\u0648\u0636\u0627\u062A \u0645\u0627 \u0632\u0627\u0644\u062A \u0641\u064A \u0623\u0648\u0644 \u0627\u0644\u0637\u0631\u064A\u0642 \u0648\u0645\u0646 \u0627\u0644\u0645\u0628\u0643\u0631 \u0627\u0644\u062D\u062F\u064A\u062B \u0639\u0646 \u0646\u062A\u0627\u0626\u062C\u0647\u0627\u060C \u0648\u0644\u0643\u0646 \u0627\u0644\u0633\u0624\u0627\u0644 \u0627\u0644\u0630\u064A \u064A\u064F\u0637\u0631\u062D \u0627\u0644\u064A\u0648\u0645: \u0645\u0646 \u0647\u0648 \u0627\u0644\u062E\u0627\u0633\u0631 \u0627\u0644\u0623\u0643\u0628\u0631 \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u062D\u0631\u0628\u061F\n\u0641\u064A \u0022\u0645\u064A\u0632\u0627\u0646 \u0627\u0644\u0631\u0628\u062D \u0648\u0627\u0644\u062E\u0633\u0627\u0631\u0629\u0022 \u062A\u062E\u062A\u0644\u0641 \u0627\u0644\u0642\u0631\u0627\u0621\u0627\u062A \u0627\u0644\u0633\u064A\u0627\u0633\u064A\u0629.",
+          "PublishedAt": "2026-06-26T12:36:09+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4618795+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cy9rn2d1l3zo#7",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0644\u0645\u0627\u0630\u0627 \u062A\u0635\u0631 \u0625\u064A\u0631\u0627\u0646 \u0639\u0644\u0649 \u0631\u0628\u0637 \u062D\u0632\u0628 \u0627\u0644\u0644\u0647 \u0628\u0627\u062A\u0641\u0627\u0642\u0647\u0627 \u0645\u0639 \u0648\u0627\u0634\u0646\u0637\u0646\u061F",
+          "Link": "https://www.bbc.com/arabic/articles/cy9rn2d1l3zo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u064A\u062A\u0641\u0642 \u0627\u0644\u062E\u0628\u0631\u0627\u0621 \u0639\u0644\u0649 \u0623\u0646\u0651 \u062F\u0648\u0631 \u0648\u0645\u0648\u0642\u0639 \u062D\u0632\u0628 \u0627\u0644\u0644\u0647 \u0627\u0644\u0644\u0628\u0646\u0627\u0646\u064A \u062A\u0631\u0627\u062C\u0639\u0627 \u0628\u0639\u062F \u0627\u0644\u0636\u0631\u0628\u0627\u062A \u0627\u0644\u062A\u064A \u062A\u0644\u0642\u0627\u0647\u0627\u060C \u0641\u0645\u0627 \u0647\u064A \u0623\u0647\u0645\u064A\u062A\u0647 \u0627\u0644\u064A\u0648\u0645 \u0628\u0627\u0644\u0646\u0633\u0628\u0629 \u0644\u0625\u064A\u0631\u0627\u0646\u061F",
+          "PublishedAt": "2026-06-25T03:05:57+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4620196+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/cnv9rdl5981o#7",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0644\u062C\u0646\u0629 \u062A\u062D\u0642\u064A\u0642 \u0623\u0645\u0645\u064A\u0629: \u0625\u0633\u0631\u0627\u0626\u064A\u0644 \u062A\u0631\u062A\u0643\u0628 \u0625\u0628\u0627\u062F\u0629 \u062C\u0645\u0627\u0639\u064A\u0629 \u0641\u064A \u063A\u0632\u0629 \u0628\u0627\u0633\u062A\u0647\u062F\u0627\u0641 \u0627\u0644\u0623\u0637\u0641\u0627\u0644 \u0639\u0645\u062F\u0627\u064B",
+          "Link": "https://www.bbc.com/arabic/articles/cnv9rdl5981o?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0627\u0644\u062A\u0642\u0631\u064A\u0631 \u0627\u0644\u062C\u062F\u064A\u062F \u064A\u062A\u0647\u0645 \u0627\u0644\u0633\u0644\u0637\u0627\u062A \u0627\u0644\u0625\u0633\u0631\u0627\u0626\u064A\u0644\u064A\u0629 \u0628\u0627\u0631\u062A\u0643\u0627\u0628 \u0645\u062A\u0639\u0645\u062F \u0644\u0623\u0639\u0645\u0627\u0644 \u0623\u062F\u062A \u0625\u0644\u0649 \u0645\u0642\u062A\u0644 \u0645\u0626\u0627\u062A \u0627\u0644\u0622\u0644\u0627\u0641 \u0645\u0646 \u0627\u0644\u0623\u0637\u0641\u0627\u0644 \u0627\u0644\u0641\u0644\u0633\u0637\u064A\u0646\u064A\u064A\u0646\u060C \u0648\u0625\u0644\u062D\u0627\u0642 \u0627\u0644\u0623\u0630\u0649 \u0628\u0647\u0645\u060C \u0648\u0625\u0633\u0631\u0627\u0626\u064A\u0644 \u062A\u0631\u0641\u0636 \u0627\u0644\u062A\u0642\u0631\u064A\u0631 \u0627\u0644\u062C\u062F\u064A\u062F \u0648\u062A\u0635\u0641\u0647 \u0628\u0623\u0646\u0647 \u0022\u0632\u064A\u0641 \u062A\u0634\u0647\u064A\u0631\u064A\u0022.",
+          "PublishedAt": "2026-06-23T15:52:47+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4620847+00:00",
+          "ImageUrl": null
+        },
+        {
+          "Id": "https://www.bbc.com/arabic/articles/c8x25x9pxpzo#7",
+          "FeedId": "984ac8d6-326b-4dfd-8890-1b11d45b0784",
+          "Title": "\u0022\u0627\u0644\u0645\u0648\u062A \u0627\u0644\u0630\u064A \u0647\u0631\u0628\u0646\u0627 \u0645\u0646\u0647 \u0645\u0627 \u0632\u0627\u0644 \u064A\u0644\u0627\u062D\u0642\u0646\u0627\u0022",
+          "Link": "https://www.bbc.com/arabic/articles/c8x25x9pxpzo?at_medium=RSS\u0026at_campaign=rss",
+          "Summary": "\u0641\u064A \u0627\u0644\u0623\u0628\u064A\u0636\u060C \u064A\u062E\u0634\u0649 \u0646\u0627\u0632\u062D\u0648\u0646 \u0641\u0631\u0651\u0648\u0627 \u0645\u0646 \u0627\u0644\u062D\u0631\u0628 \u0641\u064A \u0643\u0631\u062F\u0641\u0627\u0646 \u0623\u0646 \u062A\u062A\u062D\u0648\u0644 \u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0627\u0644\u062A\u064A \u0622\u0648\u062A\u0647\u0645 \u0625\u0644\u0649 \u0633\u0627\u062D\u0629 \u0645\u0648\u0627\u062C\u0647\u0629 \u062C\u062F\u064A\u062F\u0629.",
+          "PublishedAt": "2026-06-23T10:31:55+00:00",
+          "FetchedAt": "2026-07-10T21:47:14.4621459+00:00",
+          "ImageUrl": null
+        }
+      ]
+    },
+    {
+      "Id": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+      "Url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
+      "Title": "ynet - \u05D7\u05D3\u05E9\u05D5\u05EA",
+      "SiteUrl": "https://www.ynet.co.il/",
+      "AddedAt": "2026-07-10T21:48:22.0155463+00:00",
+      "LastRefreshedAt": "2026-07-10T21:51:21.514151+00:00",
+      "LastRefreshStatus": 1,
+      "Articles": [
+        {
+          "Id": "https://www.ynet.co.il/news/article/hjkw63rmzg",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D0\u05D7\u05E8\u05D9 \u05E9\u05EA\u05D9\u05E7\u05D4 \u05D0\u05E8\u05D5\u05DB\u05D4, \u05D9\u05E9\u05E8\u05D0\u05DC \u05DE\u05D2\u05D9\u05D1\u05D4 \u05DC\u05E7\u05DE\u05E4\u05D9\u05D9\u05DF \u05D4\u05E2\u05D5\u05DC\u05DE\u05D9: \u05F4\u05DE\u05E0\u05D4\u05DC \u05D1\u05D9\u05D4\u0022\u05D7 \u05D4\u05E2\u05D6\u05EA\u05D9 \u05DC\u05D0 \u05D1\u05E1\u05DB\u05E0\u05EA \u05D7\u05D9\u05D9\u05DD\u0022",
+          "Link": "https://www.ynet.co.il/news/article/hjkw63rmzg",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05E9\u05D2\u05E8\u05D9\u05E8\u05D5\u05EA \u05DC\u05DE\u05D5\u05E1\u05D3\u05D5\u05EA \u05D4\u05D0\u05D5\u0022\u05DD \u05D1\u05D6\u0027\u05E0\u05D1\u05D4 \u05D4\u05EA\u05D9\u05D9\u05D7\u05E1\u05D4 \u05DC\u05E7\u05DE\u05E4\u05D9\u05D9\u05DF \u05D4\u05E0\u05E8\u05D7\u05D1 \u05E9\u05DE\u05EA\u05E0\u05D4\u05DC \u05D1\u05E9\u05D1\u05D5\u05E2\u05D5\u05EA \u05D4\u05D0\u05D7\u05E8\u05D5\u05E0\u05D9\u05DD \u05DC\u05E9\u05D7\u05E8\u05D5\u05E8 \u05D3\u0022\u05E8 \u05D7\u05D5\u05E1\u05D0\u05DD \u05D0\u05D1\u05D5 \u05E1\u05E4\u05D9\u05D4 \u05DE\u05D4\u05DB\u05DC\u05D0, \u05D5\u05D4\u05D1\u05D4\u05D9\u05E8\u05D4 \u05DB\u05D9 \u0022\u05DE\u05D3\u05D5\u05D1\u05E8 \u05D1\u05E7\u05E6\u05D9\u05DF \u05D7\u05DE\u05D0\u05E1 \u05E9\u05E2\u05E6\u05D5\u05E8 \u05DB\u05D3\u05D9\u05DF\u0022. \u05E2\u05DC \u05D4\u05D8\u05E2\u05E0\u05D5\u05EA \u05DB\u05D9 \u05E2\u05D5\u05E0\u05D4 \u05D5\u05DE\u05E6\u05D1\u05D5 \u05D4\u05D9\u05D3\u05E8\u05D3\u05E8, \u05E6\u05D9\u05D9\u05E0\u05D4: \u0022\u05DE\u05E2\u05E6\u05E8\u05D5 \u05D4\u05D7\u05D5\u05E7\u05D9 \u05E0\u05EA\u05D5\u05DF \u05DC\u05D1\u05D7\u05D9\u05E0\u05D4 \u05DE\u05E0\u05D4\u05DC\u05D9\u05EA \u05E9\u05D5\u05D8\u05E4\u05EA \u05D5\u05DC\u05E4\u05D9\u05E7\u05D5\u05D7 \u05E9\u05D9\u05E4\u05D5\u05D8\u05D9. \u05D0\u05D9\u05DF \u05D0\u05D9\u05E0\u05D3\u05D9\u05E7\u05E6\u05D9\u05D5\u05EA \u05D4\u05EA\u05D5\u05DE\u05DB\u05D5\u05EA \u05D1\u05D8\u05E2\u05E0\u05D5\u05EA \u05E9\u05D4\u05D5\u05E2\u05DC\u05D5\u0022",
+          "PublishedAt": "2026-07-11T00:10:02+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0128611+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/07/rJSqNI5mMe/rJSqNI5mMe_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rynzbnr7me",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05E1\u05DC\u05DE\u05D4 \u0022\u05D9\u05E7\u05E8\u05D4\u0022, \u05DE\u05E6\u05D5\u05E8 \u05DB\u05DC\u05DB\u05DC\u05D9 \u05D0\u05D5 \u05D4\u05E4\u05E1\u05E7\u05EA \u05D0\u05E9 \u0022\u05E4\u05D2\u05D5\u05DE\u05D4\u0022 | \u05D4\u05D0\u05E4\u05E9\u05E8\u05D5\u05D9\u05D5\u05EA \u05D4\u05E8\u05E2\u05D5\u05EA \u05E9\u05DC \u05D8\u05E8\u05D0\u05DE\u05E4",
+          "Link": "https://www.ynet.co.il/news/article/rynzbnr7me",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05DE\u05D0\u05D6 \u05E9\u05D7\u05EA\u05DD \u05E2\u05DC \u05DE\u05D6\u05DB\u05E8 \u05D4\u05D4\u05D1\u05E0\u05D5\u05EA \u05D4\u05DE\u05E2\u05D5\u05E8\u05E4\u05DC \u05D1\u05D5\u05D5\u05E8\u05E1\u05D0\u05D9, \u05D4\u05E0\u05E9\u05D9\u05D0 \u05D4\u05D0\u05DE\u05E8\u05D9\u05E7\u05E0\u05D9 \u05DE\u05D5\u05E6\u05D0 \u05E2\u05E6\u05DE\u05D5 \u05E9\u05D5\u05D1 \u05D1\u05E4\u05E0\u05D9 \u05D0\u05D5\u05EA\u05D4 \u05D3\u05D9\u05DC\u05DE\u05D4 - \u05E0\u05D5\u05DB\u05D7 \u05E9\u05DC\u05D9\u05D8\u05EA \u05D0\u05D9\u05E8\u05D0\u05DF \u05D1\u05D4\u05D5\u05E8\u05DE\u05D5\u05D6. \u05D4\u05E1\u05DC\u05DE\u05D4 \u05DB\u05E8\u05D5\u05DB\u05D4 \u05D1\u05DE\u05D7\u05D9\u05E8\u05D9\u05DD \u05DB\u05D1\u05D3\u05D9\u05DD \u05D5\u05DC\u05D0 \u05DE\u05D1\u05D8\u05D9\u05D7\u05D4 \u05D4\u05E6\u05DC\u05D7\u05D4; \u05D4\u05E4\u05E1\u05E7\u05EA \u05D4\u05D0\u05E9 \u05E7\u05D5\u05E8\u05E1\u05EA \u05DE\u05D3\u05D9 \u05DB\u05DE\u05D4 \u05D9\u05DE\u05D9\u05DD; \u0022\u05E0\u05D8\u05D9\u05E9\u05D4\u0022 \u05EA\u05D4\u05D5\u05D5\u05D4 \u05D4\u05D5\u05D3\u05D0\u05D4 \u05D1\u05D4\u05E4\u05E1\u05D3; \u05DE\u05E6\u05D5\u05E8 \u05DB\u05DC\u05DB\u05DC\u05D9 \u05E2\u05E9\u05D5\u05D9 \u05DC\u05D4\u05DB\u05D0\u05D9\u05D1 \u05DC\u05DE\u05E9\u05D8\u05E8 - \u05D5\u05D0\u05D5\u05DC\u05D9 \u05D1\u05DB\u05DC\u05DC \u05D5\u05D5\u05D9\u05D8\u05E7\u05D5\u05E3 \u05D5\u05E7\u05D5\u05E9\u05E0\u05E8 \u05D9\u05D5\u05D7\u05DC\u05E4\u05D5? \u05D5\u05D2\u05DD: \u05D1-CNN \u05E0\u05D7\u05E9\u05E4\u05D5 \u05EA\u05D9\u05E2\u05D5\u05D3\u05D9 \u05DC\u05D5\u05D5\u05D9\u05D9\u05DF \u05DE\u05E9\u05D9\u05E7\u05D5\u05DD \u05D0\u05EA\u05E8\u05D9 \u05D2\u05E8\u05E2\u05D9\u05DF \u05D1\u05D0\u05D9\u05E8\u05D0\u05DF - \u05D1\u05E0\u05D9\u05D2\u05D5\u05D3 \u05DC\u05D4\u05D1\u05E0\u05D5\u05EA",
+          "PublishedAt": "2026-07-11T00:09:27+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0131459+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/08/H1XJPlnQMl/H1XJPlnQMl_0_147_3000_1689_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rybw3ccxgx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05DE\u05D8\u05D5\u05E1 \u05E7\u05DC \u05D4\u05EA\u05E8\u05E1\u05E7 \u05E2\u05DC \u05E4\u05D0\u05E0\u05DC\u05D9\u05DD \u05E1\u05D5\u05DC\u05E8\u05D9\u05D9\u05DD \u05D1\u05E9\u05E8\u05D5\u05DF, \u05E9\u05E0\u05D9\u05D9\u05DD \u05E0\u05E4\u05E6\u05E2\u05D5",
+          "Link": "https://www.ynet.co.il/news/article/rybw3ccxgx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05DE\u05D8\u05D5\u05E1 \u05D4\u05EA\u05E8\u05E1\u05E7 \u05D1\u05E9\u05D8\u05D7 \u05E4\u05EA\u05D5\u05D7 \u05D1\u05D0\u05D6\u05D5\u05E8 \u05DE\u05D5\u05E9\u05D1 \u05E2\u05D9\u05DF \u05D5\u05E8\u05D3, \u05E2\u05DC\u05D4 \u05D1\u05D0\u05E9 \u05D5\u05D2\u05E8\u05DD \u05DC\u05E9\u05E8\u05D9\u05E4\u05D4 \u05D1\u05DE\u05E7\u05D5\u05DD. \u05D2\u05D1\u05E8 \u05E0\u05E4\u05E6\u05E2 \u05D1\u05D9\u05E0\u05D5\u05E0\u05D9, \u05D0\u05D3\u05DD \u05E0\u05D5\u05E1\u05E3 \u05E4\u05D5\u05E0\u05D4 \u05D1\u05DE\u05E6\u05D1 \u05E7\u05DC",
+          "PublishedAt": "2026-07-10T19:44:19+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0132413+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/rkmvmcC7Me/rkmvmcC7Me_0_215_1280_721_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rjqng0o7ge",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05E9\u05E0\u05EA\u05D9\u05D9\u05DD \u05D7\u05D9\u05D9\u05EA\u05D9 \u05D1\u05D2\u05D9\u05D4\u05D9\u05E0\u05D5\u05DD\u0022: \u05D4\u05D0\u05E0\u05E9\u05D9\u05DD \u05D1\u05E9\u05D7\u05D5\u05E8 \u05E9\u05E9\u05D9\u05EA\u05E7\u05D5 \u05D0\u05EA \u05DE\u05E2\u05E8\u05DA \u05D4\u05DE\u05E9\u05DC\u05D5\u05D7\u05D9\u05DD \u05E9\u05DC \u05E9\u05D5\u05E4\u05E8\u05E1\u05DC",
+          "Link": "https://www.ynet.co.il/news/article/rjqng0o7ge",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E2\u05D1\u05D5\u05E8 \u05D4\u05DC\u05E7\u05D5\u05D7\u05D5\u05EA \u05D6\u05D5 \u05D4\u05D9\u05D9\u05EA\u05D4 \u05DC\u05DB\u05DC \u05D4\u05D9\u05D5\u05EA\u05E8 \u05D4\u05DE\u05EA\u05E0\u05D4 \u05D0\u05E8\u05D5\u05DB\u05D4 \u05DC\u05DE\u05E9\u05DC\u05D5\u05D7, \u05D0\u05D1\u05DC \u05E2\u05D1\u05D5\u05E8 \u05DE\u05D9 \u05E9\u05E0\u05D9\u05D4\u05DC\u05D5 \u05D0\u05EA \u05D4\u05DE\u05E2\u05E8\u05DA \u05DE\u05D1\u05E4\u05E0\u05D9\u05DD \u05D6\u05D5 \u05D4\u05D9\u05D9\u05EA\u05D4 \u05DE\u05E6\u05D9\u05D0\u05D5\u05EA \u05E9\u05DC \u05E4\u05D7\u05D3 \u05DE\u05EA\u05DE\u05E9\u05DA. \u05D4\u05D5\u05D3\u05E2\u05D5\u05EA \u05DE\u05D0\u05D9\u05D9\u05DE\u05D5\u05EA \u05D1\u05D0\u05D9\u05E9\u05D5\u05DF \u05DC\u05D9\u05DC\u05D4, \u05E7\u05D1\u05DC\u05E0\u05D9\u05DD \u05E9\u05E0\u05E1\u05D7\u05D8\u05D5 \u05D5\u05E8\u05D9\u05DE\u05D5\u05DF \u05E9\u05D4\u05D5\u05E9\u05DC\u05DA \u05DC\u05E2\u05D1\u05E8 \u05D1\u05D9\u05EA \u05D4\u05DD \u05E8\u05E7 \u05D7\u05DC\u05E7 \u05DE\u05DE\u05E1\u05E2 \u05D4\u05D4\u05E9\u05EA\u05DC\u05D8\u05D5\u05EA \u05D4\u05D0\u05DC\u05D9\u05DD \u05E2\u05DC \u05D4\u05DE\u05E9\u05DC\u05D5\u05D7\u05D9\u05DD \u05E9\u05DC \u05D7\u05D1\u05E8\u05EA \u05D4\u05E2\u05E0\u05E7. \u05D0\u05D6 \u05D0\u05D9\u05DA \u05E0\u05E9\u05DC\u05D7 \u05D4\u05E0\u05D0\u05E9\u05DD \u05D4\u05DE\u05E8\u05DB\u05D6\u05D9 \u05DC\u05DB\u05DC\u05D0, \u05D0\u05D7\u05E8\u05D9 \u05E9\u05E0\u05E4\u05D2\u05E2\u05D9 \u05D4\u05E2\u05D1\u05D9\u05E8\u05D4 \u05E1\u05D9\u05E8\u05D1\u05D5 \u05DC\u05D4\u05EA\u05DC\u05D5\u05E0\u05DF? \u0022\u05D4\u05DE\u05D8\u05E8\u05D4 \u05D4\u05D9\u05D9\u05EA\u05D4 \u05DC\u05D4\u05D2\u05DF \u05E2\u05DC\u05D9\u05D4\u05DD, \u05D0\u05D1\u05DC \u05DE\u05D1\u05D7\u05D9\u05E0\u05EA\u05DD \u05DB\u05DC \u05DE\u05D9\u05DC\u05D4 \u05E0\u05D5\u05E1\u05E4\u05EA \u05E8\u05E7 \u05EA\u05E1\u05DB\u05DF \u05D0\u05EA \u05D7\u05D9\u05D9\u05D4\u05DD\u0022. \u05D4\u05E4\u05E8\u05E7\u05DC\u05D9\u05D8\u05D9\u05DD \u05DE\u05D3\u05D1\u05E8\u05D9\u05DD, \u05E1\u05D3\u05E8\u05EA \u05DB\u05EA\u05D1\u05D5\u05EA",
+          "PublishedAt": "2026-07-10T19:03:39+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0134903+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2022/06/30/H11KC7iqc/H11KC7iqc_401_0_900_507_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/r1xortrxge",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05D5\u05D0\u05E8\u05DA \u05DE\u05E2\u05E6\u05E8 \u05DE\u05D8\u05E4\u05DC\u05EA \u05DE\u05D4\u05DE\u05E8\u05DB\u05D6 \u05E9\u05D7\u05E9\u05D5\u05D3\u05D4 \u05D1\u05D4\u05EA\u05E2\u05DC\u05DC\u05D5\u05EA \u05D1\u05E4\u05E2\u05D5\u05D8: \u0022\u05E4\u05D5\u05E2\u05DC\u05EA \u05D1\u05E9\u05D9\u05D8\u05D4 \u05D0\u05DC\u05D9\u05DE\u05D4\u0022",
+          "Link": "https://www.ynet.co.il/news/article/r1xortrxge",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05EA\u05DC\u05D5\u05E0\u05D4 \u05E0\u05D2\u05D3 \u05D4\u05DE\u05D8\u05E4\u05DC\u05EA \u05D4\u05D5\u05D2\u05E9\u05D4 \u05DC\u05E6\u05D3 \u05E1\u05E8\u05D8\u05D5\u05E0\u05D9\u05DD, \u05E9\u05D1\u05D4\u05DD \u05EA\u05D5\u05E2\u05D3\u05D5 \u05D1\u05D9\u05DF \u05D4\u05D9\u05EA\u05E8 \u05D3\u05D7\u05D9\u05E4\u05EA \u05D0\u05D5\u05DB\u05DC \u05D1\u05DB\u05D5\u05D7 \u05DC\u05E4\u05D9\u05D5 \u05E9\u05DC \u05D4\u05EA\u05D9\u05E0\u05D5\u05E7 \u05D5\u05D7\u05D1\u05D8\u05D5\u05EA. \u05E0\u05E6\u05D9\u05D2 \u05D4\u05DE\u05E9\u05D8\u05E8\u05D4 \u05E6\u05D9\u05D9\u05DF \u05DB\u05D9 \u05E7\u05D9\u05D9\u05DD \u05D7\u05E9\u05D3 \u05DC\u05D0\u05D9\u05E8\u05D5\u05E2\u05D9\u05DD \u05E0\u05D5\u05E1\u05E4\u05D9\u05DD \u05D4\u05DE\u05D7\u05D9\u05D9\u05D1\u05D9\u05DD \u05D1\u05D3\u05D9\u05E7\u05D4 - \u05DC\u05E8\u05D1\u05D5\u05EA \u05DE\u05D5\u05DC \u05D4\u05D5\u05E8\u05D9\u05DD \u05E0\u05D5\u05E1\u05E4\u05D9\u05DD \u05E9\u05D9\u05DC\u05D3\u05D9\u05D4\u05DD \u05D8\u05D5\u05E4\u05DC\u05D5 \u05E2\u05DC \u05D9\u05D3\u05D4. \u05D1\u05D9\u05EA \u05D4\u05DE\u05E9\u05E4\u05D8 \u05D4\u05D0\u05E8\u05D9\u05DA \u05D0\u05EA \u05DE\u05E2\u05E6\u05E8\u05D4 \u05D1-4 \u05D9\u05DE\u05D9\u05DD",
+          "PublishedAt": "2026-07-10T18:45:59+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0135834+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2022/05/10/H1110W8nv8c/H1110W8nv8c_0_0_1000_667_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/ryjmrka7fx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E0\u05D5\u05E9\u05D0\u05EA \u05D4\u05DE\u05D8\u05D5\u05E1\u05D9\u05DD \u05E9\u05DC\u05D9\u05D3 \u05D0\u05D9\u05E8\u05D0\u05DF, \u05D1\u05D9\u05EA \u05D4\u05D6\u05D9\u05E7\u05D5\u05E7 \u05E9\u05E2\u05D5\u05DC\u05D4 \u05D1\u05D0\u05E9 - \u05D5\u05D4\u05D4\u05D5\u05E8\u05D0\u05D5\u05EA \u05E9\u05D4\u05E9\u05D0\u05D9\u05E8 \u05D8\u05E8\u05D0\u05DE\u05E4 \u05D0\u05DD \u05D9\u05D7\u05D5\u05E1\u05DC",
+          "Link": "https://www.ynet.co.il/news/article/ryjmrka7fx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05E0\u05E9\u05D9\u05D0 \u05D4\u05D0\u05DE\u05E8\u05D9\u05E7\u05E0\u05D9 \u05D4\u05E9\u05D0\u05D9\u05E8 \u05D4\u05D5\u05E8\u05D0\u05D5\u05EA \u05D1\u05E8\u05D5\u05E8\u05D5\u05EA \u05DC\u05DE\u05E7\u05E8\u05D4 \u05E9\u05D0\u05D9\u05E8\u05D0\u05DF \u05EA\u05D7\u05E1\u05DC \u05D0\u05D5\u05EA\u05D5. \u0022\u05D0\u05E0\u05D9 \u05DE\u05E1\u05E4\u05E8 1 (\u05D1\u05E8\u05E9\u05D9\u05DE\u05EA \u05D4\u05D7\u05D9\u05E1\u05D5\u05DC \u05E9\u05DC\u05D4\u05DD) \u05DB\u05D1\u05E8 \u05D4\u05E8\u05D1\u05D4 \u05D6\u05DE\u05DF\u0022, \u05D0\u05DE\u05E8 \u05DC\u0022\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u05E4\u05D5\u05E1\u05D8\u0022. \u0022\u05D4\u05E9\u05D0\u05E8\u05EA\u05D9 \u05D4\u05E0\u05D7\u05D9\u05D5\u05EA: \u05E4\u05E9\u05D5\u05D8 \u05DC\u05D4\u05E4\u05E6\u05D9\u05E5 \u05D0\u05D5\u05EA\u05DD \u05D1\u05E8\u05DE\u05D5\u05EA \u05E9\u05DE\u05E2\u05D5\u05DC\u05DD \u05DC\u05D0 \u05E8\u05D0\u05D5\u0022. \u05D1\u05D0\u05D9\u05E8\u05D0\u05DF \u05D4\u05DB\u05D7\u05D9\u05E9\u05D5 \u05E9\u05D1\u05D9\u05E7\u05E9\u05D5 \u05DC\u05D4\u05DE\u05E9\u05D9\u05DA \u05D1\u05E9\u05D9\u05D7\u05D5\u05EA. \u05E9\u05E8\u05D9\u05E4\u05D4 \u05E4\u05E8\u05E6\u05D4 \u05D1\u05D1\u05D9\u05EA \u05D6\u05D9\u05E7\u05D5\u05E7 \u05D1\u05DE\u05E2\u05E8\u05D1 \u05D0\u05D9\u05E8\u05D0\u05DF, \u05D4\u05E8\u05E9\u05D5\u05D9\u05D5\u05EA \u05E4\u05EA\u05D7\u05D5 \u05D1\u05D7\u05E7\u05D9\u05E8\u05D4",
+          "PublishedAt": "2026-07-10T17:57:05+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0136582+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/06/13/HJi48li11Gl/HJi48li11Gl_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rjq11r1axgl",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05E0\u05D3\u05D4\u05DE\u05E0\u05D5 \u05DE\u05DE\u05D4 \u05E9\u05D2\u05D9\u05DC\u05D9\u05E0\u05D5\u0022: \u05D4\u05E1\u05D8\u05D5\u05D3\u05E0\u05D8\u05D9\u05EA \u05D4\u05E6\u05E2\u05D9\u05E8\u05D4 \u05E9\u05D4\u05D1\u05E8\u05D9\u05D7\u05D4 \u05D0\u05EA \u05E8\u05DB\u05D1\u05D9 \u05D4\u05DE\u05D5\u05D5\u05EA \u05DC\u05D9\u05E9\u05E8\u05D0\u05DC",
+          "Link": "https://www.ynet.co.il/news/article/rjq11r1axgl",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D1\u05EA 23, \u05DC\u05DC\u05D0 \u05E2\u05D1\u05E8 \u05E4\u05DC\u05D9\u05DC\u05D9 \u05D5\u05D3\u05D5\u05D1\u05E8\u05EA \u05E2\u05D1\u05E8\u05D9\u05EA \u05E8\u05D4\u05D5\u05D8\u05D4: \u05DB\u05DA \u05E0\u05D9\u05E6\u05DC\u05D5 \u05D0\u05E8\u05D2\u05D5\u05E0\u05D9 \u05D4\u05E4\u05E9\u05E2 \u05D0\u05EA \u05D7\u05D6\u05D5\u05EA\u05D4 \u05D4\u05EA\u05DE\u05D9\u05DE\u05D4 \u05E9\u05DC \u05E0\u0027 \u05DB\u05D3\u05D9 \u05DC\u05D4\u05D1\u05E8\u05D9\u05D7 \u05DE\u05E9\u05D8\u05D7\u05D9 \u05D4\u05E8\u05E9\u05D5\u05EA \u05D4\u05E4\u05DC\u05E1\u05D8\u05D9\u05E0\u05D9\u05EA \u05DE\u05DB\u05D5\u05E0\u05D9\u05D5\u05EA, \u05E9\u05DC\u05E4\u05D9 \u05D4\u05DE\u05E9\u05D8\u05E8\u05D4 \u05D4\u05E4\u05DB\u05D5 \u05DC\u05D7\u05D5\u05DC\u05D9\u05D9\u05D4 \u05D4\u05E7\u05E8\u05D9\u05D8\u05D9\u05EA \u05D1\u05E9\u05E8\u05E9\u05E8\u05EA \u05D1\u05D3\u05E8\u05DA \u05DC\u05E8\u05E6\u05D7 - \u05D0\u05E4\u05D9\u05DC\u05D5 \u05D9\u05D5\u05EA\u05E8 \u05DE\u05D4\u05E0\u05E9\u05E7 \u05E9\u05D9\u05D5\u05E8\u05D4.\u00A0\u0022\u05D4\u05D9\u05D0 \u05EA\u05E4\u05E7\u05D3\u05D4 \u05DB\u05E7\u05E6\u05D9\u05E0\u05EA \u05E0\u05D9\u05D5\u05D3 \u05DC\u05DB\u05DC \u05D3\u05D1\u05E8, \u05D6\u05D5 \u05D4\u05D9\u05E2\u05E8\u05DB\u05D5\u05EA \u05E9\u05DC\u05D0 \u05D4\u05D9\u05D9\u05EA\u05D4 \u05DE\u05D1\u05D9\u05D9\u05E9\u05EA \u05D9\u05D7\u05D9\u05D3\u05D5\u05EA \u05DE\u05D9\u05D5\u05D7\u05D3\u05D5\u05EA\u0022",
+          "PublishedAt": "2026-07-10T17:40:12+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0137568+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/09/rJ6HgSTQGx/rJ6HgSTQGx_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/sjmnw000mzl",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D0\u05D9\u05DE\u05D4 \u05D1\u05D0\u05D5\u05D5\u05D9\u05E8: \u05D4\u05D7\u05DC\u05D5\u05DF \u05D4\u05EA\u05E0\u05E4\u05E5 - \u05D5\u05D4\u05E0\u05D5\u05E1\u05E2 \u0022\u05E0\u05E9\u05D0\u05D1\u0022 \u05DE\u05D7\u05D5\u05E5 \u05DC\u05DE\u05D8\u05D5\u05E1 | \u05EA\u05D9\u05E2\u05D5\u05D3",
+          "Link": "https://www.ynet.co.il/news/article/sjmnw000mzl",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05DE\u05E1\u05D9\u05D1\u05D4 \u05E9\u05D8\u05E8\u05DD \u05D9\u05D3\u05D5\u05E2\u05D4, \u05D7\u05DC\u05D5\u05DF \u05D1\u05DE\u05D8\u05D5\u05E1 \u05D1\u05D5\u05D0\u05D9\u05E0\u05D2 737-800 \u05E9\u05E2\u05E9\u05D4 \u05D0\u05EA \u05D3\u05E8\u05DB\u05D5 \u05DE\u05D9\u05D5\u05D5\u05DF \u05DC\u05D2\u05E8\u05DE\u05E0\u05D9\u05D4 \u05D4\u05EA\u05E0\u05E4\u05E5 \u05D1\u05D0\u05D5\u05D5\u05D9\u05E8, \u05D5\u05D4\u05E0\u05D5\u05E1\u05E2 \u05E9\u05D9\u05E9\u05D1 \u05D1\u05E6\u05DE\u05D5\u05D3 \u0022\u05E0\u05E9\u05D0\u05D1\u0022 \u05E2\u05D3 \u05DC\u05DB\u05EA\u05E4\u05D9\u05D5 \u05DE\u05D7\u05D5\u05E5 \u05DC\u05DE\u05D8\u05D5\u05E1, \u05D0\u05E3 \u05E9\u05D4\u05D9\u05D4 \u05D7\u05D2\u05D5\u05E8. \u05E0\u05D5\u05E1\u05E2\u05D9\u05DD \u05E1\u05D9\u05E4\u05E8\u05D5 \u05DB\u05D9 \u05DE\u05E1\u05DB\u05D5\u05EA \u05D4\u05D7\u05DE\u05E6\u05DF \u05E0\u05E4\u05DC\u05D5 \u05DE\u05D9\u05D3: \u0022\u05D4\u05D9\u05D5 \u05E6\u05E8\u05D7\u05D5\u05EA, \u05D4\u05D3\u05D9\u05D9\u05DC\u05D5\u05EA \u05D0\u05D9\u05D1\u05D3\u05D5 \u05D0\u05EA \u05D6\u05D4\u0022. \u05D0\u05E9\u05EA\u05D5 \u05D0\u05D7\u05D6\u05D4 \u05D1\u05E8\u05D2\u05DC\u05D9\u05D5 \u05E2\u05D3 \u05E9\u05D4\u05E6\u05DC\u05D9\u05D7\u05D4 \u05DC\u05D4\u05D7\u05D6\u05D9\u05E8\u05D5 \u05DC\u05EA\u05D0 \u05D4\u05E0\u05D5\u05E1\u05E2\u05D9\u05DD",
+          "PublishedAt": "2026-07-10T17:32:32+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0138227+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/By6900uCQfl/By6900uCQfl_0_204_720_406_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/yokra14827947",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D9\u05D5\u05E2\u05D6 \u05D4\u05E0\u05D3\u05DC: \u0022\u05DC\u05E2\u05D5\u05DC\u05DD \u05DC\u05D0 \u05D0\u05E9\u05DC\u05D9\u05DD \u05DC\u05E0\u05EA\u05E0\u05D9\u05D4\u05D5 \u05DC-61 \u05DE\u05E0\u05D3\u05D8\u05D9\u05DD. \u05D2\u05DD \u05D0\u05DD \u05D6\u05D4 \u05D0\u05D5\u05DE\u05E8 \u05E2\u05D5\u05D3 \u05D1\u05D7\u05D9\u05E8\u05D5\u05EA\u0022",
+          "Link": "https://www.ynet.co.il/news/article/yokra14827947",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05E9\u05E8 \u05DC\u05E9\u05E2\u05D1\u05E8 \u05DE\u05D6\u05D5\u05E2\u05D6\u05E2 \u05DE\u05D4\u05D4\u05EA\u05E0\u05D4\u05DC\u05D5\u05EA \u05E9\u05DC \u05E8\u05D0\u05E9 \u05D4\u05DE\u05DE\u05E9\u05DC\u05D4 (\u0022\u05E9\u05D1\u05D5\u05D9 \u05D1\u05D9\u05D3\u05D9 \u05DE\u05E4\u05DC\u05D2\u05D5\u05EA \u05DC\u05D0\u2013\u05E6\u05D9\u05D5\u05E0\u05D9\u05D5\u05EA \u05D5\u05E4\u05D5\u05D2\u05E2 \u05D1\u05D1\u05D9\u05D8\u05D7\u05D5\u05DF \u05D4\u05DE\u05D3\u05D9\u05E0\u05D4\u0022), \u05D0\u05D1\u05DC \u05DC\u05D0 \u05E4\u05D5\u05E1\u05DC \u05D0\u05D5\u05EA\u05D5 \u05E7\u05D8\u05D2\u05D5\u05E8\u05D9\u05EA (\u0022\u05D0\u05E6\u05D8\u05E8\u05E3 \u05D0\u05DD \u05D4\u05D5\u05D0 \u05D9\u05E7\u05D9\u05DD \u05DE\u05DE\u05E9\u05DC\u05D4 \u05E9\u05DC 70\u05BE80 \u05DE\u05E0\u05D3\u05D8\u05D9\u05DD \u05E6\u05D9\u05D5\u05E0\u05D9\u05D9\u05DD\u0022). \u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05D9\u05D7\u05D5\u05D3 \u05D4\u05E9\u05D1\u05D5\u05E2 \u05E2\u05DD \u05D7\u05D9\u05DC\u05D9 \u05D8\u05E8\u05D5\u05E4\u05E8 \u05D4\u05D5\u05D0 \u05DE\u05E1\u05D1\u05D9\u05E8 \u05DB\u05D9\u05E6\u05D3 \u05DC\u05D3\u05E2\u05EA\u05D5 \u05DE\u05DB\u05E8\u05D4 \u05D4\u05E7\u05D5\u05D0\u05DC\u05D9\u05E6\u05D9\u05D4 \u05D4\u05E0\u05D5\u05DB\u05D7\u05D9\u05EA \u05D0\u05EA \u05E0\u05E9\u05DE\u05EA\u05D4 \u05DC\u05E9\u05D8\u05DF, \u05D5\u05DC\u05DE\u05D4 \u05D4\u05DE\u05E2\u05D1\u05E8 \u05E9\u05DC\u05D5 \u05D1\u05D9\u05DF \u05DE\u05E4\u05DC\u05D2\u05D5\u05EA \u05D4\u05D5\u05D0 \u05D1\u05E2\u05E6\u05DD \u05E2\u05E7\u05E9\u05E0\u05D5\u05EA \u05D0\u05D9\u05D3\u05D9\u05D0\u05D5\u05DC\u05D5\u05D2\u05D9\u05EA | \u05E8\u05D9\u05D0\u05D9\u05D5\u05DF",
+          "PublishedAt": "2026-07-10T17:02:57+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0138817+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/09/yk14827229/yk14827229_1_16_1024_577_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/ryivl000xml",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05D4\u05DB\u05D7\u05E9\u05EA \u05D9\u05E9\u05E8\u05D0\u05DC - \u05D0\u05D9\u05E0\u05D4 \u05D7\u05D5\u05E7\u05D9\u05EA\u0022: \u05D4\u05D7\u05E7\u05D9\u05E7\u05D4 \u05D4\u05EA\u05E7\u05D3\u05D9\u05DE\u05D9\u05EA \u05D1\u05D2\u05E8\u05DE\u05E0\u05D9\u05D4, \u05D5\u05D4\u05E2\u05D5\u05E0\u05E9 \u05DC\u05DE\u05D9 \u05E9\u05D9\u05E2\u05D1\u05D5\u05E8 \u05E2\u05DC\u05D9\u05D4",
+          "Link": "https://www.ynet.co.il/news/article/ryivl000xml",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E2\u05DC \u05E4\u05D9 \u05D7\u05E7\u05D9\u05E7\u05EA \u05D4\u05D1\u05D9\u05EA \u05D4\u05E2\u05DC\u05D9\u05D5\u05DF \u05D1\u05E4\u05E8\u05DC\u05DE\u05E0\u05D8 \u05D4\u05D2\u05E8\u05DE\u05E0\u05D9, \u05E7\u05E8\u05D9\u05D0\u05D5\u05EA \u05DC\u05D4\u05E9\u05DE\u05D3\u05EA \u05DE\u05D3\u05D9\u05E0\u05EA \u05D9\u05E9\u05E8\u05D0\u05DC \u05D0\u05D5 \u05E9\u05DC\u05D9\u05DC\u05D9\u05EA \u05E7\u05D9\u05D5\u05DE\u05D4 \u05D9\u05D4\u05D5\u05D5 \u05E2\u05D1\u05D9\u05E8\u05D4 \u05E4\u05DC\u05D9\u05DC\u05D9\u05EA - \u05D5\u05D4\u05E2\u05D5\u05E0\u05E9 \u05D4\u05E6\u05E4\u05D5\u05D9 \u05D4\u05D5\u05D0 \u05E2\u05D3 5 \u05E9\u05E0\u05D5\u05EA \u05DE\u05D0\u05E1\u05E8. \u05D4\u05D7\u05D5\u05E7, \u05E9\u05E2\u05D1\u05E8 \u05D1\u05E8\u05D5\u05D1 \u05DE\u05E9\u05DE\u05E2\u05D5\u05EA\u05D9, \u05E6\u05E8\u05D9\u05DA \u05DC\u05E2\u05D1\u05D5\u05E8 \u05D0\u05D9\u05E9\u05D5\u05E8 \u05E9\u05DC \u05D4\u05D1\u05D9\u05EA \u05D4\u05EA\u05D7\u05EA\u05D5\u05DF \u05DB\u05D3\u05D9 \u05DC\u05D4\u05D9\u05DB\u05E0\u05E1 \u05E1\u05D5\u05E4\u05D9\u05EA \u05DC\u05E1\u05E4\u05E8 \u05D4\u05D7\u05D5\u05E7\u05D9\u05DD. \u05E9\u05D2\u05E8\u05D9\u05E8 \u05D9\u05E9\u05E8\u05D0\u05DC \u05D1\u05D2\u05E8\u05DE\u05E0\u05D9\u05D4: \u0022\u05D4\u05E4\u05E8\u05DC\u05DE\u05E0\u05D8 \u05E7\u05D1\u05E2 \u05E7\u05D5 \u05D0\u05D3\u05D5\u05DD \u05D1\u05D5\u05D4\u05E7\u0022",
+          "PublishedAt": "2026-07-10T17:01:13+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0139458+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2021/05/19/BJgx9o6GK00/BJgx9o6GK00_0_0_3000_1995_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/h1az1u07zx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05D7\u05E9\u05D1\u05EA\u05D9 \u05E9\u05D6\u05D4 \u05D8\u05D9\u05DC \u05DE\u05D0\u05D9\u05E8\u05D0\u05DF\u0022: \u05E8\u05D9\u05DE\u05D5\u05DF \u05D4\u05EA\u05E4\u05D5\u05E6\u05E5 \u05D1\u05D1\u05E0\u05D9\u05D9\u05DF \u05DE\u05D2\u05D5\u05E8\u05D9\u05DD - \u05D1\u05E4\u05E2\u05DD \u05D4\u05E9\u05E0\u05D9\u05D9\u05D4 \u05D1-4 \u05D7\u05D5\u05D3\u05E9\u05D9\u05DD",
+          "Link": "https://www.ynet.co.il/news/article/h1az1u07zx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D7\u05DC\u05E7 \u05DE\u05D4\u05D3\u05D9\u05D9\u05E8\u05D9\u05DD \u05E2\u05D6\u05D1\u05D5, \u05D0\u05D7\u05E8\u05D9\u05DD \u05DE\u05D7\u05E4\u05E9\u05D9\u05DD \u05D3\u05D9\u05E8\u05D4: \u05EA\u05D5\u05E9\u05D1\u05D9\u05DD \u05D1\u05E8\u05D7\u05D5\u05D1 \u05E9\u05DC\u05D5\u05DD \u05E2\u05DC\u05D9\u05DB\u05DD \u05D1\u05E0\u05EA\u05E0\u05D9\u05D4 \u05DE\u05EA\u05DE\u05D5\u05D3\u05D3\u05D9\u05DD \u05D1\u05E4\u05E2\u05DD \u05D4\u05E9\u05E0\u05D9\u05D9\u05D4 \u05DE\u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05E9\u05E0\u05D4 \u05E2\u05DD \u05E8\u05D9\u05DE\u05D5\u05DF \u05E8\u05E1\u05E1 \u05E9\u05DE\u05D5\u05E9\u05DC\u05DA \u05DC\u05D1\u05E0\u05D9\u05D9\u05DF \u05E9\u05D1\u05D5 \u05D4\u05DD \u05DE\u05EA\u05D2\u05D5\u05E8\u05E8\u05D9\u05DD. \u05D4\u05DE\u05E9\u05D8\u05E8\u05D4 \u05D7\u05D5\u05E7\u05E8\u05EA, \u05D0\u05DA \u05D4\u05EA\u05D5\u05E9\u05D1\u05D9\u05DD \u05DB\u05D1\u05E8 \u05E8\u05D5\u05E6\u05D9\u05DD \u05DC\u05E2\u05D6\u05D5\u05D1: \u0022\u05D0\u05EA \u05E9\u05E0\u05EA \u05D4\u05DC\u05D9\u05DE\u05D5\u05D3\u05D9\u05DD \u05D4\u05D1\u05D0\u05D4 \u05D4\u05D9\u05DC\u05D3\u05D9\u05DD \u05E9\u05DC\u05D9 \u05D9\u05EA\u05D7\u05D9\u05DC\u05D5 \u05D1\u05D3\u05D9\u05E8\u05D4 \u05D0\u05D7\u05E8\u05EA. \u05E0\u05E2\u05D1\u05D5\u05E8 \u05D5\u05D9\u05D4\u05D9 \u05DE\u05D4\u0022",
+          "PublishedAt": "2026-07-10T16:37:18+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0140379+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/rk11qGZOR7zg/rk11qGZOR7zg_0_327_961_540_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/syrmnu0mgx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05E9\u05D9\u05E8\u05D5\u05EA \u05DC\u05D0 \u05D9\u05E7\u05D5\u05E6\u05E8, \u05D0\u05DA \u05D4\u05D7\u05D9\u05D9\u05DC\u05D9\u05DD \u05D9\u05E7\u05D1\u05DC\u05D5 \u05D4\u05D8\u05D1\u05D4 \u05DB\u05DC\u05DB\u05DC\u05D9\u05EA | \u05D6\u05D4 \u05D4\u05DE\u05EA\u05D5\u05D5\u05D4 \u05D4\u05DE\u05E1\u05EA\u05DE\u05DF",
+          "Link": "https://www.ynet.co.il/news/article/syrmnu0mgx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E4\u05E8\u05E1\u05D5\u05DD \u05E8\u05D0\u05E9\u05D5\u05DF: \u05E2\u05DC-\u05E8\u05E7\u05E2 \u05D4\u05D6\u05E2\u05DD \u05D4\u05E6\u05D9\u05D1\u05D5\u05E8\u05D9 \u05D1\u05E2\u05E7\u05D1\u05D5\u05EA \u05D4\u05D3\u05D9\u05DC \u05E9\u05DC \u05E0\u05EA\u05E0\u05D9\u05D4\u05D5 \u05E2\u05DD \u05D4\u05D7\u05E8\u05D3\u05D9\u05DD, \u05E8\u05D0\u05E9 \u05D4\u05DE\u05DE\u05E9\u05DC\u05D4 \u05E1\u05D9\u05DB\u05DD \u05E2\u05DD \u05E9\u05E8 \u05D4\u05D1\u05D9\u05D8\u05D7\u05D5\u05DF \u05DB\u0022\u05E5 \u05D5\u05E9\u05E8 \u05D4\u05D0\u05D5\u05E6\u05E8 \u05E1\u05DE\u05D5\u05D8\u05E8\u05D9\u05E5\u0027 \u05E2\u05DC \u05D4\u05D8\u05D1\u05D4 \u05DB\u05DC\u05DB\u05DC\u05D9\u05EA \u05D1\u05E2\u05E7\u05D1\u05D5\u05EA \u05E7\u05D9\u05D1\u05D5\u05E2 \u05D4\u05E9\u05D9\u05E8\u05D5\u05EA \u05D1\u05E1\u05D3\u05D9\u05E8 \u05DC-32 \u05D7\u05D5\u05D3\u05E9\u05D9\u05DD \u05D1\u05DE\u05E7\u05D5\u05DD 30: \u05E9\u05EA\u05D9 \u05D4\u05DE\u05E9\u05DB\u05D5\u05E8\u05D5\u05EA \u05D4\u05D0\u05D7\u05E8\u05D5\u05E0\u05D5\u05EA \u05E9\u05DC \u05D4\u05D7\u05D9\u05D9\u05DC\u05D9\u05DD \u05D9\u05D5\u05DB\u05E4\u05DC\u05D5. \u05D1\u05DE\u05E1\u05D2\u05E8\u05EA \u05D4\u05EA\u05D2\u05DE\u05D5\u05DC \u05D4\u05D3\u05D9\u05E4\u05E8\u05E0\u05E6\u05D9\u05D0\u05DC\u05D9, \u05DC\u05D5\u05D7\u05DE\u05D9\u05DD \u05D9\u05E7\u05D1\u05DC\u05D5 \u05D9\u05D5\u05EA\u05E8",
+          "PublishedAt": "2026-07-10T15:51:51+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0141143+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/06/21/SJNn6a7Hfzl/SJNn6a7Hfzl_1_79_1601_901_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/skf3blc7gx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05DC\u05D0 \u05EA\u05D4\u05D9\u05D5 \u05D7\u05E1\u05D9\u05E0\u05D9\u05DD\u0022: \u05D4\u05D0\u05D9\u05D5\u05DD \u05D4\u05D0\u05D9\u05E8\u05D0\u05E0\u05D9 \u05E2\u05DC \u05D9\u05E9\u05E8\u05D0\u05DC - \u05D5\u05D4\u05DE\u05DC\u05DB\u05D5\u05D3 \u05E9\u05DC \u05D8\u05E8\u05D0\u05DE\u05E4",
+          "Link": "https://www.ynet.co.il/news/article/skf3blc7gx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D0\u05D7\u05E8\u05D9 \u05E9\u05E2\u05D5\u05EA \u05D0\u05E8\u05D5\u05DB\u05D5\u05EA \u05E9\u05DC \u05E9\u05E7\u05D8 \u05D3\u05D5\u05D5\u05D7 \u05D1\u0022\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u05D8\u05D9\u05D9\u05DE\u05E1\u0022 \u05DB\u05D9 \u05D4\u05DE\u05EA\u05D5\u05D5\u05DB\u05D5\u05EA \u05D5\u05D1\u05D4\u05DF \u05E7\u05D8\u05D0\u05E8 \u05E4\u05D5\u05E2\u05DC\u05D5\u05EA \u05D1\u05DE\u05E8\u05E5 \u05DC\u05DE\u05E0\u05D5\u05E2 \u05D0\u05EA \u05D7\u05D9\u05D3\u05D5\u05E9 \u05D4\u05DE\u05DC\u05D7\u05DE\u05D4 - \u05D0\u05DD \u05DB\u05D9 \u05D1\u05DE\u05E7\u05D1\u05D9\u05DC \u05D0\u05D9\u05D9\u05DD \u05D1\u05DB\u05D9\u05E8 \u05D0\u05D9\u05E8\u05D0\u05E0\u05D9: \u0022\u05D0\u05DD \u05D9\u05EA\u05E7\u05E4\u05D5 \u05EA\u05E9\u05EA\u05D9\u05D5\u05EA \u05E9\u05DC\u05E0\u05D5, \u05E0\u05D2\u05D9\u05D1 - \u05D5\u05D2\u05DD \u05D4\u05DE\u05E9\u05D8\u05E8 \u05D4\u05E6\u05D9\u05D5\u05E0\u05D9 \u05DC\u05D0 \u05D9\u05D4\u05D9\u05D4 \u05D7\u05E1\u05D9\u05DF\u0022. \u05D1\u05E2\u05D5\u05DC\u05DD \u05EA\u05D5\u05D4\u05D9\u05DD \u05DE\u05D4 \u05D4\u05DC\u05D0\u05D4: \u0022\u05DC\u05D8\u05E8\u05D0\u05DE\u05E4 \u05D9\u05E9 \u05EA\u05D5\u05DB\u05E0\u05D9\u05EA \u05D2\u0027?\u0022",
+          "PublishedAt": "2026-07-10T14:49:29+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0141831+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/05/07/ByWUYVqC11e/ByWUYVqC11e_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/ry14inr7ge",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E9\u05D5\u05D8\u05E8\u05D9\u05DD \u05D3\u05E8\u05E1\u05D5 \u05D7\u05EA\u05D5\u05DC\u05D4 \u05D1\u05D2\u0027\u05DC\u05D2\u0027\u05D5\u05DC\u05D9\u05D4 - \u05D5\u05DC\u05D0 \u05E2\u05E6\u05E8\u05D5 | \u05EA\u05D9\u05E2\u05D5\u05D3 \u05E7\u05E9\u05D4 \u05DC\u05E6\u05E4\u05D9\u05D9\u05D4",
+          "Link": "https://www.ynet.co.il/news/article/ry14inr7ge",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05EA\u05D5\u05E9\u05D1\u05D9\u05DD \u05D8\u05E2\u05E0\u05D5 \u05DB\u05D9 \u05DE\u05E1\u05E4\u05E8 \u05E0\u05D9\u05D9\u05D3\u05D5\u05EA \u05E0\u05E1\u05E2\u05D5 \u05D1\u05DE\u05D4\u05D9\u05E8\u05D5\u05EA \u05D5\u05D0\u05D7\u05EA \u05DE\u05D4\u05DF \u05E4\u05D2\u05E2\u05D4 \u05D1\u05D7\u05EA\u05D5\u05DC\u05D4 \u05E9\u05D1\u05D4\u05DE\u05E9\u05DA \u05DE\u05EA\u05D4 \u05DE\u05E4\u05E6\u05E2\u05D9\u05D4.\u00A0\u05E2\u05D3\u05EA \u05E8\u05D0\u05D9\u05D9\u05D4 \u05D0\u05DE\u05E8\u05D4: \u0022\u05D9\u05E6\u05D0\u05EA\u05D9 \u05DC\u05E8\u05D7\u05D5\u05D1, \u05E6\u05E2\u05E7\u05EA\u05D9 \u05DC\u05E2\u05D1\u05E8 \u05D4\u05E9\u05D5\u05D8\u05E8\u05D9\u05DD \u05D5\u05D1\u05D9\u05E7\u05E9\u05EA\u05D9 \u05DE\u05D4\u05DD \u05DC\u05E2\u05E6\u05D5\u05E8, \u05D5\u05D2\u05DD \u05D4\u05EA\u05E7\u05E9\u05E8\u05EA\u05D9 \u05DC\u05DE\u05D5\u05E7\u05D3 100, \u05D0\u05DA \u05DC\u05DC\u05D0 \u05D4\u05D5\u05E2\u05D9\u05DC\u0022. \u05DE\u05D4\u05DE\u05E9\u05D8\u05E8\u05D4 \u05E0\u05DE\u05E1\u05E8 \u05DB\u05D9 \u0022\u05DB\u05DB\u05DC \u05E9\u05D9\u05EA\u05D1\u05E8\u05E8 \u05DB\u05D9 \u05D4\u05EA\u05E0\u05D4\u05DC\u05D5\u05EA \u05D4\u05E9\u05D5\u05D8\u05E8\u05D9\u05DD \u05D4\u05D9\u05D9\u05EA\u05D4 \u05E9\u05D2\u05D5\u05D9\u05D4, \u05D4\u05E0\u05D5\u05E9\u05D0 \u05D9\u05D8\u05D5\u05E4\u05DC \u05D1\u05D4\u05EA\u05D0\u05DD\u0022",
+          "PublishedAt": "2026-07-10T13:43:29+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0142392+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/HJgJQiNAmfx/HJgJQiNAmfx_0_0_1215_683_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rkriphcxmx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E6\u05D4\u0022\u05DC: \u05D7\u05D9\u05E1\u05DC\u05E0\u05D5 \u05D1\u05E2\u05D6\u05D4 \u05D0\u05EA \u05E8\u05D0\u05E9 \u05D7\u05D5\u05DC\u05D9\u05D9\u05EA \u05D4\u05E0\u05D5\u05D7\u05D1\u05D4 \u05E9\u05E4\u05E9\u05D8 \u05D1-7/10 \u05E2\u05DC \u05DE\u05D7\u05E0\u05D4 \u05E8\u05E2\u05D9\u05DD",
+          "Link": "https://www.ynet.co.il/news/article/rkriphcxmx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D1\u05EA\u05E7\u05D9\u05E4\u05D4 \u05D0\u05D5\u05D5\u05D9\u05E8\u05D9\u05EA \u05D7\u05D5\u05E1\u05DC \u05D9\u05D7\u05D9\u05D0 \u05E1\u05E2\u05D9\u05D3 \u05DE\u05D5\u05D7\u05DE\u05D3 \u05D7\u05DE\u05D3\u05D0\u05DF, \u05E8\u05D0\u05E9 \u05D7\u05D5\u05DC\u05D9\u05D9\u05EA \u05E0\u05D5\u05D7\u05D1\u05D4 \u05E9\u05E4\u05E9\u05D8 \u05D1\u05DE\u05EA\u05E7\u05E4\u05EA 7 \u05D1\u05D0\u05D5\u05E7\u05D8\u05D5\u05D1\u05E8 \u05E2\u05DC \u05DE\u05D7\u05E0\u05D4 \u05E8\u05E2\u05D9\u05DD: \u0022\u05D4\u05D5\u05D0 \u05D4\u05D9\u05D5\u05D5\u05D4 \u05D0\u05D9\u05D5\u05DD \u05DE\u05D9\u05D9\u05D3\u05D9 \u05D5\u05E7\u05D9\u05D3\u05DD \u05D1\u05EA\u05E7\u05D5\u05E4\u05D4 \u05D4\u05D0\u05D7\u05E8\u05D5\u05E0\u05D4 \u05DE\u05EA\u05D5\u05D5\u05D9 \u05D8\u05E8\u05D5\u05E8\u0022",
+          "PublishedAt": "2026-07-10T13:24:07+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0144356+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/rkrMurRQGx/rkrMurRQGx_51_0_784_441_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/hy28vga7zg",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05DB\u05D0\u05D5\u05E1\u0022 \u05D1\u05DC\u05D5\u05E0\u05D3\u05D5\u05DF \u05D1\u05D4\u05EA\u05E4\u05E8\u05E2\u05D5\u05D9\u05D5\u05EA \u05D0\u05D5\u05D4\u05D3\u05D9 \u05DE\u05E8\u05D5\u05E7\u05D5, \u05D1\u05D4\u05D5\u05DC\u05E0\u05D3 \u05E6\u05E2\u05E7\u05D5: \u0022\u05D7\u05DE\u05D0\u05E1! \u05D9\u05D4\u05D5\u05D3\u05D9\u05DD \u05DC\u05D2\u05D6!\u0022 | \u05EA\u05D9\u05E2\u05D5\u05D3",
+          "Link": "https://www.ynet.co.il/news/article/hy28vga7zg",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D0\u05D5\u05D4\u05D3\u05D9 \u05DE\u05E8\u05D5\u05E7\u05D5 \u05D4\u05EA\u05E4\u05E8\u05E2\u05D5 \u05D1\u05DB\u05DE\u05D4 \u05DE\u05D5\u05E7\u05D3\u05D9\u05DD \u05D1\u05D0\u05D9\u05E8\u05D5\u05E4\u05D4 \u05D0\u05D7\u05E8\u05D9 \u05D4\u05D4\u05E4\u05E1\u05D3 \u05D1\u05DE\u05D5\u05E0\u05D3\u05D9\u05D0\u05DC \u05DC\u05E0\u05D1\u05D7\u05E8\u05EA \u05E6\u05E8\u05E4\u05EA, \u05DB\u05E9\u05D3\u05D5\u05D5\u05E7\u05D0 \u05D1\u05E4\u05E8\u05D9\u05D6 \u05DC\u05D0 \u05E0\u05E8\u05E9\u05DE\u05D5 \u05D4\u05EA\u05E4\u05E8\u05E2\u05D5\u05D9\u05D5\u05EA - \u05D1\u05D2\u05DC\u05DC \u05E9-8,000 \u05E9\u05D5\u05D8\u05E8\u05D9\u05DD \u05E0\u05E4\u05E8\u05E1\u05D5 \u05D1\u05E8\u05D7\u05D5\u05D1\u05D5\u05EA. \u05D1\u05DC\u05D5\u05E0\u05D3\u05D5\u05DF \u05E9\u05D5\u05D8\u05E8 \u05E0\u05E4\u05E6\u05E2 \u05DE\u05D1\u05E7\u05D1\u05D5\u05E7 \u05D1\u05E8\u05D0\u05E9 \u05D5\u05EA\u05D5\u05E2\u05D3 \u05DE\u05D5\u05D8\u05DC \u05E2\u05DC \u05D4\u05E7\u05E8\u05E7\u05E2, \u05D1\u05D4\u05D5\u05DC\u05E0\u05D3 \u05D4\u05DE\u05EA\u05E4\u05E8\u05E2\u05D9\u05DD \u05D4\u05E9\u05DC\u05D9\u05DB\u05D5 \u05D0\u05D1\u05E0\u05D9\u05DD \u05D5\u05D4\u05E9\u05DE\u05D9\u05E2\u05D5 \u05E7\u05E8\u05D9\u05D0\u05D5\u05EA \u05D0\u05E0\u05D8\u05D9\u05E9\u05DE\u05D9\u05D5\u05EA: \u0022\u05D4\u05D9\u05D4\u05D5\u05D3\u05D9\u05DD \u05E1\u05E8\u05D8\u05DF!\u0022",
+          "PublishedAt": "2026-07-10T13:15:29+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0144963+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/rJMhHz0mGl/rJMhHz0mGl_0_46_3000_1689_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/rkgkc7cqge",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05E7\u05D5\u05DC\u05D0\u05D1\u0022 \u05E2\u05DD The Big Yahu, \u05D3\u05D9\u05D9\u05D8 \u05E2\u05DD \u05D3\u05D5\u05D2\u05DE\u05E0\u05D9\u05EA: \u05D1\u05D9\u05E7\u05D5\u05E8 \u05DB\u05D5\u05DB\u05D1 \u05D4\u05E8\u05E9\u05EA \u05E7\u05DC\u05D5\u05D5\u05D9\u05E7\u05D5\u05DC\u05E8 \u05D1\u05D9\u05E9\u05E8\u05D0\u05DC",
+          "Link": "https://www.ynet.co.il/news/article/rkgkc7cqge",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D1\u05E8\u05D9\u05D9\u05D3\u05DF \u05E4\u05D9\u05D8\u05E8\u05E1 \u05D1\u05DF \u05D4-20 \u05E2\u05D5\u05E8\u05E8 \u05E1\u05E2\u05E8\u05D4 \u05DB\u05E9\u05D7\u05D2\u05D2 \u05E2\u05DD \u05E4\u05E2\u05D9\u05DC \u05D4\u05D9\u05DE\u05D9\u05DF \u05D4\u05E7\u05D9\u05E6\u05D5\u05E0\u05D9 \u05E0\u05D9\u05E7 \u05E4\u05D5\u05D0\u05E0\u05D8\u05E1 \u05DC\u05E6\u05DC\u05D9\u05DC\u05D9 \u05D4\u05E9\u05D9\u05E8 \u0022\u05D4\u05D9\u05D9\u05DC \u05D4\u05D9\u05D8\u05DC\u05E8\u0022 \u05E9\u05DC \u05E7\u05E0\u05D9\u05D4 \u05D5\u05D5\u05E1\u05D8. \u05D0\u05D1\u05DC \u05E2\u05DB\u05E9\u05D9\u05D5 \u05D4\u05D5\u05D0 \u05D1\u05D0\u05E8\u05E5 \u05D4\u05E7\u05D5\u05D3\u05E9, \u05D5\u05D8\u05D5\u05E2\u05DF \u05E9\u05D4\u05D9\u05D0 \u0022\u05DE\u05D0\u05D5\u05D3 \u05E0\u05D7\u05DE\u05D3\u05D4\u0022 \u05D1\u05E0\u05D9\u05D2\u05D5\u05D3 \u05DC\u05DE\u05D4 \u05E9\u05DE\u05E6\u05D8\u05D9\u05D9\u05E8 \u05D1\u05E8\u05E9\u05EA\u05D5\u05EA. \u05D4\u05DE\u05D8\u05E8\u05D4 \u05E9\u05DC \u05D4\u05D1\u05D9\u05E7\u05D5\u05E8, \u05DB\u05DA \u05D8\u05D5\u05E2\u05DF \u05DE\u05D9 \u05E9\u05E9\u05D1\u05E8 \u05DC\u05E2\u05E6\u05DE\u05D5 \u05D0\u05EA \u05E2\u05E6\u05DE\u05D5\u05EA \u05D4\u05DC\u05E1\u05EA \u05DB\u05D3\u05D9 \u05DC\u05D4\u05D9\u05E8\u05D0\u05D5\u05EA \u05D9\u05D5\u05EA\u05E8 \u05D9\u05E4\u05D4, \u05D4\u05D9\u05D0 \u05DC\u05D4\u05DE\u05E9\u05D9\u05DA \u05D5\u05DC\u05E9\u05E4\u05E8 \u05D0\u05EA \u05D4\u05DE\u05E8\u05D0\u05D4 \u05D4\u05D7\u05D9\u05E6\u05D5\u05E0\u05D9 \u05E9\u05DC \u05D2\u05D1\u05E8\u05D1\u05E8\u05D9 \u05D4\u05E2\u05D5\u05DC\u05DD",
+          "PublishedAt": "2026-07-10T12:05:59+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0145563+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/Bkrw1E0mMl/Bkrw1E0mMl_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/syrl27c7gl",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05D4\u05DE\u05E4\u05E7\u05D3\u0022 \u05D5\u0022\u05D4\u05DE\u05D4\u05E0\u05D3\u05E1\u0022 \u05E0\u05E2\u05E6\u05E8\u05D5: 4 \u05EA\u05D5\u05E9\u05D1\u05D9 \u05D4\u05E0\u05D2\u05D1 \u05DE\u05D5\u05D0\u05E9\u05DE\u05D9\u05DD \u05D1\u05EA\u05DB\u05E0\u05D5\u05DF \u05E4\u05D9\u05D2\u05D5\u05E2 \u05D4\u05DE\u05D5\u05E0\u05D9 \u05D1\u05D1\u05D0\u05E8 \u05E9\u05D1\u05E2",
+          "Link": "https://www.ynet.co.il/news/article/syrl27c7gl",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05DB\u05EA\u05D1 \u05D0\u05D9\u05E9\u05D5\u05DD \u05D7\u05DE\u05D5\u05E8 \u05D1\u05D2\u05D9\u05DF \u05EA\u05DB\u05E0\u05D5\u05DF \u05DE\u05EA\u05E7\u05E4\u05D5\u05EA \u05D8\u05E8\u05D5\u05E8 \u05D4\u05D5\u05D2\u05E9 \u05E0\u05D2\u05D3 4 \u05EA\u05D5\u05E9\u05D1\u05D9 \u05E9\u05D2\u05D1 \u05E9\u05DC\u05D5\u05DD - \u05DB\u05E9\u05DC\u05E4\u05D9 \u05D4\u05D7\u05E9\u05D3 \u05D4\u05DD \u05EA\u05DB\u05E0\u05E0\u05D5 \u05E4\u05D9\u05D2\u05D5\u05E2 \u05D4\u05DE\u05D5\u05E0\u05D9 \u05D1\u05EA\u05D7\u05E0\u05D4 \u05D4\u05DE\u05E8\u05DB\u05D6\u05D9\u05EA \u05D1\u05D1\u05D0\u05E8 \u05E9\u05D1\u05E2, \u05D5\u05D2\u05DD \u05D9\u05E8\u05D9 \u05DC\u05E2\u05D1\u05E8 \u05EA\u05D7\u05E0\u05D5\u05EA \u05DE\u05E9\u05D8\u05E8\u05D4. \u05D0\u05D7\u05D3 \u05D4\u05DE\u05E2\u05D5\u05E8\u05D1\u05D9\u05DD \u05E0\u05E2\u05E6\u05E8 \u05E8\u05D2\u05E2 \u05DC\u05E4\u05E0\u05D9 \u05E4\u05D9\u05D2\u05D5\u05E2",
+          "PublishedAt": "2026-07-10T11:36:20+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0146396+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/SJYCA70Qzx/SJYCA70Qzx_80_9_1128_635_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/hj900xxaqmg",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u0022\u05E0\u05D9\u05E6\u05D7\u05D5\u05DF 0:3 \u05DC\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4\u0022: \u05D4\u05D3\u05D9\u05D5\u05D5\u05D7 \u05E2\u05DC \u05D4\u05E2\u05E1\u05E7\u05D4 \u05D4\u05E1\u05D9\u05D1\u05D5\u05D1\u05D9\u05EA - \u05E9\u05EA\u05E1\u05DC\u05D5\u05DC \u05D0\u05EA \u05D4\u05D3\u05E8\u05DA \u05DC\u05DE\u05DB\u05D9\u05E8\u05EA F-35",
+          "Link": "https://www.ynet.co.il/news/article/hj900xxaqmg",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D1\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05DE\u05D3\u05D5\u05D5\u05D7\u05D9\u05DD \u05E2\u05DC \u05DB\u05D5\u05D5\u05E0\u05D4 \u05DC\u05DE\u05DB\u05D5\u05E8 \u05D0\u05EA \u05DE\u05E2\u05E8\u05DB\u05EA \u05D4\u05D4\u05D2\u05E0\u05D4 \u05D4\u05E8\u05D5\u05E1\u05D9\u05EA S-400 \u05DC\u05DE\u05D3\u05D9\u05E0\u05D4 \u05E9\u05DC\u05D9\u05E9\u05D9\u05EA - \u05DB\u05E0\u05E8\u05D0\u05D4 \u05D1\u05D0\u05D6\u05D5\u05E8 \u05D4\u05DE\u05E4\u05E8\u05E5 - \u05D1\u05D0\u05D5\u05E4\u05DF \u05E9\u05D9\u05E1\u05DC\u05D5\u05DC \u05D0\u05EA \u05D4\u05D3\u05E8\u05DA \u05DC\u05D4\u05E1\u05E8\u05EA \u05D4\u05E1\u05E0\u05E7\u05E6\u05D9\u05D5\u05EA \u05D4\u05D0\u05DE\u05E8\u05D9\u05E7\u05E0\u05D9\u05D5\u05EA \u05D5\u05DC\u05E2\u05E1\u05E7\u05EA \u05DE\u05DB\u05D9\u05E8\u05EA \u05D7\u05DE\u05E7\u05E0\u05D9 \u05D4-F-35 \u05E9\u05D9\u05E9\u05E8\u05D0\u05DC \u05E0\u05D9\u05E1\u05EA\u05D4 \u05DC\u05E1\u05DB\u05DC",
+          "PublishedAt": "2026-07-10T11:07:13+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0147107+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/SJZG00mC7ze/SJZG00mC7ze_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/h1jbrgc7fe",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05EA\u05DE\u05E8\u05D5\u05EA \u05E2\u05E9\u05DF \u05D1\u05E9\u05E8\u05D9\u05E4\u05EA \u05E2\u05E0\u05E7 \u05D1\u05E1\u05E4\u05E8\u05D3, 11 \u05E0\u05E1\u05E4\u05D5: \u0022\u05E0\u05DC\u05DB\u05D3\u05D5 \u05D1\u05E8\u05DB\u05D1\u05D9\u05DD\u0022 | \u05EA\u05D9\u05E2\u05D5\u05D3",
+          "Link": "https://www.ynet.co.il/news/article/h1jbrgc7fe",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05D0\u05E9 \u05D4\u05E9\u05EA\u05D5\u05DC\u05DC\u05D4 \u05D1\u05DE\u05D7\u05D5\u05D6 \u05D0\u05DC\u05DE\u05E8\u05D9\u05D4 \u05E2\u05DC \u05E8\u05E7\u05E2 \u05D2\u05DC \u05D7\u05D5\u05DD \u05D1\u05D3\u05E8\u05D5\u05DD \u05D0\u05D9\u05E8\u05D5\u05E4\u05D4. \u05D7\u05DC\u05E7 \u05DE\u05D4\u05D4\u05E8\u05D5\u05D2\u05D9\u05DD \u05E0\u05DE\u05E6\u05D0\u05D5 \u05D1\u05DB\u05DC\u05D9 \u05E8\u05DB\u05D1 \u05E9\u05E0\u05DC\u05DB\u05D3\u05D5 \u05D1\u05DC\u05D4\u05D1\u05D5\u05EA, \u05D9\u05D7\u05D9\u05D3\u05EA \u05D7\u05D9\u05E8\u05D5\u05DD \u05D4\u05E6\u05D1\u05D0\u05D9\u05EA \u05D4\u05D5\u05D6\u05E2\u05E7\u05D4 \u05DC\u05E1\u05D9\u05D9\u05E2 \u05D1\u05DE\u05D0\u05D1\u05E7\u05D9 \u05D4\u05DB\u05D9\u05D1\u05D5\u05D9",
+          "PublishedAt": "2026-07-10T10:31:34+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0147706+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/B1zEo6zRmzg/B1zEo6zRmzg_389_204_494_278_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/skhjmfc7mx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E4\u05D7\u05D5\u05EA \u05E6\u05D5\u05D5\u05D9 8: \u05E6\u05D4\u0022\u05DC \u05D4\u05D7\u05DC \u05D1\u05D4\u05DC\u05D9\u05DA \u05E6\u05DE\u05E6\u05D5\u05DD \u05DE\u05E1\u05D9\u05D1\u05D9 \u05E9\u05DC \u05DE\u05E9\u05E8\u05EA\u05D9 \u05D4\u05DE\u05D9\u05DC\u05D5\u05D0\u05D9\u05DD",
+          "Link": "https://www.ynet.co.il/news/article/skhjmfc7mx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E2\u05DC-\u05E8\u05E7\u05E2 \u05D4\u05E8\u05D2\u05D9\u05E2\u05D4 \u05D4\u05D9\u05D7\u05E1\u05D9\u05EA \u05D1\u05D2\u05D6\u05E8\u05D5\u05EA \u05D4\u05E9\u05D5\u05E0\u05D5\u05EA, \u05D7\u05D9\u05D9\u05DC\u05D9 \u05DE\u05D9\u05DC\u05D5\u05D0\u05D9\u05DD \u05DE\u05D9\u05D7\u05D9\u05D3\u05D5\u05EA \u05E9\u05D5\u05E0\u05D5\u05EA \u05E7\u05D9\u05D1\u05DC\u05D5 \u05D1\u05E9\u05D1\u05D5\u05E2 \u05D4\u05D0\u05D7\u05E8\u05D5\u05DF \u05E2\u05D3\u05DB\u05D5\u05DF \u05E2\u05DC \u05E6\u05DE\u05E6\u05D5\u05DD \u05D4\u05D3\u05E8\u05D2\u05EA\u05D9 \u05E9\u05DC \u05D4\u05E1\u05D3\u0022\u05DB\u05D9\u05DD. \u05D4\u05E1\u05D9\u05D1\u05D4: \u05D4\u05EA\u05D9\u05D9\u05EA\u05E8\u05D5\u05EA \u05E9\u05DC \u05DB\u05D5\u05D7\u05D5\u05EA \u05DE\u05E1\u05D5\u05D9\u05DE\u05D9\u05DD",
+          "PublishedAt": "2026-07-10T10:09:30+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0148323+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/01/17/SyPsVVNtSWl/SyPsVVNtSWl_0_55_1601_901_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/yokra14828557",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E0\u05EA\u05E0\u05D9\u05D4\u05D5 \u05D1\u05E9\u05D9\u05D7\u05D5\u05EA \u05E1\u05D2\u05D5\u05E8\u05D5\u05EA: \u0022\u05D4\u05E8\u05DB\u05D1 \u05D4\u05E8\u05E9\u05D9\u05DE\u05D4 \u05E2\u05DC\u05D5\u05DC \u05DC\u05E2\u05DC\u05D5\u05EA \u05DC\u05E0\u05D5 \u05D1\u05D1\u05D7\u05D9\u05E8\u05D5\u05EA\u0022",
+          "Link": "https://www.ynet.co.il/news/article/yokra14828557",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D0\u05D7\u05E8\u05D9 \u05E9\u05E0\u05D7\u05E9\u05E3 \u05D1-ynet \u05D5\u05D1\u0022\u05D9\u05D3\u05D9\u05E2\u05D5\u05EA \u05D0\u05D7\u05E8\u05D5\u05E0\u05D5\u05EA\u0022 \u05DB\u05D9 \u05E8\u05D0\u05E9 \u05D4\u05DE\u05DE\u05E9\u05DC\u05D4 \u05DE\u05EA\u05DB\u05D5\u05D5\u05DF \u05DC\u05D3\u05D7\u05D5\u05E7 \u05D0\u05EA \u05D1\u05DB\u05D9\u05E8\u05D9 \u05D4\u05E8\u05E9\u05D9\u05DE\u05D4 \u05DE\u05D4\u05E2\u05E9\u05D9\u05E8\u05D9\u05D9\u05D4 \u05D4\u05E8\u05D0\u05E9\u05D5\u05E0\u05D4, \u05D2\u05D5\u05E8\u05DE\u05D9\u05DD \u05D1\u05DC\u05D9\u05DB\u05D5\u05D3 \u05D6\u05D5\u05E2\u05DE\u05D9\u05DD. \u0022\u05D6\u05D0\u05EA \u05EA\u05D4\u05D9\u05D4 \u05DE\u05E4\u05DC\u05D2\u05EA \u05E0\u05EA\u05E0\u05D9\u05D4\u05D5\u0022, \u05D0\u05DE\u05E8 \u05D1\u05DB\u05D9\u05E8 \u05D1\u05DE\u05E4\u05DC\u05D2\u05D4. \u05D2\u05D5\u05E8\u05DD \u05D1\u05DC\u05D9\u05DB\u05D5\u05D3: \u0022\u05E0\u05EA\u05E0\u05D9\u05D4\u05D5 \u05D1\u05D4\u05D9\u05E1\u05D8\u05E8\u05D9\u05D4 \u05DE\u05D4\u05E1\u05E7\u05E8\u05D9\u05DD\u0022",
+          "PublishedAt": "2026-07-10T10:06:33+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0148917+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2025/09/04/BJe3mPUv9le/BJe3mPUv9le_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/hk2800e0xzx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05EA\u05D9\u05E2\u05D5\u05D3: \u05E4\u05DC\u05D9\u05E9\u05EA \u05E0\u05D7\u05E9\u05D9\u05DD \u05D0\u05E8\u05E1\u05D9\u05D9\u05DD \u05D1\u05E2\u05D9\u05E8 \u05DE\u05D5\u05DB\u05EA \u05D4\u05E9\u05D9\u05D8\u05E4\u05D5\u05DF",
+          "Link": "https://www.ynet.co.il/news/article/hk2800e0xzx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05E0\u05D2\u05D6\u0027\u05D5, \u0022\u05D1\u05D9\u05E8\u05EA \u05D4\u05D9\u05E1\u05DE\u05D9\u05DF\u0022 \u05E9\u05DC \u05E1\u05D9\u05DF, \u05D4\u05D5\u05DB\u05EA\u05D4 \u05E9\u05D9\u05D8\u05E4\u05D5\u05E0\u05D5\u05EA \u05D1\u05E1\u05D5\u05E4\u05EA \u05D8\u05D9\u05D9\u05E4\u05D5\u05DF - \u05E9\u05D2\u05DD \u05D4\u05E6\u05D9\u05E4\u05D4 \u05D7\u05D5\u05D5\u05EA \u05D2\u05D9\u05D3\u05D5\u05DC \u05E0\u05D7\u05E9\u05D9\u05DD \u05D1\u05D0\u05D6\u05D5\u05E8. \u05DE\u05D0\u05D5\u05EA, \u05D1\u05D4\u05DD \u05E0\u05D7\u05E9\u05D9 \u05E7\u05D5\u05D1\u05E8\u05D4, \u05DE\u05E1\u05EA\u05D5\u05D1\u05D1\u05D9\u05DD \u05E9\u05DD \u05D7\u05D5\u05E4\u05E9\u05D9: \u0022\u05DC\u05DB\u05D3\u05E0\u05D5 \u05DB\u05D1\u05E8 \u05D0\u05DC\u05E4\u05D9\u05DD\u0022. \u05D4\u05EA\u05D5\u05E9\u05D1\u05D9\u05DD \u05DE\u05E0\u05E1\u05D9\u05DD \u05DC\u05DC\u05DB\u05D5\u05D3 \u05D0\u05D5\u05EA\u05DD \u05E2\u05DD \u05E8\u05E9\u05EA\u05D5\u05EA, \u05D0\u05D9\u05E9\u05D4 \u05D0\u05D7\u05EA \u05E0\u05D4\u05E8\u05D2\u05D4",
+          "PublishedAt": "2026-07-10T08:48:11+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0149526+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/ryOJvW0XGg/ryOJvW0XGg_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/hkfyy1a7zx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D1\u05DC\u05D9\u05DB\u05D5\u05D3 \u05D1\u05D5\u05E0\u05D9\u05DD \u05E2\u05DC \u05D0\u05E8\u05D3\u05DF, \u05E9\u05E7\u05D3, \u05D2\u05E0\u05E5 \u05D5\u05E9\u05DE\u05D7\u05D9: \u0022\u05D9\u05DC\u05DB\u05D5 \u05E2\u05DD \u05E0\u05EA\u05E0\u05D9\u05D4\u05D5\u0022",
+          "Link": "https://www.ynet.co.il/news/article/hkfyy1a7zx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05DC\u05D9\u05DB\u05D5\u05D3\u05E0\u05D9\u05E7\u05D9\u05DD \u05D5\u05D0\u05E0\u05E9\u05D9 \u05D9\u05DE\u05D9\u05DF \u05DE\u05EA\u05D5\u05DF \u05DC\u05DE\u05D9\u05E0\u05D9\u05D4\u05DD \u05E2\u05E9\u05D5\u05D9\u05D9\u05DD \u05DC\u05D4\u05D1\u05D9\u05D0 \u05D0\u05EA \u05D4\u05E0\u05D9\u05E6\u05D7\u05D5\u05DF \u05DC\u05D2\u05D5\u05E9 \u05D4\u05E9\u05D9\u05E0\u05D5\u05D9, \u05D0\u05DA \u05D1\u05DC\u05D9\u05DB\u05D5\u05D3 \u05D7\u05D5\u05E9\u05D1\u05D9\u05DD \u05E9\u05D4\u05DE\u05E4\u05DC\u05D2\u05D5\u05EA \u05E9\u05DC \u05D0\u05E8\u05D3\u05DF-\u05D0\u05D3\u05DC\u05E9\u05D8\u05D9\u05D9\u05DF \u05D5\u05D2\u05E0\u05E5-\u05E9\u05DE\u05D7\u05D9 \u05D9\u05D1\u05D9\u05D0\u05D5 \u05D2\u05D0\u05D5\u05DC\u05D4 \u05D3\u05D5\u05D5\u05E7\u05D0 \u05DC\u05E0\u05EA\u05E0\u05D9\u05D4\u05D5: \u0022\u05DE\u05E0\u05D3\u05D8\u05D9\u05DD \u05E9\u05DB\u05D1\u05E8 \u05E9\u05E0\u05EA\u05D9\u05D9\u05DD \u05D0\u05E0\u05D5 \u05E8\u05D5\u05D0\u05D9\u05DD \u05D0\u05E6\u05DC \u05DE\u05EA\u05D7\u05E8\u05D9\u05DD \u05D9\u05E9\u05D9\u05E8\u05D9\u05DD \u05E2\u05DB\u05E9\u05D9\u05D5 \u05DE\u05EA\u05E7\u05E8\u05D1\u05D9\u05DD \u05D0\u05DC\u05D9\u05E0\u05D5\u0022 |\u00A0\u05D4\u05D8\u05D5\u05E8 \u05D4\u05DE\u05DC\u05D0: \u05D1\u0022\u05DE\u05D5\u05E1\u05E3 \u05DC\u05E9\u05D1\u05EA\u0022 \u05E9\u05DC \u0022\u05D9\u05D3\u05D9\u05E2\u05D5\u05EA \u05D0\u05D7\u05E8\u05D5\u05E0\u05D5\u05EA\u0022\u00A0\u05D5\u05D1\u0022\u05D9\u05D3\u05D9\u05E2\u05D5\u05EA\u002B\u0022",
+          "PublishedAt": "2026-07-10T07:16:11+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0150053+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/05/BJMP811Cw7Me/BJMP811Cw7Me_488_12_1992_1122_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/hkzfyyrxze",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D1\u05E0\u05D5\u05E9\u05D0\u05EA \u05D4\u05DE\u05D8\u05D5\u05E1\u05D9\u05DD \u05D4\u05D6\u05D4\u05D9\u05E8\u05D5 \u05E9\u0022\u05D6\u05D4 \u05DE\u05EA\u05D7\u05DE\u05DD\u0022 - \u05D5\u05D2\u05D5\u05E8\u05DD \u05D0\u05DE\u05E8\u05D9\u05E7\u05E0\u05D9 \u05D4\u05D5\u05D3\u05D9\u05E2: \u0022\u05E2\u05DB\u05E9\u05D9\u05D5 \u05D4\u05D3\u05D9\u05E4\u05DC\u05D5\u05DE\u05D8\u05D9\u05D4 \u05DE\u05D5\u05D1\u05D9\u05DC\u05D4\u0022",
+          "Link": "https://www.ynet.co.il/news/article/hkzfyyrxze",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05DC\u05D9\u05DC\u05D4 \u05D1\u05DC\u05D9 \u05EA\u05E7\u05D9\u05E4\u05D5\u05EA \u05D1\u05D0\u05D9\u05E8\u05D0\u05DF - \u05D5\u05E9\u05EA\u05D9\u05E7\u05EA \u05D8\u05E8\u05D0\u05DE\u05E4 \u05E0\u05DE\u05E9\u05DB\u05EA: \u05D2\u05D5\u05E8\u05DD \u05D0\u05DE\u05E8\u05D9\u05E7\u05E0\u05D9 \u05D0\u05DE\u05E8 \u05DB\u05D9 \u05D0\u05E8\u05D4\u0022\u05D1 \u05E0\u05E2\u05E8\u05DB\u05EA \u05DC\u05E2\u05D5\u05D3 \u05D4\u05E4\u05E6\u05E6\u05D5\u05EA, \u05D0\u05D1\u05DC \u05DB\u05E2\u05EA \u05E0\u05DE\u05E0\u05E2\u05EA \u05DE\u05DB\u05DA \u05DB\u05D3\u05D9 \u05DC\u05D0\u05E4\u05E9\u05E8 \u05DC\u05D3\u05D9\u05E4\u05DC\u05D5\u05DE\u05D8\u05D9\u05D4 \u05DC\u05D4\u05EA\u05E7\u05D3\u05DD. \u05DC\u05E4\u05D9 CNN, \u05DC\u05E4\u05E0\u05D9 \u05DB\u05DF \u05DE\u05E4\u05E7\u05D3 \u05E0\u05D5\u05E9\u05D0\u05EA \u05D4\u05DE\u05D8\u05D5\u05E1\u05D9\u05DD \u0022\u05DC\u05D9\u05E0\u05E7\u05D5\u05DC\u05DF\u0022 \u05D4\u05D6\u05D4\u05D9\u05E8 \u05D0\u05EA \u05D0\u05DC\u05E4\u05D9 \u05D0\u05E0\u05E9\u05D9 \u05E6\u05D5\u05D5\u05EA\u05D5: \u0022\u05D4\u05E2\u05E0\u05D9\u05D9\u05E0\u05D9\u05DD \u05DE\u05EA\u05D7\u05DE\u05DE\u05D9\u05DD\u0022. \u05D1\u05DE\u05E9\u05D4\u05D3: \u05D7\u05DE\u05D9\u05E0\u05D0\u05D9 \u05E0\u05E7\u05D1\u05E8 \u05E1\u05D5\u05E4\u05D9\u05EA, \u05D2\u05DD \u05D4\u05D1\u05DF \u05E9\u05DC \u05E0\u05E1\u05E8\u05D0\u05DC\u05DC\u05D4 \u05D4\u05D9\u05D4 \u05E9\u05DD",
+          "PublishedAt": "2026-07-10T07:03:25+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0150826+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/05/13/rkl6LjWkfg/rkl6LjWkfg_4_0_2997_1688_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/bygzjjr7zx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05E6\u05E2\u05D9\u05E8 \u05E0\u05D4\u05E8\u05D2 \u05D1\u05D4\u05EA\u05E0\u05D2\u05E9\u05D5\u05EA \u05E2\u05DD \u05DE\u05E9\u05D0\u05D9\u05EA \u05D1\u05E2\u05E8\u05D1\u05D4",
+          "Link": "https://www.ynet.co.il/news/article/bygzjjr7zx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E0\u05D4\u05D2 \u05DB\u05D1\u05DF 25 \u05D7\u05D5\u05DC\u05E5 \u05DC\u05DC\u05D0 \u05E8\u05D5\u05D7 \u05D7\u05D9\u05D9\u05DD \u05DE\u05E8\u05DB\u05D1\u05D5 \u05E2\u05DC-\u05D9\u05D3\u05D9 \u05DB\u05D5\u05D7\u05D5\u05EA \u05DB\u05D1\u05D0\u05D5\u05EA \u05D5\u05D4\u05E6\u05DC\u05D4, \u05DC\u05D0\u05D7\u05E8 \u05E9\u05D4\u05EA\u05E0\u05D2\u05E9 \u05D1\u05DE\u05E9\u05D0\u05D9\u05EA \u05D1\u05DB\u05D1\u05D9\u05E9 90. \u05DE\u05D3\u0022\u05D0: \u0022\u05DC\u05E6\u05E2\u05E8\u05E0\u05D5 \u05D4\u05E8\u05D1 \u05E4\u05E6\u05D9\u05E2\u05D5\u05EA\u05D9\u05D5 \u05D4\u05D9\u05D5 \u05DE\u05E9\u05DE\u05E2\u05D5\u05EA\u05D9\u05D5\u05EA \u05D5\u05DC\u05D0 \u05E0\u05D5\u05EA\u05E8 \u05DC\u05E0\u05D5 \u05D0\u05DC\u05D0 \u05DC\u05E7\u05D1\u05D5\u05E2 \u05D0\u05EA \u05DE\u05D5\u05EA\u05D5\u0022",
+          "PublishedAt": "2026-07-10T06:58:47+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0151427+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/10/Sk7lTkAmzx/Sk7lTkAmzx_2_0_1919_1080_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/s1u7vvnqgg",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05DE\u05E9\u05D1\u05E8 \u05D4\u05D7\u05D5\u05E7\u05EA\u05D9 \u05DB\u05D1\u05E8 \u05D4\u05EA\u05E8\u05D7\u05E9",
+          "Link": "https://www.ynet.co.il/news/article/s1u7vvnqgg",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05E9\u05DC\u05D5\u05E9 \u05D4\u05E8\u05E9\u05D5\u05D9\u05D5\u05EA \u05D9\u05E6\u05D0\u05D5 \u05DE\u05E9\u05DC\u05D9\u05D8\u05D4 \u05D5\u05D0\u05D9\u05E0\u05DF \u05DE\u05EA\u05E4\u05E7\u05D3\u05D5\u05EA \u05DB\u05D9\u05D0\u05D5\u05EA. \u05D4\u05E2\u05DD - \u05E9\u05D4\u05D5\u05D0 \u05D4\u05E8\u05D9\u05D1\u05D5\u05DF - \u05E6\u05E8\u05D9\u05DA \u05DC\u05D4\u05EA\u05E2\u05E9\u05EA, \u05DC\u05D0\u05E4\u05E1 \u05D0\u05D5\u05EA\u05DF \u05DE\u05D7\u05D3\u05E9 \u05E2\u05DC \u05E4\u05D9 \u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D4\u05D9\u05E6\u05E8\u05DF \u05D0\u05D5 \u05DC\u05E2\u05D3\u05DB\u05DF \u05D0\u05EA \u05EA\u05D5\u05DB\u05E0\u05EA \u05D4\u05D4\u05E4\u05E2\u05DC\u05D4",
+          "PublishedAt": "2026-07-10T06:55:00+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0152052+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/07/05/SJCwQVOmzl/SJCwQVOmzl_0_0_850_479_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/o1uqvtwca",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05EA\u05D7\u05D6\u05D9\u05EA \u05DC\u05E1\u05D5\u05E4\u0022\u05E9: \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05D5\u05EA \u05DE\u05E2\u05D8 \u05E0\u05DE\u05D5\u05DB\u05D5\u05EA \u05DE\u05D4\u05E8\u05D2\u05D9\u05DC - \u05DC\u05E7\u05E8\u05D0\u05EA \u05D4\u05EA\u05D7\u05DE\u05DE\u05D5\u05EA \u05D1\u05E9\u05D1\u05EA",
+          "Link": "https://www.ynet.co.il/news/article/o1uqvtwca",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05D5\u05EA \u05D4\u05D9\u05D5\u05DD \u05D9\u05D4\u05D9\u05D5 \u05DE\u05E2\u05D8 \u05E0\u05DE\u05D5\u05DB\u05D5\u05EA \u05DC\u05E2\u05D5\u05E0\u05D4, \u05D0\u05DA \u05DE\u05D7\u05E8 \u05EA\u05D5\u05E8\u05D2\u05E9 \u05D4\u05DB\u05D1\u05D3\u05D4 \u05D1\u05E2\u05D5\u05DE\u05E1\u05D9 \u05D4\u05D7\u05D5\u05DD. \u05E2\u05DC\u05D9\u05D5\u05EA \u05E7\u05DC\u05D5\u05EA \u05E0\u05D5\u05E1\u05E4\u05D5\u05EA \u05D1\u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05D5\u05EA \u05D9\u05D5\u05E8\u05D2\u05E9\u05D5 \u05D1\u05E8\u05D0\u05E9\u05D5\u05DF \u05D5\u05D1\u05E9\u05E0\u05D9",
+          "PublishedAt": "2026-07-10T06:31:35+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0153511+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/06/15/HkPEeBTbfg/HkPEeBTbfg_0_12_3000_1689_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/bksham6xzx",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05EA\u05E4\u05D9\u05E1\u05EA \u05D4\u05D2\u05E0\u05D4 \u05DE\u05E8\u05D7\u05D1\u05D9\u05EA \u05D9\u05E9\u05E8\u05D0\u05DC\u05D9\u05EA \u05D7\u05D3\u05E9\u05D4",
+          "Link": "https://www.ynet.co.il/news/article/bksham6xzx",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D0\u05D9 \u05D0\u05E4\u05E9\u05E8 \u05D9\u05D5\u05EA\u05E8 \u05DC\u05D4\u05E9\u05E2\u05D9\u05DF \u05D0\u05EA \u05D4\u05D1\u05D9\u05D8\u05D7\u05D5\u05DF \u05E2\u05DC \u05E7\u05D4\u05D9\u05DC\u05D5\u05EA \u05D0\u05E0\u05D5\u05E9\u05D9\u05D5\u05EA \u05D1\u05DC\u05D1\u05D3 - \u05D9\u05E9 \u05DC\u05D9\u05E6\u05D5\u05E8 \u05D0\u05D6\u05D5\u05E8\u05D9 \u05D7\u05D9\u05E5 \u05E2\u05DD \u05E4\u05D9\u05E7\u05D5\u05D7 \u05E6\u05D1\u05D0\u05D9 \u05D4\u05D3\u05D5\u05E7 \u05D1\u05DE\u05D8\u05E8\u05D4 \u05DC\u05D9\u05E6\u05D5\u05E8 \u05D1\u05D9\u05D8\u05D7\u05D5\u05DF \u05D0\u05DE\u05D9\u05EA\u05D9, \u05E9\u05D9\u05E6\u05D5\u05E8 \u05D7\u05D5\u05E1\u05E8 \u05D2\u05D9\u05E9\u05D4 \u05D2\u05D9\u05D0\u05D5\u05D2\u05E8\u05E4\u05D9 \u05DC\u05D0\u05D5\u05D9\u05D1 \u05D5\u05D9\u05D5\u05E6\u05D9\u05D0 \u05D0\u05EA \u05EA\u05D5\u05E9\u05D1\u05D9 \u05D9\u05D9\u05E9\u05D5\u05D1\u05D9 \u05D4\u05D2\u05D1\u05D5\u05DC\u05D5\u05EA \u05DE\u05DB\u05DC\u05DC \u05D4\u05E1\u05DB\u05E0\u05D4 \u05D4\u05D9\u05D5\u05DE\u05D9\u05D5\u05DE\u05D9\u05EA",
+          "PublishedAt": "2026-07-10T06:29:00+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0154146+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2026/06/27/BJ2ERbaGzg/BJ2ERbaGzg_0_0_3000_2000_0_medium.jpg"
+        },
+        {
+          "Id": "https://www.ynet.co.il/news/article/sjb3n7t7mg",
+          "FeedId": "5d22541e-d86b-4066-97d8-8cb8100c0fd9",
+          "Title": "\u05D4\u05DE\u05D8\u05D1\u05E2 \u05DE\u05EA\u05D7\u05EA \u05DC\u05E4\u05E0\u05E1",
+          "Link": "https://www.ynet.co.il/news/article/sjb3n7t7mg",
+          "Summary": "\u003Ca\u003E\u003C/a\u003E\u05D4\u05D5\u05D5\u05D9\u05DB\u05D5\u05D7 \u05D4\u05DC\u05D5\u05D4\u05D8 \u05D5\u05D4\u05DE\u05D5\u05E6\u05D3\u05E7 \u05DE\u05D5\u05DC \u05D4\u05D7\u05E8\u05D3\u05D9\u05DD \u05D2\u05D5\u05E8\u05DD \u05DC\u05E0\u05D5 \u05DC\u05D6\u05E0\u05D5\u05D7 \u05D0\u05EA \u05DE\u05E9\u05E8\u05EA\u05D9 \u05D4\u05DE\u05D9\u05DC\u05D5\u05D0\u05D9\u05DD \u05D4\u05E7\u05D9\u05D9\u05DE\u05D9\u05DD. \u05D4\u05D6\u05E8\u05E7\u05D5\u05E8 \u05DE\u05D5\u05E4\u05E0\u05D4 \u05D1\u05D0\u05D5\u05E4\u05DF \u05D1\u05DC\u05E2\u05D3\u05D9 \u05DC\u05DE\u05D7\u05E1\u05D5\u05E8 \u05D1\u05DB\u05D5\u05D7 \u05D0\u05D3\u05DD \u05D4\u05E0\u05D5\u05D1\u05E2 \u05DE\u05D4\u05E9\u05EA\u05DE\u05D8\u05D5\u05EA \u05D4\u05D7\u05E8\u05D3\u05D9\u05EA, \u05D5\u05D1\u05D7\u05E1\u05D5\u05EA \u05D4\u05E8\u05E2\u05E9 \u05D4\u05D6\u05D4, \u05D4\u05D7\u05D1\u05E8\u05D4 \u05D4\u05D9\u05E9\u05E8\u05D0\u05DC\u05D9\u05EA \u05DE\u05E1\u05E8\u05D1\u05EA \u05DC\u05D1\u05D7\u05D5\u05DF \u05D4\u05D0\u05DD \u05D4\u05DE\u05E2\u05E8\u05DB\u05EA \u05E2\u05D5\u05E9\u05D4 \u05D4\u05DB\u05DC \u05DB\u05D3\u05D9 \u05DC\u05DE\u05E7\u05E1\u05DD \u05D0\u05EA \u05E9\u05D5\u05E8\u05EA \u05D4\u05DE\u05E9\u05E8\u05EA\u05D9\u05DD \u05DE\u05EA\u05D5\u05DA \u05D4\u05DE\u05D0\u05D2\u05E8 \u05D4\u05E7\u05D9\u05D9\u05DD",
+          "PublishedAt": "2026-07-10T06:22:00+03:00",
+          "FetchedAt": "2026-07-10T21:48:22.0154819+00:00",
+          "ImageUrl": "https://ynet-pic1.yit.co.il/picserver6/crop_images/2024/03/03/H18N0p11Ga6/H18N0p11Ga6_0_0_3000_2000_0_medium.jpg"
         }
       ]
     }
