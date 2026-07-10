@@ -81,6 +81,24 @@
         </div>
 
         <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+
+        <button class="help-fab" type="button" id="helpFabButton" aria-label="Open help" aria-expanded="false" aria-controls="helpPanel">
+            <i class="bi bi-question-lg" aria-hidden="true"></i>
+        </button>
+
+        <div class="help-panel" id="helpPanel" role="dialog" aria-label="Help" aria-modal="false" hidden>
+            <div class="help-panel__header">
+                <h3>How can we help?</h3>
+                <button class="icon-button" type="button" id="helpCloseButton" aria-label="Close help">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+            <label class="field help-panel__search">
+                <span class="visually-hidden">Search help topics</span>
+                <input id="helpSearchInput" type="search" placeholder="Search help topics" autocomplete="off" />
+            </label>
+            <div class="help-panel__list" id="helpTopicList"></div>
+        </div>
     </div>
 
     <template id="feedItemTemplate">
@@ -101,6 +119,9 @@
                     <h4 class="article-card__title"></h4>
                 </div>
                 <time class="article-card__time"></time>
+            </div>
+            <div class="article-card__media" hidden>
+                <img class="article-card__image" alt="" loading="lazy" referrerpolicy="no-referrer" />
             </div>
             <p class="article-card__summary"></p>
             <div class="article-card__footer">

@@ -12,5 +12,11 @@ namespace Domain
         public string Summary { get; set; } = string.Empty;
         public DateTimeOffset PublishedAt { get; set; }
         public DateTimeOffset FetchedAt { get; set; }
+
+        /// <summary>
+        /// URL of an image associated with the article (enclosure, media:content, or first img in content).
+        /// </summary>
+        public string? ImageUrl { get; set; }
     }
 }
+
