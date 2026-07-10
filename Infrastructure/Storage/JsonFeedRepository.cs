@@ -281,7 +281,8 @@ namespace Infrastructure.Storage
                 Link = a.Link,
                 Summary = a.Summary,
                 PublishedAt = a.PublishedAt,
-                FetchedAt = a.FetchedAt
+                FetchedAt = a.FetchedAt,
+                ImageUrl = a.ImageUrl
             };
         }
 
