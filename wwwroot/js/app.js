@@ -22,6 +22,11 @@ const elements = {
     topbarStat: document.getElementById('topbarStat'),
     feedItemTemplate: document.getElementById('feedItemTemplate'),
     articleCardTemplate: document.getElementById('articleCardTemplate'),
+    helpFabButton: document.getElementById('helpFabButton'),
+    helpCloseButton: document.getElementById('helpCloseButton'),
+    helpPanel: document.getElementById('helpPanel'),
+    helpSearchInput: document.getElementById('helpSearchInput'),
+    helpTopicList: document.getElementById('helpTopicList'),
 };
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -39,6 +44,15 @@ const sectionFormatter = new Intl.DateTimeFormat(undefined, {
 
 const readStorageKey = 'rss-reader-read-articles';
 const themeStorageKey = 'rss-reader-theme';
+
+/**
+ * Applies automatic text direction (RTL/LTR) to an element based on its text content.
+ * Uses the browser's native `dir="auto"` for robust RTL detection across
+ * Arabic, Urdu, Hebrew, Persian, and other RTL scripts.
+ */
+function applyDirection(element, _text) {
+  element.setAttribute('dir', 'auto');
+}
 
 let toastHost;
 let toastTimers = [];
@@ -473,13 +487,35 @@ function renderArticles() {
                 favicon.src = faviconUrl;
                 source.append(favicon);
             }
-            source.append(document.createTextNode(sourceText));
-            card.querySelector('.article-card__title').textContent = article.title || 'Untitled article';
+                        source.append(document.createTextNode(sourceText));
+
+            // --- Title with RTL support ---
+            const titleEl = card.querySelector('.article-card__title');
+            const articleTitle = article.title || 'Untitled article';
+            titleEl.textContent = articleTitle;
+            applyDirection(titleEl, articleTitle);
+
             card.querySelector('.article-card__time').textContent = formatTime(article.publishedAt);
+
+            // --- Image display ---
+            const mediaContainer = card.querySelector('.article-card__media');
+            const img = card.querySelector('.article-card__image');
+            if (article.imageUrl) {
+                img.src = article.imageUrl;
+                img.alt = articleTitle;
+                mediaContainer.hidden = false;
+                card.classList.add('article-card--with-image');
+            } else {
+                mediaContainer.hidden = true;
+                img.removeAttribute('src');
+            }
+
+            // --- Summary with RTL support ---
             const summaryText = stripHtml(article.summary);
             const summary = card.querySelector('.article-card__summary');
             if (summaryText) {
                 summary.textContent = summaryText;
+                applyDirection(summary, summaryText);
             } else {
                 summary.remove();
                 card.classList.add('article-card--compact');
@@ -497,7 +533,7 @@ function renderArticles() {
             const link = card.querySelector('.article-card__link');
             link.href = article.link || '#';
             link.textContent = article.link ? 'Open' : 'No link';
-            link.setAttribute('aria-label', `Open article ${article.title || ''}`.trim());
+            link.setAttribute('aria-label', `Open article ${articleTitle}`.trim());
             if (!article.link) {
                 link.setAttribute('aria-disabled', 'true');
                 link.tabIndex = -1;
@@ -564,6 +600,104 @@ function render() {
     renderArticles();
     renderStats();
     updateViewStatus();
+}
+
+/* ---------- Help widget ---------- */
+
+const helpTopics = [
+    {
+        question: 'How do I add a feed?',
+        answer: 'Open the sidebar (tap the menu icon on mobile), paste an RSS or Atom feed URL into "Add feed", and submit. The reader fetches it right away and adds it to your subscriptions.',
+    },
+    {
+        question: 'How do I refresh a feed?',
+        answer: 'Click "Refresh" next to a feed in the sidebar to pull new articles from just that source, or use "Refresh all" in the top bar to update every subscription at once.',
+    },
+    {
+        question: 'How do I remove a feed?',
+        answer: 'Click "Delete" next to a feed in the sidebar. You will be asked to confirm, and you can always add the same feed URL back later.',
+    },
+    {
+        question: 'How do I search articles?',
+        answer: 'Use the search box in the top bar. It matches against article titles, feed titles, and summaries as you type.',
+    },
+    {
+        question: 'How do I view articles from one feed only?',
+        answer: 'Click a feed in the sidebar to filter the river to just that subscription. Click "All articles" to go back to the unified view.',
+    },
+    {
+        question: 'How does read/unread tracking work?',
+        answer: 'Opening an article marks it as read. Read state is stored in your browser only, so it is local to this device and browser.',
+    },
+    {
+        question: 'Why is an article shown right-to-left?',
+        answer: 'Titles and summaries automatically detect their own text direction, so Arabic, Hebrew, Urdu, and Persian articles render right-to-left while others stay left-to-right.',
+    },
+    {
+        question: 'Why does an article have no image?',
+        answer: 'Not every feed includes an image. The reader shows one when the source provides an enclosure, media:content, or an image inside the article content.',
+    },
+];
+
+function renderHelpTopics(filterText = '') {
+    const query = filterText.trim().toLowerCase();
+    const matches = helpTopics.filter((topic) =>
+        !query || topic.question.toLowerCase().includes(query) || topic.answer.toLowerCase().includes(query)
+    );
+
+    elements.helpTopicList.innerHTML = '';
+
+    if (!matches.length) {
+        const empty = document.createElement('p');
+        empty.className = 'help-panel__empty';
+        empty.textContent = 'No help topics match your search.';
+        elements.helpTopicList.append(empty);
+        return;
+    }
+
+    for (const topic of matches) {
+        const item = document.createElement('div');
+        item.className = 'help-topic';
+
+        const question = document.createElement('button');
+        question.type = 'button';
+        question.className = 'help-topic__question';
+        question.setAttribute('aria-expanded', 'false');
+        question.innerHTML = `<span>${topic.question}</span><i class="bi bi-chevron-down" aria-hidden="true"></i>`;
+
+        const answer = document.createElement('p');
+        answer.className = 'help-topic__answer';
+        answer.textContent = topic.answer;
+        answer.hidden = true;
+
+        question.addEventListener('click', () => {
+            const isOpen = item.classList.toggle('is-open');
+            answer.hidden = !isOpen;
+            question.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        item.append(question, answer);
+        elements.helpTopicList.append(item);
+    }
+}
+
+function openHelpPanel() {
+    elements.helpPanel.hidden = false;
+    elements.helpFabButton.setAttribute('aria-expanded', 'true');
+    elements.helpSearchInput.focus();
+}
+
+function closeHelpPanel() {
+    elements.helpPanel.hidden = true;
+    elements.helpFabButton.setAttribute('aria-expanded', 'false');
+}
+
+function toggleHelpPanel() {
+    if (elements.helpPanel.hidden) {
+        openHelpPanel();
+    } else {
+        closeHelpPanel();
+    }
 }
 
 async function loadData() {
@@ -681,12 +815,25 @@ function wireEvents() {
             closeDrawer();
         }
     });
+
+    elements.helpFabButton.addEventListener('click', toggleHelpPanel);
+    elements.helpCloseButton.addEventListener('click', closeHelpPanel);
+    elements.helpSearchInput.addEventListener('input', (event) => {
+        renderHelpTopics(event.target.value);
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !elements.helpPanel.hidden) {
+            closeHelpPanel();
+        }
+    });
 }
 
 async function init() {
     loadTheme();
     wireEvents();
     loadReadState();
+    renderHelpTopics();
     try {
         await loadData();
         setFeedMessage('');

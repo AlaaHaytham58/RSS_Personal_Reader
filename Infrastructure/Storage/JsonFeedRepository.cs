@@ -43,15 +43,6 @@ namespace Infrastructure.Storage
                 }
 
                 var text = File.ReadAllText(_filePath);
-                using var doc = JsonDocument.Parse(text);
-                // Basic shape validation
-                if (!doc.RootElement.TryGetProperty("feeds", out var feedsElement))
-                {
-                    _logger.LogWarning("feeds.json missing 'feeds' element; starting empty");
-                    _feeds = new List<Feed>();
-                    PersistSync();
-                    return;
-                }
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var wrapper = JsonSerializer.Deserialize<FeedsFileWrapper>(text, options);
@@ -281,7 +272,8 @@ namespace Infrastructure.Storage
                 Link = a.Link,
                 Summary = a.Summary,
                 PublishedAt = a.PublishedAt,
-                FetchedAt = a.FetchedAt
+                FetchedAt = a.FetchedAt,
+                ImageUrl = a.ImageUrl
             };
         }
 

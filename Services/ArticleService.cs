@@ -25,7 +25,7 @@ namespace Services
                 .OrderByDescending(GetSortTimestamp)
                 .Select(article =>
                 {
-                    var feed = feeds.FirstOrDefault(f => f.Id == article.FeedId);
+                                        var feed = feeds.FirstOrDefault(f => f.Id == article.FeedId);
                     return new ArticleResponse
                     {
                         Id = article.Id,
@@ -34,7 +34,8 @@ namespace Services
                         Title = article.Title,
                         Link = article.Link,
                         Summary = article.Summary,
-                        PublishedAt = GetSortTimestamp(article)
+                        PublishedAt = GetSortTimestamp(article),
+                        ImageUrl = article.ImageUrl
                     };
                 })
                 .ToList();
