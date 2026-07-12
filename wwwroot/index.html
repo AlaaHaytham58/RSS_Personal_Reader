@@ -99,6 +99,29 @@
             </label>
             <div class="help-panel__list" id="helpTopicList"></div>
         </div>
+
+        <button class="chat-fab" type="button" id="chatFabButton" aria-label="Open AI assistant" aria-expanded="false" aria-controls="chatPanel">
+            <i class="bi bi-stars" aria-hidden="true"></i>
+        </button>
+
+        <div class="chat-panel" id="chatPanel" role="dialog" aria-label="AI assistant" aria-modal="false" hidden>
+            <div class="chat-panel__header">
+                <h3>Ask the assistant</h3>
+                <button class="icon-button" type="button" id="chatCloseButton" aria-label="Close AI assistant">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="chat-panel__messages" id="chatMessages" aria-live="polite"></div>
+            <form class="chat-panel__form" id="chatForm">
+                <label class="field chat-panel__field">
+                    <span class="visually-hidden">Ask a question</span>
+                    <input id="chatInput" type="text" placeholder="Ask a question..." autocomplete="off" dir="auto" />
+                </label>
+                <button class="icon-button chat-panel__send" type="submit" aria-label="Send message">
+                    <i class="bi bi-send-fill" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
     <template id="feedItemTemplate">
@@ -113,17 +136,21 @@
 
     <template id="articleCardTemplate">
         <article class="article-card card">
-            <div class="article-card__header">
-                <div>
-                    <p class="article-card__source"></p>
-                    <h4 class="article-card__title"></h4>
+            <div class="article-card__row">
+                <div class="article-card__body">
+                    <div class="article-card__header">
+                        <div>
+                            <p class="article-card__source"></p>
+                            <h4 class="article-card__title"></h4>
+                        </div>
+                        <time class="article-card__time"></time>
+                    </div>
+                    <p class="article-card__summary"></p>
                 </div>
-                <time class="article-card__time"></time>
+                <div class="article-card__media" hidden>
+                    <img class="article-card__image" alt="" loading="lazy" referrerpolicy="no-referrer" />
+                </div>
             </div>
-            <div class="article-card__media" hidden>
-                <img class="article-card__image" alt="" loading="lazy" referrerpolicy="no-referrer" />
-            </div>
-            <p class="article-card__summary"></p>
             <div class="article-card__footer">
                 <span class="article-card__feed"></span>
                 <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
