@@ -27,6 +27,12 @@ const elements = {
     helpPanel: document.getElementById('helpPanel'),
     helpSearchInput: document.getElementById('helpSearchInput'),
     helpTopicList: document.getElementById('helpTopicList'),
+    chatFabButton: document.getElementById('chatFabButton'),
+    chatCloseButton: document.getElementById('chatCloseButton'),
+    chatPanel: document.getElementById('chatPanel'),
+    chatMessages: document.getElementById('chatMessages'),
+    chatForm: document.getElementById('chatForm'),
+    chatInput: document.getElementById('chatInput'),
 };
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -368,8 +374,25 @@ function buildFeedChip(feed) {
         }
     });
 
+    const moreButton = document.createElement('button');
+    moreButton.type = 'button';
+    moreButton.className = 'feed-item__more';
+    moreButton.setAttribute('aria-label', `More actions for ${getFeedDisplayName(feed)}`);
+    moreButton.setAttribute('aria-expanded', 'false');
+    moreButton.innerHTML = '<i class="bi bi-three-dots-vertical" aria-hidden="true"></i>';
+
     const actions = document.createElement('div');
     actions.className = 'feed-item__actions';
+
+    moreButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = actions.classList.contains('is-open');
+        closeAllFeedActions();
+        if (!isOpen) {
+            actions.classList.add('is-open');
+            moreButton.setAttribute('aria-expanded', 'true');
+        }
+    });
 
     const refreshButton = makeFeedActionButton('Refresh');
     refreshButton.setAttribute('aria-label', `Refresh ${getFeedDisplayName(feed)}`);
@@ -414,9 +437,18 @@ function buildFeedChip(feed) {
     });
 
     actions.append(refreshButton, deleteButton);
-    chip.append(selectButton, actions);
+    chip.append(selectButton, moreButton, actions);
 
     return chip;
+}
+
+function closeAllFeedActions() {
+    for (const actions of document.querySelectorAll('.feed-item__actions.is-open')) {
+        actions.classList.remove('is-open');
+    }
+    for (const button of document.querySelectorAll('.feed-item__more[aria-expanded="true"]')) {
+        button.setAttribute('aria-expanded', 'false');
+    }
 }
 
 function filteredArticles() {
@@ -700,6 +732,100 @@ function toggleHelpPanel() {
     }
 }
 
+/* ---------- AI chat widget ---------- */
+
+const chatHistory = [];
+
+function renderChatMessages() {
+    elements.chatMessages.innerHTML = '';
+
+    if (!chatHistory.length) {
+        const empty = document.createElement('p');
+        empty.className = 'chat-panel__empty';
+        empty.textContent = 'Ask about your articles or feeds, in any language.';
+        elements.chatMessages.append(empty);
+        return;
+    }
+
+    for (const entry of chatHistory) {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-message chat-message--${entry.role}`;
+        if (entry.pending) {
+            bubble.classList.add('chat-message--pending');
+        }
+        if (entry.error) {
+            bubble.classList.add('chat-message--error');
+        }
+        bubble.textContent = entry.content;
+        applyDirection(bubble, entry.content);
+        elements.chatMessages.append(bubble);
+    }
+
+    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+}
+
+async function sendChatMessage(text) {
+    chatHistory.push({ role: 'user', content: text });
+    const pendingEntry = { role: 'assistant', content: 'Thinking...', pending: true };
+    chatHistory.push(pendingEntry);
+    renderChatMessages();
+
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                messages: chatHistory
+                    .filter((entry) => !entry.pending)
+                    .map((entry) => ({ role: entry.role, content: entry.content })),
+            }),
+        });
+
+        let payload = null;
+        try {
+            payload = await response.json();
+        } catch {
+            // ignore non-JSON error bodies
+        }
+
+        if (!response.ok) {
+            pendingEntry.content = payload?.error || 'The assistant is unavailable right now.';
+            pendingEntry.pending = false;
+            pendingEntry.error = true;
+            renderChatMessages();
+            return;
+        }
+
+        pendingEntry.content = payload?.reply || 'No response received.';
+        pendingEntry.pending = false;
+        renderChatMessages();
+    } catch {
+        pendingEntry.content = 'Could not reach the assistant. Check your connection and try again.';
+        pendingEntry.pending = false;
+        pendingEntry.error = true;
+        renderChatMessages();
+    }
+}
+
+function openChatPanel() {
+    elements.chatPanel.hidden = false;
+    elements.chatFabButton.setAttribute('aria-expanded', 'true');
+    elements.chatInput.focus();
+}
+
+function closeChatPanel() {
+    elements.chatPanel.hidden = true;
+    elements.chatFabButton.setAttribute('aria-expanded', 'false');
+}
+
+function toggleChatPanel() {
+    if (elements.chatPanel.hidden) {
+        openChatPanel();
+    } else {
+        closeChatPanel();
+    }
+}
+
 async function loadData() {
     setStatus('Loading feeds and articles...');
     const [feedsResponse, articlesResponse] = await Promise.all([
@@ -807,6 +933,13 @@ function wireEvents() {
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             closeDrawer();
+            closeAllFeedActions();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.feed-item__actions') && !event.target.closest('.feed-item__more')) {
+            closeAllFeedActions();
         }
     });
 
@@ -827,6 +960,31 @@ function wireEvents() {
             closeHelpPanel();
         }
     });
+
+    elements.chatFabButton.addEventListener('click', toggleChatPanel);
+    elements.chatCloseButton.addEventListener('click', closeChatPanel);
+    elements.chatForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const text = elements.chatInput.value.trim();
+        if (!text) {
+            return;
+        }
+
+        elements.chatInput.value = '';
+        elements.chatInput.disabled = true;
+        try {
+            await sendChatMessage(text);
+        } finally {
+            elements.chatInput.disabled = false;
+            elements.chatInput.focus();
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !elements.chatPanel.hidden) {
+            closeChatPanel();
+        }
+    });
 }
 
 async function init() {
@@ -834,6 +992,7 @@ async function init() {
     wireEvents();
     loadReadState();
     renderHelpTopics();
+    renderChatMessages();
     try {
         await loadData();
         setFeedMessage('');

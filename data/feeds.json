@@ -7,7 +7,7 @@
       "Title": "NPR Topics: News",
       "SiteUrl": "https://www.npr.org/templates/story/story.php?storyId=1001",
       "AddedAt": "2026-07-09T10:13:01.7604609+00:00",
-      "LastRefreshedAt": "2026-07-10T22:17:27.0159721+00:00",
+      "LastRefreshedAt": "2026-07-12T19:55:59.0860282+00:00",
       "LastRefreshStatus": 1,
       "Articles": [
         {
@@ -118,7 +118,7 @@
       "Title": "World news | The Guardian",
       "SiteUrl": "https://www.theguardian.com/world",
       "AddedAt": "2026-07-09T10:13:33.7671633+00:00",
-      "LastRefreshedAt": "2026-07-10T22:17:27.665613+00:00",
+      "LastRefreshedAt": "2026-07-12T20:04:21.2033085+00:00",
       "LastRefreshStatus": 1,
       "Articles": [
         {
@@ -579,7 +579,7 @@
       "Title": "BBC News",
       "SiteUrl": "https://www.bbc.co.uk/news",
       "AddedAt": "2026-07-10T21:44:48.6345906+00:00",
-      "LastRefreshedAt": "2026-07-10T22:17:28.2546401+00:00",
+      "LastRefreshedAt": "2026-07-12T19:56:03.3413598+00:00",
       "LastRefreshStatus": 1,
       "Articles": [
         {
@@ -1272,6 +1272,317 @@
           "PublishedAt": "2026-06-23T10:31:55+00:00",
           "FetchedAt": "2026-07-10T21:47:14.4621459+00:00",
           "ImageUrl": null
+        }
+      ]
+    },
+    {
+      "Id": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+      "Url": "https://www.dpreview.com/feeds/news.xml",
+      "Title": "DPReview",
+      "SiteUrl": "https://www.dpreview.com/",
+      "AddedAt": "2026-07-12T20:13:54.8736066+00:00",
+      "LastRefreshedAt": "2026-07-12T20:13:54.8736069+00:00",
+      "LastRefreshStatus": 1,
+      "Articles": [
+        {
+          "Id": "https://www.dpreview.com/?p=667307",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Capture One now costs more than double Lightroom \u2013 its CEO explains why",
+          "Link": "https://www.dpreview.com/interviews/capture-one-now-costs-more-than-double-lightroom-heres-why/",
+          "Summary": "We spoke with Capture One CEO Rafael Orta about what it means to build software for professional photographers.",
+          "PublishedAt": "2026-07-12T13:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8320889+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/DNR-M-IL-Rafael-Orta-Capture-One-2.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=668337",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Sony RX10 V in San Francisco: a bridge camera and a fog-bound bridge",
+          "Link": "https://www.dpreview.com/samples/sony-rx10-v-in-san-francisco-a-bridge-camera-and-a-fog-bound-bridge/",
+          "Summary": "The Sony RX10 V arrived just before a trip I had planned to San Francisco, giving me some more interesting / less familiar shooting opportunities, the chance to play with an extremely long lens, and a lesson in how hard it is to re-create Todd Walker\u2019s famous 1964 photo of California Street. I made sure [\u2026]",
+          "PublishedAt": "2026-07-11T14:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8667229+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/A_classic_tram_on_San_Franciscos_Market_Street.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=668247",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Insta360 and Bambu Lab challenge you to 3D-print your own Luna Ultra camera accessories",
+          "Link": "https://www.dpreview.com/news/insta360-and-bambu-lab-challenge-you-to-3d-print-your-own-luna-ultra-camera-accessories/",
+          "Summary": "Insta360 and Bambu Lab have launched a contest built around official Luna Ultra design files on MakerWorld, inviting creators to submit 3D\u2011printable accessories and related content",
+          "PublishedAt": "2026-07-10T18:24:15+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8670862+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/M-IL-insta360-makerspace-3d-printing-promo.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=668103",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Gear Patrol founder Eric Yang: Why we rebuilt DPReview after 25 years",
+          "Link": "https://www.dpreview.com/articles/gear-patrol-founder-eric-yang-why-we-rebuilt-dpreview-after-25-years/",
+          "Summary": "Three years after acquiring DPReview from Amazon, Gear Patrol\u0027s founder reflects on the unglamorous, expensive work of rebuilding the site from the ground up.",
+          "PublishedAt": "2026-07-10T17:16:57+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8671774+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/dpreview-eric-yang-letter-website-launch-06.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667938",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Olivia Wilde tours Kodak\u2019s surprisingly gritty movie film lab",
+          "Link": "https://www.dpreview.com/articles/olivia-wilde-tours-kodaks-surprisingly-gritty-movie-film-lab/",
+          "Summary": "A recent video from Kodak and A24 showcases Olivia Wilde touring Kodak\u0027s Film Lab in New York City, offering a short glimpse at the process behind developing motion picture film.",
+          "PublishedAt": "2026-07-10T13:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8672817+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/olivia-wilde-kodak-tour.avif?w=1280"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667917",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "The Sony RX10 V shows how far cameras have come in the past decade",
+          "Link": "https://www.dpreview.com/reviews/sony-rx10-v-review/",
+          "Summary": "The Sony RX10 V brings almost a decade\u0027s worth of tech improvements to Sony\u0027s Type 1 sensor, long-zoom compact.",
+          "PublishedAt": "2026-07-09T14:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8673616+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/PI_Sony_rx10_V_3qtr.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=668027",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Ricoh wishes Happy Birthday to its most famous model",
+          "Link": "https://www.dpreview.com/news/ricoh-wishes-happy-birthday-to-its-most-famous-model/",
+          "Summary": "6000 special edition GR IVs with subtle changes and accessories mark 30 years of the GR series.",
+          "PublishedAt": "2026-07-09T06:02:10+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8706307+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/GR4_30th_front_on_4_3.avif?w=980"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667967",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Fujifilm\u2019s going wider than ever with its new GF lens",
+          "Link": "https://www.dpreview.com/news/fujifilms-going-wider-than-ever-with-its-new-gf-lens/",
+          "Summary": "The latest lens from Fujifilm is the company\u0027s second power zoom offering.",
+          "PublishedAt": "2026-07-09T05:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8707404+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/M-PI-GF19-35mm.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667330",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "What image made you realize your new gear was worth it?",
+          "Link": "https://www.dpreview.com/articles/what-image-made-you-realize-your-new-gear-was-worth-it/",
+          "Summary": "Buying a new camera is an exciting feeling. For this week\u2019s community question, we\u2019re asking readers: what image made you realize your new gear was worth it?",
+          "PublishedAt": "2026-07-08T17:45:04+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8715284+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/Aurora-8.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667845",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Welcome to the new DPReview!",
+          "Link": "https://www.dpreview.com/site-news/welcome-to-the-new-dpreview/",
+          "Summary": "Welcome to the new DPReview \u2013 if you\u2019re reading this article, it means the new DPReview website is now live. Not just a fresh coat of paint A couple of months ago, we told you we were rebuilding DPReview for the first time in its history. The old site had been built up over more [\u2026]",
+          "PublishedAt": "2026-07-08T13:02:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8716397+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/IL_new_DPR_homepage_on_desktop.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667824",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "New DPReview website FAQ",
+          "Link": "https://www.dpreview.com/site-news/new-dpreview-website-faq/",
+          "Summary": "Have a question about DPReview\u0027s new website? Find the answers here.",
+          "PublishedAt": "2026-07-08T13:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.871706+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/FAQ-4x3-1.avif?w=1200"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667521",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "The Panasonic L10 won\u2019t fit in your pocket, but with good reason?",
+          "Link": "https://www.dpreview.com/opinion/the-panasonic-l10-wont-fit-in-your-pocket-but-with-good-reason/",
+          "Summary": "Having worked out where the L10\u0027s extra bulk comes from, Richard wonders whether the benefits might be worth it.",
+          "PublishedAt": "2026-07-07T21:27:11+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8717651+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/Panasonic_DC-L10_battery.avif?w=1920"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=666863",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "How does Canon\u2019s new approach to power zoom work for photographers?",
+          "Link": "https://www.dpreview.com/articles/canon-rf-20-50mm-f4-l-is-usm-pz-shooting-experience-hybrid/",
+          "Summary": "Canon is trying something new with its latest power zoom to make it more appealing to photographers. Does it work?",
+          "PublishedAt": "2026-07-06T15:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.871822+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/5271550308-canon-20-50mm_pz_mz_switch.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=542178",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Terra Flamma: meet the photographer using wildfire as light",
+          "Link": "https://www.dpreview.com/interviews/terra-flamma-meet-the-photographer-using-wildfire-as-light/",
+          "Summary": "For 13 years, Stuart Palley has been creating striking images of wildfires that keep getting bigger, faster and harder to predict.",
+          "PublishedAt": "2026-07-05T21:22:16+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8719349+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/8859069053-a_large_plume_of_red_smoke_fills_the_sky_above_mountains.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/opinion/6128008404/age-of-mechanical-wonders-dslrs-slrs-mirrorless/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Opinion: is the age of mechanical wonders over?",
+          "Link": "https://www.dpreview.com/opinion/age-of-mechanical-wonders-dslrs-slrs-mirrorless/",
+          "Summary": "Modern cameras are marvels of software engineering. But as physical objects, they\u0027re much simpler than what came before.",
+          "PublishedAt": "2026-07-04T09:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8720294+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/6128008404-nikon-d850-sensor.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=667551",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "A new Sony RX10 is coming",
+          "Link": "https://www.dpreview.com/news/a-new-sony-rx10-is-coming/",
+          "Summary": "Sony is set to announce a new model of its RX10 enthusiast long zoom compact next week, according to a teaser video. Captioned \u201CThe wait is over. A new RX10 is coming 7/9/2026,\u201D it shows off a silhouette of what appears to be the camera\u2019s lens and body. The reference to a wait is apt. [\u2026]",
+          "PublishedAt": "2026-07-03T15:09:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8720924+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/Screenshot_2026-07-03_at_07.48.16-1.avif?w=1280"
+        },
+        {
+          "Id": "https://www.dpreview.com/news/4766979407/photographing-fireworks-four-things-social-video-july-fourth-november/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Photographing fireworks? Here\u2019s the four things you need to know",
+          "Link": "https://www.dpreview.com/articles/photographing-fireworks-four-things-social-video-july-fourth-november/",
+          "Summary": "How to go beyond taking pictures of fireworks with your phone, or sticking your camera into fireworks mode.",
+          "PublishedAt": "2026-07-03T11:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8721544+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/4766979407-IMG_8503.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/news/3727701910/fujifilm-is-trying-something-new-after-40-years-of-disposable-quicksnap-cameras/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Fujifilm\u2019s trying something new after 40 years of disposable QuickSnap cameras",
+          "Link": "https://www.dpreview.com/news/fujifilm-is-trying-something-new-after-40-years-of-disposable-quicksnap-cameras/",
+          "Summary": "Fujifilm has announced two new QuickSnap single-use cameras to celebrate 40 years of the lineup.",
+          "PublishedAt": "2026-07-03T09:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8722494+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/3727701910-a_colorful_plastic_Camera_sits_in_sand_next_to_sunglasses_towel_fringe_and_a_woven_bag.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/site-news/7480142560/the-countdown-begins-dpreview-s-new-website-goes-live-next-week/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "The countdown begins: DPReview\u2019s new website goes live next week",
+          "Link": "https://www.dpreview.com/site-news/7480142560/the-countdown-begins-dpreview-s-new-website-goes-live-next-week/",
+          "Summary": "Our new website will go live next week. Here\u0027s what you need to know.",
+          "PublishedAt": "2026-07-02T16:55:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8723162+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/05/shared-DPReview_logo_3x2.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/articles/2496878364/meet-the-bird-photographer-whose-go-to-camera-is-the-nikon-p950/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Meet the bird photographer whose go-to camera is the Nikon P950",
+          "Link": "https://www.dpreview.com/articles/2496878364/meet-the-bird-photographer-whose-go-to-camera-is-the-nikon-p950/",
+          "Summary": "DPReview reader Kathie Thomas loves birds and would like to share her spectacular bird photography with you. This story is part of a weekly community spotlight series.",
+          "PublishedAt": "2026-07-02T10:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.872386+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/2496878364-DSCN1911_-_Kathie_Thomas.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/news/2273939262/capture-one-hasselblad-partnership-announcement/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Two industry titans have buried the hatchet",
+          "Link": "https://www.dpreview.com/news/2273939262/capture-one-hasselblad-partnership-announcement/",
+          "Summary": "Capture One is expanding its list of compatible cameras through a new partnership with Hasselblad.",
+          "PublishedAt": "2026-07-02T08:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8724572+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/2273939262-a_camera_sits_next_to_a_laptop_with_editing_software_on_the_display_on_a_wood_table_white_text_is_on_top_of_the_image.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/articles/6015671507/panasonic-lumix-dc-l10-studio-scene-reshoot/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "We retested the Panasonic L10, just to be sure",
+          "Link": "https://www.dpreview.com/articles/6015671507/panasonic-lumix-dc-l10-studio-scene-reshoot/",
+          "Summary": "We\u0027ve seen some concerns expressed about the performance of the Panasonic L10 in our test scene, so we borrowed another copy, just to be certain.",
+          "PublishedAt": "2026-07-01T10:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8725323+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/6015671507-Panasonic_L10_in_front_of_the_DPR_studio_scene.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=542126",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "What you missed in the DPReview community: June 2026",
+          "Link": "https://www.dpreview.com/articles/what-you-missed-in-the-dpreview-community-june-2026/",
+          "Summary": "Get the latest community updates in this once-a-month review of articles and other news from DPReview readers. See what happened in June 2026.",
+          "PublishedAt": "2026-06-30T21:22:49+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8725934+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/3642869005-Cameras.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/articles/2400837990/hasselblad-masters-2026-photography-competition-winners/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "From coral reefs to abandoned theaters: meet the 2026 Hasselblad Masters",
+          "Link": "https://www.dpreview.com/articles/2400837990/hasselblad-masters-2026-photography-competition-winners/",
+          "Summary": "The 2026 Hasselblad Masters show that compelling photography can come from everywhere and be about everything.",
+          "PublishedAt": "2026-06-30T11:31:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8726557+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/2400837990-ARCHITECTURE-_Kevin_Boyle_II.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=519585",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "DJI Osmo Pocket 4P: Industry\u2019s worst-kept secret finally revealed in China",
+          "Link": "https://www.dpreview.com/news/dji-osmo-pocket-4p-industrys-worst-kept-secret-finally-revealed-in-china/",
+          "Summary": "Here\u0027s what we now know about the DJI Osmo Pocket 4P.",
+          "PublishedAt": "2026-06-29T21:23:05+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8727248+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/8014959474-a_dji_gimabal_camera_sits_on_a_sidewalk_with_red_graffiti_behind_it.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/?p=542138",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "DPReview readers share their most memorable cameras",
+          "Link": "https://www.dpreview.com/articles/dpreview-readers-share-their-most-memorable-cameras/",
+          "Summary": "Come celebrate World Camera Day with us by checking out which cameras our readers say are their most memorable in this edition of our Question of the week series.",
+          "PublishedAt": "2026-06-29T21:23:02+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8727833+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/06/5975861809-Leonp-camera-on-towel-colored-lighting-living-room-scene_LP53737.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/news/5201878914/panasonic-s1ii-price-cut-2026/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Panasonic\u2019s selling one of its best cameras at a much better price (for now?)",
+          "Link": "https://www.dpreview.com/news/5201878914/panasonic-s1ii-price-cut-2026/",
+          "Summary": "The S1II is currently available for $300 less than its launch price, making it more competitive with options from Canon and Sony.",
+          "PublishedAt": "2026-06-29T14:12:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8728466+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/5201878914-S1RM2_ft_captureone.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/samples/7221272473/tamron-17-70mm-f2-8-sample-gallery/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Tamron 17-70mm F2.8 sample gallery: coming soon to Canon RF and Nikon Z",
+          "Link": "https://www.dpreview.com/samples/7221272473/tamron-17-70mm-f2-8-sample-gallery/",
+          "Summary": "Canon and Nikon APS-C shooters will soon have access to Tamron\u0027s popular zoom lens. Check out our sample gallery to see how the RF-mount version performed.",
+          "PublishedAt": "2026-06-28T09:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8729073+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/7221272473-6K9A1144.acr_.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/samples/6580751906/leica-sl3-p-sample-gallery/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "Leica SL3-P sample gallery: how race-ready is Leica\u2019s latest?",
+          "Link": "https://www.dpreview.com/samples/6580751906/leica-sl3-p-sample-gallery/",
+          "Summary": "We shot a range of subjects with the Leica SL3-P, have a look at how it performs.",
+          "PublishedAt": "2026-06-27T10:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8730005+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/07/6580751906-L1000306.avif"
+        },
+        {
+          "Id": "https://www.dpreview.com/articles/9142904989/olivia-rodrigo-drop-dead-music-video-behind-the-scenes/",
+          "FeedId": "62fcb7f5-f4e7-458d-8926-3625bdd383a0",
+          "Title": "The creative camera choices behind one of the year\u2019s biggest music videos",
+          "Link": "https://www.dpreview.com/articles/9142904989/olivia-rodrigo-drop-dead-music-video-behind-the-scenes/",
+          "Summary": "A recent video with the cinematographer for Olivia Rodrigo\u0027s \u0022drop dead\u0022 music video goes deep on the creative process.",
+          "PublishedAt": "2026-06-27T09:00:00+00:00",
+          "FetchedAt": "2026-07-12T20:13:54.8731332+00:00",
+          "ImageUrl": "https://www.dpreview.com/wp-content/uploads/2026/03/google_preferred_source_badge_dark_en.avif?w=300"
         }
       ]
     }
