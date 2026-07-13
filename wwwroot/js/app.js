@@ -4,12 +4,14 @@ const state = {
     search: '',
     selectedFeedId: 'all',
     readArticleIds: new Set(),
+    favoriteArticleIds: new Set(),
 };
 
 const elements = {
     sidebar: document.getElementById('sidebarDrawer'),
     backdrop: document.getElementById('drawerBackdrop'),
     menuButton: document.getElementById('menuButton'),
+    langToggle: document.getElementById('langToggle'),
     themeToggle: document.getElementById('themeToggle'),
     searchInput: document.getElementById('searchInput'),
     refreshAllButton: document.getElementById('refreshAllButton'),
@@ -35,21 +37,271 @@ const elements = {
     chatInput: document.getElementById('chatInput'),
 };
 
-const dateFormatter = new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-});
-
-const sectionFormatter = new Intl.DateTimeFormat(undefined, {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-});
-
 const readStorageKey = 'rss-reader-read-articles';
+const favoritesStorageKey = 'rss-reader-favorite-articles';
 const themeStorageKey = 'rss-reader-theme';
+const langStorageKey = 'rss-reader-lang';
+
+/* ---------- Localization ---------- */
+
+const translations = {
+    en: {
+        appTitle: 'RSS Reader',
+        switchToArabic: 'AR',
+        switchToEnglish: 'EN',
+        switchToArabicAria: 'Switch interface language to Arabic',
+        switchToEnglishAria: 'Switch interface language to English',
+        openNavigation: 'Open navigation',
+        toggleDarkMode: 'Toggle dark mode',
+        searchPlaceholder: 'Search articles or feeds',
+        refreshAll: 'Refresh all',
+        subscriptions: 'Subscriptions',
+        sidebarDescription: 'Add a feed URL, refresh sources, or remove one you do not need.',
+        addFeed: 'Add feed',
+        feedUrlLabel: 'RSS or Atom URL',
+        latestArticles: 'Latest articles',
+        loadingFeeds: 'Loading feeds and articles...',
+        articlesAriaLabel: 'Articles',
+        openHelp: 'Open help',
+        helpHeading: 'How can we help?',
+        closeHelp: 'Close help',
+        searchHelpTopics: 'Search help topics',
+        openAssistant: 'Open AI assistant',
+        askAssistant: 'Ask the assistant',
+        closeAssistant: 'Close AI assistant',
+        askQuestion: 'Ask a question',
+        askQuestionPlaceholder: 'Ask a question...',
+        sendMessage: 'Send message',
+        copyArticleLink: 'Copy article link',
+        saveToFavorites: 'Save to favorites',
+        removeFromFavorites: 'Remove from favorites',
+        allArticles: 'All articles',
+        allArticlesDescription: 'View everything in the river',
+        favorites: 'Favorites',
+        favoritesMeta: '{count} saved article(s)',
+        untitledFeed: 'Untitled feed',
+        untitledArticle: 'Untitled article',
+        unknownSource: 'Unknown source',
+        noLink: 'No link',
+        open: 'Open',
+        refresh: 'Refresh',
+        delete: 'Delete',
+        older: 'Older',
+        today: 'Today',
+        yesterday: 'Yesterday',
+        noArticlesFoundTitle: 'No articles found',
+        noArticlesFoundBody: 'Try a different search term, add a feed, or refresh your subscriptions to pull in new stories.',
+        noFavoritesTitle: 'No favorites yet',
+        noFavoritesBody: 'Tap the star on an article to save it here for later.',
+        noHelpTopics: 'No help topics match your search.',
+        contentUnavailableTitle: 'Content unavailable',
+        contentUnavailableBody: 'The reader could not load feeds or articles. Check the API, then refresh the page.',
+        chatEmpty: 'Ask about your articles or feeds, in any language.',
+        thinking: 'Thinking...',
+        assistantUnavailable: 'The assistant is unavailable right now.',
+        noResponse: 'No response received.',
+        couldNotReachAssistant: 'Could not reach the assistant. Check your connection and try again.',
+        linkCopied: 'Link copied to clipboard',
+        couldNotCopyLink: 'Could not copy link',
+        feedAdded: 'Feed added.',
+        feedsRefreshed: 'Feeds refreshed.',
+        failedToRefreshFeeds: 'Failed to refresh feeds.',
+        enterFeedUrl: 'Enter a feed URL.',
+        addingFeed: 'Adding feed...',
+        unableToAddFeed: 'Unable to add feed.',
+        unableToRefreshFeed: 'Unable to refresh feed.',
+        unableToDeleteFeed: 'Unable to delete feed.',
+        unableToLoadData: 'Unable to load data right now.',
+        unexpectedError: 'An unexpected error occurred.',
+        feedUpdated: 'Updated {name}.',
+        feedRemoved: 'Removed {name}.',
+        viewArticlesFrom: 'View articles from {name}',
+        moreActionsFor: 'More actions for {name}',
+        refreshFeedAria: 'Refresh {name}',
+        deleteFeedAria: 'Delete {name}',
+        confirmRemoveFeed: 'Remove {name} from your subscriptions?\n\nYou can add it back later if needed.',
+        openArticleAria: 'Open article {title}',
+        copyLinkToAria: 'Copy link to {title}',
+        saveFavoriteAria: 'Save {title} to favorites',
+        removeFavoriteAria: 'Remove {title} from favorites',
+        viewingAllFeeds: 'all feeds',
+        viewingFavorites: 'favorites',
+        viewingSelectedFeed: 'selected feed',
+        viewingDescriptor: 'Viewing {descriptor}.',
+        viewingDescriptorSearch: 'Viewing {descriptor}. Search active.',
+        refreshingFeeds: 'Refreshing feeds...',
+        thisFeed: 'this feed',
+        notFeedLink: 'That link does not look like an RSS or Atom feed. Please paste the feed address, not the website homepage.',
+        invalidFeedUrl: 'Please enter a valid http:// or https:// feed URL.',
+        alreadySubscribed: 'That feed is already in your subscriptions.',
+        couldNotReachFeed: 'We could not reach that feed right now. Please check the address and try again.',
+    },
+    ar: {
+        appTitle: 'قارئ RSS',
+        switchToArabic: 'AR',
+        switchToEnglish: 'EN',
+        switchToArabicAria: 'تبديل لغة الواجهة إلى العربية',
+        switchToEnglishAria: 'تبديل لغة الواجهة إلى الإنجليزية',
+        openNavigation: 'فتح التنقل',
+        toggleDarkMode: 'تبديل الوضع الداكن',
+        searchPlaceholder: 'ابحث في المقالات أو المصادر',
+        refreshAll: 'تحديث الكل',
+        subscriptions: 'الاشتراكات',
+        sidebarDescription: 'أضف رابط مصدر RSS، حدّث المصادر، أو احذف مصدرًا لم تعد بحاجة إليه.',
+        addFeed: 'إضافة مصدر',
+        feedUrlLabel: 'رابط RSS أو Atom',
+        latestArticles: 'أحدث المقالات',
+        loadingFeeds: 'جارٍ تحميل المصادر والمقالات...',
+        articlesAriaLabel: 'المقالات',
+        openHelp: 'فتح المساعدة',
+        helpHeading: 'كيف يمكننا المساعدة؟',
+        closeHelp: 'إغلاق المساعدة',
+        searchHelpTopics: 'ابحث في مواضيع المساعدة',
+        openAssistant: 'فتح المساعد الذكي',
+        askAssistant: 'اسأل المساعد',
+        closeAssistant: 'إغلاق المساعد الذكي',
+        askQuestion: 'اطرح سؤالاً',
+        askQuestionPlaceholder: 'اطرح سؤالاً...',
+        sendMessage: 'إرسال الرسالة',
+        copyArticleLink: 'نسخ رابط المقال',
+        saveToFavorites: 'إضافة إلى المفضلة',
+        removeFromFavorites: 'إزالة من المفضلة',
+        allArticles: 'كل المقالات',
+        allArticlesDescription: 'عرض كل شيء في القائمة',
+        favorites: 'المفضلة',
+        favoritesMeta: '{count} مقال محفوظ',
+        untitledFeed: 'مصدر بدون عنوان',
+        untitledArticle: 'مقال بدون عنوان',
+        unknownSource: 'مصدر غير معروف',
+        noLink: 'لا يوجد رابط',
+        open: 'فتح',
+        refresh: 'تحديث',
+        delete: 'حذف',
+        older: 'أقدم',
+        today: 'اليوم',
+        yesterday: 'أمس',
+        noArticlesFoundTitle: 'لا توجد مقالات',
+        noArticlesFoundBody: 'جرّب كلمة بحث مختلفة، أضف مصدرًا، أو حدّث اشتراكاتك لجلب قصص جديدة.',
+        noFavoritesTitle: 'لا توجد مفضلات بعد',
+        noFavoritesBody: 'اضغط على النجمة في أي مقال لحفظه هنا لوقت لاحق.',
+        noHelpTopics: 'لا توجد مواضيع مساعدة مطابقة لبحثك.',
+        contentUnavailableTitle: 'المحتوى غير متاح',
+        contentUnavailableBody: 'تعذّر على القارئ تحميل المصادر أو المقالات. تحقق من الـ API ثم أعد تحميل الصفحة.',
+        chatEmpty: 'اسأل عن مقالاتك أو مصادرك، بأي لغة.',
+        thinking: 'جارٍ التفكير...',
+        assistantUnavailable: 'المساعد غير متاح حاليًا.',
+        noResponse: 'لم يتم استلام أي رد.',
+        couldNotReachAssistant: 'تعذّر الوصول إلى المساعد. تحقق من اتصالك وحاول مرة أخرى.',
+        linkCopied: 'تم نسخ الرابط',
+        couldNotCopyLink: 'تعذّر نسخ الرابط',
+        feedAdded: 'تمت إضافة المصدر.',
+        feedsRefreshed: 'تم تحديث المصادر.',
+        failedToRefreshFeeds: 'فشل تحديث المصادر.',
+        enterFeedUrl: 'أدخل رابط مصدر.',
+        addingFeed: 'جارٍ إضافة المصدر...',
+        unableToAddFeed: 'تعذّرت إضافة المصدر.',
+        unableToRefreshFeed: 'تعذّر تحديث المصدر.',
+        unableToDeleteFeed: 'تعذّر حذف المصدر.',
+        unableToLoadData: 'تعذّر تحميل البيانات الآن.',
+        unexpectedError: 'حدث خطأ غير متوقع.',
+        feedUpdated: 'تم تحديث {name}.',
+        feedRemoved: 'تمت إزالة {name}.',
+        viewArticlesFrom: 'عرض مقالات {name}',
+        moreActionsFor: 'إجراءات إضافية لـ {name}',
+        refreshFeedAria: 'تحديث {name}',
+        deleteFeedAria: 'حذف {name}',
+        confirmRemoveFeed: 'إزالة {name} من اشتراكاتك؟\n\nيمكنك إضافته مرة أخرى لاحقًا إذا لزم الأمر.',
+        openArticleAria: 'فتح مقال {title}',
+        copyLinkToAria: 'نسخ رابط {title}',
+        saveFavoriteAria: 'حفظ {title} في المفضلة',
+        removeFavoriteAria: 'إزالة {title} من المفضلة',
+        viewingAllFeeds: 'كل المصادر',
+        viewingFavorites: 'المفضلة',
+        viewingSelectedFeed: 'المصدر المحدد',
+        viewingDescriptor: 'عرض {descriptor}.',
+        viewingDescriptorSearch: 'عرض {descriptor}. البحث مفعّل.',
+        refreshingFeeds: 'جارٍ تحديث المصادر...',
+        thisFeed: 'هذا المصدر',
+        notFeedLink: 'هذا الرابط لا يبدو مصدر RSS أو Atom. الرجاء لصق رابط المصدر نفسه، وليس الصفحة الرئيسية للموقع.',
+        invalidFeedUrl: 'الرجاء إدخال رابط مصدر صالح يبدأ بـ http:// أو https://.',
+        alreadySubscribed: 'هذا المصدر مضاف بالفعل إلى اشتراكاتك.',
+        couldNotReachFeed: 'تعذّر الوصول إلى هذا المصدر الآن. الرجاء التحقق من الرابط والمحاولة مرة أخرى.',
+    },
+};
+
+let currentLang = 'en';
+
+function t(key, vars) {
+    const dict = translations[currentLang] || translations.en;
+    let text = dict[key] ?? translations.en[key] ?? key;
+    if (vars) {
+        for (const [name, value] of Object.entries(vars)) {
+            text = text.replaceAll(`{${name}}`, value);
+        }
+    }
+    return text;
+}
+
+function applyStaticTranslations() {
+    for (const el of document.querySelectorAll('[data-i18n]')) {
+        el.textContent = t(el.dataset.i18n);
+    }
+    for (const el of document.querySelectorAll('[data-i18n-placeholder]')) {
+        el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder));
+    }
+    for (const el of document.querySelectorAll('[data-i18n-aria-label]')) {
+        el.setAttribute('aria-label', t(el.dataset.i18nAriaLabel));
+    }
+}
+
+function updateLangToggle() {
+    if (currentLang === 'ar') {
+        elements.langToggle.textContent = t('switchToEnglish');
+        elements.langToggle.setAttribute('aria-label', t('switchToEnglishAria'));
+    } else {
+        elements.langToggle.textContent = t('switchToArabic');
+        elements.langToggle.setAttribute('aria-label', t('switchToArabicAria'));
+    }
+}
+
+function applyLanguage(lang) {
+    currentLang = lang === 'ar' ? 'ar' : 'en';
+    document.documentElement.setAttribute('lang', currentLang);
+    document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+    applyStaticTranslations();
+    updateLangToggle();
+    renderHelpTopics(elements.helpSearchInput.value);
+    renderChatMessages();
+    render();
+}
+
+function loadLanguage() {
+    const saved = window.localStorage.getItem(langStorageKey);
+    applyLanguage(saved === 'ar' ? 'ar' : 'en');
+}
+
+function toggleLanguage() {
+    const next = currentLang === 'ar' ? 'en' : 'ar';
+    window.localStorage.setItem(langStorageKey, next);
+    applyLanguage(next);
+}
+
+function getDateFormatter() {
+    return new Intl.DateTimeFormat(currentLang === 'ar' ? 'ar' : undefined, {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+}
+
+function getSectionFormatter() {
+    return new Intl.DateTimeFormat(currentLang === 'ar' ? 'ar' : undefined, {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
 
 /**
  * Applies automatic text direction (RTL/LTR) to an element based on its text content.
@@ -91,6 +343,36 @@ function markArticleRead(articleId) {
     state.readArticleIds.add(articleId);
     saveReadState();
     renderArticles();
+}
+
+function loadFavoritesState() {
+    try {
+        const raw = window.localStorage.getItem(favoritesStorageKey);
+        const values = raw ? JSON.parse(raw) : [];
+        state.favoriteArticleIds = new Set(Array.isArray(values) ? values : []);
+    } catch {
+        state.favoriteArticleIds = new Set();
+    }
+}
+
+function saveFavoritesState() {
+    window.localStorage.setItem(favoritesStorageKey, JSON.stringify([...state.favoriteArticleIds]));
+}
+
+function toggleArticleFavorite(articleId) {
+    if (!articleId) {
+        return;
+    }
+
+    if (state.favoriteArticleIds.has(articleId)) {
+        state.favoriteArticleIds.delete(articleId);
+    } else {
+        state.favoriteArticleIds.add(articleId);
+    }
+
+    saveFavoritesState();
+    renderArticles();
+    renderFeeds();
 }
 
 /* ---------- Theme handling ---------- */
@@ -143,28 +425,28 @@ function formatTime(value) {
         return '—';
     }
 
-    return dateFormatter.format(date);
+    return getDateFormatter().format(date);
 }
 
 function groupLabel(dateValue) {
     const date = new Date(dateValue);
     if (Number.isNaN(date.getTime())) {
-        return 'Older';
+        return t('older');
     }
 
     const now = new Date();
     const sameDay = date.toDateString() === now.toDateString();
     if (sameDay) {
-        return 'Today';
+        return t('today');
     }
 
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1);
     if (date.toDateString() === yesterday.toDateString()) {
-        return 'Yesterday';
+        return t('yesterday');
     }
 
-    return sectionFormatter.format(date);
+    return getSectionFormatter().format(date);
 }
 
 function setStatus(message, tone = 'neutral') {
@@ -214,6 +496,42 @@ function showToast(message, tone = 'neutral') {
     }, 3200);
 
     toastTimers.push(timer);
+}
+
+async function copyTextToClipboard(text) {
+    if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+}
+
+async function shareArticle(url, title) {
+    if (navigator.share) {
+        try {
+            await navigator.share({ title, url });
+            return;
+        } catch (error) {
+            if (error?.name === 'AbortError') {
+                return;
+            }
+        }
+    }
+
+    try {
+        await copyTextToClipboard(url);
+        showToast(t('linkCopied'), 'success');
+    } catch {
+        showToast(t('couldNotCopyLink'), 'error');
+    }
 }
 
 function getFeedById(feedId) {
@@ -286,7 +604,7 @@ function makeFeedActionButton(label, tone = 'neutral') {
 }
 
 function getFeedDisplayName(feed) {
-    return feed.title || feed.siteUrl || feed.url || 'this feed';
+    return feed.title || feed.siteUrl || feed.url || t('thisFeed');
 }
 
 function getFriendlyFeedError(message, fallbackMessage) {
@@ -297,19 +615,19 @@ function getFriendlyFeedError(message, fallbackMessage) {
     }
 
     if (normalized.includes('parse error') || normalized.includes('not a valid feed') || normalized.includes('invalid feed')) {
-        return 'That link does not look like an RSS or Atom feed. Please paste the feed address, not the website homepage.';
+        return t('notFeedLink');
     }
 
     if (normalized.includes('invalid url')) {
-        return 'Please enter a valid http:// or https:// feed URL.';
+        return t('invalidFeedUrl');
     }
 
     if (normalized.includes('already subscribed')) {
-        return 'That feed is already in your subscriptions.';
+        return t('alreadySubscribed');
     }
 
     if (normalized.includes('fetch failed') || normalized.includes('unreachable') || normalized.includes('could not') || normalized.includes('connection')) {
-        return 'We could not reach that feed right now. Please check the address and try again.';
+        return t('couldNotReachFeed');
     }
 
     return message;
@@ -350,7 +668,7 @@ function buildFeedChip(feed) {
 
     const title = document.createElement('strong');
     title.className = 'feed-item__title';
-    title.textContent = feed.title || 'Untitled feed';
+    title.textContent = feed.title || t('untitledFeed');
 
     const meta = document.createElement('span');
     meta.className = 'feed-item__meta';
@@ -363,7 +681,7 @@ function buildFeedChip(feed) {
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
     selectButton.className = 'feed-item__select';
-    selectButton.setAttribute('aria-label', `View articles from ${getFeedDisplayName(feed)}`);
+    selectButton.setAttribute('aria-label', t('viewArticlesFrom', { name: getFeedDisplayName(feed) }));
     selectButton.append(main);
 
     selectButton.addEventListener('click', () => {
@@ -377,7 +695,7 @@ function buildFeedChip(feed) {
     const moreButton = document.createElement('button');
     moreButton.type = 'button';
     moreButton.className = 'feed-item__more';
-    moreButton.setAttribute('aria-label', `More actions for ${getFeedDisplayName(feed)}`);
+    moreButton.setAttribute('aria-label', t('moreActionsFor', { name: getFeedDisplayName(feed) }));
     moreButton.setAttribute('aria-expanded', 'false');
     moreButton.innerHTML = '<i class="bi bi-three-dots-vertical" aria-hidden="true"></i>';
 
@@ -394,28 +712,28 @@ function buildFeedChip(feed) {
         }
     });
 
-    const refreshButton = makeFeedActionButton('Refresh');
-    refreshButton.setAttribute('aria-label', `Refresh ${getFeedDisplayName(feed)}`);
+    const refreshButton = makeFeedActionButton(t('refresh'));
+    refreshButton.setAttribute('aria-label', t('refreshFeedAria', { name: getFeedDisplayName(feed) }));
     refreshButton.addEventListener('click', async (event) => {
         event.stopPropagation();
         refreshButton.disabled = true;
         try {
             await refreshFeed(feed.id);
             await loadData();
-            showToast(`Updated ${getFeedDisplayName(feed)}.`, 'success');
+            showToast(t('feedUpdated', { name: getFeedDisplayName(feed) }), 'success');
         } catch (error) {
-            const message = error instanceof Error ? error.message : 'Unable to refresh feed.';
-            showToast(getFriendlyFeedError(message, 'Unable to refresh feed.'), 'error');
+            const message = error instanceof Error ? error.message : t('unableToRefreshFeed');
+            showToast(getFriendlyFeedError(message, t('unableToRefreshFeed')), 'error');
         } finally {
             refreshButton.disabled = false;
         }
     });
 
-    const deleteButton = makeFeedActionButton('Delete', 'danger');
-    deleteButton.setAttribute('aria-label', `Delete ${getFeedDisplayName(feed)}`);
+    const deleteButton = makeFeedActionButton(t('delete'), 'danger');
+    deleteButton.setAttribute('aria-label', t('deleteFeedAria', { name: getFeedDisplayName(feed) }));
     deleteButton.addEventListener('click', async (event) => {
         event.stopPropagation();
-        const confirmed = window.confirm(`Remove ${getFeedDisplayName(feed)} from your subscriptions?\n\nYou can add it back later if needed.`);
+        const confirmed = window.confirm(t('confirmRemoveFeed', { name: getFeedDisplayName(feed) }));
         if (!confirmed) {
             return;
         }
@@ -427,10 +745,10 @@ function buildFeedChip(feed) {
                 state.selectedFeedId = 'all';
             }
             await loadData();
-            showToast(`Removed ${getFeedDisplayName(feed)}.`, 'success');
+            showToast(t('feedRemoved', { name: getFeedDisplayName(feed) }), 'success');
         } catch (error) {
-            const message = error instanceof Error ? error.message : 'Unable to delete feed.';
-            showToast(getFriendlyFeedError(message, 'Unable to delete feed.'), 'error');
+            const message = error instanceof Error ? error.message : t('unableToDeleteFeed');
+            showToast(getFriendlyFeedError(message, t('unableToDeleteFeed')), 'error');
         } finally {
             deleteButton.disabled = false;
         }
@@ -456,7 +774,14 @@ function filteredArticles() {
 
     return [...state.articles]
         .filter((article) => {
-            const matchesFeed = state.selectedFeedId === 'all' || article.feedId === state.selectedFeedId;
+            let matchesFeed;
+            if (state.selectedFeedId === 'all') {
+                matchesFeed = true;
+            } else if (state.selectedFeedId === 'favorites') {
+                matchesFeed = state.favoriteArticleIds.has(article.id);
+            } else {
+                matchesFeed = article.feedId === state.selectedFeedId;
+            }
             const searchableText = [article.title, article.feedTitle, article.summary]
                 .join(' ')
                 .toLowerCase();
@@ -471,12 +796,17 @@ function renderArticles() {
     elements.articleFeed.innerHTML = '';
 
     if (!articles.length) {
+        const isFavoritesView = state.selectedFeedId === 'favorites';
         const empty = document.createElement('div');
         empty.className = 'empty-state';
-        empty.innerHTML = `
-      <h4>No articles found</h4>
-      <p>Try a different search term, add a feed, or refresh your subscriptions to pull in new stories.</p>
-    `;
+
+        const heading = document.createElement('h4');
+        heading.textContent = isFavoritesView ? t('noFavoritesTitle') : t('noArticlesFoundTitle');
+
+        const body = document.createElement('p');
+        body.textContent = isFavoritesView ? t('noFavoritesBody') : t('noArticlesFoundBody');
+
+        empty.append(heading, body);
         elements.articleFeed.append(empty);
         return;
     }
@@ -506,7 +836,7 @@ function renderArticles() {
             const feed = getFeedById(article.feedId);
             const feedAccent = getFeedAccent(feed?.title || article.feedTitle || article.feedId);
             const source = card.querySelector('.article-card__source');
-            const sourceText = feed?.title || article.feedTitle || 'Unknown source';
+            const sourceText = feed?.title || article.feedTitle || t('unknownSource');
             const faviconUrl = getFaviconUrl(feed);
             source.style.setProperty('--feed-accent', feedAccent);
             if (faviconUrl) {
@@ -523,7 +853,7 @@ function renderArticles() {
 
             // --- Title with RTL support ---
             const titleEl = card.querySelector('.article-card__title');
-            const articleTitle = article.title || 'Untitled article';
+            const articleTitle = article.title || t('untitledArticle');
             titleEl.textContent = articleTitle;
             applyDirection(titleEl, articleTitle);
 
@@ -564,15 +894,30 @@ function renderArticles() {
             card.style.setProperty('--feed-accent', feedAccent);
             const link = card.querySelector('.article-card__link');
             link.href = article.link || '#';
-            link.textContent = article.link ? 'Open' : 'No link';
-            link.setAttribute('aria-label', `Open article ${articleTitle}`.trim());
+            link.textContent = article.link ? t('open') : t('noLink');
+            link.setAttribute('aria-label', t('openArticleAria', { title: articleTitle }));
+
+            const isFavorite = state.favoriteArticleIds.has(article.id);
+            const favoriteButton = card.querySelector('.article-card__favorite');
+            favoriteButton.classList.toggle('is-active', isFavorite);
+            favoriteButton.innerHTML = `<i class="bi ${isFavorite ? 'bi-star-fill' : 'bi-star'}" aria-hidden="true"></i>`;
+            favoriteButton.setAttribute('aria-label', t(isFavorite ? 'removeFavoriteAria' : 'saveFavoriteAria', { title: articleTitle }));
+            favoriteButton.setAttribute('aria-pressed', isFavorite ? 'true' : 'false');
+            favoriteButton.addEventListener('click', () => toggleArticleFavorite(article.id));
+
+            const shareButton = card.querySelector('.article-card__share');
             if (!article.link) {
                 link.setAttribute('aria-disabled', 'true');
                 link.tabIndex = -1;
                 link.style.pointerEvents = 'none';
                 link.style.opacity = '0.55';
+                shareButton.disabled = true;
+                shareButton.style.opacity = '0.55';
+                shareButton.setAttribute('aria-label', t('copyArticleLink'));
             } else {
                 link.addEventListener('click', () => markArticleRead(article.id));
+                shareButton.setAttribute('aria-label', t('copyLinkToAria', { title: articleTitle }));
+                shareButton.addEventListener('click', () => shareArticle(article.link, articleTitle));
             }
             list.append(card);
         }
@@ -593,10 +938,10 @@ function renderFeeds() {
     allMain.className = 'feed-item__main';
     const allTitle = document.createElement('strong');
     allTitle.className = 'feed-item__title';
-    allTitle.textContent = 'All articles';
+    allTitle.textContent = t('allArticles');
     const allMeta = document.createElement('span');
     allMeta.className = 'feed-item__meta';
-    allMeta.textContent = 'View everything in the river';
+    allMeta.textContent = t('allArticlesDescription');
     allMain.append(allTitle, allMeta);
     allButton.append(allMain);
     allButton.addEventListener('click', () => {
@@ -607,6 +952,30 @@ function renderFeeds() {
         }
     });
     fragment.append(allButton);
+
+    const favoritesButton = document.createElement('button');
+    favoritesButton.type = 'button';
+    favoritesButton.className = `feed-item${state.selectedFeedId === 'favorites' ? ' is-active' : ''}`;
+    favoritesButton.dataset.feedId = 'favorites';
+
+    const favMain = document.createElement('div');
+    favMain.className = 'feed-item__main';
+    const favTitle = document.createElement('strong');
+    favTitle.className = 'feed-item__title';
+    favTitle.textContent = t('favorites');
+    const favMeta = document.createElement('span');
+    favMeta.className = 'feed-item__meta';
+    favMeta.textContent = t('favoritesMeta', { count: state.favoriteArticleIds.size });
+    favMain.append(favTitle, favMeta);
+    favoritesButton.append(favMain);
+    favoritesButton.addEventListener('click', () => {
+        state.selectedFeedId = 'favorites';
+        render();
+        if (window.innerWidth < 768) {
+            closeDrawer();
+        }
+    });
+    fragment.append(favoritesButton);
 
     for (const feed of state.feeds) {
         fragment.append(buildFeedChip(feed));
@@ -622,9 +991,16 @@ function renderStats() {
 }
 
 function updateViewStatus() {
-    const descriptor = state.selectedFeedId === 'all' ? 'all feeds' : (state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || 'selected feed');
+    let descriptor;
+    if (state.selectedFeedId === 'all') {
+        descriptor = t('viewingAllFeeds');
+    } else if (state.selectedFeedId === 'favorites') {
+        descriptor = t('viewingFavorites');
+    } else {
+        descriptor = state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || t('viewingSelectedFeed');
+    }
     const query = state.search.trim();
-    setStatus(query ? `Viewing ${descriptor}. Search active.` : `Viewing ${descriptor}.`);
+    setStatus(query ? t('viewingDescriptorSearch', { descriptor }) : t('viewingDescriptor', { descriptor }));
 }
 
 function render() {
@@ -638,43 +1014,121 @@ function render() {
 
 const helpTopics = [
     {
-        question: 'How do I add a feed?',
-        answer: 'Open the sidebar (tap the menu icon on mobile), paste an RSS or Atom feed URL into "Add feed", and submit. The reader fetches it right away and adds it to your subscriptions.',
+        question: {
+            en: 'How do I add a feed?',
+            ar: 'كيف أضيف مصدرًا؟',
+        },
+        answer: {
+            en: 'Open the sidebar (tap the menu icon on mobile), paste an RSS or Atom feed URL into "Add feed", and submit. The reader fetches it right away and adds it to your subscriptions.',
+            ar: 'افتح الشريط الجانبي (اضغط على أيقونة القائمة على الجوال)، ألصق رابط مصدر RSS أو Atom في "إضافة مصدر"، ثم أرسل. سيقوم القارئ بجلبه فورًا وإضافته إلى اشتراكاتك.',
+        },
     },
     {
-        question: 'How do I refresh a feed?',
-        answer: 'Click "Refresh" next to a feed in the sidebar to pull new articles from just that source, or use "Refresh all" in the top bar to update every subscription at once.',
+        question: {
+            en: 'How do I refresh a feed?',
+            ar: 'كيف أحدّث مصدرًا؟',
+        },
+        answer: {
+            en: 'Click "Refresh" next to a feed in the sidebar to pull new articles from just that source, or use "Refresh all" in the top bar to update every subscription at once.',
+            ar: 'اضغط على "تحديث" بجانب أي مصدر في الشريط الجانبي لجلب مقالات جديدة من هذا المصدر فقط، أو استخدم "تحديث الكل" في الشريط العلوي لتحديث جميع الاشتراكات دفعة واحدة.',
+        },
     },
     {
-        question: 'How do I remove a feed?',
-        answer: 'Click "Delete" next to a feed in the sidebar. You will be asked to confirm, and you can always add the same feed URL back later.',
+        question: {
+            en: 'How do I remove a feed?',
+            ar: 'كيف أحذف مصدرًا؟',
+        },
+        answer: {
+            en: 'Click "Delete" next to a feed in the sidebar. You will be asked to confirm, and you can always add the same feed URL back later.',
+            ar: 'اضغط على "حذف" بجانب أي مصدر في الشريط الجانبي. سيُطلب منك التأكيد، ويمكنك دائمًا إضافة نفس رابط المصدر مرة أخرى لاحقًا.',
+        },
     },
     {
-        question: 'How do I search articles?',
-        answer: 'Use the search box in the top bar. It matches against article titles, feed titles, and summaries as you type.',
+        question: {
+            en: 'How do I search articles?',
+            ar: 'كيف أبحث في المقالات؟',
+        },
+        answer: {
+            en: 'Use the search box in the top bar. It matches against article titles, feed titles, and summaries as you type.',
+            ar: 'استخدم مربع البحث في الشريط العلوي. يطابق البحث عناوين المقالات وعناوين المصادر والملخصات أثناء الكتابة.',
+        },
     },
     {
-        question: 'How do I view articles from one feed only?',
-        answer: 'Click a feed in the sidebar to filter the river to just that subscription. Click "All articles" to go back to the unified view.',
+        question: {
+            en: 'How do I view articles from one feed only?',
+            ar: 'كيف أعرض مقالات مصدر واحد فقط؟',
+        },
+        answer: {
+            en: 'Click a feed in the sidebar to filter the river to just that subscription. Click "All articles" to go back to the unified view.',
+            ar: 'اضغط على أحد المصادر في الشريط الجانبي لتصفية القائمة إلى هذا الاشتراك فقط. اضغط على "كل المقالات" للعودة إلى العرض الموحد.',
+        },
     },
     {
-        question: 'How does read/unread tracking work?',
-        answer: 'Opening an article marks it as read. Read state is stored in your browser only, so it is local to this device and browser.',
+        question: {
+            en: 'How do I save an article to favorites?',
+            ar: 'كيف أحفظ مقالًا في المفضلة؟',
+        },
+        answer: {
+            en: 'Click the star icon on any article card to save it. Click "Favorites" in the sidebar to see every article you have starred, stored locally on this device.',
+            ar: 'اضغط على أيقونة النجمة في أي بطاقة مقال لحفظه. اضغط على "المفضلة" في الشريط الجانبي لرؤية كل المقالات التي حفظتها، ويتم تخزينها محليًا على هذا الجهاز.',
+        },
     },
     {
-        question: 'Why is an article shown right-to-left?',
-        answer: 'Titles and summaries automatically detect their own text direction, so Arabic, Hebrew, Urdu, and Persian articles render right-to-left while others stay left-to-right.',
+        question: {
+            en: 'How do I share an article?',
+            ar: 'كيف أشارك مقالًا؟',
+        },
+        answer: {
+            en: 'Click the share icon next to "Open" on any article card. It uses your device\'s share menu when available, or copies the article link to your clipboard.',
+            ar: 'اضغط على أيقونة المشاركة بجانب "فتح" في أي بطاقة مقال. تستخدم قائمة المشاركة في جهازك عند توفرها، أو تنسخ رابط المقال إلى الحافظة.',
+        },
     },
     {
-        question: 'Why does an article have no image?',
-        answer: 'Not every feed includes an image. The reader shows one when the source provides an enclosure, media:content, or an image inside the article content.',
+        question: {
+            en: 'How does read/unread tracking work?',
+            ar: 'كيف يعمل تتبّع المقالات المقروءة/غير المقروءة؟',
+        },
+        answer: {
+            en: 'Opening an article marks it as read. Read state is stored in your browser only, so it is local to this device and browser.',
+            ar: 'فتح المقال يعلّمه كمقروء. تُخزَّن حالة القراءة في متصفحك فقط، لذا فهي محلية لهذا الجهاز والمتصفح.',
+        },
+    },
+    {
+        question: {
+            en: 'Can I use the reader in Arabic?',
+            ar: 'هل يمكنني استخدام القارئ بالعربية؟',
+        },
+        answer: {
+            en: 'Yes. Click the language button (EN/AR) in the top bar to switch the entire interface between English and Arabic, including right-to-left layout.',
+            ar: 'نعم. اضغط على زر اللغة (EN/AR) في الشريط العلوي لتبديل الواجهة بالكامل بين الإنجليزية والعربية، بما في ذلك التخطيط من اليمين إلى اليسار.',
+        },
+    },
+    {
+        question: {
+            en: 'Why is an article shown right-to-left?',
+            ar: 'لماذا يظهر مقال ما من اليمين إلى اليسار؟',
+        },
+        answer: {
+            en: 'Titles and summaries automatically detect their own text direction, so Arabic, Hebrew, Urdu, and Persian articles render right-to-left while others stay left-to-right.',
+            ar: 'تكتشف العناوين والملخصات اتجاه نصها تلقائيًا، لذا تُعرض المقالات بالعربية والعبرية والأردية والفارسية من اليمين إلى اليسار بينما تبقى اللغات الأخرى من اليسار إلى اليمين.',
+        },
+    },
+    {
+        question: {
+            en: 'Why does an article have no image?',
+            ar: 'لماذا لا تظهر صورة لمقال ما؟',
+        },
+        answer: {
+            en: 'Not every feed includes an image. The reader shows one when the source provides an enclosure, media:content, or an image inside the article content.',
+            ar: 'لا تتضمن كل المصادر صورة. يعرض القارئ صورة عندما يوفرها المصدر عبر enclosure أو media:content أو داخل محتوى المقال.',
+        },
     },
 ];
 
 function renderHelpTopics(filterText = '') {
     const query = filterText.trim().toLowerCase();
     const matches = helpTopics.filter((topic) =>
-        !query || topic.question.toLowerCase().includes(query) || topic.answer.toLowerCase().includes(query)
+        !query || topic.question[currentLang].toLowerCase().includes(query) || topic.answer[currentLang].toLowerCase().includes(query)
     );
 
     elements.helpTopicList.innerHTML = '';
@@ -682,7 +1136,7 @@ function renderHelpTopics(filterText = '') {
     if (!matches.length) {
         const empty = document.createElement('p');
         empty.className = 'help-panel__empty';
-        empty.textContent = 'No help topics match your search.';
+        empty.textContent = t('noHelpTopics');
         elements.helpTopicList.append(empty);
         return;
     }
@@ -695,11 +1149,11 @@ function renderHelpTopics(filterText = '') {
         question.type = 'button';
         question.className = 'help-topic__question';
         question.setAttribute('aria-expanded', 'false');
-        question.innerHTML = `<span>${topic.question}</span><i class="bi bi-chevron-down" aria-hidden="true"></i>`;
+        question.innerHTML = `<span>${topic.question[currentLang]}</span><i class="bi bi-chevron-down" aria-hidden="true"></i>`;
 
         const answer = document.createElement('p');
         answer.className = 'help-topic__answer';
-        answer.textContent = topic.answer;
+        answer.textContent = topic.answer[currentLang];
         answer.hidden = true;
 
         question.addEventListener('click', () => {
@@ -742,7 +1196,7 @@ function renderChatMessages() {
     if (!chatHistory.length) {
         const empty = document.createElement('p');
         empty.className = 'chat-panel__empty';
-        empty.textContent = 'Ask about your articles or feeds, in any language.';
+        empty.textContent = t('chatEmpty');
         elements.chatMessages.append(empty);
         return;
     }
@@ -766,7 +1220,7 @@ function renderChatMessages() {
 
 async function sendChatMessage(text) {
     chatHistory.push({ role: 'user', content: text });
-    const pendingEntry = { role: 'assistant', content: 'Thinking...', pending: true };
+    const pendingEntry = { role: 'assistant', content: t('thinking'), pending: true };
     chatHistory.push(pendingEntry);
     renderChatMessages();
 
@@ -789,18 +1243,18 @@ async function sendChatMessage(text) {
         }
 
         if (!response.ok) {
-            pendingEntry.content = payload?.error || 'The assistant is unavailable right now.';
+            pendingEntry.content = payload?.error || t('assistantUnavailable');
             pendingEntry.pending = false;
             pendingEntry.error = true;
             renderChatMessages();
             return;
         }
 
-        pendingEntry.content = payload?.reply || 'No response received.';
+        pendingEntry.content = payload?.reply || t('noResponse');
         pendingEntry.pending = false;
         renderChatMessages();
     } catch {
-        pendingEntry.content = 'Could not reach the assistant. Check your connection and try again.';
+        pendingEntry.content = t('couldNotReachAssistant');
         pendingEntry.pending = false;
         pendingEntry.error = true;
         renderChatMessages();
@@ -827,7 +1281,7 @@ function toggleChatPanel() {
 }
 
 async function loadData() {
-    setStatus('Loading feeds and articles...');
+    setStatus(t('loadingFeeds'));
     const [feedsResponse, articlesResponse] = await Promise.all([
         fetch('/api/feeds'),
         fetch('/api/articles'),
@@ -844,7 +1298,7 @@ async function loadData() {
     state.feeds = await feedsResponse.json();
     state.articles = await articlesResponse.json();
 
-    if (state.selectedFeedId !== 'all' && !state.feeds.some((feed) => feed.id === state.selectedFeedId)) {
+    if (state.selectedFeedId !== 'all' && state.selectedFeedId !== 'favorites' && !state.feeds.some((feed) => feed.id === state.selectedFeedId)) {
         state.selectedFeedId = 'all';
     }
 
@@ -852,7 +1306,7 @@ async function loadData() {
 }
 
 async function refreshAllFeeds() {
-    setStatus('Refreshing feeds...', 'neutral');
+    setStatus(t('refreshingFeeds'), 'neutral');
     for (const feed of state.feeds) {
         try {
             await refreshFeed(feed.id);
@@ -873,14 +1327,14 @@ async function addFeed(url) {
     });
 
     if (response.ok) {
-        showToast('Feed added.', 'success');
+        showToast(t('feedAdded'), 'success');
         clearFeedMessage();
         elements.feedUrlInput.value = '';
         await loadData();
         return;
     }
 
-    let message = 'Unable to add feed.';
+    let message = t('unableToAddFeed');
     try {
         const body = await response.json();
         message = body?.error || message;
@@ -888,12 +1342,13 @@ async function addFeed(url) {
         // keep fallback message
     }
 
-    showToast(getFriendlyFeedError(message, 'Unable to add feed.'), 'error');
+    showToast(getFriendlyFeedError(message, t('unableToAddFeed')), 'error');
 }
 
 function wireEvents() {
     elements.menuButton.addEventListener('click', toggleDrawer);
     elements.backdrop.addEventListener('click', closeDrawer);
+    elements.langToggle.addEventListener('click', toggleLanguage);
     elements.themeToggle.addEventListener('click', toggleTheme);
     elements.searchInput.addEventListener('input', (event) => {
         state.search = event.target.value;
@@ -905,9 +1360,9 @@ function wireEvents() {
         elements.refreshAllButton.disabled = true;
         try {
             await refreshAllFeeds();
-            showToast('Feeds refreshed.', 'success');
+            showToast(t('feedsRefreshed'), 'success');
         } catch (error) {
-            showToast(error instanceof Error ? error.message : 'Failed to refresh feeds.', 'error');
+            showToast(error instanceof Error ? error.message : t('failedToRefreshFeeds'), 'error');
         } finally {
             elements.refreshAllButton.disabled = false;
         }
@@ -917,16 +1372,16 @@ function wireEvents() {
         event.preventDefault();
         const url = elements.feedUrlInput.value.trim();
         if (!url) {
-            setFeedMessage('Enter a feed URL.', 'error');
+            setFeedMessage(t('enterFeedUrl'), 'error');
             return;
         }
 
-        elements.feedFormMessage.textContent = 'Adding feed...';
+        elements.feedFormMessage.textContent = t('addingFeed');
         elements.feedFormMessage.dataset.tone = 'neutral';
         try {
             await addFeed(url);
         } catch (error) {
-            showToast(error instanceof Error ? error.message : 'Unable to add feed.', 'error');
+            showToast(error instanceof Error ? error.message : t('unableToAddFeed'), 'error');
         }
     });
 
@@ -989,22 +1444,27 @@ function wireEvents() {
 
 async function init() {
     loadTheme();
+    loadLanguage();
     wireEvents();
     loadReadState();
-    renderHelpTopics();
+    loadFavoritesState();
+    renderHelpTopics(elements.helpSearchInput.value);
     renderChatMessages();
     try {
         await loadData();
         setFeedMessage('');
     } catch (error) {
-        setStatus('Unable to load data right now.', 'error');
-        showToast(error instanceof Error ? error.message : 'An unexpected error occurred.', 'error');
-        elements.articleFeed.innerHTML = `
-      <div class="empty-state">
-        <h4>Content unavailable</h4>
-        <p>The reader could not load feeds or articles. Check the API, then refresh the page.</p>
-      </div>
-    `;
+        setStatus(t('unableToLoadData'), 'error');
+        showToast(error instanceof Error ? error.message : t('unexpectedError'), 'error');
+        elements.articleFeed.innerHTML = '';
+        const unavailable = document.createElement('div');
+        unavailable.className = 'empty-state';
+        const heading = document.createElement('h4');
+        heading.textContent = t('contentUnavailableTitle');
+        const body = document.createElement('p');
+        body.textContent = t('contentUnavailableBody');
+        unavailable.append(heading, body);
+        elements.articleFeed.append(unavailable);
     }
 }
 

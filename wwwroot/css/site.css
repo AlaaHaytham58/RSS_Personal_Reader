@@ -284,6 +284,43 @@ svg {
     }
 }
 
+/* Language toggle button */
+.lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.85rem;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: transform var(--transition), background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+    .lang-toggle:hover {
+        border-color: var(--action-hover-border);
+        background: var(--action-hover-bg);
+    }
+
+    .lang-toggle:active {
+        transform: translateY(1px);
+    }
+
+/* Favorite (star) button */
+.article-card__favorite {
+    color: var(--text-muted);
+}
+
+    .article-card__favorite.is-active {
+        color: #d4a017;
+        border-color: rgba(212, 160, 23, 0.4);
+    }
+
 .search {
     display: flex;
     align-items: center;
@@ -327,7 +364,8 @@ svg {
 .feed-item,
 .feed-item__select,
 .feed-item__action,
-.article-card__link {
+.article-card__link,
+.article-card__share {
     transition: transform var(--transition), background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
 }
 
@@ -352,7 +390,8 @@ svg {
     .icon-button:active,
     .feed-item__select:active,
     .feed-item__action:active,
-    .article-card__link:active {
+    .article-card__link:active,
+    .article-card__share:active {
         transform: translateY(1px);
     }
 
@@ -870,7 +909,10 @@ svg {
     font-variant-numeric: tabular-nums;
 }
 
-.article-card__link {
+.article-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     justify-self: start;
 }
 
@@ -979,13 +1021,17 @@ svg {
 
     .topbar__actions {
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto auto 1fr;
         gap: .75rem;
         width: 100%;
     }
 
     .theme-toggle {
         width: 48px;
+        height: 48px;
+    }
+
+    .lang-toggle {
         height: 48px;
     }
 

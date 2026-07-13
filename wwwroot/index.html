@@ -16,25 +16,27 @@
     <div class="app-shell">
         <header class="topbar">
             <div class="topbar__brand">
-                <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebarDrawer">
+                <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" data-i18n-aria-label="openNavigation" aria-expanded="false" aria-controls="sidebarDrawer">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
-                <h1>RSS Reader</h1>
+                <h1 data-i18n="appTitle">RSS Reader</h1>
             </div>
 
             <div class="topbar__actions">
-                <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode">
+                <button class="lang-toggle" type="button" id="langToggle" aria-label="Switch language">EN</button>
+
+                <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode" data-i18n-aria-label="toggleDarkMode">
                     <i class="bi bi-sun-fill theme-toggle__icon--sun" aria-hidden="true"></i>
                     <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
                 </button>
 
                 <label class="search" for="searchInput">
                     <span class="search__icon" aria-hidden="true">⌕</span>
-                    <input id="searchInput" type="search" placeholder="Search articles or feeds" autocomplete="off" />
+                    <input id="searchInput" type="search" placeholder="Search articles or feeds" data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
                 </label>
-                <button class="primary-button" type="button" id="refreshAllButton">Refresh all</button>
+                <button class="primary-button" type="button" id="refreshAllButton" data-i18n="refreshAll">Refresh all</button>
                 <p class="topbar__meta" id="topbarStat" aria-live="polite">0 feeds · 0 articles · updated —</p>
             </div>
         </header>
@@ -43,28 +45,28 @@
             <aside class="sidebar" id="sidebarDrawer" aria-label="Feed navigation">
                 <section class="sidebar__section sidebar__section--profile">
                     <div>
-                        <h2>Subscriptions</h2>
+                        <h2 data-i18n="subscriptions">Subscriptions</h2>
                     </div>
-                    <p class="sidebar__description">Add a feed URL, refresh sources, or remove one you do not need.</p>
+                    <p class="sidebar__description" data-i18n="sidebarDescription">Add a feed URL, refresh sources, or remove one you do not need.</p>
                 </section>
 
                 <section class="sidebar__section">
                     <div class="section-heading">
-                        <h3>Add feed</h3>
+                        <h3 data-i18n="addFeed">Add feed</h3>
                     </div>
                     <form id="addFeedForm" class="feed-form">
                         <label class="field">
-                            <span>RSS or Atom URL</span>
+                            <span data-i18n="feedUrlLabel">RSS or Atom URL</span>
                             <input id="feedUrlInput" name="url" type="url" placeholder="https://example.com/rss.xml" required />
                         </label>
-                        <button class="primary-button primary-button--full" type="submit">Add feed</button>
+                        <button class="primary-button primary-button--full" type="submit" data-i18n="addFeed">Add feed</button>
                         <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
                     </form>
                 </section>
 
                 <section class="sidebar__section sidebar__section--feeds">
                     <div class="section-heading">
-                        <h3>Subscriptions</h3>
+                        <h3 data-i18n="subscriptions">Subscriptions</h3>
                     </div>
                     <div class="feed-list" id="feedList"></div>
                 </section>
@@ -72,52 +74,52 @@
 
             <main class="content">
                 <section class="river-toolbar">
-                    <h2>Latest articles</h2>
-                    <p class="toolbar-meta" id="statusText">Loading feeds and articles...</p>
+                    <h2 data-i18n="latestArticles">Latest articles</h2>
+                    <p class="toolbar-meta" id="statusText" data-i18n="loadingFeeds">Loading feeds and articles...</p>
                 </section>
 
-                <section class="river" id="articleFeed" aria-label="Articles"></section>
+                <section class="river" id="articleFeed" aria-label="Articles" data-i18n-aria-label="articlesAriaLabel"></section>
             </main>
         </div>
 
         <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
 
-        <button class="help-fab" type="button" id="helpFabButton" aria-label="Open help" aria-expanded="false" aria-controls="helpPanel">
+        <button class="help-fab" type="button" id="helpFabButton" aria-label="Open help" data-i18n-aria-label="openHelp" aria-expanded="false" aria-controls="helpPanel">
             <i class="bi bi-question-lg" aria-hidden="true"></i>
         </button>
 
         <div class="help-panel" id="helpPanel" role="dialog" aria-label="Help" aria-modal="false" hidden>
             <div class="help-panel__header">
-                <h3>How can we help?</h3>
-                <button class="icon-button" type="button" id="helpCloseButton" aria-label="Close help">
+                <h3 data-i18n="helpHeading">How can we help?</h3>
+                <button class="icon-button" type="button" id="helpCloseButton" aria-label="Close help" data-i18n-aria-label="closeHelp">
                     <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
             <label class="field help-panel__search">
-                <span class="visually-hidden">Search help topics</span>
-                <input id="helpSearchInput" type="search" placeholder="Search help topics" autocomplete="off" />
+                <span class="visually-hidden" data-i18n="searchHelpTopics">Search help topics</span>
+                <input id="helpSearchInput" type="search" placeholder="Search help topics" data-i18n-placeholder="searchHelpTopics" autocomplete="off" />
             </label>
             <div class="help-panel__list" id="helpTopicList"></div>
         </div>
 
-        <button class="chat-fab" type="button" id="chatFabButton" aria-label="Open AI assistant" aria-expanded="false" aria-controls="chatPanel">
+        <button class="chat-fab" type="button" id="chatFabButton" aria-label="Open AI assistant" data-i18n-aria-label="openAssistant" aria-expanded="false" aria-controls="chatPanel">
             <i class="bi bi-stars" aria-hidden="true"></i>
         </button>
 
         <div class="chat-panel" id="chatPanel" role="dialog" aria-label="AI assistant" aria-modal="false" hidden>
             <div class="chat-panel__header">
-                <h3>Ask the assistant</h3>
-                <button class="icon-button" type="button" id="chatCloseButton" aria-label="Close AI assistant">
+                <h3 data-i18n="askAssistant">Ask the assistant</h3>
+                <button class="icon-button" type="button" id="chatCloseButton" aria-label="Close AI assistant" data-i18n-aria-label="closeAssistant">
                     <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="chat-panel__messages" id="chatMessages" aria-live="polite"></div>
             <form class="chat-panel__form" id="chatForm">
                 <label class="field chat-panel__field">
-                    <span class="visually-hidden">Ask a question</span>
-                    <input id="chatInput" type="text" placeholder="Ask a question..." autocomplete="off" dir="auto" />
+                    <span class="visually-hidden" data-i18n="askQuestion">Ask a question</span>
+                    <input id="chatInput" type="text" placeholder="Ask a question..." data-i18n-placeholder="askQuestionPlaceholder" autocomplete="off" dir="auto" />
                 </label>
-                <button class="icon-button chat-panel__send" type="submit" aria-label="Send message">
+                <button class="icon-button chat-panel__send" type="submit" aria-label="Send message" data-i18n-aria-label="sendMessage">
                     <i class="bi bi-send-fill" aria-hidden="true"></i>
                 </button>
             </form>
@@ -153,7 +155,15 @@
             </div>
             <div class="article-card__footer">
                 <span class="article-card__feed"></span>
-                <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+                <div class="article-card__actions">
+                    <button type="button" class="icon-button article-card__favorite" aria-label="Save to favorites">
+                        <i class="bi bi-star" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="icon-button article-card__share" aria-label="Copy article link">
+                        <i class="bi bi-share" aria-hidden="true"></i>
+                    </button>
+                    <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+                </div>
             </div>
         </article>
     </template>
