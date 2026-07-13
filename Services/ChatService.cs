@@ -15,14 +15,17 @@ namespace Services
     public class ChatService : IChatService
     {
         private const int MaxHistoryMessages = 16;
+        private const int MaxContextArticles = 40;
 
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IArticleService _articleService;
         private readonly AppSettings _settings;
         private readonly ILogger<ChatService> _logger;
 
-        public ChatService(IHttpClientFactory httpClientFactory, AppSettings settings, ILogger<ChatService> logger)
+        public ChatService(IHttpClientFactory httpClientFactory, IArticleService articleService, AppSettings settings, ILogger<ChatService> logger)
         {
             _httpClientFactory = httpClientFactory;
+            _articleService = articleService;
             _settings = settings;
             _logger = logger;
         }
@@ -45,7 +48,7 @@ namespace Services
             history.Insert(0, new DeepSeekMessage
             {
                 Role = "system",
-                Content = "You are a helpful assistant embedded in an RSS reader app. Answer questions about the user's articles and feeds, or general questions, concisely. Always reply in the same language the user wrote in, and match their writing direction (right-to-left for Arabic/Hebrew/Persian/Urdu, left-to-right otherwise).",
+                Content = await BuildSystemPromptAsync(),
             });
 
             var payload = new DeepSeekRequest
@@ -83,6 +86,52 @@ namespace Services
                 _logger.LogWarning(ex, "DeepSeek request errored");
                 return new ChatUpstreamError();
             }
+        }
+
+        private async Task<string> BuildSystemPromptAsync()
+        {
+            var basePrompt =
+                "You are the reading assistant embedded in this user's RSS reader app. " +
+                "Your sole job is to help the user work with the articles and feeds listed below: summarize them, " +
+                "identify what's most urgent or time-sensitive, find articles about a topic, compare or group them, " +
+                "and answer questions strictly about their content. " +
+                "Do not answer general-knowledge questions or chat about unrelated topics; if asked something unrelated " +
+                "to the user's feeds/articles, briefly redirect them to ask about their reading list instead. " +
+                "Only reference articles from the list provided; never invent articles, links, or facts not present in it. " +
+                "Always reply in the same language the user wrote in, and match their writing direction " +
+                "(right-to-left for Arabic/Hebrew/Persian/Urdu, left-to-right otherwise).";
+
+            List<Dtos.ArticleResponse> articles;
+            try
+            {
+                articles = await _articleService.GetAllArticlesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to load articles for chat context");
+                return basePrompt + "\n\nThe user's article list could not be loaded right now.";
+            }
+
+            if (articles.Count == 0)
+            {
+                return basePrompt + "\n\nThe user has no articles in their feed yet.";
+            }
+
+            var context = string.Join("\n", articles
+                .Take(MaxContextArticles)
+                .Select(a => $"- [{a.FeedTitle}] \"{a.Title}\" (published {a.PublishedAt:yyyy-MM-dd HH:mm} UTC): {Truncate(a.Summary, 200)}"));
+
+            return basePrompt + "\n\nHere are the user's most recent articles (newest first):\n" + context;
+        }
+
+        private static string Truncate(string text, int maxLength)
+        {
+            if (string.IsNullOrEmpty(text) || text.Length <= maxLength)
+            {
+                return text ?? string.Empty;
+            }
+
+            return text.Substring(0, maxLength).TrimEnd() + "...";
         }
 
         private class DeepSeekMessage
