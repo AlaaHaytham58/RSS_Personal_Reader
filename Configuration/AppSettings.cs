@@ -9,6 +9,7 @@ namespace Configuration
         public long MaxFeedSizeBytes { get; set; } = 1_000_000;
         public int SummaryCacheMinutes { get; set; } = 60;
         public DeepSeekSettings DeepSeek { get; set; } = new();
+        public GoogleSettings Google { get; set; } = new();
     }
 
     public class DeepSeekSettings
@@ -20,5 +21,15 @@ namespace Configuration
         public string ApiUrl { get; set; } = "https://api.deepseek.com/chat/completions";
         public string Model { get; set; } = "deepseek-chat";
         public int TimeoutSeconds { get; set; } = 30;
+    }
+
+    public class GoogleSettings
+    {
+        // Never commit real values here. Put GOOGLE_CLIENT_ID=... and
+        // GOOGLE_CLIENT_SECRET=... in a local .env file (gitignored), or set the
+        // AppSettings__Google__ClientId / AppSettings__Google__ClientSecret
+        // environment variables directly in production (e.g. Railway).
+        public string ClientId { get; set; } = "";
+        public string ClientSecret { get; set; } = "";
     }
 }

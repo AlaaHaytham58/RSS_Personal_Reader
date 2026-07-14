@@ -15,6 +15,8 @@ namespace Dtos
         public string Content { get; set; } = "";
         public Guid? ParentPostId { get; set; }
         public int ReplyCount { get; set; }
+        public int LikeCount { get; set; }
+        public bool LikedByCurrentUser { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
     }
 

@@ -54,14 +54,16 @@ const elements = {
     chatForm: document.getElementById('chatForm'),
     chatInput: document.getElementById('chatInput'),
     communityNavButton: document.getElementById('communityNavButton'),
+    communityBackButton: document.getElementById('communityBackButton'),
     readerSection: document.getElementById('readerSection'),
     communitySection: document.getElementById('communitySection'),
     communityAuthStatus: document.getElementById('communityAuthStatus'),
-    communityAuthActions: document.getElementById('communityAuthActions'),
     communityUsername: document.getElementById('communityUsername'),
-    communityLoginButton: document.getElementById('communityLoginButton'),
-    communityRegisterButton: document.getElementById('communityRegisterButton'),
     communityLogoutButton: document.getElementById('communityLogoutButton'),
+    communityLanding: document.getElementById('communityLanding'),
+    communityApp: document.getElementById('communityApp'),
+    communityGetStartedButton: document.getElementById('communityGetStartedButton'),
+    communityLandingLoginButton: document.getElementById('communityLandingLoginButton'),
     postComposer: document.getElementById('postComposer'),
     postComposerInput: document.getElementById('postComposerInput'),
     postComposerCount: document.getElementById('postComposerCount'),
@@ -81,12 +83,60 @@ const elements = {
     authFormMessage: document.getElementById('authFormMessage'),
     authSubmitButton: document.getElementById('authSubmitButton'),
     authSwitchModeButton: document.getElementById('authSwitchModeButton'),
+    landingPage: document.getElementById('landingPage'),
+    appShell: document.getElementById('appShell'),
+    landingThemeToggle: document.getElementById('landingThemeToggle'),
+    landingLoginButton: document.getElementById('landingLoginButton'),
+    landingSignupButton: document.getElementById('landingSignupButton'),
+    landingStartButton: document.getElementById('landingStartButton'),
+    landingGoogleButton: document.getElementById('landingGoogleButton'),
+    leaveAppButton: document.getElementById('leaveAppButton'),
 };
 
 const readStorageKey = 'rss-reader-read-articles';
 const favoritesStorageKey = 'rss-reader-favorite-articles';
 const themeStorageKey = 'rss-reader-theme';
 const langStorageKey = 'rss-reader-lang';
+const enteredAppStorageKey = 'rss-reader-entered-app';
+
+function enterApp() {
+    elements.landingPage.hidden = true;
+    elements.appShell.hidden = false;
+    window.localStorage.setItem(enteredAppStorageKey, '1');
+}
+
+async function leaveApp() {
+    showToast(t('loggingOut'));
+    if (state.currentUser) {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } catch {
+            // ignore network errors on logout
+        }
+        state.currentUser = null;
+        renderAuthStatus();
+    }
+    closeCommunitySection();
+    window.localStorage.removeItem(enteredAppStorageKey);
+    elements.appShell.hidden = true;
+    elements.landingPage.hidden = false;
+}
+
+function wireLandingEvents() {
+    elements.landingThemeToggle.addEventListener('click', toggleTheme);
+    elements.landingStartButton.addEventListener('click', enterApp);
+    elements.landingLoginButton.addEventListener('click', () => {
+        enterApp();
+        openAuthModal('login');
+    });
+    elements.landingSignupButton.addEventListener('click', () => {
+        enterApp();
+        openAuthModal('register');
+    });
+    elements.landingGoogleButton.addEventListener('click', () => {
+        window.location.href = '/api/auth/google/login?returnUrl=' + encodeURIComponent(window.location.pathname);
+    });
+}
 
 /* ---------- Localization ---------- */
 
@@ -223,6 +273,8 @@ const translations = {
         logOut: 'Log out',
         username: 'Username',
         password: 'Password',
+        loggingOut: 'Logging out...',
+        backToReader: 'Back to RSS Reader',
         needAccount: 'Need an account? Sign up',
         haveAccount: 'Already have an account? Log in',
         close: 'Close',
@@ -242,6 +294,9 @@ const translations = {
         invalidCredentials: 'Invalid username or password.',
         authValidationError: 'Username must be 3-32 characters and password at least 8 characters.',
         authUnavailable: 'Could not reach the server. Please try again.',
+        communityLandingTitle: 'Join the conversation',
+        communityLandingSubtitle: 'Share short updates and reply to other readers of this site, in real time.',
+        getStarted: 'Get started',
     },
     ar: {
         appTitle: 'قارئ RSS',
@@ -375,6 +430,8 @@ const translations = {
         logOut: 'تسجيل الخروج',
         username: 'اسم المستخدم',
         password: 'كلمة المرور',
+        loggingOut: 'جارٍ تسجيل الخروج...',
+        backToReader: 'العودة إلى القارئ',
         needAccount: 'ليس لديك حساب؟ أنشئ حسابًا',
         haveAccount: 'لديك حساب بالفعل؟ سجّل الدخول',
         close: 'إغلاق',
@@ -394,6 +451,9 @@ const translations = {
         invalidCredentials: 'اسم المستخدم أو كلمة المرور غير صحيحة.',
         authValidationError: 'يجب أن يكون اسم المستخدم بين 3 و32 حرفًا وكلمة المرور 8 أحرف على الأقل.',
         authUnavailable: 'تعذّر الوصول إلى الخادم. حاول مرة أخرى.',
+        communityLandingTitle: 'انضم إلى النقاش',
+        communityLandingSubtitle: 'شارك تحديثات قصيرة ورُدّ على قراء آخرين لهذا الموقع، في الوقت الفعلي.',
+        getStarted: 'ابدأ الآن',
     },
 };
 
@@ -1824,15 +1884,12 @@ function toggleCommunitySection() {
 }
 
 function renderAuthStatus() {
-    if (state.currentUser) {
-        elements.communityAuthStatus.hidden = false;
-        elements.communityAuthActions.hidden = true;
+    const loggedIn = Boolean(state.currentUser);
+    elements.communityAuthStatus.hidden = !loggedIn;
+    elements.communityLanding.hidden = loggedIn;
+    elements.communityApp.hidden = !loggedIn;
+    if (loggedIn) {
         elements.communityUsername.textContent = state.currentUser.username;
-        elements.postComposer.hidden = false;
-    } else {
-        elements.communityAuthStatus.hidden = true;
-        elements.communityAuthActions.hidden = false;
-        elements.postComposer.hidden = true;
     }
 }
 
@@ -1842,6 +1899,9 @@ async function loadCurrentUser() {
         state.currentUser = response.ok ? await response.json() : null;
     } catch {
         state.currentUser = null;
+    }
+    if (state.currentUser) {
+        enterApp();
     }
     renderAuthStatus();
 }
@@ -1877,6 +1937,7 @@ async function submitAuth() {
             state.currentUser = await response.json();
             renderAuthStatus();
             closeAuthModal();
+            await loadCommunityTimeline();
             return;
         }
 
@@ -1900,6 +1961,8 @@ async function logoutCommunityUser() {
     }
     state.currentUser = null;
     renderAuthStatus();
+    closeThread();
+    await loadCommunityTimeline();
 }
 
 function formatPostTime(iso) {
@@ -1907,14 +1970,43 @@ function formatPostTime(iso) {
     return Number.isNaN(date.getTime()) ? '' : date.toLocaleString(currentLang === 'ar' ? 'ar' : 'en', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
-function buildPostCard(post) {
+const AVATAR_COLORS = ['#556b8d', '#7a5c2e', '#2f5d62', '#6b4e71', '#5b6b2f', '#8a3c5c', '#3c5c8a', '#4a7a4a'];
+
+function avatarColorFor(username) {
+    let hash = 0;
+    for (let i = 0; i < username.length; i += 1) {
+        hash = (hash * 31 + username.charCodeAt(i)) >>> 0;
+    }
+    return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+}
+
+function buildPostCard(post, options) {
     const node = elements.postCardTemplate.content.firstElementChild.cloneNode(true);
+    const avatar = node.querySelector('.post-card__avatar');
+    avatar.textContent = post.authorUsername.charAt(0).toUpperCase();
+    avatar.style.background = avatarColorFor(post.authorUsername);
     node.querySelector('.post-card__author').textContent = post.authorUsername;
     node.querySelector('.post-card__time').textContent = formatPostTime(post.createdAt);
     node.querySelector('.post-card__content').textContent = post.content;
     node.querySelector('.post-card__reply-count span').textContent = t('replyCount', { count: post.replyCount });
     node.querySelector('.post-card__reply-count').addEventListener('click', () => openThread(post.id));
+
+    const likeButton = node.querySelector('.post-card__like');
+    updateLikeButton(likeButton, post);
+    likeButton.disabled = !state.currentUser;
+    likeButton.addEventListener('click', () => toggleLike(post.id));
+
+    if (options?.isReply) {
+        node.classList.add('post-card--reply');
+    }
+
     return node;
+}
+
+function updateLikeButton(likeButton, post) {
+    likeButton.querySelector('span').textContent = post.likeCount;
+    likeButton.classList.toggle('post-card__like--filled', Boolean(post.likedByCurrentUser));
+    likeButton.querySelector('i').className = post.likedByCurrentUser ? 'bi bi-heart-fill' : 'bi bi-heart';
 }
 
 function renderPostFeed() {
@@ -1965,8 +2057,22 @@ async function submitPost(content, parentPostId) {
 
 function closeThread() {
     state.activeThreadId = null;
+    activeThread = null;
     elements.postThread.hidden = true;
     elements.postFeed.hidden = false;
+}
+
+let activeThread = null;
+
+function renderThread() {
+    if (!activeThread) {
+        return;
+    }
+    elements.postThreadContent.innerHTML = '';
+    elements.postThreadContent.append(buildPostCard(activeThread.post));
+    for (const reply of activeThread.replies) {
+        elements.postThreadContent.append(buildPostCard(reply, { isReply: true }));
+    }
 }
 
 async function openThread(postId) {
@@ -1978,11 +2084,8 @@ async function openThread(postId) {
         const thread = await response.json();
 
         state.activeThreadId = postId;
-        elements.postThreadContent.innerHTML = '';
-        elements.postThreadContent.append(buildPostCard(thread.post));
-        for (const reply of thread.replies) {
-            elements.postThreadContent.append(buildPostCard(reply));
-        }
+        activeThread = thread;
+        renderThread();
 
         elements.postThread.hidden = false;
         elements.postFeed.hidden = true;
@@ -1993,8 +2096,9 @@ async function openThread(postId) {
 
 function handleIncomingPost(post) {
     if (post.parentPostId) {
-        if (state.activeThreadId === post.parentPostId) {
-            elements.postThreadContent.append(buildPostCard(post));
+        if (activeThread && activeThread.post.id === post.parentPostId) {
+            activeThread.replies.push(post);
+            renderThread();
         }
         const parent = state.communityPosts.find((p) => p.id === post.parentPostId);
         if (parent) {
@@ -2008,6 +2112,58 @@ function handleIncomingPost(post) {
     renderPostFeed();
 }
 
+function handleLikeUpdate({ postId, likeCount }) {
+    const feedPost = state.communityPosts.find((p) => p.id === postId);
+    if (feedPost) {
+        feedPost.likeCount = likeCount;
+        renderPostFeed();
+    }
+
+    if (activeThread) {
+        const threadPost = activeThread.post.id === postId
+            ? activeThread.post
+            : activeThread.replies.find((p) => p.id === postId);
+        if (threadPost) {
+            threadPost.likeCount = likeCount;
+            renderThread();
+        }
+    }
+}
+
+async function toggleLike(postId) {
+    if (!state.currentUser) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/posts/${postId}/like`, { method: 'POST' });
+        if (!response.ok) {
+            return;
+        }
+        const { liked, likeCount } = await response.json();
+
+        const feedPost = state.communityPosts.find((p) => p.id === postId);
+        if (feedPost) {
+            feedPost.likeCount = likeCount;
+            feedPost.likedByCurrentUser = liked;
+            renderPostFeed();
+        }
+
+        if (activeThread) {
+            const threadPost = activeThread.post.id === postId
+                ? activeThread.post
+                : activeThread.replies.find((p) => p.id === postId);
+            if (threadPost) {
+                threadPost.likeCount = likeCount;
+                threadPost.likedByCurrentUser = liked;
+                renderThread();
+            }
+        }
+    } catch {
+        // best-effort; the like button simply reflects the last-known state
+    }
+}
+
 async function connectCommunityHub() {
     try {
         communityHubConnection = new signalR.HubConnectionBuilder()
@@ -2015,6 +2171,7 @@ async function connectCommunityHub() {
             .withAutomaticReconnect()
             .build();
         communityHubConnection.on('NewPost', handleIncomingPost);
+        communityHubConnection.on('PostLiked', handleLikeUpdate);
         await communityHubConnection.start();
     } catch {
         // real-time updates are a progressive enhancement; timeline still loads via fetch
@@ -2145,6 +2302,7 @@ function wireEvents() {
     elements.backdrop.addEventListener('click', closeDrawer);
     elements.langToggle.addEventListener('click', toggleLanguage);
     elements.themeToggle.addEventListener('click', toggleTheme);
+    elements.leaveAppButton.addEventListener('click', leaveApp);
     elements.searchInput.addEventListener('input', (event) => {
         state.search = event.target.value;
         renderArticles();
@@ -2272,8 +2430,9 @@ function wireEvents() {
     });
 
     elements.communityNavButton.addEventListener('click', toggleCommunitySection);
-    elements.communityLoginButton.addEventListener('click', () => openAuthModal('login'));
-    elements.communityRegisterButton.addEventListener('click', () => openAuthModal('register'));
+    elements.communityBackButton.addEventListener('click', closeCommunitySection);
+    elements.communityGetStartedButton.addEventListener('click', () => openAuthModal('register'));
+    elements.communityLandingLoginButton.addEventListener('click', () => openAuthModal('login'));
     elements.communityLogoutButton.addEventListener('click', logoutCommunityUser);
 
     elements.authModalCloseButton.addEventListener('click', closeAuthModal);
@@ -2323,6 +2482,10 @@ async function init() {
     loadTheme();
     loadLanguage();
     wireEvents();
+    wireLandingEvents();
+    if (window.localStorage.getItem(enteredAppStorageKey) === '1') {
+        enterApp();
+    }
     loadReadState();
     loadFavoritesState();
     renderHelpTopics(elements.helpSearchInput.value);

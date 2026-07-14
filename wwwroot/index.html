@@ -13,7 +13,95 @@
     <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-    <div class="app-shell">
+    <div class="landing" id="landingPage">
+        <header class="landing__nav">
+            <div class="landing__brand">
+                <span class="landing__brand-icon"><i class="bi bi-rss" aria-hidden="true"></i></span>
+                <span class="landing__brand-name">RSS Reader</span>
+            </div>
+            <div class="landing__nav-actions">
+                <button class="theme-toggle" type="button" id="landingThemeToggle" aria-label="Toggle dark mode">
+                    <i class="bi bi-sun-fill theme-toggle__icon--sun" aria-hidden="true"></i>
+                    <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
+                </button>
+                <button class="ghost-button" type="button" id="landingLoginButton">Log in</button>
+                <button class="primary-button" type="button" id="landingSignupButton">Sign up</button>
+            </div>
+        </header>
+
+        <main class="landing__hero">
+            <span class="landing__badge"><i class="bi bi-stars" aria-hidden="true"></i> Open source · Free forever</span>
+            <h1 class="landing__title">
+                A personalized RSS reader
+                <em class="landing__title-accent">that you'll love</em>
+            </h1>
+            <p class="landing__subtitle">Every feed you subscribe to, read by a daily summary that learns what you actually care about. No algorithm feed. No ads. Just your sources, organized.</p>
+            <div class="landing__cta">
+                <button class="primary-button primary-button--large landing__cta-primary" type="button" id="landingStartButton">Start reading — it's free</button>
+                <button class="ghost-button landing__cta-secondary" type="button" id="landingGoogleButton">
+                    <i class="bi bi-google" aria-hidden="true"></i>
+                    Continue with Google
+                </button>
+            </div>
+
+            <div class="landing__preview" aria-hidden="true">
+                <div class="landing__preview-titlebar">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="landing__preview-body">
+                    <div class="landing__preview-sidebar">
+                        <div class="landing__preview-feed">
+                            <strong>Daring Fireball</strong>
+                            <span>12 unread</span>
+                        </div>
+                        <div class="landing__preview-feed">
+                            <strong>Offscreen</strong>
+                            <span>3 unread</span>
+                        </div>
+                        <div class="landing__preview-feed">
+                            <strong>The Verge</strong>
+                            <span>21 unread</span>
+                        </div>
+                    </div>
+                    <div class="landing__preview-content">
+                        <div class="landing__preview-summary">
+                            <div class="landing__preview-summary-header">
+                                <h4>Today's summary</h4>
+                                <span class="landing__preview-refresh"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i></span>
+                            </div>
+                            <p>3 stories stand out today, personalized from what you actually read.</p>
+                        </div>
+                        <div class="landing__preview-pills">
+                            <span class="landing__preview-pill landing__preview-pill--active">All</span>
+                            <span class="landing__preview-pill">Design</span>
+                        </div>
+                        <div class="landing__preview-article">
+                            <span class="landing__preview-article-source"><i class="bi bi-dot" aria-hidden="true"></i> Offscreen</span>
+                            <strong>The people behind bits and pixels</strong>
+                            <time>2h ago</time>
+                            <div class="landing__preview-article-footer">
+                                <span class="landing__preview-article-link">Read article</span>
+                                <span class="landing__preview-article-star"><i class="bi bi-star" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <section class="landing__powered">
+            <div class="landing__powered-text">
+                <h2>Powered by you</h2>
+                <p>We built a feed reader that goes beyond a plain list view. With a daily summary tuned to your reading habits, you get a personalized digest specific to you — no one else has the same feed.</p>
+            </div>
+        </section>
+
+        <footer class="landing__footer">
+            <p>&copy; 2026 RSS Reader — an independent, open-source project.</p>
+        </footer>
+    </div>
+
+    <div class="app-shell" id="appShell" hidden>
         <header class="topbar">
             <div class="topbar__brand">
                 <button class="icon-button topbar__menu" type="button" id="menuButton" aria-label="Open navigation" data-i18n-aria-label="openNavigation" aria-expanded="false" aria-controls="sidebarDrawer">
@@ -25,6 +113,10 @@
             </div>
 
             <div class="topbar__actions">
+                <button class="icon-button" type="button" id="leaveAppButton" aria-label="Log out" data-i18n-aria-label="logOut" title="Log out">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                </button>
+
                 <button class="lang-toggle" type="button" id="langToggle" aria-label="Switch language">EN</button>
 
                 <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode" data-i18n-aria-label="toggleDarkMode">
@@ -111,37 +203,80 @@
             </main>
 
             <main class="content community-section" id="communitySection" hidden>
-                <section class="community-auth" id="communityAuth">
+                <div class="community-section__header">
+                    <button type="button" class="ghost-button community-back-button" id="communityBackButton">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                        <span data-i18n="backToReader">Back to RSS Reader</span>
+                    </button>
                     <div class="community-auth__status" id="communityAuthStatus" hidden>
                         <span class="community-auth__username" id="communityUsername"></span>
                         <button type="button" class="icon-button" id="communityLogoutButton" aria-label="Log out" data-i18n-aria-label="logOut">
                             <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="community-auth__actions" id="communityAuthActions">
-                        <button type="button" class="primary-button" id="communityLoginButton" data-i18n="logIn">Log in</button>
-                        <button type="button" class="primary-button primary-button--ghost" id="communityRegisterButton" data-i18n="signUp">Sign up</button>
+                </div>
+
+                <section class="community-landing" id="communityLanding" hidden>
+                    <div class="community-landing__hero">
+                        <h2 class="community-landing__title" data-i18n="communityLandingTitle">Join the conversation</h2>
+                        <p class="community-landing__subtitle" data-i18n="communityLandingSubtitle">Share short updates and reply to other readers of this site, in real time.</p>
+                        <div class="community-landing__actions">
+                            <button type="button" class="primary-button primary-button--large" id="communityGetStartedButton" data-i18n="getStarted">Get started</button>
+                            <button type="button" class="ghost-button ghost-button--large" id="communityLandingLoginButton" data-i18n="logIn">Log in</button>
+                        </div>
+                    </div>
+                    <div class="community-landing__preview" aria-hidden="true">
+                        <article class="post-card card community-landing__preview-card">
+                            <div class="post-card__header">
+                                <span class="post-card__avatar" style="background:#556b8d">A</span>
+                                <div class="post-card__author-block">
+                                    <strong class="post-card__author">Amina</strong>
+                                    <time class="post-card__time">2h ago</time>
+                                </div>
+                            </div>
+                            <p class="post-card__content">Just added five new feeds about climate tech. This app makes triaging them so much faster.</p>
+                            <div class="post-card__footer">
+                                <span class="post-card__reply-count"><i class="bi bi-chat" aria-hidden="true"></i> 3</span>
+                                <span class="post-card__like post-card__like--filled"><i class="bi bi-heart-fill" aria-hidden="true"></i> 12</span>
+                            </div>
+                        </article>
+                        <article class="post-card card community-landing__preview-card community-landing__preview-card--offset">
+                            <div class="post-card__header">
+                                <span class="post-card__avatar" style="background:#7a5c2e">D</span>
+                                <div class="post-card__author-block">
+                                    <strong class="post-card__author">Dave</strong>
+                                    <time class="post-card__time">4h ago</time>
+                                </div>
+                            </div>
+                            <p class="post-card__content">Anyone else find the daily summary genuinely useful? Cut my morning reading time in half.</p>
+                            <div class="post-card__footer">
+                                <span class="post-card__reply-count"><i class="bi bi-chat" aria-hidden="true"></i> 1</span>
+                                <span class="post-card__like post-card__like--filled"><i class="bi bi-heart-fill" aria-hidden="true"></i> 5</span>
+                            </div>
+                        </article>
                     </div>
                 </section>
 
-                <form class="post-composer" id="postComposer" hidden>
-                    <label class="visually-hidden" for="postComposerInput" data-i18n="postComposerPlaceholder">What's happening?</label>
-                    <textarea id="postComposerInput" maxlength="280" placeholder="What's happening?" data-i18n-placeholder="postComposerPlaceholder" dir="auto"></textarea>
-                    <div class="post-composer__footer">
-                        <span class="post-composer__count" id="postComposerCount">280</span>
-                        <button type="submit" class="primary-button" data-i18n="post">Post</button>
+                <div class="community-app" id="communityApp" hidden>
+                    <form class="post-composer" id="postComposer">
+                        <label class="visually-hidden" for="postComposerInput" data-i18n="postComposerPlaceholder">What's happening?</label>
+                        <textarea id="postComposerInput" maxlength="280" placeholder="What's happening?" data-i18n-placeholder="postComposerPlaceholder" dir="auto"></textarea>
+                        <div class="post-composer__footer">
+                            <span class="post-composer__count" id="postComposerCount">280</span>
+                            <button type="submit" class="primary-button" data-i18n="post">Post</button>
+                        </div>
+                        <p class="form-message" id="postComposerMessage" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <div class="post-thread" id="postThread" hidden>
+                        <button type="button" class="icon-button" id="postThreadBackButton" aria-label="Back to feed" data-i18n-aria-label="backToFeed">
+                            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                        </button>
+                        <div id="postThreadContent"></div>
                     </div>
-                    <p class="form-message" id="postComposerMessage" role="status" aria-live="polite"></p>
-                </form>
 
-                <div class="post-thread" id="postThread" hidden>
-                    <button type="button" class="icon-button" id="postThreadBackButton" aria-label="Back to feed" data-i18n-aria-label="backToFeed">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                    </button>
-                    <div id="postThreadContent"></div>
+                    <section class="post-feed" id="postFeed" aria-label="Community posts" data-i18n-aria-label="communityPostsAriaLabel"></section>
                 </div>
-
-                <section class="post-feed" id="postFeed" aria-label="Community posts" data-i18n-aria-label="communityPostsAriaLabel"></section>
             </main>
         </div>
 
@@ -255,13 +390,20 @@
     <template id="postCardTemplate">
         <article class="post-card card">
             <div class="post-card__header">
-                <strong class="post-card__author"></strong>
-                <time class="post-card__time"></time>
+                <span class="post-card__avatar"></span>
+                <div class="post-card__author-block">
+                    <strong class="post-card__author"></strong>
+                    <time class="post-card__time"></time>
+                </div>
             </div>
             <p class="post-card__content" dir="auto"></p>
             <div class="post-card__footer">
                 <button type="button" class="post-card__reply-count">
                     <i class="bi bi-chat" aria-hidden="true"></i>
+                    <span></span>
+                </button>
+                <button type="button" class="post-card__like">
+                    <i class="bi bi-heart" aria-hidden="true"></i>
                     <span></span>
                 </button>
             </div>
