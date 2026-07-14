@@ -3,9 +3,11 @@ namespace Configuration
     public class AppSettings
     {
         public string DataFilePath { get; set; } = "data/feeds.json";
+        public string SqliteConnectionString { get; set; } = "Data Source=data/reader.db";
         public int FeedFetchTimeoutSeconds { get; set; } = 10;
         public int MaxArticlesPerFeed { get; set; } = 50;
         public long MaxFeedSizeBytes { get; set; } = 1_000_000;
+        public int SummaryCacheMinutes { get; set; } = 60;
         public DeepSeekSettings DeepSeek { get; set; } = new();
     }
 

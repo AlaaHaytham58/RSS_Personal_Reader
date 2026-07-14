@@ -135,43 +135,17 @@ namespace Infrastructure.FeedParsing
             if (enclosure?.Uri != null)
                 return enclosure.Uri.ToString();
 
-            // 2. Check element extensions for media:content, content:encoded, or other image references
+            // 2. Check element extensions for media:content, media:thumbnail, itunes:image,
+            // or content:encoded, searching recursively since some feeds nest media:content
+            // inside a wrapping media:group.
             foreach (var ext in item.ElementExtensions)
             {
                 try
                 {
                     var element = ext.GetObject<System.Xml.Linq.XElement>();
-                    if (element != null)
-                    {
-                        var localName = element.Name.LocalName.ToLowerInvariant();
-                        var ns = element.Name.NamespaceName;
-
-                        // media:content or media:thumbnail with a url attribute
-                        if ((localName == "content" || localName == "thumbnail")
-                            && ns.Contains("media", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var urlAttr = element.Attribute("url");
-                            if (urlAttr != null && !string.IsNullOrWhiteSpace(urlAttr.Value))
-                                return urlAttr.Value;
-                        }
-
-                        // content:encoded - look for <img> tags inside the HTML content
-                        if (localName == "encoded"
-                            && string.Equals(ns, ContentNamespace, StringComparison.OrdinalIgnoreCase))
-                        {
-                            var imgSrc = ExtractFirstImageSrcFromHtml(element.Value);
-                            if (imgSrc != null)
-                                return imgSrc;
-                        }
-
-                        // Also check for a simple "url" attribute on any element that looks image-like
-                        if (localName == "image" || localName == "img")
-                        {
-                            var urlAttr = element.Attribute("src") ?? element.Attribute("url");
-                            if (urlAttr != null && !string.IsNullOrWhiteSpace(urlAttr.Value))
-                                return urlAttr.Value;
-                        }
-                    }
+                    var imgSrc = element != null ? FindImageInElement(element) : null;
+                    if (imgSrc != null)
+                        return imgSrc;
                 }
                 catch
                 {
@@ -192,49 +166,122 @@ namespace Infrastructure.FeedParsing
         }
 
         /// <summary>
-        /// Simple regex-free extraction of the first src attribute from an &lt;img&gt; tag in HTML.
+        /// Recursively searches an extension element (and its descendants, e.g. media:group
+        /// wrapping media:content) for an image reference.
         /// </summary>
-                private static string? ExtractFirstImageSrcFromHtml(string html)
+        private static string? FindImageInElement(System.Xml.Linq.XElement element)
         {
-            var imgTagStart = html.IndexOf("<img ", StringComparison.OrdinalIgnoreCase);
-            if (imgTagStart < 0)
+            var localName = element.Name.LocalName.ToLowerInvariant();
+            var ns = element.Name.NamespaceName;
+
+            // media:content or media:thumbnail with a url attribute. The real MRSS namespace
+            // ("http://search.yahoo.com/mrss/") doesn't contain the word "media" at all, so
+            // match on "mrss" too (and keep "media" for any less-standard namespace variants).
+            if ((localName == "content" || localName == "thumbnail")
+                && (ns.Contains("mrss", StringComparison.OrdinalIgnoreCase) || ns.Contains("media", StringComparison.OrdinalIgnoreCase)))
             {
-                imgTagStart = html.IndexOf("<img\n", StringComparison.OrdinalIgnoreCase);
-                if (imgTagStart < 0)
-                    imgTagStart = html.IndexOf("<img\t", StringComparison.OrdinalIgnoreCase);
+                var urlAttr = element.Attribute("url");
+                if (urlAttr != null && !string.IsNullOrWhiteSpace(urlAttr.Value))
+                    return urlAttr.Value;
+            }
+
+            // itunes:image uses an href attribute rather than url/src
+            if (localName == "image" && ns.Contains("itunes", StringComparison.OrdinalIgnoreCase))
+            {
+                var hrefAttr = element.Attribute("href");
+                if (hrefAttr != null && !string.IsNullOrWhiteSpace(hrefAttr.Value))
+                    return hrefAttr.Value;
+            }
+
+            // content:encoded - look for <img> tags inside the HTML content
+            if (localName == "encoded" && string.Equals(ns, ContentNamespace, StringComparison.OrdinalIgnoreCase))
+            {
+                var imgSrc = ExtractFirstImageSrcFromHtml(element.Value);
+                if (imgSrc != null)
+                    return imgSrc;
+            }
+
+            // A generic "url"/"src" attribute on any element that looks image-like
+            if (localName == "image" || localName == "img")
+            {
+                var urlAttr = element.Attribute("src") ?? element.Attribute("url") ?? element.Attribute("href");
+                if (urlAttr != null && !string.IsNullOrWhiteSpace(urlAttr.Value))
+                    return urlAttr.Value;
+            }
+
+            // Recurse into wrapper elements like media:group
+            foreach (var child in element.Elements())
+            {
+                var found = FindImageInElement(child);
+                if (found != null)
+                    return found;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Simple regex-free extraction of an &lt;img&gt; src from HTML. Prefers a real "src"
+        /// attribute but falls back to common lazy-load attributes ("data-src", "data-lazy-src",
+        /// "data-original") when the src is missing or is an obvious 1x1 placeholder.
+        /// </summary>
+        private static string? ExtractFirstImageSrcFromHtml(string html)
+        {
+            var searchFrom = 0;
+            while (true)
+            {
+                var imgTagStart = html.IndexOf("<img", searchFrom, StringComparison.OrdinalIgnoreCase);
                 if (imgTagStart < 0)
                     return null;
-            }
 
-                        // Try double-quoted src first
-            var srcStart = html.IndexOf("src=\"", imgTagStart, StringComparison.OrdinalIgnoreCase);
-            if (srcStart >= 0)
-            {
-                srcStart += 5; // length of 'src="'
-                var srcEnd = html.IndexOf('"', srcStart);
-                if (srcEnd > srcStart)
+                var tagEnd = html.IndexOf('>', imgTagStart);
+                if (tagEnd < 0)
+                    return null;
+
+                var tag = html[imgTagStart..tagEnd];
+
+                var src = ExtractAttribute(tag, "src");
+                if (IsUsableImageUrl(src))
+                    return src;
+
+                foreach (var lazyAttr in new[] { "data-src", "data-lazy-src", "data-original" })
                 {
-                    var src = html[srcStart..srcEnd];
-                    if (!string.IsNullOrWhiteSpace(src))
-                        return src;
+                    var lazySrc = ExtractAttribute(tag, lazyAttr);
+                    if (IsUsableImageUrl(lazySrc))
+                        return lazySrc;
                 }
-            }
 
-            // Try single-quoted src
-            srcStart = html.IndexOf("src='", imgTagStart, StringComparison.OrdinalIgnoreCase);
-            if (srcStart >= 0)
+                searchFrom = tagEnd + 1;
+            }
+        }
+
+        private static bool IsUsableImageUrl(string? src)
+        {
+            if (string.IsNullOrWhiteSpace(src))
+                return false;
+
+            // Skip inline data URIs and obvious tracking/placeholder pixels.
+            return !src.StartsWith("data:", StringComparison.OrdinalIgnoreCase)
+                && !src.Contains("1x1", StringComparison.OrdinalIgnoreCase)
+                && !src.Contains("pixel.gif", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string? ExtractAttribute(string tag, string attributeName)
+        {
+            foreach (var quote in new[] { '"', '\'' })
             {
-                srcStart += 5; // length of "src='"
-                var srcEnd = html.IndexOf('\'', srcStart);
-                if (srcEnd > srcStart)
-                {
-                    var src = html[srcStart..srcEnd];
-                    if (!string.IsNullOrWhiteSpace(src))
-                        return src;
-                }
+                var marker = $"{attributeName}={quote}";
+                var start = tag.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+                if (start < 0)
+                    continue;
+
+                start += marker.Length;
+                var end = tag.IndexOf(quote, start);
+                if (end > start)
+                    return tag[start..end];
             }
 
-                        return null;
+            return null;
         }
 
         private static string ComputeHash(string input)

@@ -134,25 +134,44 @@ namespace Infrastructure.Storage
             {
                 await using var db = await _contextFactory.CreateDbContextAsync();
 
-                var existingIds = new HashSet<string>(
-                    await db.Articles.Where(a => a.FeedId == feedId).Select(a => a.Id).ToListAsync());
-                var toAdd = newArticles.Where(a => !existingIds.Contains(a.Id)).ToList();
-                foreach (var article in toAdd)
+                var existingArticles = await db.Articles.Where(a => a.FeedId == feedId).ToListAsync();
+                var existingById = existingArticles.ToDictionary(a => a.Id);
+
+                var toAdd = new List<Article>();
+                var hasUpdates = false;
+                foreach (var article in newArticles)
                 {
-                    article.FeedId = feedId;
+                    if (!existingById.TryGetValue(article.Id, out var existing))
+                    {
+                        article.FeedId = feedId;
+                        toAdd.Add(article);
+                        continue;
+                    }
+
+                    // Backfill fields that a re-fetch may now have but the stored row is missing
+                    // (e.g. an image the feed parser couldn't extract on an earlier pass).
+                    if (string.IsNullOrWhiteSpace(existing.ImageUrl) && !string.IsNullOrWhiteSpace(article.ImageUrl))
+                    {
+                        existing.ImageUrl = article.ImageUrl;
+                        hasUpdates = true;
+                    }
                 }
 
                 if (toAdd.Count > 0)
                 {
                     db.Articles.AddRange(toAdd);
+                }
+
+                if (toAdd.Count > 0 || hasUpdates)
+                {
                     await db.SaveChangesAsync();
                 }
 
                 // Enforce the per-feed article cap by trimming the oldest rows.
-                var all = await db.Articles
-                    .Where(a => a.FeedId == feedId)
+                // SQLite can't ORDER BY DateTimeOffset server-side, so sort client-side after fetching.
+                var all = (await db.Articles.Where(a => a.FeedId == feedId).ToListAsync())
                     .OrderByDescending(a => a.PublishedAt)
-                    .ToListAsync();
+                    .ToList();
 
                 if (all.Count > _settings.MaxArticlesPerFeed)
                 {
