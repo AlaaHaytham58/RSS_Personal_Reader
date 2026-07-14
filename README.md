@@ -61,7 +61,7 @@ The app will be available at:
 https://localhost:5001
 ```
 
-On first run, the app applies EF Core migrations and creates a `data/reader.db` SQLite database to store your subscriptions. If a legacy `data/feeds.json` is present and the database is still empty, it's imported automatically once.
+On first run, the app applies EF Core migrations and creates a `data/reader.db` SQLite database to store your subscriptions. **This database must live on persistent storage** (e.g. a mounted volume) — if the underlying file is lost, the app starts with an empty database rather than automatically re-importing any legacy `data/feeds.json`, since that file predates categories and would silently wipe out real data.
 
 ### Running Tests
 
@@ -77,7 +77,7 @@ App settings live in `appsettings.json` and bind to `AppSettings`:
 
 | Setting | Description |
 |---|---|
-| `DataFilePath` | Path to the legacy JSON file, imported once into SQLite if the database is empty |
+| `DataFilePath` | Path to the legacy JSON file (no longer auto-imported; kept for reference/manual migration only) |
 | `SqliteConnectionString` | EF Core connection string for the SQLite database |
 | `FeedFetchTimeoutSeconds` | Timeout when downloading a feed |
 | `MaxArticlesPerFeed` | Cap on stored articles per feed |

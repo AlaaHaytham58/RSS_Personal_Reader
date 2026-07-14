@@ -164,8 +164,14 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Ensure the SQLite data directory exists, apply migrations, and one-time
-// import any legacy data/feeds.json into the database if it's still empty.
+// Ensure the SQLite data directory exists and apply migrations.
+// NOTE: legacy data/feeds.json is intentionally NOT auto-imported here anymore.
+// It used to re-run on every startup where the Feeds table was empty (e.g. after
+// the SQLite file was lost due to non-persistent container storage), silently
+// overwriting real data with a stale, pre-Category snapshot. If the DB is ever
+// genuinely empty, the app should just start empty rather than resurrect old data.
+// Run JsonToSqliteImporter.ImportIfEmpty manually/one-off if you truly need to
+// migrate a legacy feeds.json.
 var settings = app.Services.GetRequiredService<AppSettings>();
 var dataFilePath = settings.DataFilePath ?? "data/feeds.json";
 var dataDir = Path.GetDirectoryName(dataFilePath);
@@ -179,9 +185,6 @@ using (var scope = app.Services.CreateScope())
     var dbContextFactory = scope.ServiceProvider.GetRequiredService<Microsoft.EntityFrameworkCore.IDbContextFactory<Infrastructure.Storage.AppDbContext>>();
     using var db = dbContextFactory.CreateDbContext();
     db.Database.Migrate();
-
-    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("Startup");
-    Infrastructure.Storage.JsonToSqliteImporter.ImportIfEmpty(db, dataFilePath, logger);
 }
 
 // Minimal health check
