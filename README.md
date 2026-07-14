@@ -33,7 +33,7 @@ The project follows a layered architecture:
 | Presentation | Browser UI | `wwwroot/index.html`, `wwwroot/js/app.js`, `wwwroot/css/site.css` |
 | API | HTTP endpoints | `Program.cs`, `Endpoints/FeedEndpoints.cs`, `Endpoints/ArticleEndpoints.cs` |
 | Services | Business logic | `Services/FeedService.cs`, `Services/ArticleService.cs`, `Services/FeedValidationService.cs` |
-| Infrastructure | External I/O | `HttpFeedFetcher.cs`, `SyndicationFeedParser.cs`, `JsonFeedRepository.cs` |
+| Infrastructure | External I/O | `HttpFeedFetcher.cs`, `SyndicationFeedParser.cs`, `AppDbContext.cs`/`EfFeedRepository.cs` (SQLite via EF Core) |
 | Domain | Core models | `Domain/Feed.cs`, `Domain/Article.cs` |
 | Validation/Security | Input & content safety | `FeedUrlValidator.cs`, `BasicHtmlSanitizer.cs` |
 
@@ -61,7 +61,7 @@ The app will be available at:
 https://localhost:5001
 ```
 
-On first run, the app automatically creates a `data/feeds.json` file to store your subscriptions.
+On first run, the app applies EF Core migrations and creates a `data/reader.db` SQLite database to store your subscriptions. If a legacy `data/feeds.json` is present and the database is still empty, it's imported automatically once.
 
 ### Running Tests
 
@@ -77,7 +77,8 @@ App settings live in `appsettings.json` and bind to `AppSettings`:
 
 | Setting | Description |
 |---|---|
-| `DataFilePath` | Path to the JSON storage file |
+| `DataFilePath` | Path to the legacy JSON file, imported once into SQLite if the database is empty |
+| `SqliteConnectionString` | EF Core connection string for the SQLite database |
 | `FeedFetchTimeoutSeconds` | Timeout when downloading a feed |
 | `MaxArticlesPerFeed` | Cap on stored articles per feed |
 | `MaxFeedSizeBytes` | Maximum allowed size of a feed response |
@@ -125,7 +126,7 @@ This sanitizer is intentionally simple and conservative — suitable for a perso
 
 - Backend: ASP.NET Core (.NET 10), minimal APIs
 - Feed Parsing: `System.ServiceModel.Syndication`
-- Storage: File-based JSON persistence (atomic writes, corruption recovery)
+- Storage: SQLite via EF Core (migrations applied automatically on startup)
 - Frontend: Vanilla HTML/CSS/JavaScript
 - Testing: xUnit
 
@@ -155,7 +156,7 @@ This sanitizer is intentionally simple and conservative — suitable for a perso
 ├── Infrastructure/
 │   ├── FeedFetching/HttpFeedFetcher.cs
 │   ├── FeedParsing/SyndicationFeedParser.cs
-│   └── Storage/JsonFeedRepository.cs
+│   └── Storage/AppDbContext.cs, EfFeedRepository.cs
 ├── Validation/
 │   └── FeedUrlValidator.cs
 ├── Security/
