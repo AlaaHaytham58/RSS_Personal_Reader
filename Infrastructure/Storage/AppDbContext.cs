@@ -12,6 +12,8 @@ namespace Infrastructure.Storage
         public DbSet<Feed> Feeds => Set<Feed>();
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<Category> Categories => Set<Category>();
+        public DbSet<ReadArticle> ReadArticles => Set<ReadArticle>();
+        public DbSet<FavoriteArticle> FavoriteArticles => Set<FavoriteArticle>();
 
         // Fixed ids so the default categories seed deterministically across environments.
         private static readonly Guid SportsCategoryId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -60,6 +62,16 @@ namespace Infrastructure.Storage
                     new Category { Id = TechnologyCategoryId, Name = "Technology", Color = "#556b8d" },
                     new Category { Id = GeneralCategoryId, Name = "General", Color = "#5b6b2f" }
                 );
+            });
+
+            modelBuilder.Entity<ReadArticle>(entity =>
+            {
+                entity.HasKey(r => new { r.FeedId, r.ArticleId });
+            });
+
+            modelBuilder.Entity<FavoriteArticle>(entity =>
+            {
+                entity.HasKey(f => new { f.FeedId, f.ArticleId });
             });
         }
     }
