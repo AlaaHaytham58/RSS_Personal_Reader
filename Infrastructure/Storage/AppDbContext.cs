@@ -15,6 +15,9 @@ namespace Infrastructure.Storage
         public DbSet<ReadArticle> ReadArticles => Set<ReadArticle>();
         public DbSet<FavoriteArticle> FavoriteArticles => Set<FavoriteArticle>();
         public DbSet<DailySummary> DailySummaries => Set<DailySummary>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Post> Posts => Set<Post>();
+        public DbSet<Like> Likes => Set<Like>();
 
         // Fixed ids so the default categories seed deterministically across environments.
         private static readonly Guid SportsCategoryId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -90,6 +93,45 @@ namespace Infrastructure.Storage
             modelBuilder.Entity<DailySummary>(entity =>
             {
                 entity.HasKey(d => d.Id);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.Username).IsRequired();
+                entity.HasIndex(u => u.Username).IsUnique();
+                entity.HasIndex(u => u.GoogleId).IsUnique();
+            });
+
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Content).IsRequired();
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(p => p.AuthorId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<Post>()
+                    .WithMany()
+                    .HasForeignKey(p => p.ParentPostId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Like>(entity =>
+            {
+                entity.HasKey(l => new { l.PostId, l.UserId });
+
+                entity.HasOne<Post>()
+                    .WithMany()
+                    .HasForeignKey(l => l.PostId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(l => l.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

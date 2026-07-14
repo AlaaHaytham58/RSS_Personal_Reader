@@ -2,10 +2,13 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Configuration;
+using Hubs;
 
 LoadDotEnv(FindDotEnvPath());
 
@@ -15,6 +18,17 @@ if (Environment.GetEnvironmentVariable("AppSettings__DeepSeek__ApiKey") is null
     && Environment.GetEnvironmentVariable("DEEPSEEK_API_KEY") is { Length: > 0 } deepSeekKey)
 {
     Environment.SetEnvironmentVariable("AppSettings__DeepSeek__ApiKey", deepSeekKey);
+}
+
+if (Environment.GetEnvironmentVariable("AppSettings__Google__ClientId") is null
+    && Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") is { Length: > 0 } googleClientId)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Google__ClientId", googleClientId);
+}
+if (Environment.GetEnvironmentVariable("AppSettings__Google__ClientSecret") is null
+    && Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") is { Length: > 0 } googleClientSecret)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Google__ClientSecret", googleClientSecret);
 }
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,6 +70,65 @@ builder.Services.AddScoped<Services.IArticleService, Services.ArticleService>();
 builder.Services.AddScoped<Services.IChatService, Services.ChatService>();
 builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>();
 builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
+builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
+builder.Services.AddScoped<Services.IPostService, Services.PostService>();
+
+// Cookie auth for the community posts feature (no login page; API returns status codes)
+var googleClientIdConfig = builder.Configuration["AppSettings:Google:ClientId"];
+var googleClientSecretConfig = builder.Configuration["AppSettings:Google:ClientSecret"];
+var googleAuthConfigured = !string.IsNullOrEmpty(googleClientIdConfig) && !string.IsNullOrEmpty(googleClientSecretConfig);
+
+var authBuilder = builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "rss_reader_auth";
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        options.Events.OnRedirectToLogin = ctx => { ctx.Response.StatusCode = 401; return Task.CompletedTask; };
+        options.Events.OnRedirectToAccessDenied = ctx => { ctx.Response.StatusCode = 403; return Task.CompletedTask; };
+    });
+
+if (googleAuthConfigured)
+{
+    authBuilder.AddGoogle(options =>
+    {
+        options.ClientId = googleClientIdConfig!;
+        options.ClientSecret = googleClientSecretConfig!;
+        options.CallbackPath = "/api/auth/google/callback";
+        // Land signed-in users straight in the cookie scheme; we replace the
+        // Google claims with our own User record's claims before that sign-in happens.
+        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.Events.OnCreatingTicket = async ctx =>
+        {
+            var googleId = ctx.Principal?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var email = ctx.Principal?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+            var name = ctx.Principal?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value;
+
+            if (string.IsNullOrEmpty(googleId))
+            {
+                ctx.Fail("Google did not return an account identifier.");
+                return;
+            }
+
+            var authService = ctx.HttpContext.RequestServices.GetRequiredService<Services.IAuthService>();
+            var outcome = await authService.ExternalLoginAsync(googleId, email, name);
+            if (outcome is not Services.AuthSuccess success)
+            {
+                ctx.Fail("Unable to sign in with Google.");
+                return;
+            }
+
+            var identity = new System.Security.Claims.ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, success.User.Id.ToString()));
+            identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, success.User.Username));
+            ctx.Principal = new System.Security.Claims.ClaimsPrincipal(identity);
+        };
+    });
+}
+
+builder.Services.AddAuthorization();
+
+// SignalR for real-time post/reply delivery
+builder.Services.AddSignalR();
 
 // OpenAPI (Swagger) for development
 builder.Services.AddEndpointsApiExplorer();
@@ -74,6 +147,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Ensure the SQLite data directory exists, apply migrations, and one-time
 // import any legacy data/feeds.json into the database if it's still empty.
@@ -104,6 +180,9 @@ Endpoints.ArticleEndpoints.MapArticleEndpoints(app);
 Endpoints.ChatEndpoints.MapChatEndpoints(app);
 Endpoints.CategoryEndpoints.MapCategoryEndpoints(app);
 Endpoints.SummaryEndpoints.MapSummaryEndpoints(app);
+Endpoints.AuthEndpoints.MapAuthEndpoints(app);
+Endpoints.PostEndpoints.MapPostEndpoints(app);
+app.MapHub<CommunityHub>("/hubs/community");
 
 app.MapFallbackToFile("index.html");
 
