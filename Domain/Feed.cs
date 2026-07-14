@@ -20,6 +20,7 @@ namespace Domain
         public DateTimeOffset? LastRefreshedAt { get; set; }
         public RefreshStatus LastRefreshStatus { get; set; } = RefreshStatus.Unknown;
         public Guid? CategoryId { get; set; }
+        public Guid UserId { get; set; }
 
         // Nested articles for JSON persistence
         public List<Article> Articles { get; set; } = new List<Article>();

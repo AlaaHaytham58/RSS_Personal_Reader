@@ -1,9 +1,9 @@
 namespace Domain
 {
-    // Singleton row (Id is always 1) caching the last generated daily digest.
+    // One cached daily digest per user, keyed by UserId.
     public class DailySummary
     {
-        public int Id { get; set; } = 1;
+        public System.Guid UserId { get; set; }
         public string Content { get; set; } = string.Empty;
         public System.DateTimeOffset GeneratedAt { get; set; }
     }

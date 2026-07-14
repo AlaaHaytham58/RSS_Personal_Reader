@@ -25,16 +25,16 @@ namespace Infrastructure.Storage
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<List<Feed>> GetAllFeedsAsync()
+        public async Task<List<Feed>> GetAllFeedsAsync(Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            return await db.Feeds.Include(f => f.Articles).AsNoTracking().ToListAsync();
+            return await db.Feeds.Include(f => f.Articles).AsNoTracking().Where(f => f.UserId == userId).ToListAsync();
         }
 
-        public async Task<Feed?> GetFeedByIdAsync(Guid id)
+        public async Task<Feed?> GetFeedByIdAsync(Guid id, Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            return await db.Feeds.Include(f => f.Articles).AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
+            return await db.Feeds.Include(f => f.Articles).AsNoTracking().FirstOrDefaultAsync(f => f.Id == id && f.UserId == userId);
         }
 
         [Obsolete("Use AddFeedWithArticlesAsync for atomic writes", false)]
@@ -63,13 +63,13 @@ namespace Infrastructure.Storage
             }
         }
 
-        public async Task RemoveFeedAsync(Guid id)
+        public async Task RemoveFeedAsync(Guid id, Guid userId)
         {
             await _semaphore.WaitAsync();
             try
             {
                 await using var db = await _contextFactory.CreateDbContextAsync();
-                var feed = await db.Feeds.FirstOrDefaultAsync(f => f.Id == id);
+                var feed = await db.Feeds.FirstOrDefaultAsync(f => f.Id == id && f.UserId == userId);
                 if (feed != null)
                 {
                     db.Feeds.Remove(feed);
@@ -119,10 +119,12 @@ namespace Infrastructure.Storage
             return await db.Articles.AsNoTracking().Where(a => a.FeedId == feedId).ToListAsync();
         }
 
-        public async Task<List<Article>> GetAllArticlesAsync()
+        public async Task<List<Article>> GetAllArticlesAsync(Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            return await db.Articles.AsNoTracking().ToListAsync();
+            return await db.Articles.AsNoTracking()
+                .Where(a => db.Feeds.Any(f => f.Id == a.FeedId && f.UserId == userId))
+                .ToListAsync();
         }
 
         public async Task AddArticlesAsync(Guid feedId, List<Article> newArticles)

@@ -49,6 +49,11 @@ namespace Infrastructure.Storage
                     .WithMany()
                     .HasForeignKey(f => f.CategoryId)
                     .OnDelete(DeleteBehavior.SetNull);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(f => f.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Article>(entity =>
@@ -92,7 +97,12 @@ namespace Infrastructure.Storage
 
             modelBuilder.Entity<DailySummary>(entity =>
             {
-                entity.HasKey(d => d.Id);
+                entity.HasKey(d => d.UserId);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<User>(entity =>
