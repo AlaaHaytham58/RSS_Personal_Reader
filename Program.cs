@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -144,6 +145,18 @@ if (app.Environment.IsDevelopment())
 }
 // Note: HTTPS redirection is skipped in production because Railway's proxy
 // terminates TLS and forwards plain HTTP internally to the container.
+// Trust Railway's X-Forwarded-Proto header so Request.Scheme reads "https"
+// even though the request reaches this container over plain HTTP; otherwise
+// the Google OAuth handler builds an http:// callback URL and Google rejects
+// it as a redirect_uri_mismatch against the https:// URI registered in the
+// Google Cloud Console.
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+};
+forwardedHeadersOptions.KnownIPNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
