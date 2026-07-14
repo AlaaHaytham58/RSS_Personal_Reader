@@ -8,6 +8,11 @@ namespace Dtos
         public Guid? ParentPostId { get; set; }
     }
 
+    public class EditPostRequest
+    {
+        public string Content { get; set; } = "";
+    }
+
     public class PostResponse
     {
         public Guid Id { get; set; }

@@ -10,5 +10,6 @@ namespace Services
     public class PostNotFound : PostOutcome { }
     public class PostForbidden : PostOutcome { }
     public class PostDeleted : PostOutcome { }
+    public class PostEdited : PostOutcome { public PostResponse Post { get; set; } = new(); }
     public class LikeSuccess : PostOutcome { public bool Liked { get; set; } public int LikeCount { get; set; } }
 }

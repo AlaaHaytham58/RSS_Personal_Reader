@@ -11,5 +11,6 @@ namespace Services
         Task<PostOutcome> GetThreadAsync(Guid postId, Guid? currentUserId);
         Task<PostOutcome> ToggleLikeAsync(Guid userId, Guid postId);
         Task<PostOutcome> DeletePostAsync(Guid userId, Guid postId);
+        Task<PostOutcome> EditPostAsync(Guid userId, Guid postId, string content);
     }
 }
