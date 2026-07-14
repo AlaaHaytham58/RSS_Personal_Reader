@@ -5,18 +5,21 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dc173752-0691-4fb1-b4f4-0f1113840b24</UserSecretsId>
+    <!-- Keep the SDK's implicit file globs out of Tests/ entirely (source, bin, and obj) -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);Tests/**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="6.0.0" />
   </ItemGroup>
 
-  <!-- Exclude test sources in the Tests/ folder from the main web project build -->
-  <ItemGroup>
-    <Compile Remove="Tests/**/*.cs" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="Tests\Tests.csproj" />
   </ItemGroup>

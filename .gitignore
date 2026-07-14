@@ -365,3 +365,8 @@ MigrationBackup/
 .env
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# SQLite runtime database (data/reader.db*) - generated at startup, not source
+data/*.db
+data/*.db-shm
+data/*.db-wal

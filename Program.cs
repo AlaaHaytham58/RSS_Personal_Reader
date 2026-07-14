@@ -3,6 +3,8 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Configuration;
 
 LoadDotEnv(FindDotEnvPath());
@@ -35,8 +37,13 @@ builder.Services.AddSingleton(new SemaphoreSlim(1, 1));
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("deepseek");
 
-// Repository (json file storage)
-builder.Services.AddSingleton<Infrastructure.Storage.IFeedRepository, Infrastructure.Storage.JsonFeedRepository>();
+// Repository (SQLite storage via EF Core)
+builder.Services.AddDbContextFactory<Infrastructure.Storage.AppDbContext>((sp, options) =>
+{
+    var appSettings = sp.GetRequiredService<AppSettings>();
+    options.UseSqlite(appSettings.SqliteConnectionString);
+});
+builder.Services.AddSingleton<Infrastructure.Storage.IFeedRepository, Infrastructure.Storage.EfFeedRepository>();
 // Feed fetching/parsing
 builder.Services.AddSingleton<Infrastructure.FeedFetching.IFeedFetcher, Infrastructure.FeedFetching.HttpFeedFetcher>();
 builder.Services.AddSingleton<Infrastructure.FeedParsing.IFeedParser, Infrastructure.FeedParsing.SyndicationFeedParser>();
@@ -47,6 +54,8 @@ builder.Services.AddScoped<Services.IFeedValidationService, Services.FeedValidat
 builder.Services.AddScoped<Services.IFeedService, Services.FeedService>();
 builder.Services.AddScoped<Services.IArticleService, Services.ArticleService>();
 builder.Services.AddScoped<Services.IChatService, Services.ChatService>();
+builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>();
+builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
 
 // OpenAPI (Swagger) for development
 builder.Services.AddEndpointsApiExplorer();
@@ -66,7 +75,8 @@ if (app.Environment.IsDevelopment())
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// Ensure data directory and initial feeds.json exist
+// Ensure the SQLite data directory exists, apply migrations, and one-time
+// import any legacy data/feeds.json into the database if it's still empty.
 var settings = app.Services.GetRequiredService<AppSettings>();
 var dataFilePath = settings.DataFilePath ?? "data/feeds.json";
 var dataDir = Path.GetDirectoryName(dataFilePath);
@@ -75,10 +85,14 @@ if (!string.IsNullOrWhiteSpace(dataDir))
     Directory.CreateDirectory(dataDir);
 }
 
-if (!File.Exists(dataFilePath))
+using (var scope = app.Services.CreateScope())
 {
-    var initial = JsonSerializer.Serialize(new { schemaVersion = 1, feeds = Array.Empty<object>() }, new JsonSerializerOptions { WriteIndented = true });
-    File.WriteAllText(dataFilePath, initial);
+    var dbContextFactory = scope.ServiceProvider.GetRequiredService<Microsoft.EntityFrameworkCore.IDbContextFactory<Infrastructure.Storage.AppDbContext>>();
+    using var db = dbContextFactory.CreateDbContext();
+    db.Database.Migrate();
+
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("Startup");
+    Infrastructure.Storage.JsonToSqliteImporter.ImportIfEmpty(db, dataFilePath, logger);
 }
 
 // Minimal health check
@@ -88,6 +102,8 @@ app.MapGet("/healthz", () => Results.Json(new { status = "ok" }));
 Endpoints.FeedEndpoints.MapFeedEndpoints(app);
 Endpoints.ArticleEndpoints.MapArticleEndpoints(app);
 Endpoints.ChatEndpoints.MapChatEndpoints(app);
+Endpoints.CategoryEndpoints.MapCategoryEndpoints(app);
+Endpoints.SummaryEndpoints.MapSummaryEndpoints(app);
 
 app.MapFallbackToFile("index.html");
 

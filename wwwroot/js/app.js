@@ -1,11 +1,16 @@
 const state = {
     feeds: [],
     articles: [],
+    categories: [],
+    historyArticles: [],
     search: '',
     selectedFeedId: 'all',
+    currentPage: 1,
     readArticleIds: new Set(),
     favoriteArticleIds: new Set(),
 };
+
+const CATEGORY_FILTER_PREFIX = 'category:';
 
 const elements = {
     sidebar: document.getElementById('sidebarDrawer'),
@@ -19,7 +24,17 @@ const elements = {
     feedUrlInput: document.getElementById('feedUrlInput'),
     feedFormMessage: document.getElementById('feedFormMessage'),
     feedList: document.getElementById('feedList'),
+    categoryPills: document.getElementById('categoryPills'),
     articleFeed: document.getElementById('articleFeed'),
+    paginationBar: document.getElementById('paginationBar'),
+    paginationPrev: document.getElementById('paginationPrev'),
+    paginationNext: document.getElementById('paginationNext'),
+    paginationStatus: document.getElementById('paginationStatus'),
+    paginationJumpInput: document.getElementById('paginationJumpInput'),
+    dailySummaryCard: document.getElementById('dailySummaryCard'),
+    dailySummaryBody: document.getElementById('dailySummaryBody'),
+    dailySummaryRefresh: document.getElementById('dailySummaryRefresh'),
+    dailySummaryToggle: document.getElementById('dailySummaryToggle'),
     statusText: document.getElementById('statusText'),
     topbarStat: document.getElementById('topbarStat'),
     feedItemTemplate: document.getElementById('feedItemTemplate'),
@@ -135,6 +150,42 @@ const translations = {
         invalidFeedUrl: 'Please enter a valid http:// or https:// feed URL.',
         alreadySubscribed: 'That feed is already in your subscriptions.',
         couldNotReachFeed: 'We could not reach that feed right now. Please check the address and try again.',
+        uncategorized: 'Uncategorized',
+        categoryLabel: 'Category',
+        noCategory: 'No category',
+        viewingCategory: '{name} category',
+        categoryUpdated: 'Category updated.',
+        unableToUpdateCategory: 'Unable to update category.',
+        assignCategoryAria: 'Assign a category to {name}',
+        copyFeedUrl: 'Copy URL',
+        copyFeedUrlAria: 'Copy feed URL for {name}',
+        allCategories: 'All',
+        history: 'History',
+        historyDescription: 'Articles you have read',
+        viewingHistory: 'reading history',
+        noHistoryTitle: 'No reading history yet',
+        noHistoryBody: 'Articles you open will show up here.',
+        categoryNameSports: 'Sports',
+        categoryNameMedia: 'Media',
+        categoryNamePolitics: 'Politics',
+        categoryNameTechnology: 'Technology',
+        categoryNameGeneral: 'General',
+        categoryNameWorld: 'World',
+        categoryNameBusiness: 'Business',
+        categoryNameEntertainment: 'Entertainment',
+        categoryNameScience: 'Science',
+        categoryNameHealth: 'Health',
+        categoryNameEnvironment: 'Environment',
+        dailySummaryTitle: 'Daily News Summary',
+        refreshSummaryAria: 'Refresh daily summary',
+        showMore: 'Show more',
+        showLess: 'Show less',
+        summaryUnavailable: 'The daily summary isn\'t available right now.',
+        generatingSummary: 'Generating your daily summary...',
+        previous: 'Previous',
+        next: 'Next',
+        jumpTo: 'Jump to',
+        pageOf: 'Page {current} of {total}',
     },
     ar: {
         appTitle: 'قارئ RSS',
@@ -226,6 +277,42 @@ const translations = {
         invalidFeedUrl: 'الرجاء إدخال رابط مصدر صالح يبدأ بـ http:// أو https://.',
         alreadySubscribed: 'هذا المصدر مضاف بالفعل إلى اشتراكاتك.',
         couldNotReachFeed: 'تعذّر الوصول إلى هذا المصدر الآن. الرجاء التحقق من الرابط والمحاولة مرة أخرى.',
+        uncategorized: 'بدون تصنيف',
+        categoryLabel: 'التصنيف',
+        noCategory: 'بدون تصنيف',
+        viewingCategory: 'تصنيف {name}',
+        categoryUpdated: 'تم تحديث التصنيف.',
+        unableToUpdateCategory: 'تعذّر تحديث التصنيف.',
+        assignCategoryAria: 'تعيين تصنيف لـ {name}',
+        copyFeedUrl: 'نسخ الرابط',
+        copyFeedUrlAria: 'نسخ رابط المصدر لـ {name}',
+        allCategories: 'الكل',
+        history: 'السجل',
+        historyDescription: 'المقالات التي قرأتها',
+        viewingHistory: 'سجل القراءة',
+        noHistoryTitle: 'لا يوجد سجل قراءة بعد',
+        noHistoryBody: 'ستظهر هنا المقالات التي تفتحها.',
+        categoryNameSports: 'رياضة',
+        categoryNameMedia: 'إعلام',
+        categoryNamePolitics: 'سياسة',
+        categoryNameTechnology: 'تقنية',
+        categoryNameGeneral: 'عام',
+        categoryNameWorld: 'العالم',
+        categoryNameBusiness: 'أعمال',
+        categoryNameEntertainment: 'ترفيه',
+        categoryNameScience: 'علوم',
+        categoryNameHealth: 'صحة',
+        categoryNameEnvironment: 'بيئة',
+        dailySummaryTitle: 'ملخص الأخبار اليومي',
+        refreshSummaryAria: 'تحديث الملخص اليومي',
+        showMore: 'عرض المزيد',
+        showLess: 'عرض أقل',
+        summaryUnavailable: 'الملخص اليومي غير متاح حاليًا.',
+        generatingSummary: 'جارٍ إنشاء ملخصك اليومي...',
+        previous: 'السابق',
+        next: 'التالي',
+        jumpTo: 'الانتقال إلى',
+        pageOf: 'صفحة {current} من {total}',
     },
 };
 
@@ -321,6 +408,64 @@ function stripHtml(value) {
     return temp.textContent?.trim() ?? '';
 }
 
+function escapeHtml(value) {
+    return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
+/**
+ * Minimal Markdown -> HTML renderer for chat replies. Escapes all input first,
+ * so the only HTML ever produced is the tags this function inserts itself.
+ */
+function renderMarkdown(text) {
+    const lines = (text ?? '').replace(/\r\n/g, '\n').split('\n');
+    const htmlParts = [];
+    let listItems = null;
+
+    const inline = (line) => {
+        let out = escapeHtml(line);
+        out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+        out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        out = out.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+        out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        return out;
+    };
+
+    const flushList = () => {
+        if (listItems) {
+            htmlParts.push(`<ul>${listItems.join('')}</ul>`);
+            listItems = null;
+        }
+    };
+
+    for (const rawLine of lines) {
+        const line = rawLine.trim();
+        const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
+        const listMatch = line.match(/^[-*]\s+(.*)$/);
+
+        if (headingMatch) {
+            flushList();
+            const level = Math.min(headingMatch[1].length + 3, 6);
+            htmlParts.push(`<h${level}>${inline(headingMatch[2])}</h${level}>`);
+        } else if (listMatch) {
+            listItems ??= [];
+            listItems.push(`<li>${inline(listMatch[1])}</li>`);
+        } else if (!line) {
+            flushList();
+        } else {
+            flushList();
+            htmlParts.push(`<p>${inline(line)}</p>`);
+        }
+    }
+    flushList();
+
+    return htmlParts.join('');
+}
+
 function loadReadState() {
     try {
         const raw = window.localStorage.getItem(readStorageKey);
@@ -335,14 +480,22 @@ function saveReadState() {
     window.localStorage.setItem(readStorageKey, JSON.stringify([...state.readArticleIds]));
 }
 
-function markArticleRead(articleId) {
-    if (!articleId || state.readArticleIds.has(articleId)) {
+function markArticleRead(article) {
+    if (!article?.id || state.readArticleIds.has(article.id)) {
         return;
     }
 
-    state.readArticleIds.add(articleId);
+    state.readArticleIds.add(article.id);
     saveReadState();
     renderArticles();
+
+    fetch('/api/articles/read', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedId: article.feedId, articleId: article.id }),
+    }).catch(() => {
+        // Local read state already applied; server sync can retry on next load.
+    });
 }
 
 function loadFavoritesState() {
@@ -359,20 +512,29 @@ function saveFavoritesState() {
     window.localStorage.setItem(favoritesStorageKey, JSON.stringify([...state.favoriteArticleIds]));
 }
 
-function toggleArticleFavorite(articleId) {
-    if (!articleId) {
+function toggleArticleFavorite(article) {
+    if (!article?.id) {
         return;
     }
 
-    if (state.favoriteArticleIds.has(articleId)) {
-        state.favoriteArticleIds.delete(articleId);
+    const isNowFavorite = !state.favoriteArticleIds.has(article.id);
+    if (isNowFavorite) {
+        state.favoriteArticleIds.add(article.id);
     } else {
-        state.favoriteArticleIds.add(articleId);
+        state.favoriteArticleIds.delete(article.id);
     }
 
     saveFavoritesState();
     renderArticles();
     renderFeeds();
+
+    fetch('/api/articles/favorite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedId: article.feedId, articleId: article.id, isFavorite: isNowFavorite }),
+    }).catch(() => {
+        // Local favorite state already applied; server sync can retry on next load.
+    });
 }
 
 /* ---------- Theme handling ---------- */
@@ -647,6 +809,17 @@ async function deleteFeed(feedId) {
     }
 }
 
+async function assignFeedCategory(feedId, categoryId) {
+    const response = await fetch(`/api/feeds/${feedId}/category`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ categoryId }),
+    });
+    if (!response.ok) {
+        throw new Error(`Category update failed (${response.status})`);
+    }
+}
+
 function buildFeedChip(feed) {
     const chip = document.createElement('div');
     chip.className = `feed-item${state.selectedFeedId === feed.id ? ' is-active' : ''}`;
@@ -729,6 +902,18 @@ function buildFeedChip(feed) {
         }
     });
 
+    const copyUrlButton = makeFeedActionButton(t('copyFeedUrl'));
+    copyUrlButton.setAttribute('aria-label', t('copyFeedUrlAria', { name: getFeedDisplayName(feed) }));
+    copyUrlButton.addEventListener('click', async (event) => {
+        event.stopPropagation();
+        try {
+            await copyTextToClipboard(feed.url);
+            showToast(t('linkCopied'), 'success');
+        } catch {
+            showToast(t('couldNotCopyLink'), 'error');
+        }
+    });
+
     const deleteButton = makeFeedActionButton(t('delete'), 'danger');
     deleteButton.setAttribute('aria-label', t('deleteFeedAria', { name: getFeedDisplayName(feed) }));
     deleteButton.addEventListener('click', async (event) => {
@@ -754,7 +939,38 @@ function buildFeedChip(feed) {
         }
     });
 
-    actions.append(refreshButton, deleteButton);
+    const categorySelect = document.createElement('select');
+    categorySelect.className = 'feed-item__category-select';
+    categorySelect.setAttribute('aria-label', t('assignCategoryAria', { name: getFeedDisplayName(feed) }));
+
+    const noneOption = document.createElement('option');
+    noneOption.value = '';
+    noneOption.textContent = t('noCategory');
+    categorySelect.append(noneOption);
+
+    for (const category of state.categories) {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = getCategoryDisplayName(category);
+        option.selected = feed.categoryId === category.id;
+        categorySelect.append(option);
+    }
+
+    categorySelect.addEventListener('click', (event) => event.stopPropagation());
+    categorySelect.addEventListener('change', async () => {
+        categorySelect.disabled = true;
+        try {
+            await assignFeedCategory(feed.id, categorySelect.value || null);
+            await loadData();
+            showToast(t('categoryUpdated'), 'success');
+        } catch {
+            showToast(t('unableToUpdateCategory'), 'error');
+        } finally {
+            categorySelect.disabled = false;
+        }
+    });
+
+    actions.append(categorySelect, refreshButton, copyUrlButton, deleteButton);
     chip.append(selectButton, moreButton, actions);
 
     return chip;
@@ -772,6 +988,13 @@ function closeAllFeedActions() {
 function filteredArticles() {
     const query = state.search.trim().toLowerCase();
 
+    if (state.selectedFeedId === 'history') {
+        return state.historyArticles.filter((article) => {
+            const searchableText = [article.title, article.feedTitle, article.summary].join(' ').toLowerCase();
+            return !query || searchableText.includes(query);
+        });
+    }
+
     return [...state.articles]
         .filter((article) => {
             let matchesFeed;
@@ -779,6 +1002,10 @@ function filteredArticles() {
                 matchesFeed = true;
             } else if (state.selectedFeedId === 'favorites') {
                 matchesFeed = state.favoriteArticleIds.has(article.id);
+            } else if (state.selectedFeedId.startsWith(CATEGORY_FILTER_PREFIX)) {
+                const categoryId = state.selectedFeedId.slice(CATEGORY_FILTER_PREFIX.length);
+                const feed = getFeedById(article.feedId);
+                matchesFeed = categoryId === 'none' ? !feed?.categoryId : feed?.categoryId === categoryId;
             } else {
                 matchesFeed = article.feedId === state.selectedFeedId;
             }
@@ -791,25 +1018,42 @@ function filteredArticles() {
         .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
+const ARTICLES_PER_PAGE = 24;
+let lastFilterSignature = null;
+
 function renderArticles() {
-    const articles = filteredArticles();
+    const filterSignature = `${state.selectedFeedId}|${state.search}`;
+    if (filterSignature !== lastFilterSignature) {
+        state.currentPage = 1;
+        lastFilterSignature = filterSignature;
+    }
+
+    const allArticles = filteredArticles();
     elements.articleFeed.innerHTML = '';
 
-    if (!articles.length) {
+    if (!allArticles.length) {
         const isFavoritesView = state.selectedFeedId === 'favorites';
+        const isHistoryView = state.selectedFeedId === 'history';
         const empty = document.createElement('div');
         empty.className = 'empty-state';
 
         const heading = document.createElement('h4');
-        heading.textContent = isFavoritesView ? t('noFavoritesTitle') : t('noArticlesFoundTitle');
+        heading.textContent = isHistoryView ? t('noHistoryTitle') : isFavoritesView ? t('noFavoritesTitle') : t('noArticlesFoundTitle');
 
         const body = document.createElement('p');
-        body.textContent = isFavoritesView ? t('noFavoritesBody') : t('noArticlesFoundBody');
+        body.textContent = isHistoryView ? t('noHistoryBody') : isFavoritesView ? t('noFavoritesBody') : t('noArticlesFoundBody');
 
         empty.append(heading, body);
         elements.articleFeed.append(empty);
+        elements.paginationBar.hidden = true;
         return;
     }
+
+    const totalPages = Math.max(1, Math.ceil(allArticles.length / ARTICLES_PER_PAGE));
+    state.currentPage = Math.min(Math.max(state.currentPage, 1), totalPages);
+    const startIndex = (state.currentPage - 1) * ARTICLES_PER_PAGE;
+    const articles = allArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
+    renderPagination(totalPages);
 
     const buckets = new Map();
     for (const article of articles) {
@@ -903,7 +1147,7 @@ function renderArticles() {
             favoriteButton.innerHTML = `<i class="bi ${isFavorite ? 'bi-star-fill' : 'bi-star'}" aria-hidden="true"></i>`;
             favoriteButton.setAttribute('aria-label', t(isFavorite ? 'removeFavoriteAria' : 'saveFavoriteAria', { title: articleTitle }));
             favoriteButton.setAttribute('aria-pressed', isFavorite ? 'true' : 'false');
-            favoriteButton.addEventListener('click', () => toggleArticleFavorite(article.id));
+            favoriteButton.addEventListener('click', () => toggleArticleFavorite(article));
 
             const shareButton = card.querySelector('.article-card__share');
             if (!article.link) {
@@ -915,7 +1159,7 @@ function renderArticles() {
                 shareButton.style.opacity = '0.55';
                 shareButton.setAttribute('aria-label', t('copyArticleLink'));
             } else {
-                link.addEventListener('click', () => markArticleRead(article.id));
+                link.addEventListener('click', () => markArticleRead(article));
                 shareButton.setAttribute('aria-label', t('copyLinkToAria', { title: articleTitle }));
                 shareButton.addEventListener('click', () => shareArticle(article.link, articleTitle));
             }
@@ -925,6 +1169,26 @@ function renderArticles() {
         section.append(heading, list);
         elements.articleFeed.append(section);
     }
+}
+
+function renderPagination(totalPages) {
+    if (totalPages <= 1) {
+        elements.paginationBar.hidden = true;
+        return;
+    }
+
+    elements.paginationBar.hidden = false;
+    elements.paginationStatus.textContent = t('pageOf', { current: state.currentPage, total: totalPages });
+    elements.paginationPrev.disabled = state.currentPage <= 1;
+    elements.paginationNext.disabled = state.currentPage >= totalPages;
+    elements.paginationJumpInput.max = String(totalPages);
+    elements.paginationJumpInput.value = '';
+}
+
+function goToPage(page) {
+    state.currentPage = page;
+    renderArticles();
+    elements.articleFeed.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderFeeds() {
@@ -977,12 +1241,118 @@ function renderFeeds() {
     });
     fragment.append(favoritesButton);
 
+    const historyButton = document.createElement('button');
+    historyButton.type = 'button';
+    historyButton.className = `feed-item${state.selectedFeedId === 'history' ? ' is-active' : ''}`;
+    historyButton.dataset.feedId = 'history';
+
+    const historyMain = document.createElement('div');
+    historyMain.className = 'feed-item__main';
+    const historyTitle = document.createElement('strong');
+    historyTitle.className = 'feed-item__title';
+    historyTitle.textContent = t('history');
+    const historyMeta = document.createElement('span');
+    historyMeta.className = 'feed-item__meta';
+    historyMeta.textContent = t('historyDescription');
+    historyMain.append(historyTitle, historyMeta);
+    historyButton.append(historyMain);
+    historyButton.addEventListener('click', async () => {
+        state.selectedFeedId = 'history';
+        render();
+        if (window.innerWidth < 768) {
+            closeDrawer();
+        }
+        try {
+            const response = await fetch('/api/history');
+            state.historyArticles = response.ok ? await response.json() : [];
+        } catch {
+            state.historyArticles = [];
+        }
+        if (state.selectedFeedId === 'history') {
+            renderArticles();
+        }
+    });
+    fragment.append(historyButton);
+
+    const feedsByCategory = new Map();
+    const uncategorized = [];
     for (const feed of state.feeds) {
-        fragment.append(buildFeedChip(feed));
+        if (feed.categoryId) {
+            if (!feedsByCategory.has(feed.categoryId)) {
+                feedsByCategory.set(feed.categoryId, []);
+            }
+            feedsByCategory.get(feed.categoryId).push(feed);
+        } else {
+            uncategorized.push(feed);
+        }
+    }
+
+    for (const category of state.categories) {
+        const feedsInCategory = feedsByCategory.get(category.id);
+        if (!feedsInCategory?.length) {
+            continue;
+        }
+
+        fragment.append(buildCategoryHeader(category));
+        for (const feed of feedsInCategory) {
+            fragment.append(buildFeedChip(feed));
+        }
+    }
+
+    if (uncategorized.length) {
+        fragment.append(buildCategoryHeader(null));
+        for (const feed of uncategorized) {
+            fragment.append(buildFeedChip(feed));
+        }
     }
 
     elements.feedList.innerHTML = '';
     elements.feedList.append(fragment);
+}
+
+function getCategoryById(categoryId) {
+    return state.categories.find((category) => category.id === categoryId);
+}
+
+const DEFAULT_CATEGORY_NAME_KEYS = {
+    Sports: 'categoryNameSports',
+    Media: 'categoryNameMedia',
+    Politics: 'categoryNamePolitics',
+    Technology: 'categoryNameTechnology',
+    General: 'categoryNameGeneral',
+    World: 'categoryNameWorld',
+    Business: 'categoryNameBusiness',
+    Entertainment: 'categoryNameEntertainment',
+    Science: 'categoryNameScience',
+    Health: 'categoryNameHealth',
+    Environment: 'categoryNameEnvironment',
+};
+
+function getCategoryDisplayName(category) {
+    if (!category) {
+        return t('uncategorized');
+    }
+    const translationKey = DEFAULT_CATEGORY_NAME_KEYS[category.name];
+    return translationKey ? t(translationKey) : category.name;
+}
+
+function buildCategoryHeader(category) {
+    const filterId = `${CATEGORY_FILTER_PREFIX}${category ? category.id : 'none'}`;
+    const header = document.createElement('button');
+    header.type = 'button';
+    header.className = `sidebar__category-header${state.selectedFeedId === filterId ? ' is-active' : ''}`;
+    if (category?.color) {
+        header.style.setProperty('--item-accent', category.color);
+    }
+    header.textContent = getCategoryDisplayName(category);
+    header.addEventListener('click', () => {
+        state.selectedFeedId = filterId;
+        render();
+        if (window.innerWidth < 768) {
+            closeDrawer();
+        }
+    });
+    return header;
 }
 
 function renderStats() {
@@ -996,6 +1366,12 @@ function updateViewStatus() {
         descriptor = t('viewingAllFeeds');
     } else if (state.selectedFeedId === 'favorites') {
         descriptor = t('viewingFavorites');
+    } else if (state.selectedFeedId === 'history') {
+        descriptor = t('viewingHistory');
+    } else if (state.selectedFeedId.startsWith(CATEGORY_FILTER_PREFIX)) {
+        const categoryId = state.selectedFeedId.slice(CATEGORY_FILTER_PREFIX.length);
+        const categoryName = categoryId === 'none' ? t('uncategorized') : (getCategoryById(categoryId)?.name || t('uncategorized'));
+        descriptor = t('viewingCategory', { name: categoryName });
     } else {
         descriptor = state.feeds.find((feed) => feed.id === state.selectedFeedId)?.title || t('viewingSelectedFeed');
     }
@@ -1003,8 +1379,63 @@ function updateViewStatus() {
     setStatus(query ? t('viewingDescriptorSearch', { descriptor }) : t('viewingDescriptor', { descriptor }));
 }
 
+function renderCategoryPills() {
+    const counts = new Map();
+    for (const article of state.articles) {
+        const feed = getFeedById(article.feedId);
+        const key = feed?.categoryId || 'none';
+        counts.set(key, (counts.get(key) || 0) + 1);
+    }
+
+    elements.categoryPills.innerHTML = '';
+
+    const allPill = document.createElement('button');
+    allPill.type = 'button';
+    allPill.className = `category-pill${state.selectedFeedId === 'all' ? ' is-active' : ''}`;
+    allPill.textContent = `${t('allCategories')} (${state.articles.length})`;
+    allPill.addEventListener('click', () => {
+        state.selectedFeedId = 'all';
+        render();
+    });
+    elements.categoryPills.append(allPill);
+
+    for (const category of state.categories) {
+        const count = counts.get(category.id) || 0;
+        if (!count) {
+            continue;
+        }
+
+        const filterId = `${CATEGORY_FILTER_PREFIX}${category.id}`;
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = `category-pill${state.selectedFeedId === filterId ? ' is-active' : ''}`;
+        pill.style.setProperty('--item-accent', category.color || 'var(--text-muted)');
+        pill.textContent = `${getCategoryDisplayName(category)} (${count})`;
+        pill.addEventListener('click', () => {
+            state.selectedFeedId = filterId;
+            render();
+        });
+        elements.categoryPills.append(pill);
+    }
+
+    const uncategorizedCount = counts.get('none') || 0;
+    if (uncategorizedCount) {
+        const filterId = `${CATEGORY_FILTER_PREFIX}none`;
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = `category-pill${state.selectedFeedId === filterId ? ' is-active' : ''}`;
+        pill.textContent = `${t('uncategorized')} (${uncategorizedCount})`;
+        pill.addEventListener('click', () => {
+            state.selectedFeedId = filterId;
+            render();
+        });
+        elements.categoryPills.append(pill);
+    }
+}
+
 function render() {
     renderFeeds();
+    renderCategoryPills();
     renderArticles();
     renderStats();
     updateViewStatus();
@@ -1210,7 +1641,11 @@ function renderChatMessages() {
         if (entry.error) {
             bubble.classList.add('chat-message--error');
         }
-        bubble.textContent = entry.content;
+        if (entry.role === 'assistant' && !entry.pending && !entry.error) {
+            bubble.innerHTML = renderMarkdown(entry.content);
+        } else {
+            bubble.textContent = entry.content;
+        }
         applyDirection(bubble, entry.content);
         elements.chatMessages.append(bubble);
     }
@@ -1282,9 +1717,10 @@ function toggleChatPanel() {
 
 async function loadData() {
     setStatus(t('loadingFeeds'));
-    const [feedsResponse, articlesResponse] = await Promise.all([
+    const [feedsResponse, articlesResponse, categoriesResponse] = await Promise.all([
         fetch('/api/feeds'),
         fetch('/api/articles'),
+        fetch('/api/categories'),
     ]);
 
     if (!feedsResponse.ok) {
@@ -1297,8 +1733,24 @@ async function loadData() {
 
     state.feeds = await feedsResponse.json();
     state.articles = await articlesResponse.json();
+    state.categories = categoriesResponse.ok ? await categoriesResponse.json() : [];
 
-    if (state.selectedFeedId !== 'all' && state.selectedFeedId !== 'favorites' && !state.feeds.some((feed) => feed.id === state.selectedFeedId)) {
+    for (const article of state.articles) {
+        if (article.isRead) {
+            state.readArticleIds.add(article.id);
+        }
+        if (article.isFavorite) {
+            state.favoriteArticleIds.add(article.id);
+        }
+    }
+    saveReadState();
+    saveFavoritesState();
+
+    const isVirtualFilter = state.selectedFeedId === 'all'
+        || state.selectedFeedId === 'favorites'
+        || state.selectedFeedId === 'history'
+        || state.selectedFeedId.startsWith(CATEGORY_FILTER_PREFIX);
+    if (!isVirtualFilter && !state.feeds.some((feed) => feed.id === state.selectedFeedId)) {
         state.selectedFeedId = 'all';
     }
 
@@ -1343,6 +1795,43 @@ async function addFeed(url) {
     }
 
     showToast(getFriendlyFeedError(message, t('unableToAddFeed')), 'error');
+}
+
+/* ---------- Daily AI summary ---------- */
+
+function renderDailySummary(content) {
+    elements.dailySummaryCard.hidden = false;
+    elements.dailySummaryBody.innerHTML = renderMarkdown(content);
+    applyDirection(elements.dailySummaryBody, content);
+
+    const isLong = elements.dailySummaryBody.scrollHeight > 260;
+    elements.dailySummaryCard.classList.toggle('is-collapsible', isLong);
+    elements.dailySummaryToggle.hidden = !isLong;
+    if (isLong) {
+        elements.dailySummaryCard.classList.add('is-collapsed');
+        elements.dailySummaryToggle.textContent = t('showMore');
+    }
+}
+
+async function loadDailySummary(forceRefresh = false) {
+    elements.dailySummaryCard.hidden = false;
+    elements.dailySummaryBody.innerHTML = '';
+    elements.dailySummaryBody.textContent = t('generatingSummary');
+    elements.dailySummaryToggle.hidden = true;
+
+    try {
+        const response = await fetch(forceRefresh ? '/api/summary/daily/refresh' : '/api/summary/daily', {
+            method: forceRefresh ? 'POST' : 'GET',
+        });
+        if (!response.ok) {
+            elements.dailySummaryBody.textContent = t('summaryUnavailable');
+            return;
+        }
+        const payload = await response.json();
+        renderDailySummary(payload.content);
+    } catch {
+        elements.dailySummaryBody.textContent = t('summaryUnavailable');
+    }
 }
 
 function wireEvents() {
@@ -1440,6 +1929,41 @@ function wireEvents() {
             closeChatPanel();
         }
     });
+
+    elements.dailySummaryRefresh.addEventListener('click', async () => {
+        elements.dailySummaryRefresh.disabled = true;
+        try {
+            await loadDailySummary(true);
+        } finally {
+            elements.dailySummaryRefresh.disabled = false;
+        }
+    });
+
+    elements.dailySummaryToggle.addEventListener('click', () => {
+        const isCollapsed = elements.dailySummaryCard.classList.toggle('is-collapsed');
+        elements.dailySummaryToggle.textContent = t(isCollapsed ? 'showMore' : 'showLess');
+    });
+
+    elements.paginationPrev.addEventListener('click', () => {
+        if (state.currentPage > 1) {
+            goToPage(state.currentPage - 1);
+        }
+    });
+
+    elements.paginationNext.addEventListener('click', () => {
+        goToPage(state.currentPage + 1);
+    });
+
+    elements.paginationJumpInput.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+        event.preventDefault();
+        const page = parseInt(elements.paginationJumpInput.value, 10);
+        if (Number.isInteger(page) && page >= 1) {
+            goToPage(page);
+        }
+    });
 }
 
 async function init() {
@@ -1450,6 +1974,7 @@ async function init() {
     loadFavoritesState();
     renderHelpTopics(elements.helpSearchInput.value);
     renderChatMessages();
+    loadDailySummary();
     try {
         await loadData();
         setFeedMessage('');

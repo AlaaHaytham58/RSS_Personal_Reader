@@ -73,12 +73,37 @@
             </aside>
 
             <main class="content">
+                <section class="daily-summary" id="dailySummaryCard" hidden>
+                    <div class="daily-summary__header">
+                        <h3 data-i18n="dailySummaryTitle">Daily News Summary</h3>
+                        <div class="daily-summary__actions">
+                            <button type="button" class="icon-button daily-summary__refresh" id="dailySummaryRefresh" aria-label="Refresh summary" data-i18n-aria-label="refreshSummaryAria">
+                                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="daily-summary__body" id="dailySummaryBody"></div>
+                    <button type="button" class="daily-summary__toggle" id="dailySummaryToggle" hidden data-i18n="showMore">Show more</button>
+                </section>
+
                 <section class="river-toolbar">
                     <h2 data-i18n="latestArticles">Latest articles</h2>
                     <p class="toolbar-meta" id="statusText" data-i18n="loadingFeeds">Loading feeds and articles...</p>
                 </section>
 
+                <div class="category-pills" id="categoryPills"></div>
+
                 <section class="river" id="articleFeed" aria-label="Articles" data-i18n-aria-label="articlesAriaLabel"></section>
+
+                <nav class="pagination" id="paginationBar" aria-label="Pagination" hidden>
+                    <button type="button" class="pagination__button" id="paginationPrev" data-i18n="previous">Previous</button>
+                    <span class="pagination__status" id="paginationStatus"></span>
+                    <button type="button" class="pagination__button pagination__button--primary" id="paginationNext" data-i18n="next">Next</button>
+                    <label class="pagination__jump">
+                        <span data-i18n="jumpTo">Jump to</span>
+                        <input type="number" id="paginationJumpInput" min="1" step="1" />
+                    </label>
+                </nav>
             </main>
         </div>
 
@@ -138,31 +163,29 @@
 
     <template id="articleCardTemplate">
         <article class="article-card card">
-            <div class="article-card__row">
-                <div class="article-card__body">
-                    <div class="article-card__header">
-                        <div>
-                            <p class="article-card__source"></p>
-                            <h4 class="article-card__title"></h4>
-                        </div>
+            <div class="article-card__media" hidden>
+                <img class="article-card__image" alt="" loading="lazy" referrerpolicy="no-referrer" />
+            </div>
+            <div class="article-card__body">
+                <div class="article-card__header">
+                    <p class="article-card__source"></p>
+                    <h4 class="article-card__title"></h4>
+                </div>
+                <p class="article-card__summary"></p>
+                <div class="article-card__footer">
+                    <div class="article-card__footer-meta">
+                        <span class="article-card__feed"></span>
                         <time class="article-card__time"></time>
                     </div>
-                    <p class="article-card__summary"></p>
-                </div>
-                <div class="article-card__media" hidden>
-                    <img class="article-card__image" alt="" loading="lazy" referrerpolicy="no-referrer" />
-                </div>
-            </div>
-            <div class="article-card__footer">
-                <span class="article-card__feed"></span>
-                <div class="article-card__actions">
-                    <button type="button" class="icon-button article-card__favorite" aria-label="Save to favorites">
-                        <i class="bi bi-star" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="icon-button article-card__share" aria-label="Copy article link">
-                        <i class="bi bi-share" aria-hidden="true"></i>
-                    </button>
-                    <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+                    <div class="article-card__actions">
+                        <button type="button" class="icon-button article-card__favorite" aria-label="Save to favorites">
+                            <i class="bi bi-star" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="icon-button article-card__share" aria-label="Copy article link">
+                            <i class="bi bi-share" aria-hidden="true"></i>
+                        </button>
+                        <a class="article-card__link" target="_blank" rel="noreferrer noopener">Read article</a>
+                    </div>
                 </div>
             </div>
         </article>

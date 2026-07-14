@@ -1,5 +1,7 @@
 using Domain;
 using Infrastructure.Storage;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Services;
 using Xunit;
 
@@ -7,6 +9,30 @@ namespace Tests
 {
     public class ArticleServiceTests
     {
+        private static IDbContextFactory<AppDbContext> CreateInMemoryContextFactory()
+        {
+            var connection = new SqliteConnection("Data Source=:memory:");
+            connection.Open();
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
+            using (var db = new AppDbContext(options))
+            {
+                db.Database.EnsureCreated();
+            }
+
+            return new TestDbContextFactory(options);
+        }
+
+        private sealed class TestDbContextFactory : IDbContextFactory<AppDbContext>
+        {
+            private readonly DbContextOptions<AppDbContext> _options;
+
+            public TestDbContextFactory(DbContextOptions<AppDbContext> options)
+            {
+                _options = options;
+            }
+
+            public AppDbContext CreateDbContext() => new AppDbContext(_options);
+        }
         [Fact]
         public async Task GetAllArticlesAsync_SortsByPublishedAtDescending_AndFallsBackToFetchedAt()
         {
@@ -37,7 +63,7 @@ namespace Tests
 
             var service = new ArticleService(new FakeFeedRepository(
                 new[] { feed1, feed2 },
-                new[] { olderPublished, missingPublished }));
+                new[] { olderPublished, missingPublished }), CreateInMemoryContextFactory());
 
             var result = await service.GetAllArticlesAsync();
 
@@ -63,7 +89,7 @@ namespace Tests
                 FetchedAt = new DateTimeOffset(2024, 2, 1, 8, 1, 0, TimeSpan.Zero)
             };
 
-            var service = new ArticleService(new FakeFeedRepository(new[] { feed }, new[] { article }));
+            var service = new ArticleService(new FakeFeedRepository(new[] { feed }, new[] { article }), CreateInMemoryContextFactory());
 
             var result = await service.GetAllArticlesAsync();
 
