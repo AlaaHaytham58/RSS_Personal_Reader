@@ -95,7 +95,7 @@ namespace Tests
 
             await service.CreatePostAsync(user.Id, "A reply", root.Post.Id);
 
-            var timeline = await service.GetTimelineAsync(1, 20);
+            var timeline = await service.GetTimelineAsync(1, 20, null);
             Assert.Single(timeline);
             Assert.Equal(1, timeline[0].ReplyCount);
         }
@@ -134,6 +134,58 @@ namespace Tests
             var outcome = await service.CreatePostAsync(user.Id, "A reply", Guid.NewGuid());
 
             Assert.IsType<PostParentNotFound>(outcome);
+        }
+
+        [Fact]
+        public async Task ToggleLikeAsync_OnUnlikedPost_LikesAndIncrementsCount()
+        {
+            var factory = CreateInMemoryContextFactory();
+            var author = await CreateUserAsync(factory, "alice");
+            var liker = await CreateUserAsync(factory, "bob");
+            var service = new PostService(factory, new NoOpHubContext());
+            var post = Assert.IsType<PostSuccess>(await service.CreatePostAsync(author.Id, "Hello", null));
+
+            var outcome = await service.ToggleLikeAsync(liker.Id, post.Post.Id);
+
+            var success = Assert.IsType<LikeSuccess>(outcome);
+            Assert.True(success.Liked);
+            Assert.Equal(1, success.LikeCount);
+        }
+
+        [Fact]
+        public async Task ToggleLikeAsync_CalledTwice_UnlikesAndDecrementsCount()
+        {
+            var factory = CreateInMemoryContextFactory();
+            var author = await CreateUserAsync(factory, "alice");
+            var liker = await CreateUserAsync(factory, "bob");
+            var service = new PostService(factory, new NoOpHubContext());
+            var post = Assert.IsType<PostSuccess>(await service.CreatePostAsync(author.Id, "Hello", null));
+            await service.ToggleLikeAsync(liker.Id, post.Post.Id);
+
+            var outcome = await service.ToggleLikeAsync(liker.Id, post.Post.Id);
+
+            var success = Assert.IsType<LikeSuccess>(outcome);
+            Assert.False(success.Liked);
+            Assert.Equal(0, success.LikeCount);
+        }
+
+        [Fact]
+        public async Task GetTimelineAsync_LikedByCurrentUser_IsTrueOnlyForTheLiker()
+        {
+            var factory = CreateInMemoryContextFactory();
+            var author = await CreateUserAsync(factory, "alice");
+            var liker = await CreateUserAsync(factory, "bob");
+            var bystander = await CreateUserAsync(factory, "carol");
+            var service = new PostService(factory, new NoOpHubContext());
+            var post = Assert.IsType<PostSuccess>(await service.CreatePostAsync(author.Id, "Hello", null));
+            await service.ToggleLikeAsync(liker.Id, post.Post.Id);
+
+            var likerView = await service.GetTimelineAsync(1, 20, liker.Id);
+            var bystanderView = await service.GetTimelineAsync(1, 20, bystander.Id);
+
+            Assert.True(likerView[0].LikedByCurrentUser);
+            Assert.Equal(1, likerView[0].LikeCount);
+            Assert.False(bystanderView[0].LikedByCurrentUser);
         }
     }
 }

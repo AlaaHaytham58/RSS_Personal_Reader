@@ -11,15 +11,17 @@ namespace Endpoints
     {
         public static void MapPostEndpoints(this WebApplication app)
         {
-            app.MapGet("/api/posts", async (int? page, IPostService svc) =>
+            app.MapGet("/api/posts", async (int? page, IPostService svc, HttpContext ctx) =>
             {
-                var posts = await svc.GetTimelineAsync(page ?? 1, 20);
+                var currentUserId = GetCurrentUserId(ctx);
+                var posts = await svc.GetTimelineAsync(page ?? 1, 20, currentUserId);
                 return Results.Ok(posts);
             });
 
-            app.MapGet("/api/posts/{id:guid}", async (Guid id, IPostService svc) =>
+            app.MapGet("/api/posts/{id:guid}", async (Guid id, IPostService svc, HttpContext ctx) =>
             {
-                var outcome = await svc.GetThreadAsync(id);
+                var currentUserId = GetCurrentUserId(ctx);
+                var outcome = await svc.GetThreadAsync(id, currentUserId);
                 return outcome switch
                 {
                     ThreadSuccess t => Results.Ok(t.Thread),
@@ -30,14 +32,12 @@ namespace Endpoints
 
             app.MapPost("/api/posts", async (CreatePostRequest req, IPostService svc, HttpContext ctx) =>
             {
-                if (ctx.User.Identity?.IsAuthenticated != true) return Results.StatusCode(401);
-
-                var authorIdRaw = ctx.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (authorIdRaw == null || !Guid.TryParse(authorIdRaw, out var authorId)) return Results.StatusCode(401);
+                var authorId = GetCurrentUserId(ctx);
+                if (authorId == null) return Results.StatusCode(401);
 
                 if (req == null) return Results.BadRequest(new { error = "Content is required" });
 
-                var outcome = await svc.CreatePostAsync(authorId, req.Content, req.ParentPostId);
+                var outcome = await svc.CreatePostAsync(authorId.Value, req.Content, req.ParentPostId);
                 return outcome switch
                 {
                     PostSuccess s => Results.Created($"/api/posts/{s.Post.Id}", s.Post),
@@ -46,6 +46,28 @@ namespace Endpoints
                     _ => Results.StatusCode(500)
                 };
             });
+
+            app.MapPost("/api/posts/{id:guid}/like", async (Guid id, IPostService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                var outcome = await svc.ToggleLikeAsync(userId.Value, id);
+                return outcome switch
+                {
+                    LikeSuccess l => Results.Ok(new { liked = l.Liked, likeCount = l.LikeCount }),
+                    PostNotFound _ => Results.NotFound(),
+                    _ => Results.StatusCode(500)
+                };
+            });
+        }
+
+        private static Guid? GetCurrentUserId(HttpContext ctx)
+        {
+            if (ctx.User.Identity?.IsAuthenticated != true) return null;
+
+            var raw = ctx.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return raw != null && Guid.TryParse(raw, out var id) ? id : null;
         }
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -50,6 +51,18 @@ namespace Endpoints
                     AuthValidationError v => Results.BadRequest(new { error = v.Message }),
                     _ => Results.StatusCode(500)
                 };
+            });
+
+            app.MapGet("/api/auth/google/login", async (HttpContext ctx, Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider schemes, string? returnUrl) =>
+            {
+                if (await schemes.GetSchemeAsync(GoogleDefaults.AuthenticationScheme) is null)
+                {
+                    return Results.Json(new { error = "Google sign-in is not configured on this server." }, statusCode: 503);
+                }
+
+                var redirectUri = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl;
+                var properties = new AuthenticationProperties { RedirectUri = redirectUri };
+                return Results.Challenge(properties, new[] { GoogleDefaults.AuthenticationScheme });
             });
 
             app.MapPost("/api/auth/logout", async (HttpContext ctx) =>
