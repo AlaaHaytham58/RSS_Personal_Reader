@@ -11,5 +11,6 @@ namespace Dtos
         public DateTimeOffset? LastRefreshedAt { get; set; }
         public string LastRefreshStatus { get; set; } = "Unknown";
         public int ArticleCount { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }
