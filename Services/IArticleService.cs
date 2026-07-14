@@ -7,9 +7,9 @@ namespace Services
 {
     public interface IArticleService
     {
-        Task<List<ArticleResponse>> GetAllArticlesAsync();
-        Task<List<ArticleResponse>> GetHistoryAsync(int limit);
-        Task<bool> MarkReadAsync(Guid feedId, string articleId);
-        Task<bool> SetFavoriteAsync(Guid feedId, string articleId, bool isFavorite);
+        Task<List<ArticleResponse>> GetAllArticlesAsync(Guid userId);
+        Task<List<ArticleResponse>> GetHistoryAsync(Guid userId, int limit);
+        Task<bool> MarkReadAsync(Guid userId, Guid feedId, string articleId);
+        Task<bool> SetFavoriteAsync(Guid userId, Guid feedId, string articleId, bool isFavorite);
     }
 }

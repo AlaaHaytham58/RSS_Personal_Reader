@@ -20,11 +20,11 @@ namespace Services
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task<List<ArticleResponse>> GetAllArticlesAsync()
+        public async Task<List<ArticleResponse>> GetAllArticlesAsync(Guid userId)
         {
-            var feeds = await _repository.GetAllFeedsAsync();
-            var articles = await _repository.GetAllArticlesAsync();
-            var (readKeys, favoriteKeys) = await GetReadAndFavoriteKeysAsync();
+            var feeds = await _repository.GetAllFeedsAsync(userId);
+            var articles = await _repository.GetAllArticlesAsync(userId);
+            var (readKeys, favoriteKeys) = await GetReadAndFavoriteKeysAsync(userId);
 
             return articles
                 .OrderByDescending(GetSortTimestamp)
@@ -49,11 +49,13 @@ namespace Services
                 .ToList();
         }
 
-        public async Task<List<ArticleResponse>> GetHistoryAsync(int limit)
+        public async Task<List<ArticleResponse>> GetHistoryAsync(Guid userId, int limit)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
             // SQLite can't ORDER BY DateTimeOffset server-side, so sort client-side after fetching.
-            var readEntries = (await db.ReadArticles.ToListAsync())
+            var readEntries = (await db.ReadArticles
+                    .Where(r => db.Feeds.Any(f => f.Id == r.FeedId && f.UserId == userId))
+                    .ToListAsync())
                 .OrderByDescending(r => r.ReadAt)
                 .Take(limit)
                 .ToList();
@@ -63,7 +65,7 @@ namespace Services
                 return new List<ArticleResponse>();
             }
 
-            var all = await GetAllArticlesAsync();
+            var all = await GetAllArticlesAsync(userId);
             var byKey = all.ToDictionary(a => (a.FeedId, a.Id));
 
             var result = new List<ArticleResponse>();
@@ -78,7 +80,7 @@ namespace Services
             return result;
         }
 
-        public async Task<bool> MarkReadAsync(Guid feedId, string articleId)
+        public async Task<bool> MarkReadAsync(Guid userId, Guid feedId, string articleId)
         {
             if (string.IsNullOrWhiteSpace(articleId))
             {
@@ -86,6 +88,12 @@ namespace Services
             }
 
             await using var db = await _contextFactory.CreateDbContextAsync();
+            var ownsFeed = await db.Feeds.AnyAsync(f => f.Id == feedId && f.UserId == userId);
+            if (!ownsFeed)
+            {
+                return false;
+            }
+
             var exists = await db.ReadArticles.AnyAsync(r => r.FeedId == feedId && r.ArticleId == articleId);
             if (!exists)
             {
@@ -96,7 +104,7 @@ namespace Services
             return true;
         }
 
-        public async Task<bool> SetFavoriteAsync(Guid feedId, string articleId, bool isFavorite)
+        public async Task<bool> SetFavoriteAsync(Guid userId, Guid feedId, string articleId, bool isFavorite)
         {
             if (string.IsNullOrWhiteSpace(articleId))
             {
@@ -104,6 +112,12 @@ namespace Services
             }
 
             await using var db = await _contextFactory.CreateDbContextAsync();
+            var ownsFeed = await db.Feeds.AnyAsync(f => f.Id == feedId && f.UserId == userId);
+            if (!ownsFeed)
+            {
+                return false;
+            }
+
             var existing = await db.FavoriteArticles.FirstOrDefaultAsync(f => f.FeedId == feedId && f.ArticleId == articleId);
 
             if (isFavorite)
@@ -123,11 +137,15 @@ namespace Services
             return true;
         }
 
-        private async Task<(HashSet<(Guid, string)> Read, HashSet<(Guid, string)> Favorite)> GetReadAndFavoriteKeysAsync()
+        private async Task<(HashSet<(Guid, string)> Read, HashSet<(Guid, string)> Favorite)> GetReadAndFavoriteKeysAsync(Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            var read = await db.ReadArticles.Select(r => new { r.FeedId, r.ArticleId }).ToListAsync();
-            var favorite = await db.FavoriteArticles.Select(f => new { f.FeedId, f.ArticleId }).ToListAsync();
+            var read = await db.ReadArticles
+                .Where(r => db.Feeds.Any(f => f.Id == r.FeedId && f.UserId == userId))
+                .Select(r => new { r.FeedId, r.ArticleId }).ToListAsync();
+            var favorite = await db.FavoriteArticles
+                .Where(f => db.Feeds.Any(fe => fe.Id == f.FeedId && fe.UserId == userId))
+                .Select(f => new { f.FeedId, f.ArticleId }).ToListAsync();
 
             return (
                 read.Select(r => (r.FeedId, r.ArticleId)).ToHashSet(),

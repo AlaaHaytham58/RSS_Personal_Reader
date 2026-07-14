@@ -30,7 +30,7 @@ namespace Services
             _logger = logger;
         }
 
-        public async Task<ChatOutcome> AskAsync(List<ChatMessage> messages)
+        public async Task<ChatOutcome> AskAsync(Guid userId, List<ChatMessage> messages)
         {
             var history = messages
                 .Where(m => !string.IsNullOrWhiteSpace(m.Content))
@@ -41,18 +41,18 @@ namespace Services
             history.Insert(0, new DeepSeekMessage
             {
                 Role = "system",
-                Content = await BuildSystemPromptAsync(),
+                Content = await BuildSystemPromptAsync(userId),
             });
 
             return await CallDeepSeekAsync(history);
         }
 
-        public async Task<ChatOutcome> GenerateDailySummaryAsync()
+        public async Task<ChatOutcome> GenerateDailySummaryAsync(Guid userId)
         {
             List<Dtos.ArticleResponse> articles;
             try
             {
-                articles = await _articleService.GetAllArticlesAsync();
+                articles = await _articleService.GetAllArticlesAsync(userId);
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace Services
             }
         }
 
-        private async Task<string> BuildSystemPromptAsync()
+        private async Task<string> BuildSystemPromptAsync(Guid userId)
         {
             var basePrompt =
                 "You are the reading assistant embedded in this user's RSS reader app. " +
@@ -149,7 +149,7 @@ namespace Services
             List<Dtos.ArticleResponse> articles;
             try
             {
-                articles = await _articleService.GetAllArticlesAsync();
+                articles = await _articleService.GetAllArticlesAsync(userId);
             }
             catch (Exception ex)
             {

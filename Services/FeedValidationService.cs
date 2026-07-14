@@ -13,12 +13,12 @@ namespace Services
             _repo = repo;
         }
 
-        public async Task<bool> IsValidUrlAsync(string url)
+        public async Task<bool> IsValidUrlAsync(System.Guid userId, string url)
         {
             if (!FeedUrlValidator.IsValid(url)) return false;
 
-            // Check duplicate by URL (case-insensitive)
-            var all = await _repo.GetAllFeedsAsync();
+            // Check duplicate by URL (case-insensitive), scoped to this user's own feeds
+            var all = await _repo.GetAllFeedsAsync(userId);
             var exists = all.Exists(f => string.Equals(f.Url.TrimEnd('/'), url.TrimEnd('/'), System.StringComparison.OrdinalIgnoreCase));
             return !exists;
         }

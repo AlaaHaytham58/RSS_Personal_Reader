@@ -26,13 +26,13 @@ namespace Services
             _categoryService = categoryService;
         }
 
-        public async Task<AddFeedOutcome> AddFeedAsync(string url)
+        public async Task<AddFeedOutcome> AddFeedAsync(Guid userId, string url)
         {
             // 1. Validate URL syntax
             if (!Validation.FeedUrlValidator.IsValid(url)) return new AddFeedInvalidUrl();
 
-            // 2. Duplicate
-            var existing = await _repo.GetAllFeedsAsync();
+            // 2. Duplicate (scoped to this user's own feeds)
+            var existing = await _repo.GetAllFeedsAsync(userId);
             if (existing.Exists(f => string.Equals(f.Url.TrimEnd('/'), url.TrimEnd('/'), StringComparison.OrdinalIgnoreCase)))
             {
                 return new AddFeedAlreadyExists();
@@ -50,6 +50,7 @@ namespace Services
             var feed = new Feed
             {
                 Id = Guid.NewGuid(),
+                UserId = userId,
                 Url = url,
                 Title = parseRes.FeedTitle ?? url,
                 SiteUrl = parseRes.SiteUrl,
@@ -84,9 +85,9 @@ namespace Services
             return new AddFeedSuccess { Feed = feed };
         }
 
-        public async Task<RefreshOutcome> RefreshFeedAsync(Guid feedId)
+        public async Task<RefreshOutcome> RefreshFeedAsync(Guid userId, Guid feedId)
         {
-            var feed = await _repo.GetFeedByIdAsync(feedId);
+            var feed = await _repo.GetFeedByIdAsync(feedId, userId);
             if (feed == null) return new RefreshNotFound { FeedId = feedId };
 
             var fetchRes = await _fetcher.FetchAsync(feed.Url, System.Threading.CancellationToken.None);
@@ -119,17 +120,17 @@ namespace Services
             return new RefreshSuccess { FeedId = feedId };
         }
 
-        public async Task<bool> RemoveFeedAsync(Guid feedId)
+        public async Task<bool> RemoveFeedAsync(Guid userId, Guid feedId)
         {
-            var existing = await _repo.GetFeedByIdAsync(feedId);
+            var existing = await _repo.GetFeedByIdAsync(feedId, userId);
             if (existing == null) return false;
-            await _repo.RemoveFeedAsync(feedId);
+            await _repo.RemoveFeedAsync(feedId, userId);
             return true;
         }
 
-        public Task<List<Feed>> GetAllFeedsAsync()
+        public Task<List<Feed>> GetAllFeedsAsync(Guid userId)
         {
-            return _repo.GetAllFeedsAsync();
+            return _repo.GetAllFeedsAsync(userId);
         }
     }
 }
