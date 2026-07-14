@@ -124,7 +124,10 @@ async function leaveApp() {
 
 function wireLandingEvents() {
     elements.landingThemeToggle.addEventListener('click', toggleTheme);
-    elements.landingStartButton.addEventListener('click', enterApp);
+    elements.landingStartButton.addEventListener('click', () => {
+        enterApp();
+        openAuthModal('register');
+    });
     elements.landingLoginButton.addEventListener('click', () => {
         enterApp();
         openAuthModal('login');
@@ -1916,6 +1919,10 @@ async function loadCurrentUser() {
     }
     if (state.currentUser) {
         enterApp();
+    } else if (!elements.appShell.hidden && elements.authModal.hidden) {
+        // Returning visitor whose session expired/was cleared: the reader now requires an
+        // account, so prompt them to log back in instead of silently failing every API call.
+        openAuthModal('login');
     }
     renderAuthStatus();
 }
@@ -1952,6 +1959,14 @@ async function submitAuth() {
             renderAuthStatus();
             closeAuthModal();
             await loadCommunityTimeline();
+            try {
+                await loadData();
+                setFeedMessage('');
+            } catch (error) {
+                setStatus(t('unableToLoadData'), 'error');
+                showToast(error instanceof Error ? error.message : t('unexpectedError'), 'error');
+            }
+            loadDailySummary();
             return;
         }
 
