@@ -106,6 +106,9 @@ function enterApp() {
 }
 
 async function leaveApp() {
+    if (!window.confirm(t('confirmLogOut'))) {
+        return;
+    }
     showToast(t('loggingOut'));
     if (state.currentUser) {
         try {
@@ -277,6 +280,7 @@ const translations = {
         username: 'Username',
         password: 'Password',
         loggingOut: 'Logging out...',
+        confirmLogOut: 'Are you sure you want to log out?',
         backToReader: 'Back to RSS Reader',
         needAccount: 'Need an account? Sign up',
         haveAccount: 'Already have an account? Log in',
@@ -441,6 +445,7 @@ const translations = {
         username: 'اسم المستخدم',
         password: 'كلمة المرور',
         loggingOut: 'جارٍ تسجيل الخروج...',
+        confirmLogOut: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
         backToReader: 'العودة إلى القارئ',
         needAccount: 'ليس لديك حساب؟ أنشئ حسابًا',
         haveAccount: 'لديك حساب بالفعل؟ سجّل الدخول',
@@ -1983,6 +1988,9 @@ async function submitAuth() {
 }
 
 async function logoutCommunityUser() {
+    if (!window.confirm(t('confirmLogOut'))) {
+        return;
+    }
     try {
         await fetch('/api/auth/logout', { method: 'POST' });
     } catch {
