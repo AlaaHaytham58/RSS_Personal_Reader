@@ -36,8 +36,9 @@ namespace Tests
         [Fact]
         public async Task GetAllArticlesAsync_SortsByPublishedAtDescending_AndFallsBackToFetchedAt()
         {
-            var feed1 = new Feed { Id = Guid.NewGuid(), Title = "Feed One" };
-            var feed2 = new Feed { Id = Guid.NewGuid(), Title = "Feed Two" };
+            var userId = Guid.NewGuid();
+            var feed1 = new Feed { Id = Guid.NewGuid(), UserId = userId, Title = "Feed One" };
+            var feed2 = new Feed { Id = Guid.NewGuid(), UserId = userId, Title = "Feed Two" };
 
             var olderPublished = new Article
             {
@@ -65,7 +66,7 @@ namespace Tests
                 new[] { feed1, feed2 },
                 new[] { olderPublished, missingPublished }), CreateInMemoryContextFactory());
 
-            var result = await service.GetAllArticlesAsync();
+            var result = await service.GetAllArticlesAsync(userId);
 
             Assert.Equal(2, result.Count);
             Assert.Equal("a-2", result[0].Id);
@@ -77,7 +78,8 @@ namespace Tests
         [Fact]
         public async Task GetAllArticlesAsync_MapsFeedTitleFromOwningFeed()
         {
-            var feed = new Feed { Id = Guid.NewGuid(), Title = "Sample Feed" };
+            var userId = Guid.NewGuid();
+            var feed = new Feed { Id = Guid.NewGuid(), UserId = userId, Title = "Sample Feed" };
             var article = new Article
             {
                 Id = "a-1",
@@ -91,7 +93,7 @@ namespace Tests
 
             var service = new ArticleService(new FakeFeedRepository(new[] { feed }, new[] { article }), CreateInMemoryContextFactory());
 
-            var result = await service.GetAllArticlesAsync();
+            var result = await service.GetAllArticlesAsync(userId);
 
             Assert.Single(result);
             Assert.Equal("Sample Feed", result[0].FeedTitle);
@@ -108,14 +110,14 @@ namespace Tests
                 _articles = articles.Select(CloneArticle).ToList();
             }
 
-            public Task<List<Feed>> GetAllFeedsAsync()
+            public Task<List<Feed>> GetAllFeedsAsync(Guid userId)
             {
-                return Task.FromResult(_feeds.Select(CloneFeed).ToList());
+                return Task.FromResult(_feeds.Where(f => f.UserId == userId).Select(CloneFeed).ToList());
             }
 
-            public Task<Feed?> GetFeedByIdAsync(Guid id)
+            public Task<Feed?> GetFeedByIdAsync(Guid id, Guid userId)
             {
-                var feed = _feeds.FirstOrDefault(f => f.Id == id);
+                var feed = _feeds.FirstOrDefault(f => f.Id == id && f.UserId == userId);
                 return Task.FromResult(feed == null ? null : CloneFeed(feed));
             }
 
@@ -123,7 +125,7 @@ namespace Tests
 
             public Task AddFeedWithArticlesAsync(Feed feed) => throw new NotSupportedException();
 
-            public Task RemoveFeedAsync(Guid id) => throw new NotSupportedException();
+            public Task RemoveFeedAsync(Guid id, Guid userId) => throw new NotSupportedException();
 
             public Task UpdateFeedAsync(Feed feed) => throw new NotSupportedException();
 
@@ -132,9 +134,10 @@ namespace Tests
                 return Task.FromResult(_articles.Where(a => a.FeedId == feedId).Select(CloneArticle).ToList());
             }
 
-            public Task<List<Article>> GetAllArticlesAsync()
+            public Task<List<Article>> GetAllArticlesAsync(Guid userId)
             {
-                return Task.FromResult(_articles.Select(CloneArticle).ToList());
+                var ownedFeedIds = _feeds.Where(f => f.UserId == userId).Select(f => f.Id).ToHashSet();
+                return Task.FromResult(_articles.Where(a => ownedFeedIds.Contains(a.FeedId)).Select(CloneArticle).ToList());
             }
 
             public Task AddArticlesAsync(Guid feedId, List<Article> newArticles) => throw new NotSupportedException();
@@ -144,6 +147,7 @@ namespace Tests
                 return new Feed
                 {
                     Id = feed.Id,
+                    UserId = feed.UserId,
                     Url = feed.Url,
                     Title = feed.Title,
                     SiteUrl = feed.SiteUrl,
