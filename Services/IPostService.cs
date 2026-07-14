@@ -10,5 +10,6 @@ namespace Services
         Task<List<Dtos.PostResponse>> GetTimelineAsync(int page, int pageSize, Guid? currentUserId);
         Task<PostOutcome> GetThreadAsync(Guid postId, Guid? currentUserId);
         Task<PostOutcome> ToggleLikeAsync(Guid userId, Guid postId);
+        Task<PostOutcome> DeletePostAsync(Guid userId, Guid postId);
     }
 }

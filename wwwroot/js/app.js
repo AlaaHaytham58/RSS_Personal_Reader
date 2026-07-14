@@ -287,6 +287,9 @@ const translations = {
         unableToPost: 'Unable to post right now.',
         unableToLoadPosts: 'Unable to load posts right now.',
         noPostsYet: 'No posts yet. Be the first to say something.',
+        deletePost: 'Delete post',
+        confirmDeletePost: 'Delete this post? This cannot be undone.',
+        unableToDeletePost: 'Unable to delete this post right now.',
         reply: 'Reply',
         replies: 'Replies',
         replyCount: '{count} replies',
@@ -444,6 +447,9 @@ const translations = {
         unableToPost: 'تعذّر النشر الآن.',
         unableToLoadPosts: 'تعذّر تحميل المنشورات الآن.',
         noPostsYet: 'لا توجد منشورات بعد. كن أول من يكتب شيئًا.',
+        deletePost: 'حذف المنشور',
+        confirmDeletePost: 'هل تريد حذف هذا المنشور؟ لا يمكن التراجع عن هذا الإجراء.',
+        unableToDeletePost: 'تعذّر حذف المنشور الآن.',
         reply: 'رد',
         replies: 'الردود',
         replyCount: '{count} ردود',
@@ -1996,6 +2002,13 @@ function buildPostCard(post, options) {
     likeButton.disabled = !state.currentUser;
     likeButton.addEventListener('click', () => toggleLike(post.id));
 
+    const deleteButton = node.querySelector('.post-card__delete');
+    if (state.currentUser && post.authorUsername === state.currentUser.username) {
+        deleteButton.hidden = false;
+        deleteButton.title = t('deletePost');
+        deleteButton.addEventListener('click', () => deletePost(post.id));
+    }
+
     if (options?.isReply) {
         node.classList.add('post-card--reply');
     }
@@ -2164,6 +2177,61 @@ async function toggleLike(postId) {
     }
 }
 
+async function deletePost(postId) {
+    if (!state.currentUser) {
+        return;
+    }
+    if (!window.confirm(t('confirmDeletePost'))) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/posts/${postId}`, { method: 'DELETE' });
+        if (!response.ok) {
+            throw new Error(t('unableToDeletePost'));
+        }
+        removePostFromState(postId);
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : t('unableToDeletePost'), 'error');
+    }
+}
+
+function removePostFromState(postId) {
+    const feedPost = state.communityPosts.find((p) => p.id === postId);
+    state.communityPosts = state.communityPosts.filter((p) => p.id !== postId);
+
+    if (activeThread) {
+        if (activeThread.post.id === postId) {
+            closeThread();
+        } else {
+            const reply = activeThread.replies.find((p) => p.id === postId);
+            activeThread.replies = activeThread.replies.filter((p) => p.id !== postId);
+            if (reply) {
+                renderThread();
+            }
+        }
+    }
+
+    if (feedPost) {
+        renderPostFeed();
+    }
+}
+
+function handlePostDeleted({ postId, parentPostId }) {
+    let parentUpdated = false;
+    if (parentPostId) {
+        const parent = state.communityPosts.find((p) => p.id === parentPostId);
+        if (parent && parent.replyCount > 0) {
+            parent.replyCount -= 1;
+            parentUpdated = true;
+        }
+    }
+    removePostFromState(postId);
+    if (parentUpdated) {
+        renderPostFeed();
+    }
+}
+
 async function connectCommunityHub() {
     try {
         communityHubConnection = new signalR.HubConnectionBuilder()
@@ -2172,6 +2240,7 @@ async function connectCommunityHub() {
             .build();
         communityHubConnection.on('NewPost', handleIncomingPost);
         communityHubConnection.on('PostLiked', handleLikeUpdate);
+        communityHubConnection.on('PostDeleted', handlePostDeleted);
         await communityHubConnection.start();
     } catch {
         // real-time updates are a progressive enhancement; timeline still loads via fetch
