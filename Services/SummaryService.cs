@@ -22,10 +22,10 @@ namespace Services
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        public async Task<DailySummaryResponse?> GetDailySummaryAsync()
+        public async Task<DailySummaryResponse?> GetDailySummaryAsync(Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            var existing = await db.DailySummaries.AsNoTracking().FirstOrDefaultAsync(s => s.Id == 1);
+            var existing = await db.DailySummaries.AsNoTracking().FirstOrDefaultAsync(s => s.UserId == userId);
 
             var isFresh = existing != null
                 && existing.GeneratedAt.AddMinutes(_settings.SummaryCacheMinutes) > DateTimeOffset.UtcNow;
@@ -35,19 +35,19 @@ namespace Services
                 return new DailySummaryResponse { Content = existing!.Content, GeneratedAt = existing.GeneratedAt };
             }
 
-            return await GenerateAndStoreAsync(db, fallback: existing);
+            return await GenerateAndStoreAsync(db, userId, fallback: existing);
         }
 
-        public async Task<DailySummaryResponse?> RefreshDailySummaryAsync()
+        public async Task<DailySummaryResponse?> RefreshDailySummaryAsync(Guid userId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
-            var existing = await db.DailySummaries.FirstOrDefaultAsync(s => s.Id == 1);
-            return await GenerateAndStoreAsync(db, fallback: existing);
+            var existing = await db.DailySummaries.FirstOrDefaultAsync(s => s.UserId == userId);
+            return await GenerateAndStoreAsync(db, userId, fallback: existing);
         }
 
-        private async Task<DailySummaryResponse?> GenerateAndStoreAsync(AppDbContext db, DailySummary? fallback)
+        private async Task<DailySummaryResponse?> GenerateAndStoreAsync(AppDbContext db, Guid userId, DailySummary? fallback)
         {
-            var outcome = await _chatService.GenerateDailySummaryAsync();
+            var outcome = await _chatService.GenerateDailySummaryAsync(userId);
             if (outcome is not ChatSuccess success)
             {
                 // Generation failed (not configured / upstream error) - serve the last good copy if we have one.
@@ -55,10 +55,10 @@ namespace Services
             }
 
             var now = DateTimeOffset.UtcNow;
-            var existing = await db.DailySummaries.FirstOrDefaultAsync(s => s.Id == 1);
+            var existing = await db.DailySummaries.FirstOrDefaultAsync(s => s.UserId == userId);
             if (existing == null)
             {
-                db.DailySummaries.Add(new DailySummary { Id = 1, Content = success.Reply, GeneratedAt = now });
+                db.DailySummaries.Add(new DailySummary { UserId = userId, Content = success.Reply, GeneratedAt = now });
             }
             else
             {
