@@ -182,6 +182,52 @@ namespace Services
             return new PostDeleted();
         }
 
+        public async Task<PostOutcome> EditPostAsync(Guid userId, Guid postId, string content)
+        {
+            content = content?.Trim() ?? "";
+            if (content.Length == 0 || content.Length > MaxContentLength)
+            {
+                return new PostContentInvalid();
+            }
+
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var post = await db.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+            if (post == null)
+            {
+                return new PostNotFound();
+            }
+
+            if (post.AuthorId != userId)
+            {
+                return new PostForbidden();
+            }
+
+            post.Content = content;
+            await db.SaveChangesAsync();
+
+            var author = await db.Users.FirstOrDefaultAsync(u => u.Id == post.AuthorId);
+            var replyCount = await db.Posts.CountAsync(p => p.ParentPostId == postId);
+            var likeCount = await db.Likes.CountAsync(l => l.PostId == postId);
+            var likedByCurrentUser = await db.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId);
+
+            var response = new PostResponse
+            {
+                Id = post.Id,
+                AuthorUsername = author?.Username ?? "unknown",
+                Content = post.Content,
+                ParentPostId = post.ParentPostId,
+                ReplyCount = replyCount,
+                LikeCount = likeCount,
+                LikedByCurrentUser = likedByCurrentUser,
+                CreatedAt = post.CreatedAt,
+            };
+
+            await _hub.Clients.All.SendAsync("PostEdited", response);
+
+            return new PostEdited { Post = response };
+        }
+
         private static async Task<(Dictionary<Guid, string> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, int> LikeCounts, HashSet<Guid> LikedByCurrentUser)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
         {
             var users = await db.Users.AsNoTracking().ToDictionaryAsync(u => u.Id, u => u.Username);

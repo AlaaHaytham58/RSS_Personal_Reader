@@ -1983,13 +1983,50 @@ body.community-open .app-layout {
     white-space: pre-wrap;
 }
 
+.post-card__edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+    .post-card__edit-form[hidden] {
+        display: none;
+    }
+
+    .post-card__edit-form textarea {
+        min-height: 4rem;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        background: var(--surface-alt);
+        color: var(--text);
+        font: inherit;
+        resize: vertical;
+    }
+
+        .post-card__edit-form textarea:focus {
+            border-color: var(--focus-border);
+            box-shadow: 0 0 0 3px var(--focus-ring);
+        }
+
+.post-card__edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
 .post-card__footer {
     display: flex;
     gap: 0.4rem;
 }
 
+    .post-card__footer[hidden] {
+        display: none;
+    }
+
 .post-card__reply-count,
 .post-card__like,
+.post-card__edit,
 .post-card__delete {
     display: inline-flex;
     align-items: center;
@@ -2004,17 +2041,23 @@ body.community-open .app-layout {
     transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
 
-.post-card__delete {
+.post-card__edit {
     margin-inline-start: auto;
 }
 
+.post-card__edit:hover {
+    background: var(--surface-alt);
+    color: var(--text);
+}
+
+.post-card__delete:hover {
+    background: var(--danger-hover-bg);
+    color: var(--error);
+}
+
+    .post-card__edit[hidden],
     .post-card__delete[hidden] {
         display: none;
-    }
-
-    .post-card__delete:hover {
-        background: var(--danger-hover-bg);
-        color: var(--error);
     }
 
     .post-card__reply-count:hover {

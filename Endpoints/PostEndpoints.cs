@@ -60,6 +60,24 @@ namespace Endpoints
                     _ => Results.StatusCode(500)
                 };
             });
+            app.MapPut("/api/posts/{id:guid}", async (Guid id, EditPostRequest req, IPostService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                if (req == null) return Results.BadRequest(new { error = "Content is required" });
+
+                var outcome = await svc.EditPostAsync(userId.Value, id, req.Content);
+                return outcome switch
+                {
+                    PostEdited e => Results.Ok(e.Post),
+                    PostContentInvalid c => Results.BadRequest(new { error = c.Message }),
+                    PostNotFound _ => Results.NotFound(),
+                    PostForbidden _ => Results.StatusCode(403),
+                    _ => Results.StatusCode(500)
+                };
+            });
+
             app.MapDelete("/api/posts/{id:guid}", async (Guid id, IPostService svc, HttpContext ctx) =>
             {
                 var userId = GetCurrentUserId(ctx);

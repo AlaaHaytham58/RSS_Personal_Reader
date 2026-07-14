@@ -290,6 +290,10 @@ const translations = {
         deletePost: 'Delete post',
         confirmDeletePost: 'Delete this post? This cannot be undone.',
         unableToDeletePost: 'Unable to delete this post right now.',
+        editPost: 'Edit post',
+        unableToEditPost: 'Unable to edit this post right now.',
+        save: 'Save',
+        cancel: 'Cancel',
         reply: 'Reply',
         replies: 'Replies',
         replyCount: '{count} replies',
@@ -450,6 +454,10 @@ const translations = {
         deletePost: 'حذف المنشور',
         confirmDeletePost: 'هل تريد حذف هذا المنشور؟ لا يمكن التراجع عن هذا الإجراء.',
         unableToDeletePost: 'تعذّر حذف المنشور الآن.',
+        editPost: 'تعديل المنشور',
+        unableToEditPost: 'تعذّر تعديل المنشور الآن.',
+        save: 'حفظ',
+        cancel: 'إلغاء',
         reply: 'رد',
         replies: 'الردود',
         replyCount: '{count} ردود',
@@ -1993,7 +2001,8 @@ function buildPostCard(post, options) {
     avatar.style.background = avatarColorFor(post.authorUsername);
     node.querySelector('.post-card__author').textContent = post.authorUsername;
     node.querySelector('.post-card__time').textContent = formatPostTime(post.createdAt);
-    node.querySelector('.post-card__content').textContent = post.content;
+    const contentEl = node.querySelector('.post-card__content');
+    contentEl.textContent = post.content;
     node.querySelector('.post-card__reply-count span').textContent = t('replyCount', { count: post.replyCount });
     node.querySelector('.post-card__reply-count').addEventListener('click', () => openThread(post.id));
 
@@ -2002,11 +2011,55 @@ function buildPostCard(post, options) {
     likeButton.disabled = !state.currentUser;
     likeButton.addEventListener('click', () => toggleLike(post.id));
 
+    const isOwnPost = Boolean(state.currentUser) && post.authorUsername === state.currentUser.username;
+
     const deleteButton = node.querySelector('.post-card__delete');
-    if (state.currentUser && post.authorUsername === state.currentUser.username) {
+    if (isOwnPost) {
         deleteButton.hidden = false;
         deleteButton.title = t('deletePost');
         deleteButton.addEventListener('click', () => deletePost(post.id));
+    }
+
+    const footer = node.querySelector('.post-card__footer');
+    const editButton = node.querySelector('.post-card__edit');
+    if (isOwnPost) {
+        const editForm = node.querySelector('.post-card__edit-form');
+        const editTextarea = node.querySelector('.post-card__edit-textarea');
+        const editSaveButton = node.querySelector('.post-card__edit-save');
+        const editCancelButton = node.querySelector('.post-card__edit-cancel');
+        editSaveButton.textContent = t('save');
+        editCancelButton.textContent = t('cancel');
+
+        const closeEditForm = () => {
+            editForm.hidden = true;
+            contentEl.hidden = false;
+            footer.hidden = false;
+        };
+
+        editButton.hidden = false;
+        editButton.title = t('editPost');
+        editButton.addEventListener('click', () => {
+            editTextarea.value = post.content;
+            contentEl.hidden = true;
+            footer.hidden = true;
+            editForm.hidden = false;
+            editTextarea.focus();
+        });
+
+        editCancelButton.addEventListener('click', closeEditForm);
+
+        editSaveButton.addEventListener('click', async () => {
+            const newContent = editTextarea.value.trim();
+            if (!newContent || newContent === post.content) {
+                closeEditForm();
+                return;
+            }
+            const updated = await editPost(post.id, newContent);
+            if (updated) {
+                renderPostFeed();
+                renderThread();
+            }
+        });
     }
 
     if (options?.isReply) {
@@ -2177,6 +2230,50 @@ async function toggleLike(postId) {
     }
 }
 
+async function editPost(postId, content) {
+    try {
+        const response = await fetch(`/api/posts/${postId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content }),
+        });
+        if (!response.ok) {
+            const message = response.status === 400 ? t('postEmptyOrTooLong') : t('unableToEditPost');
+            throw new Error(message);
+        }
+        const updated = await response.json();
+        applyPostUpdate(updated);
+        return updated;
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : t('unableToEditPost'), 'error');
+        return null;
+    }
+}
+
+function applyPostUpdate(updated) {
+    const feedPost = state.communityPosts.find((p) => p.id === updated.id);
+    if (feedPost) {
+        feedPost.content = updated.content;
+    }
+
+    if (activeThread) {
+        if (activeThread.post.id === updated.id) {
+            activeThread.post.content = updated.content;
+        } else {
+            const reply = activeThread.replies.find((p) => p.id === updated.id);
+            if (reply) {
+                reply.content = updated.content;
+            }
+        }
+    }
+}
+
+function handlePostEdited(post) {
+    applyPostUpdate(post);
+    renderPostFeed();
+    renderThread();
+}
+
 async function deletePost(postId) {
     if (!state.currentUser) {
         return;
@@ -2241,6 +2338,7 @@ async function connectCommunityHub() {
         communityHubConnection.on('NewPost', handleIncomingPost);
         communityHubConnection.on('PostLiked', handleLikeUpdate);
         communityHubConnection.on('PostDeleted', handlePostDeleted);
+        communityHubConnection.on('PostEdited', handlePostEdited);
         await communityHubConnection.start();
     } catch {
         // real-time updates are a progressive enhancement; timeline still loads via fetch

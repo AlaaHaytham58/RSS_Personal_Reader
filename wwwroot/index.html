@@ -397,6 +397,13 @@
                 </div>
             </div>
             <p class="post-card__content" dir="auto"></p>
+            <div class="post-card__edit-form" hidden>
+                <textarea class="post-card__edit-textarea" dir="auto" maxlength="280"></textarea>
+                <div class="post-card__edit-actions">
+                    <button type="button" class="ghost-button post-card__edit-cancel"></button>
+                    <button type="button" class="primary-button post-card__edit-save"></button>
+                </div>
+            </div>
             <div class="post-card__footer">
                 <button type="button" class="post-card__reply-count">
                     <i class="bi bi-chat" aria-hidden="true"></i>
@@ -405,6 +412,9 @@
                 <button type="button" class="post-card__like">
                     <i class="bi bi-heart" aria-hidden="true"></i>
                     <span></span>
+                </button>
+                <button type="button" class="post-card__edit" hidden>
+                    <i class="bi bi-pencil" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="post-card__delete" hidden>
                     <i class="bi bi-trash" aria-hidden="true"></i>
