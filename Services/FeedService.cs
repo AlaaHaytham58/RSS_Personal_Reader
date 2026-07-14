@@ -15,13 +15,15 @@ namespace Services
         private readonly IFeedFetcher _fetcher;
         private readonly IFeedParser _parser;
         private readonly IFeedValidationService _validator;
+        private readonly ICategoryService _categoryService;
 
-        public FeedService(IFeedRepository repo, IFeedFetcher fetcher, IFeedParser parser, IFeedValidationService validator)
+        public FeedService(IFeedRepository repo, IFeedFetcher fetcher, IFeedParser parser, IFeedValidationService validator, ICategoryService categoryService)
         {
             _repo = repo;
             _fetcher = fetcher;
             _parser = parser;
             _validator = validator;
+            _categoryService = categoryService;
         }
 
         public async Task<AddFeedOutcome> AddFeedAsync(string url)
@@ -62,6 +64,18 @@ namespace Services
 
             // assign feed id to articles
             foreach (var a in feed.Articles) a.FeedId = feed.Id;
+
+            // 5b. Best-effort auto-categorization from the feed's title/URL
+            var guessedCategoryName = FeedCategoryClassifier.Guess(feed.Title, feed.Url, feed.SiteUrl);
+            if (guessedCategoryName != null)
+            {
+                var categories = await _categoryService.GetAllAsync();
+                var match = categories.FirstOrDefault(c => string.Equals(c.Name, guessedCategoryName, StringComparison.OrdinalIgnoreCase));
+                if (match != null)
+                {
+                    feed.CategoryId = match.Id;
+                }
+            }
 
             // 6. Persist feed + articles in one atomic write
             await _repo.AddFeedWithArticlesAsync(feed);

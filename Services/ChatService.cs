@@ -32,13 +32,6 @@ namespace Services
 
         public async Task<ChatOutcome> AskAsync(List<ChatMessage> messages)
         {
-            var apiKey = _settings.DeepSeek.ApiKey;
-            if (string.IsNullOrWhiteSpace(apiKey))
-            {
-                _logger.LogWarning("Chat request rejected: no DeepSeek API key configured (set DEEPSEEK_API_KEY in .env or AppSettings__DeepSeek__ApiKey).");
-                return new ChatNotConfigured();
-            }
-
             var history = messages
                 .Where(m => !string.IsNullOrWhiteSpace(m.Content))
                 .TakeLast(MaxHistoryMessages)
@@ -51,10 +44,62 @@ namespace Services
                 Content = await BuildSystemPromptAsync(),
             });
 
+            return await CallDeepSeekAsync(history);
+        }
+
+        public async Task<ChatOutcome> GenerateDailySummaryAsync()
+        {
+            List<Dtos.ArticleResponse> articles;
+            try
+            {
+                articles = await _articleService.GetAllArticlesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to load articles for daily summary");
+                return new ChatUpstreamError();
+            }
+
+            if (articles.Count == 0)
+            {
+                return new ChatSuccess { Reply = "No articles yet. Add some feeds to get a daily summary." };
+            }
+
+            var grouped = articles
+                .OrderByDescending(a => a.PublishedAt)
+                .Take(MaxContextArticles)
+                .GroupBy(a => string.IsNullOrWhiteSpace(a.FeedTitle) ? "General" : a.FeedTitle)
+                .Select(g => $"## {g.Key}\n" + string.Join("\n", g.Select(a => $"- \"{a.Title}\": {Truncate(a.Summary, 160)}")));
+
+            var prompt =
+                "You write a concise \"Daily News Summary\" digest for a personal RSS reader. " +
+                "Given the article list below (grouped by source), produce a short digest grouped by topic " +
+                "(e.g. World, Technology, Business) using Markdown headings (##) and 2-4 bullet points per topic. " +
+                "Be brief and factual; do not invent details not present in the list. " +
+                "Reply only with the digest, no preamble.\n\n" + string.Join("\n\n", grouped);
+
+            var messages = new List<DeepSeekMessage>
+            {
+                new() { Role = "system", Content = "You produce short, factual news digests from a provided article list only." },
+                new() { Role = "user", Content = prompt },
+            };
+
+            return await CallDeepSeekAsync(messages);
+        }
+
+        private async Task<ChatOutcome> CallDeepSeekAsync(List<DeepSeekMessage> messages)
+        {
+            var apiKey = _settings.DeepSeek.ApiKey;
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                _logger.LogWarning("Chat request rejected: no DeepSeek API key configured (set DEEPSEEK_API_KEY in .env or AppSettings__DeepSeek__ApiKey).");
+                return new ChatNotConfigured();
+            }
+
             var payload = new DeepSeekRequest
             {
                 Model = _settings.DeepSeek.Model,
-                Messages = history,
+                Messages = messages,
                 Stream = false,
             };
 

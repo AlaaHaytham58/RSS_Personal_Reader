@@ -7,5 +7,6 @@ namespace Services
     public interface IChatService
     {
         Task<ChatOutcome> AskAsync(List<ChatMessage> messages);
+        Task<ChatOutcome> GenerateDailySummaryAsync();
     }
 }
