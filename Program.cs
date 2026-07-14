@@ -2,10 +2,13 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Configuration;
+using Hubs;
 
 LoadDotEnv(FindDotEnvPath());
 
@@ -56,6 +59,22 @@ builder.Services.AddScoped<Services.IArticleService, Services.ArticleService>();
 builder.Services.AddScoped<Services.IChatService, Services.ChatService>();
 builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>();
 builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
+builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
+builder.Services.AddScoped<Services.IPostService, Services.PostService>();
+
+// Cookie auth for the community posts feature (no login page; API returns status codes)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "rss_reader_auth";
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        options.Events.OnRedirectToLogin = ctx => { ctx.Response.StatusCode = 401; return Task.CompletedTask; };
+        options.Events.OnRedirectToAccessDenied = ctx => { ctx.Response.StatusCode = 403; return Task.CompletedTask; };
+    });
+builder.Services.AddAuthorization();
+
+// SignalR for real-time post/reply delivery
+builder.Services.AddSignalR();
 
 // OpenAPI (Swagger) for development
 builder.Services.AddEndpointsApiExplorer();
@@ -74,6 +93,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Ensure the SQLite data directory exists, apply migrations, and one-time
 // import any legacy data/feeds.json into the database if it's still empty.
@@ -104,6 +126,9 @@ Endpoints.ArticleEndpoints.MapArticleEndpoints(app);
 Endpoints.ChatEndpoints.MapChatEndpoints(app);
 Endpoints.CategoryEndpoints.MapCategoryEndpoints(app);
 Endpoints.SummaryEndpoints.MapSummaryEndpoints(app);
+Endpoints.AuthEndpoints.MapAuthEndpoints(app);
+Endpoints.PostEndpoints.MapPostEndpoints(app);
+app.MapHub<CommunityHub>("/hubs/community");
 
 app.MapFallbackToFile("index.html");
 

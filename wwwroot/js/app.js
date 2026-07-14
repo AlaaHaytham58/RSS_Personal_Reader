@@ -8,6 +8,9 @@ const state = {
     currentPage: 1,
     readArticleIds: new Set(),
     favoriteArticleIds: new Set(),
+    currentUser: null,
+    communityPosts: [],
+    activeThreadId: null,
 };
 
 const CATEGORY_FILTER_PREFIX = 'category:';
@@ -50,6 +53,34 @@ const elements = {
     chatMessages: document.getElementById('chatMessages'),
     chatForm: document.getElementById('chatForm'),
     chatInput: document.getElementById('chatInput'),
+    communityNavButton: document.getElementById('communityNavButton'),
+    readerSection: document.getElementById('readerSection'),
+    communitySection: document.getElementById('communitySection'),
+    communityAuthStatus: document.getElementById('communityAuthStatus'),
+    communityAuthActions: document.getElementById('communityAuthActions'),
+    communityUsername: document.getElementById('communityUsername'),
+    communityLoginButton: document.getElementById('communityLoginButton'),
+    communityRegisterButton: document.getElementById('communityRegisterButton'),
+    communityLogoutButton: document.getElementById('communityLogoutButton'),
+    postComposer: document.getElementById('postComposer'),
+    postComposerInput: document.getElementById('postComposerInput'),
+    postComposerCount: document.getElementById('postComposerCount'),
+    postComposerMessage: document.getElementById('postComposerMessage'),
+    postFeed: document.getElementById('postFeed'),
+    postCardTemplate: document.getElementById('postCardTemplate'),
+    postThread: document.getElementById('postThread'),
+    postThreadBackButton: document.getElementById('postThreadBackButton'),
+    postThreadContent: document.getElementById('postThreadContent'),
+    authModal: document.getElementById('authModal'),
+    authModalBackdrop: document.getElementById('authModalBackdrop'),
+    authModalCloseButton: document.getElementById('authModalCloseButton'),
+    authModalTitle: document.getElementById('authModalTitle'),
+    authForm: document.getElementById('authForm'),
+    authUsernameInput: document.getElementById('authUsernameInput'),
+    authPasswordInput: document.getElementById('authPasswordInput'),
+    authFormMessage: document.getElementById('authFormMessage'),
+    authSubmitButton: document.getElementById('authSubmitButton'),
+    authSwitchModeButton: document.getElementById('authSwitchModeButton'),
 };
 
 const readStorageKey = 'rss-reader-read-articles';
@@ -186,6 +217,31 @@ const translations = {
         next: 'Next',
         jumpTo: 'Jump to',
         pageOf: 'Page {current} of {total}',
+        communityNav: 'Community posts',
+        logIn: 'Log in',
+        signUp: 'Sign up',
+        logOut: 'Log out',
+        username: 'Username',
+        password: 'Password',
+        needAccount: 'Need an account? Sign up',
+        haveAccount: 'Already have an account? Log in',
+        close: 'Close',
+        postComposerPlaceholder: "What's happening?",
+        post: 'Post',
+        backToFeed: 'Back to feed',
+        communityPostsAriaLabel: 'Community posts',
+        loginToPost: 'Log in to post.',
+        postEmptyOrTooLong: 'Posts must be between 1 and 280 characters.',
+        unableToPost: 'Unable to post right now.',
+        unableToLoadPosts: 'Unable to load posts right now.',
+        noPostsYet: 'No posts yet. Be the first to say something.',
+        reply: 'Reply',
+        replies: 'Replies',
+        replyCount: '{count} replies',
+        usernameTaken: 'That username is already taken.',
+        invalidCredentials: 'Invalid username or password.',
+        authValidationError: 'Username must be 3-32 characters and password at least 8 characters.',
+        authUnavailable: 'Could not reach the server. Please try again.',
     },
     ar: {
         appTitle: 'قارئ RSS',
@@ -313,6 +369,31 @@ const translations = {
         next: 'التالي',
         jumpTo: 'الانتقال إلى',
         pageOf: 'صفحة {current} من {total}',
+        communityNav: 'منشورات المجتمع',
+        logIn: 'تسجيل الدخول',
+        signUp: 'إنشاء حساب',
+        logOut: 'تسجيل الخروج',
+        username: 'اسم المستخدم',
+        password: 'كلمة المرور',
+        needAccount: 'ليس لديك حساب؟ أنشئ حسابًا',
+        haveAccount: 'لديك حساب بالفعل؟ سجّل الدخول',
+        close: 'إغلاق',
+        postComposerPlaceholder: 'ما الذي يحدث؟',
+        post: 'نشر',
+        backToFeed: 'العودة إلى القائمة',
+        communityPostsAriaLabel: 'منشورات المجتمع',
+        loginToPost: 'سجّل الدخول للنشر.',
+        postEmptyOrTooLong: 'يجب أن يكون المنشور بين 1 و 280 حرفًا.',
+        unableToPost: 'تعذّر النشر الآن.',
+        unableToLoadPosts: 'تعذّر تحميل المنشورات الآن.',
+        noPostsYet: 'لا توجد منشورات بعد. كن أول من يكتب شيئًا.',
+        reply: 'رد',
+        replies: 'الردود',
+        replyCount: '{count} ردود',
+        usernameTaken: 'اسم المستخدم هذا مُستخدم بالفعل.',
+        invalidCredentials: 'اسم المستخدم أو كلمة المرور غير صحيحة.',
+        authValidationError: 'يجب أن يكون اسم المستخدم بين 3 و32 حرفًا وكلمة المرور 8 أحرف على الأقل.',
+        authUnavailable: 'تعذّر الوصول إلى الخادم. حاول مرة أخرى.',
     },
 };
 
@@ -1715,6 +1796,231 @@ function toggleChatPanel() {
     }
 }
 
+/* ---------- Community posts (public timeline) ---------- */
+
+let authMode = 'login';
+let communityHubConnection = null;
+
+function openCommunitySection() {
+    elements.readerSection.hidden = true;
+    elements.communitySection.hidden = false;
+    elements.communityNavButton.setAttribute('aria-pressed', 'true');
+    document.body.classList.add('community-open');
+}
+
+function closeCommunitySection() {
+    elements.readerSection.hidden = false;
+    elements.communitySection.hidden = true;
+    elements.communityNavButton.setAttribute('aria-pressed', 'false');
+    document.body.classList.remove('community-open');
+}
+
+function toggleCommunitySection() {
+    if (elements.communitySection.hidden) {
+        openCommunitySection();
+    } else {
+        closeCommunitySection();
+    }
+}
+
+function renderAuthStatus() {
+    if (state.currentUser) {
+        elements.communityAuthStatus.hidden = false;
+        elements.communityAuthActions.hidden = true;
+        elements.communityUsername.textContent = state.currentUser.username;
+        elements.postComposer.hidden = false;
+    } else {
+        elements.communityAuthStatus.hidden = true;
+        elements.communityAuthActions.hidden = false;
+        elements.postComposer.hidden = true;
+    }
+}
+
+async function loadCurrentUser() {
+    try {
+        const response = await fetch('/api/auth/me');
+        state.currentUser = response.ok ? await response.json() : null;
+    } catch {
+        state.currentUser = null;
+    }
+    renderAuthStatus();
+}
+
+function openAuthModal(mode) {
+    authMode = mode;
+    elements.authForm.reset();
+    elements.authFormMessage.textContent = '';
+    elements.authModalTitle.textContent = mode === 'register' ? t('signUp') : t('logIn');
+    elements.authSubmitButton.textContent = mode === 'register' ? t('signUp') : t('logIn');
+    elements.authSwitchModeButton.textContent = mode === 'register' ? t('haveAccount') : t('needAccount');
+    elements.authModal.hidden = false;
+    elements.authUsernameInput.focus();
+}
+
+function closeAuthModal() {
+    elements.authModal.hidden = true;
+}
+
+async function submitAuth() {
+    const username = elements.authUsernameInput.value.trim();
+    const password = elements.authPasswordInput.value;
+    const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/login';
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            state.currentUser = await response.json();
+            renderAuthStatus();
+            closeAuthModal();
+            return;
+        }
+
+        if (response.status === 409) {
+            elements.authFormMessage.textContent = t('usernameTaken');
+        } else if (response.status === 401) {
+            elements.authFormMessage.textContent = t('invalidCredentials');
+        } else {
+            elements.authFormMessage.textContent = t('authValidationError');
+        }
+    } catch {
+        elements.authFormMessage.textContent = t('authUnavailable');
+    }
+}
+
+async function logoutCommunityUser() {
+    try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+        // ignore network errors on logout
+    }
+    state.currentUser = null;
+    renderAuthStatus();
+}
+
+function formatPostTime(iso) {
+    const date = new Date(iso);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleString(currentLang === 'ar' ? 'ar' : 'en', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function buildPostCard(post) {
+    const node = elements.postCardTemplate.content.firstElementChild.cloneNode(true);
+    node.querySelector('.post-card__author').textContent = post.authorUsername;
+    node.querySelector('.post-card__time').textContent = formatPostTime(post.createdAt);
+    node.querySelector('.post-card__content').textContent = post.content;
+    node.querySelector('.post-card__reply-count span').textContent = t('replyCount', { count: post.replyCount });
+    node.querySelector('.post-card__reply-count').addEventListener('click', () => openThread(post.id));
+    return node;
+}
+
+function renderPostFeed() {
+    elements.postFeed.innerHTML = '';
+
+    if (state.communityPosts.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        const body = document.createElement('p');
+        body.textContent = t('noPostsYet');
+        empty.append(body);
+        elements.postFeed.append(empty);
+        return;
+    }
+
+    for (const post of state.communityPosts) {
+        elements.postFeed.append(buildPostCard(post));
+    }
+}
+
+async function loadCommunityTimeline() {
+    try {
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+            throw new Error(`Post request failed (${response.status})`);
+        }
+        state.communityPosts = await response.json();
+        renderPostFeed();
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : t('unableToLoadPosts'), 'error');
+    }
+}
+
+async function submitPost(content, parentPostId) {
+    const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, parentPostId: parentPostId ?? null }),
+    });
+
+    if (!response.ok) {
+        const message = response.status === 400 ? t('postEmptyOrTooLong') : t('unableToPost');
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+function closeThread() {
+    state.activeThreadId = null;
+    elements.postThread.hidden = true;
+    elements.postFeed.hidden = false;
+}
+
+async function openThread(postId) {
+    try {
+        const response = await fetch(`/api/posts/${postId}`);
+        if (!response.ok) {
+            throw new Error(`Thread request failed (${response.status})`);
+        }
+        const thread = await response.json();
+
+        state.activeThreadId = postId;
+        elements.postThreadContent.innerHTML = '';
+        elements.postThreadContent.append(buildPostCard(thread.post));
+        for (const reply of thread.replies) {
+            elements.postThreadContent.append(buildPostCard(reply));
+        }
+
+        elements.postThread.hidden = false;
+        elements.postFeed.hidden = true;
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : t('unableToLoadPosts'), 'error');
+    }
+}
+
+function handleIncomingPost(post) {
+    if (post.parentPostId) {
+        if (state.activeThreadId === post.parentPostId) {
+            elements.postThreadContent.append(buildPostCard(post));
+        }
+        const parent = state.communityPosts.find((p) => p.id === post.parentPostId);
+        if (parent) {
+            parent.replyCount += 1;
+            renderPostFeed();
+        }
+        return;
+    }
+
+    state.communityPosts.unshift(post);
+    renderPostFeed();
+}
+
+async function connectCommunityHub() {
+    try {
+        communityHubConnection = new signalR.HubConnectionBuilder()
+            .withUrl('/hubs/community')
+            .withAutomaticReconnect()
+            .build();
+        communityHubConnection.on('NewPost', handleIncomingPost);
+        await communityHubConnection.start();
+    } catch {
+        // real-time updates are a progressive enhancement; timeline still loads via fetch
+    }
+}
+
 async function loadData() {
     setStatus(t('loadingFeeds'));
     const [feedsResponse, articlesResponse, categoriesResponse] = await Promise.all([
@@ -1964,6 +2270,53 @@ function wireEvents() {
             goToPage(page);
         }
     });
+
+    elements.communityNavButton.addEventListener('click', toggleCommunitySection);
+    elements.communityLoginButton.addEventListener('click', () => openAuthModal('login'));
+    elements.communityRegisterButton.addEventListener('click', () => openAuthModal('register'));
+    elements.communityLogoutButton.addEventListener('click', logoutCommunityUser);
+
+    elements.authModalCloseButton.addEventListener('click', closeAuthModal);
+    elements.authModalBackdrop.addEventListener('click', closeAuthModal);
+    elements.authSwitchModeButton.addEventListener('click', () => openAuthModal(authMode === 'register' ? 'login' : 'register'));
+    elements.authForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        elements.authSubmitButton.disabled = true;
+        try {
+            await submitAuth();
+        } finally {
+            elements.authSubmitButton.disabled = false;
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !elements.authModal.hidden) {
+            closeAuthModal();
+        }
+    });
+
+    elements.postComposerInput.addEventListener('input', () => {
+        elements.postComposerCount.textContent = 280 - elements.postComposerInput.value.length;
+    });
+
+    elements.postComposer.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const content = elements.postComposerInput.value.trim();
+        if (!content) {
+            return;
+        }
+
+        elements.postComposerMessage.textContent = '';
+        try {
+            await submitPost(content, state.activeThreadId);
+            elements.postComposerInput.value = '';
+            elements.postComposerCount.textContent = '280';
+        } catch (error) {
+            elements.postComposerMessage.textContent = error instanceof Error ? error.message : t('unableToPost');
+        }
+    });
+
+    elements.postThreadBackButton.addEventListener('click', closeThread);
 }
 
 async function init() {
@@ -1975,6 +2328,9 @@ async function init() {
     renderHelpTopics(elements.helpSearchInput.value);
     renderChatMessages();
     loadDailySummary();
+    loadCurrentUser();
+    loadCommunityTimeline();
+    connectCommunityHub();
     try {
         await loadData();
         setFeedMessage('');

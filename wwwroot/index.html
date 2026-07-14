@@ -32,6 +32,10 @@
                     <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
                 </button>
 
+                <button class="icon-button" type="button" id="communityNavButton" aria-label="Community posts" data-i18n-aria-label="communityNav" aria-pressed="false">
+                    <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+                </button>
+
                 <label class="search" for="searchInput">
                     <span class="search__icon" aria-hidden="true">⌕</span>
                     <input id="searchInput" type="search" placeholder="Search articles or feeds" data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
@@ -72,7 +76,7 @@
                 </section>
             </aside>
 
-            <main class="content">
+            <main class="content" id="readerSection">
                 <section class="daily-summary" id="dailySummaryCard" hidden>
                     <div class="daily-summary__header">
                         <h3 data-i18n="dailySummaryTitle">Daily News Summary</h3>
@@ -105,6 +109,63 @@
                     </label>
                 </nav>
             </main>
+
+            <main class="content community-section" id="communitySection" hidden>
+                <section class="community-auth" id="communityAuth">
+                    <div class="community-auth__status" id="communityAuthStatus" hidden>
+                        <span class="community-auth__username" id="communityUsername"></span>
+                        <button type="button" class="icon-button" id="communityLogoutButton" aria-label="Log out" data-i18n-aria-label="logOut">
+                            <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="community-auth__actions" id="communityAuthActions">
+                        <button type="button" class="primary-button" id="communityLoginButton" data-i18n="logIn">Log in</button>
+                        <button type="button" class="primary-button primary-button--ghost" id="communityRegisterButton" data-i18n="signUp">Sign up</button>
+                    </div>
+                </section>
+
+                <form class="post-composer" id="postComposer" hidden>
+                    <label class="visually-hidden" for="postComposerInput" data-i18n="postComposerPlaceholder">What's happening?</label>
+                    <textarea id="postComposerInput" maxlength="280" placeholder="What's happening?" data-i18n-placeholder="postComposerPlaceholder" dir="auto"></textarea>
+                    <div class="post-composer__footer">
+                        <span class="post-composer__count" id="postComposerCount">280</span>
+                        <button type="submit" class="primary-button" data-i18n="post">Post</button>
+                    </div>
+                    <p class="form-message" id="postComposerMessage" role="status" aria-live="polite"></p>
+                </form>
+
+                <div class="post-thread" id="postThread" hidden>
+                    <button type="button" class="icon-button" id="postThreadBackButton" aria-label="Back to feed" data-i18n-aria-label="backToFeed">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </button>
+                    <div id="postThreadContent"></div>
+                </div>
+
+                <section class="post-feed" id="postFeed" aria-label="Community posts" data-i18n-aria-label="communityPostsAriaLabel"></section>
+            </main>
+        </div>
+
+        <div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-label="Account" hidden>
+            <div class="auth-modal__backdrop" id="authModalBackdrop"></div>
+            <form class="auth-modal__panel" id="authForm">
+                <div class="auth-modal__header">
+                    <h3 id="authModalTitle" data-i18n="logIn">Log in</h3>
+                    <button type="button" class="icon-button" id="authModalCloseButton" aria-label="Close" data-i18n-aria-label="close">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <label class="field">
+                    <span data-i18n="username">Username</span>
+                    <input id="authUsernameInput" type="text" autocomplete="username" required minlength="3" maxlength="32" />
+                </label>
+                <label class="field">
+                    <span data-i18n="password">Password</span>
+                    <input id="authPasswordInput" type="password" autocomplete="current-password" required minlength="8" />
+                </label>
+                <p class="form-message" id="authFormMessage" role="status" aria-live="polite"></p>
+                <button type="submit" class="primary-button primary-button--full" id="authSubmitButton" data-i18n="logIn">Log in</button>
+                <button type="button" class="auth-modal__switch" id="authSwitchModeButton" data-i18n="needAccount">Need an account? Sign up</button>
+            </form>
         </div>
 
         <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
@@ -191,6 +252,23 @@
         </article>
     </template>
 
+    <template id="postCardTemplate">
+        <article class="post-card card">
+            <div class="post-card__header">
+                <strong class="post-card__author"></strong>
+                <time class="post-card__time"></time>
+            </div>
+            <p class="post-card__content" dir="auto"></p>
+            <div class="post-card__footer">
+                <button type="button" class="post-card__reply-count">
+                    <i class="bi bi-chat" aria-hidden="true"></i>
+                    <span></span>
+                </button>
+            </div>
+        </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
     <script src="/js/app.js" defer></script>
 </body>
 </html>
