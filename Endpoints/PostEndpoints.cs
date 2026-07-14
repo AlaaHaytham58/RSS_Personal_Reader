@@ -60,6 +60,20 @@ namespace Endpoints
                     _ => Results.StatusCode(500)
                 };
             });
+            app.MapDelete("/api/posts/{id:guid}", async (Guid id, IPostService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                var outcome = await svc.DeletePostAsync(userId.Value, id);
+                return outcome switch
+                {
+                    PostDeleted _ => Results.NoContent(),
+                    PostNotFound _ => Results.NotFound(),
+                    PostForbidden _ => Results.StatusCode(403),
+                    _ => Results.StatusCode(500)
+                };
+            });
         }
 
         private static Guid? GetCurrentUserId(HttpContext ctx)

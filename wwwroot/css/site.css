@@ -1989,7 +1989,8 @@ body.community-open .app-layout {
 }
 
 .post-card__reply-count,
-.post-card__like {
+.post-card__like,
+.post-card__delete {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -2002,6 +2003,19 @@ body.community-open .app-layout {
     cursor: pointer;
     transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
+
+.post-card__delete {
+    margin-inline-start: auto;
+}
+
+    .post-card__delete[hidden] {
+        display: none;
+    }
+
+    .post-card__delete:hover {
+        background: var(--danger-hover-bg);
+        color: var(--error);
+    }
 
     .post-card__reply-count:hover {
         background: var(--surface-alt);

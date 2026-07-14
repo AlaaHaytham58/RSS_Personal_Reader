@@ -153,6 +153,35 @@ namespace Services
             return new LikeSuccess { Liked = liked, LikeCount = likeCount };
         }
 
+        public async Task<PostOutcome> DeletePostAsync(Guid userId, Guid postId)
+        {
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var post = await db.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+            if (post == null)
+            {
+                return new PostNotFound();
+            }
+
+            if (post.AuthorId != userId)
+            {
+                return new PostForbidden();
+            }
+
+            var replies = await db.Posts.Where(p => p.ParentPostId == postId).ToListAsync();
+            if (replies.Count > 0)
+            {
+                db.Posts.RemoveRange(replies);
+            }
+
+            db.Posts.Remove(post);
+            await db.SaveChangesAsync();
+
+            await _hub.Clients.All.SendAsync("PostDeleted", new { postId, parentPostId = post.ParentPostId });
+
+            return new PostDeleted();
+        }
+
         private static async Task<(Dictionary<Guid, string> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, int> LikeCounts, HashSet<Guid> LikedByCurrentUser)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
         {
             var users = await db.Users.AsNoTracking().ToDictionaryAsync(u => u.Id, u => u.Username);
