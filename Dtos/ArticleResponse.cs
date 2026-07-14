@@ -16,6 +16,8 @@ namespace Dtos
         /// URL of an image associated with the article, if available.
         /// </summary>
         public string? ImageUrl { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsFavorite { get; set; }
     }
 }
 

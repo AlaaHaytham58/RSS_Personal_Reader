@@ -18,7 +18,7 @@ namespace Endpoints
                 var outcome = await svc.AddFeedAsync(req.Url);
                 return outcome switch
                 {
-                    AddFeedSuccess s => Results.Created($"/api/feeds/{s.Feed.Id}", new FeedResponse { Id = s.Feed.Id, Title = s.Feed.Title, Url = s.Feed.Url, SiteUrl = s.Feed.SiteUrl, LastRefreshedAt = s.Feed.LastRefreshedAt, LastRefreshStatus = s.Feed.LastRefreshStatus.ToString(), ArticleCount = s.Feed.Articles?.Count ?? 0 }),
+                    AddFeedSuccess s => Results.Created($"/api/feeds/{s.Feed.Id}", new FeedResponse { Id = s.Feed.Id, Title = s.Feed.Title, Url = s.Feed.Url, SiteUrl = s.Feed.SiteUrl, LastRefreshedAt = s.Feed.LastRefreshedAt, LastRefreshStatus = s.Feed.LastRefreshStatus.ToString(), ArticleCount = s.Feed.Articles?.Count ?? 0, CategoryId = s.Feed.CategoryId }),
                     AddFeedInvalidUrl _ => Results.BadRequest(new { error = "Invalid URL" }),
                     AddFeedAlreadyExists _ => Results.Conflict(new { error = "Already subscribed" }),
                     AddFeedUnreachable u => Results.UnprocessableEntity(new { error = u.Message }),
@@ -30,7 +30,7 @@ namespace Endpoints
             app.MapGet("/api/feeds", async (IFeedService svc) =>
             {
                 var feeds = await svc.GetAllFeedsAsync();
-                var list = feeds.ConvertAll(f => new FeedResponse { Id = f.Id, Title = f.Title, Url = f.Url, SiteUrl = f.SiteUrl, LastRefreshedAt = f.LastRefreshedAt, LastRefreshStatus = f.LastRefreshStatus.ToString(), ArticleCount = f.Articles?.Count ?? 0 });
+                var list = feeds.ConvertAll(f => new FeedResponse { Id = f.Id, Title = f.Title, Url = f.Url, SiteUrl = f.SiteUrl, LastRefreshedAt = f.LastRefreshedAt, LastRefreshStatus = f.LastRefreshStatus.ToString(), ArticleCount = f.Articles?.Count ?? 0, CategoryId = f.CategoryId });
                 return Results.Ok(list);
             });
 
