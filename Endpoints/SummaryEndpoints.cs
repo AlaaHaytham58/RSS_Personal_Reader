@@ -14,6 +14,7 @@ namespace Endpoints
             {
                 var userId = GetCurrentUserId(ctx);
                 if (userId == null) return Results.StatusCode(401);
+                if (IsGuest(ctx)) return Results.Json(new { error = "Sign up for a free account to use AI features." }, statusCode: 403);
 
                 var summary = await svc.GetDailySummaryAsync(userId.Value);
                 return summary == null
@@ -25,6 +26,7 @@ namespace Endpoints
             {
                 var userId = GetCurrentUserId(ctx);
                 if (userId == null) return Results.StatusCode(401);
+                if (IsGuest(ctx)) return Results.Json(new { error = "Sign up for a free account to use AI features." }, statusCode: 403);
 
                 var summary = await svc.RefreshDailySummaryAsync(userId.Value);
                 return summary == null
@@ -40,5 +42,7 @@ namespace Endpoints
             var raw = ctx.User.FindFirstValue(ClaimTypes.NameIdentifier);
             return raw != null && Guid.TryParse(raw, out var id) ? id : null;
         }
+
+        private static bool IsGuest(HttpContext ctx) => ctx.User.FindFirstValue("is_guest") == "true";
     }
 }

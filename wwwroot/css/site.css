@@ -183,6 +183,23 @@ svg {
     min-height: 100vh;
 }
 
+.guest-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface-strong);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.guest-banner[hidden] {
+    display: none;
+}
+
 .topbar {
     position: sticky;
     top: 0;

@@ -19,7 +19,7 @@ namespace Endpoints
             {
                 if (req == null) return Results.BadRequest(new { error = "Username and password are required" });
 
-                var outcome = await svc.RegisterAsync(req.Username, req.Password);
+                var outcome = await svc.RegisterAsync(req.Username, req.Password, GetGuestUserId(ctx));
                 if (outcome is AuthSuccess s)
                 {
                     await SignInAsync(ctx, s.User);
@@ -79,8 +79,20 @@ namespace Endpoints
                 var username = ctx.User.FindFirstValue(ClaimTypes.Name);
                 if (id == null || username == null) return Results.StatusCode(401);
 
-                return Results.Ok(new UserResponse { Id = System.Guid.Parse(id), Username = username });
+                var isGuest = ctx.User.FindFirstValue("is_guest") == "true";
+                return Results.Ok(new UserResponse { Id = System.Guid.Parse(id), Username = username, IsGuest = isGuest });
             });
+        }
+
+        // If the current session is a guest, returns its user id so register/Google-login can
+        // upgrade the same row in place instead of creating an unrelated new account.
+        private static System.Guid? GetGuestUserId(HttpContext ctx)
+        {
+            if (ctx.User.Identity?.IsAuthenticated != true) return null;
+            if (ctx.User.FindFirstValue("is_guest") != "true") return null;
+
+            var raw = ctx.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return raw != null && System.Guid.TryParse(raw, out var id) ? id : null;
         }
 
         private static Task SignInAsync(HttpContext ctx, UserResponse user)
@@ -89,6 +101,7 @@ namespace Endpoints
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Username),
+                new("is_guest", user.IsGuest ? "true" : "false"),
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var properties = new AuthenticationProperties

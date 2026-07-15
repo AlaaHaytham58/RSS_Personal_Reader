@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
@@ -73,6 +74,8 @@ builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>(
 builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
 builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
 builder.Services.AddScoped<Services.IPostService, Services.PostService>();
+// Purges guest accounts (and their cascaded feeds/articles) 7 days after creation.
+builder.Services.AddHostedService<Services.GuestCleanupService>();
 
 // Cookie auth for the community posts feature (no login page; API returns status codes)
 var googleClientIdConfig = builder.Configuration["AppSettings:Google:ClientId"];
@@ -110,8 +113,17 @@ if (googleAuthConfigured)
                 return;
             }
 
+            // If the visitor arrived at Google as a guest, upgrade that same guest row so
+            // their feeds/articles carry over instead of starting a disconnected account.
+            Guid? claimGuestUserId = null;
+            if (ctx.HttpContext.User.FindFirst("is_guest")?.Value == "true"
+                && Guid.TryParse(ctx.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value, out var guestId))
+            {
+                claimGuestUserId = guestId;
+            }
+
             var authService = ctx.HttpContext.RequestServices.GetRequiredService<Services.IAuthService>();
-            var outcome = await authService.ExternalLoginAsync(googleId, email, name);
+            var outcome = await authService.ExternalLoginAsync(googleId, email, name, claimGuestUserId);
             if (outcome is not Services.AuthSuccess success)
             {
                 ctx.Fail("Unable to sign in with Google.");
@@ -121,6 +133,7 @@ if (googleAuthConfigured)
             var identity = new System.Security.Claims.ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, success.User.Id.ToString()));
             identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, success.User.Username));
+            identity.AddClaim(new System.Security.Claims.Claim("is_guest", "false"));
             ctx.Principal = new System.Security.Claims.ClaimsPrincipal(identity);
         };
     });
@@ -162,6 +175,36 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseAuthentication();
+
+// Anonymous visitors get a transparent guest session so they can use the app without
+// signing up first; only AI features (summary/chat) check the is_guest claim and require
+// a real account. Guests are purged after 7 days by GuestCleanupService.
+app.Use(async (ctx, next) =>
+{
+    if (ctx.Request.Path.StartsWithSegments("/api") && ctx.User.Identity?.IsAuthenticated != true)
+    {
+        var authService = ctx.RequestServices.GetRequiredService<Services.IAuthService>();
+        var guest = await authService.CreateGuestAsync();
+
+        var identity = new System.Security.Claims.ClaimsIdentity(new[]
+        {
+            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, guest.Id.ToString()),
+            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, guest.Username),
+            new System.Security.Claims.Claim("is_guest", "true"),
+        }, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new System.Security.Claims.ClaimsPrincipal(identity);
+        ctx.User = principal;
+
+        await ctx.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30),
+        });
+    }
+
+    await next();
+});
+
 app.UseAuthorization();
 
 // Ensure the SQLite data directory exists and apply migrations.

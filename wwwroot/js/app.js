@@ -91,6 +91,8 @@ const elements = {
     landingStartButton: document.getElementById('landingStartButton'),
     landingGoogleButton: document.getElementById('landingGoogleButton'),
     leaveAppButton: document.getElementById('leaveAppButton'),
+    guestBanner: document.getElementById('guestBanner'),
+    guestBannerSignupButton: document.getElementById('guestBannerSignupButton'),
 };
 
 const readStorageKey = 'rss-reader-read-articles';
@@ -128,8 +130,9 @@ async function leaveApp() {
 function wireLandingEvents() {
     elements.landingThemeToggle.addEventListener('click', toggleTheme);
     elements.landingStartButton.addEventListener('click', () => {
+        // No account required to start reading — a guest session is created
+        // transparently on the first API call. Signing up is opt-in from here on.
         enterApp();
-        openAuthModal('register');
     });
     elements.landingLoginButton.addEventListener('click', () => {
         enterApp();
@@ -203,6 +206,8 @@ const translations = {
         assistantUnavailable: 'The assistant is unavailable right now.',
         noResponse: 'No response received.',
         couldNotReachAssistant: 'Could not reach the assistant. Check your connection and try again.',
+        signUpForAi: 'Sign up for a free account to use AI features.',
+        guestBanner: 'Browsing as a guest — sign up to save your data and unlock AI features.',
         linkCopied: 'Link copied to clipboard',
         couldNotCopyLink: 'Could not copy link',
         feedAdded: 'Feed added.',
@@ -368,6 +373,8 @@ const translations = {
         assistantUnavailable: 'المساعد غير متاح حاليًا.',
         noResponse: 'لم يتم استلام أي رد.',
         couldNotReachAssistant: 'تعذّر الوصول إلى المساعد. تحقق من اتصالك وحاول مرة أخرى.',
+        signUpForAi: 'أنشئ حسابًا مجانيًا لاستخدام ميزات الذكاء الاصطناعي.',
+        guestBanner: 'أنت تتصفح كضيف — أنشئ حسابًا لحفظ بياناتك واستخدام ميزات الذكاء الاصطناعي.',
         linkCopied: 'تم نسخ الرابط',
         couldNotCopyLink: 'تعذّر نسخ الرابط',
         feedAdded: 'تمت إضافة المصدر.',
@@ -1905,14 +1912,21 @@ function toggleCommunitySection() {
     }
 }
 
+// Community posting (like/reply/delete) still requires a real account; browsing
+// and feed-reading do not. Guests get a real `currentUser` row, just flagged isGuest.
+function isSignedIn() {
+    return Boolean(state.currentUser) && !state.currentUser.isGuest;
+}
+
 function renderAuthStatus() {
-    const loggedIn = Boolean(state.currentUser);
+    const loggedIn = isSignedIn();
     elements.communityAuthStatus.hidden = !loggedIn;
     elements.communityLanding.hidden = loggedIn;
     elements.communityApp.hidden = !loggedIn;
     if (loggedIn) {
         elements.communityUsername.textContent = state.currentUser.username;
     }
+    elements.guestBanner.hidden = !state.currentUser?.isGuest;
 }
 
 async function loadCurrentUser() {
@@ -1921,13 +1935,6 @@ async function loadCurrentUser() {
         state.currentUser = response.ok ? await response.json() : null;
     } catch {
         state.currentUser = null;
-    }
-    if (state.currentUser) {
-        enterApp();
-    } else if (!elements.appShell.hidden && elements.authModal.hidden) {
-        // Returning visitor whose session expired/was cleared: the reader now requires an
-        // account, so prompt them to log back in instead of silently failing every API call.
-        openAuthModal('login');
     }
     renderAuthStatus();
 }
@@ -2031,7 +2038,7 @@ function buildPostCard(post, options) {
 
     const likeButton = node.querySelector('.post-card__like');
     updateLikeButton(likeButton, post);
-    likeButton.disabled = !state.currentUser;
+    likeButton.disabled = !isSignedIn();
     likeButton.addEventListener('click', () => toggleLike(post.id));
 
     const isOwnPost = Boolean(state.currentUser) && post.authorUsername === state.currentUser.username;
@@ -2220,7 +2227,7 @@ function handleLikeUpdate({ postId, likeCount }) {
 }
 
 async function toggleLike(postId) {
-    if (!state.currentUser) {
+    if (!isSignedIn()) {
         return;
     }
 
@@ -2298,7 +2305,7 @@ function handlePostEdited(post) {
 }
 
 async function deletePost(postId) {
-    if (!state.currentUser) {
+    if (!isSignedIn()) {
         return;
     }
     if (!window.confirm(t('confirmDeletePost'))) {
@@ -2477,7 +2484,7 @@ async function loadDailySummary(forceRefresh = false) {
             method: forceRefresh ? 'POST' : 'GET',
         });
         if (!response.ok) {
-            elements.dailySummaryBody.textContent = t('summaryUnavailable');
+            elements.dailySummaryBody.textContent = response.status === 403 ? t('signUpForAi') : t('summaryUnavailable');
             return;
         }
         const payload = await response.json();
@@ -2493,6 +2500,7 @@ function wireEvents() {
     elements.langToggle.addEventListener('click', toggleLanguage);
     elements.themeToggle.addEventListener('click', toggleTheme);
     elements.leaveAppButton.addEventListener('click', leaveApp);
+    elements.guestBannerSignupButton.addEventListener('click', () => openAuthModal('register'));
     elements.searchInput.addEventListener('input', (event) => {
         state.search = event.target.value;
         renderArticles();

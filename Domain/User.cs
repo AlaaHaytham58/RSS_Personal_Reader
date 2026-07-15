@@ -13,5 +13,10 @@ namespace Domain
         public string? Email { get; set; }
         public string? GoogleId { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+
+        // True for anonymous sessions auto-created so visitors can use the app without
+        // signing up. Guests are purged (cascading to their feeds/articles) after 7 days;
+        // see GuestCleanupService. AI features (summary/chat) are blocked for guests.
+        public bool IsGuest { get; set; }
     }
 }

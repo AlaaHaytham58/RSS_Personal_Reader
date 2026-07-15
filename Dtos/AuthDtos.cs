@@ -18,5 +18,6 @@ namespace Dtos
     {
         public Guid Id { get; set; }
         public string Username { get; set; } = "";
+        public bool IsGuest { get; set; }
     }
 }
