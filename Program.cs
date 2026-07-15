@@ -176,6 +176,15 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 
+// Subscribed to automatically for every new guest so the reader shows real articles
+// immediately instead of an empty state. Picked for reliability and topical variety.
+var DefaultGuestFeedUrls = new[]
+{
+    "https://feeds.bbci.co.uk/news/rss.xml",
+    "https://techcrunch.com/feed/",
+    "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+};
+
 // Anonymous visitors get a transparent guest session so they can use the app without
 // signing up first; only AI features (summary/chat) check the is_guest claim and require
 // a real account. Guests are purged after 7 days by GuestCleanupService.
@@ -200,6 +209,24 @@ app.Use(async (ctx, next) =>
             IsPersistent = true,
             ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30),
         });
+
+        // Seed a few starter feeds so the guest sees real articles right away instead of
+        // an empty reader. Awaited (not fire-and-forget) so they're already in place by
+        // the time the frontend's very next call loads the feed list — the frontend
+        // bootstraps the guest session with one awaited call before firing the rest of
+        // its startup requests in parallel, so this only adds latency once per guest.
+        var feedService = ctx.RequestServices.GetRequiredService<Services.IFeedService>();
+        foreach (var feedUrl in DefaultGuestFeedUrls)
+        {
+            try
+            {
+                await feedService.AddFeedAsync(guest.Id, feedUrl);
+            }
+            catch
+            {
+                // Best-effort seeding; a slow/unreachable default feed shouldn't break guest sign-up.
+            }
+        }
     }
 
     await next();

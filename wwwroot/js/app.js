@@ -2688,8 +2688,13 @@ async function init() {
     loadFavoritesState();
     renderHelpTopics(elements.helpSearchInput.value);
     renderChatMessages();
+    // Awaited first and alone: an anonymous visitor's guest session (and its seeded
+    // starter feeds) is created transparently on whichever API call reaches the server
+    // first. If several requests fired at once here with no cookie yet, each would mint
+    // its own separate guest and only one would "win" the browser's cookie jar. Running
+    // this one alone first means every later call in this function reuses that same guest.
+    await loadCurrentUser();
     loadDailySummary();
-    loadCurrentUser();
     loadCommunityTimeline();
     connectCommunityHub();
     try {
