@@ -71,16 +71,15 @@ namespace Endpoints
                 return Results.NoContent();
             });
 
-            app.MapGet("/api/auth/me", (HttpContext ctx) =>
+            app.MapGet("/api/auth/me", async (HttpContext ctx, Services.IUserService userSvc) =>
             {
                 if (ctx.User.Identity?.IsAuthenticated != true) return Results.StatusCode(401);
 
                 var id = ctx.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var username = ctx.User.FindFirstValue(ClaimTypes.Name);
-                if (id == null || username == null) return Results.StatusCode(401);
+                if (id == null || !System.Guid.TryParse(id, out var userId)) return Results.StatusCode(401);
 
-                var isGuest = ctx.User.FindFirstValue("is_guest") == "true";
-                return Results.Ok(new UserResponse { Id = System.Guid.Parse(id), Username = username, IsGuest = isGuest });
+                var user = await userSvc.GetByIdAsync(userId);
+                return user is null ? Results.StatusCode(401) : Results.Ok(user);
             });
         }
 

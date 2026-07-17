@@ -17,6 +17,7 @@ namespace Dtos
     {
         public Guid Id { get; set; }
         public string AuthorUsername { get; set; } = "";
+        public string? AuthorAvatarUrl { get; set; }
         public string Content { get; set; } = "";
         public Guid? ParentPostId { get; set; }
         public int ReplyCount { get; set; }
