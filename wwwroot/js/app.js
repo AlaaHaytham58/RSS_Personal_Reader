@@ -11,6 +11,7 @@ const state = {
     currentUser: null,
     communityPosts: [],
     activeThreadId: null,
+    viewedProfileUsername: null,
 };
 
 const CATEGORY_FILTER_PREFIX = 'category:';
@@ -57,6 +58,40 @@ const elements = {
     communityBackButton: document.getElementById('communityBackButton'),
     readerSection: document.getElementById('readerSection'),
     communitySection: document.getElementById('communitySection'),
+    profileNavButton: document.getElementById('profileNavButton'),
+    profileBackButton: document.getElementById('profileBackButton'),
+    profileSection: document.getElementById('profileSection'),
+    profileCover: document.getElementById('profileCover'),
+    profileEditButton: document.getElementById('profileEditButton'),
+    profileAvatar: document.getElementById('profileAvatar'),
+    profileUsername: document.getElementById('profileUsername'),
+    profileSubtitle: document.getElementById('profileSubtitle'),
+    profileStatPosts: document.getElementById('profileStatPosts'),
+    profileStatLikes: document.getElementById('profileStatLikes'),
+    profileStatReplies: document.getElementById('profileStatReplies'),
+    profileAboutType: document.getElementById('profileAboutType'),
+    profileBio: document.getElementById('profileBio'),
+    profileSocialLinks: document.getElementById('profileSocialLinks'),
+    profileShareButton: document.getElementById('profileShareButton'),
+    profileRecentPosts: document.getElementById('profileRecentPosts'),
+    profileEmptyMessage: document.getElementById('profileEmptyMessage'),
+    profileEditModal: document.getElementById('profileEditModal'),
+    profileEditModalBackdrop: document.getElementById('profileEditModalBackdrop'),
+    profileEditModalCloseButton: document.getElementById('profileEditModalCloseButton'),
+    profileEditAvatarPreview: document.getElementById('profileEditAvatarPreview'),
+    profileEditCoverPreview: document.getElementById('profileEditCoverPreview'),
+    profileAvatarFileInput: document.getElementById('profileAvatarFileInput'),
+    profileAvatarUploadMessage: document.getElementById('profileAvatarUploadMessage'),
+    profileCoverFileInput: document.getElementById('profileCoverFileInput'),
+    profileCoverUploadMessage: document.getElementById('profileCoverUploadMessage'),
+    profileEditUsernameInput: document.getElementById('profileEditUsernameInput'),
+    profileEditBioInput: document.getElementById('profileEditBioInput'),
+    profileAddLinkButton: document.getElementById('profileAddLinkButton'),
+    profileSocialLinkRows: document.getElementById('profileSocialLinkRows'),
+    profileEditMessage: document.getElementById('profileEditMessage'),
+    profileEditCancelButton: document.getElementById('profileEditCancelButton'),
+    profileEditSaveButton: document.getElementById('profileEditSaveButton'),
+    socialLinkRowTemplate: document.getElementById('socialLinkRowTemplate'),
     communityAuthStatus: document.getElementById('communityAuthStatus'),
     communityUsername: document.getElementById('communityUsername'),
     communityLogoutButton: document.getElementById('communityLogoutButton'),
@@ -1892,7 +1927,9 @@ let communityHubConnection = null;
 
 function openCommunitySection() {
     elements.readerSection.hidden = true;
+    elements.profileSection.hidden = true;
     elements.communitySection.hidden = false;
+    elements.profileNavButton.setAttribute('aria-pressed', 'false');
     elements.communityNavButton.setAttribute('aria-pressed', 'true');
     document.body.classList.add('community-open');
 }
@@ -1909,6 +1946,288 @@ function toggleCommunitySection() {
         openCommunitySection();
     } else {
         closeCommunitySection();
+    }
+}
+
+function openProfileSection(username) {
+    elements.readerSection.hidden = true;
+    elements.communitySection.hidden = true;
+    elements.profileSection.hidden = false;
+    elements.communityNavButton.setAttribute('aria-pressed', 'false');
+    elements.profileNavButton.setAttribute('aria-pressed', 'true');
+    document.body.classList.add('community-open');
+    renderProfile(username);
+}
+
+function closeProfileSection() {
+    elements.readerSection.hidden = false;
+    elements.profileSection.hidden = true;
+    elements.profileNavButton.setAttribute('aria-pressed', 'false');
+    document.body.classList.remove('community-open');
+}
+
+function toggleProfileSection() {
+    if (elements.profileSection.hidden) {
+        openProfileSection();
+    } else {
+        closeProfileSection();
+    }
+}
+
+function applyProfileCover(coverUrl) {
+    if (coverUrl) {
+        elements.profileCover.style.setProperty('--profile-cover-image', `url("${coverUrl}")`);
+        elements.profileCover.classList.add('has-cover-image');
+    } else {
+        elements.profileCover.style.removeProperty('--profile-cover-image');
+        elements.profileCover.classList.remove('has-cover-image');
+    }
+}
+
+function applyProfileAvatar(username, avatarUrl) {
+    elements.profileAvatar.innerHTML = '';
+    elements.profileAvatar.style.background = avatarColorFor(username);
+    if (avatarUrl) {
+        const img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = '';
+        elements.profileAvatar.append(img);
+    } else {
+        elements.profileAvatar.textContent = username.charAt(0).toUpperCase();
+    }
+}
+
+async function renderProfile(username) {
+    const targetUsername = username || state.currentUser?.username;
+    if (!targetUsername) {
+        elements.profileUsername.textContent = '';
+        elements.profileSubtitle.textContent = 'Log in to see your profile.';
+        elements.profileAboutType.textContent = '';
+        elements.profileEditButton.hidden = true;
+        elements.profileRecentPosts.innerHTML = '';
+        applyProfileCover(null);
+        elements.profileEmptyMessage.hidden = false;
+        elements.profileEmptyMessage.textContent = 'Log in to see your profile.';
+        return;
+    }
+
+    const isOwnProfile = Boolean(state.currentUser) && targetUsername === state.currentUser.username;
+    state.viewedProfileUsername = targetUsername;
+
+    let profileUser = isOwnProfile ? state.currentUser : null;
+    if (!profileUser) {
+        try {
+            const response = await fetch(`/api/users/${encodeURIComponent(targetUsername)}`);
+            profileUser = response.ok ? await response.json() : null;
+        } catch {
+            profileUser = null;
+        }
+    }
+
+    if (!profileUser) {
+        elements.profileUsername.textContent = targetUsername;
+        elements.profileSubtitle.textContent = 'This user could not be found.';
+        elements.profileAboutType.textContent = '';
+        elements.profileEditButton.hidden = true;
+        elements.profileRecentPosts.innerHTML = '';
+        applyProfileCover(null);
+        elements.profileEmptyMessage.hidden = false;
+        elements.profileEmptyMessage.textContent = '';
+        return;
+    }
+
+    applyProfileAvatar(profileUser.username, profileUser.avatarUrl);
+    applyProfileCover(profileUser.coverUrl);
+    elements.profileUsername.textContent = profileUser.username;
+    elements.profileSubtitle.textContent = profileUser.isGuest ? 'Guest account' : 'Community member';
+    elements.profileEditButton.hidden = !isOwnProfile;
+
+    // A written bio replaces the generic placeholder sentence rather than sitting
+    // alongside it — otherwise editing your bio never actually clears the old default.
+    if (profileUser.bio) {
+        elements.profileBio.textContent = profileUser.bio;
+        elements.profileBio.hidden = false;
+        elements.profileAboutType.textContent = '';
+        elements.profileAboutType.hidden = true;
+    } else {
+        elements.profileBio.textContent = '';
+        elements.profileBio.hidden = true;
+        elements.profileAboutType.textContent = profileUser.isGuest
+            ? 'Browsing as a guest — sign up to keep this profile permanently.'
+            : 'Registered member of the RSS Reader community.';
+        elements.profileAboutType.hidden = false;
+    }
+
+    elements.profileSocialLinks.innerHTML = '';
+    (profileUser.socialLinks || []).forEach((link) => {
+        const anchor = document.createElement('a');
+        anchor.className = 'profile-card__social-link';
+        anchor.href = link.url;
+        anchor.target = '_blank';
+        anchor.rel = 'noopener noreferrer';
+        anchor.title = link.url;
+        anchor.innerHTML = `<i class="bi ${socialIconClass(link.platform)}" aria-hidden="true"></i>`;
+        elements.profileSocialLinks.append(anchor);
+    });
+
+    let posts = [];
+    try {
+        const response = await fetch(`/api/users/${encodeURIComponent(profileUser.username)}/posts?page=1`);
+        if (response.ok) {
+            posts = await response.json();
+        }
+    } catch {
+        posts = [];
+    }
+
+    elements.profileStatPosts.textContent = posts.length;
+    elements.profileStatLikes.textContent = posts.reduce((sum, post) => sum + post.likeCount, 0);
+    elements.profileStatReplies.textContent = posts.reduce((sum, post) => sum + post.replyCount, 0);
+
+    elements.profileRecentPosts.innerHTML = '';
+    if (posts.length === 0) {
+        elements.profileEmptyMessage.hidden = false;
+        elements.profileEmptyMessage.textContent = "This user hasn't posted anything yet.";
+    } else {
+        elements.profileEmptyMessage.hidden = true;
+        posts.slice(0, 6).forEach((post) => {
+            elements.profileRecentPosts.append(buildPostCard(post));
+        });
+    }
+}
+
+function applyEditPreviewImage(previewEl, imageUrl) {
+    if (imageUrl) {
+        previewEl.style.backgroundImage = `url("${imageUrl}")`;
+    } else {
+        previewEl.style.backgroundImage = '';
+    }
+}
+
+function addSocialLinkRow(platform, url) {
+    const node = elements.socialLinkRowTemplate.content.firstElementChild.cloneNode(true);
+    const iconEl = node.querySelector('.social-link-row__icon i');
+    const platformSelect = node.querySelector('.social-link-row__platform');
+    const urlInput = node.querySelector('.social-link-row__url');
+
+    platformSelect.value = platform && SOCIAL_PLATFORM_ICONS[platform] ? platform : 'website';
+    urlInput.value = url || '';
+    iconEl.className = `bi ${socialIconClass(platformSelect.value)}`;
+
+    platformSelect.addEventListener('change', () => {
+        iconEl.className = `bi ${socialIconClass(platformSelect.value)}`;
+    });
+    node.querySelector('.social-link-row__remove').addEventListener('click', () => node.remove());
+
+    elements.profileSocialLinkRows.append(node);
+}
+
+function collectSocialLinksFromForm() {
+    return Array.from(elements.profileSocialLinkRows.querySelectorAll('.social-link-row'))
+        .map((row) => ({
+            platform: row.querySelector('.social-link-row__platform').value,
+            url: row.querySelector('.social-link-row__url').value.trim(),
+        }))
+        .filter((link) => link.url.length > 0);
+}
+
+async function shareProfile() {
+    const username = state.viewedProfileUsername || state.currentUser?.username;
+    if (!username) return;
+
+    const url = `${window.location.origin}/profile/${encodeURIComponent(username)}`;
+    try {
+        await navigator.clipboard.writeText(url);
+        showToast('Profile link copied to clipboard.', 'success');
+    } catch {
+        window.prompt('Copy this profile link:', url);
+    }
+}
+
+function openProfileEditModal() {
+    const user = state.currentUser;
+    if (!user) return;
+
+    elements.profileAvatarUploadMessage.textContent = '';
+    elements.profileCoverUploadMessage.textContent = '';
+    elements.profileEditMessage.textContent = '';
+    elements.profileEditMessage.removeAttribute('data-tone');
+    elements.profileAvatarFileInput.value = '';
+    elements.profileCoverFileInput.value = '';
+
+    applyEditPreviewImage(elements.profileEditAvatarPreview, user.avatarUrl);
+    applyEditPreviewImage(elements.profileEditCoverPreview, user.coverUrl);
+    elements.profileEditUsernameInput.value = user.username;
+    elements.profileEditBioInput.value = user.bio || '';
+
+    elements.profileSocialLinkRows.innerHTML = '';
+    (user.socialLinks || []).forEach((link) => addSocialLinkRow(link.platform, link.url));
+
+    elements.profileEditModal.hidden = false;
+}
+
+function closeProfileEditModal() {
+    elements.profileEditModal.hidden = true;
+}
+
+async function saveProfileEdits() {
+    const username = elements.profileEditUsernameInput.value.trim();
+    const bio = elements.profileEditBioInput.value.trim();
+    const socialLinks = collectSocialLinksFromForm();
+
+    elements.profileEditMessage.textContent = 'Saving...';
+    elements.profileEditMessage.removeAttribute('data-tone');
+    elements.profileEditSaveButton.disabled = true;
+
+    try {
+        const response = await fetch('/api/users/me', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, bio, socialLinks }),
+        });
+
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            elements.profileEditMessage.textContent = body?.error || 'Could not save your profile.';
+            elements.profileEditMessage.setAttribute('data-tone', 'error');
+            return;
+        }
+
+        state.currentUser = await response.json();
+        await renderProfile(state.currentUser.username);
+        closeProfileEditModal();
+        showToast('Profile updated.', 'success');
+    } catch {
+        elements.profileEditMessage.textContent = 'Could not save your profile. Check your connection and try again.';
+        elements.profileEditMessage.setAttribute('data-tone', 'error');
+    } finally {
+        elements.profileEditSaveButton.disabled = false;
+    }
+}
+
+async function uploadProfileImage(endpoint, file, messageEl) {
+    messageEl.textContent = 'Uploading...';
+    messageEl.removeAttribute('data-tone');
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch(endpoint, { method: 'POST', body: formData });
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            messageEl.textContent = body?.error || 'Upload failed.';
+            messageEl.setAttribute('data-tone', 'error');
+            return;
+        }
+        state.currentUser = await response.json();
+        applyProfileAvatar(state.currentUser.username, state.currentUser.avatarUrl);
+        applyProfileCover(state.currentUser.coverUrl);
+        applyEditPreviewImage(elements.profileEditAvatarPreview, state.currentUser.avatarUrl);
+        applyEditPreviewImage(elements.profileEditCoverPreview, state.currentUser.coverUrl);
+        messageEl.textContent = 'Updated.';
+        messageEl.setAttribute('data-tone', 'success');
+    } catch {
+        messageEl.textContent = 'Upload failed. Check your connection and try again.';
+        messageEl.setAttribute('data-tone', 'error');
     }
 }
 
@@ -2016,6 +2335,21 @@ function formatPostTime(iso) {
 
 const AVATAR_COLORS = ['#556b8d', '#7a5c2e', '#2f5d62', '#6b4e71', '#5b6b2f', '#8a3c5c', '#3c5c8a', '#4a7a4a'];
 
+const SOCIAL_PLATFORM_ICONS = {
+    facebook: 'bi-facebook',
+    twitter: 'bi-twitter-x',
+    instagram: 'bi-instagram',
+    youtube: 'bi-youtube',
+    tiktok: 'bi-tiktok',
+    linkedin: 'bi-linkedin',
+    github: 'bi-github',
+    website: 'bi-link-45deg',
+};
+
+function socialIconClass(platform) {
+    return SOCIAL_PLATFORM_ICONS[platform] || SOCIAL_PLATFORM_ICONS.website;
+}
+
 function avatarColorFor(username) {
     let hash = 0;
     for (let i = 0; i < username.length; i += 1) {
@@ -2027,9 +2361,20 @@ function avatarColorFor(username) {
 function buildPostCard(post, options) {
     const node = elements.postCardTemplate.content.firstElementChild.cloneNode(true);
     const avatar = node.querySelector('.post-card__avatar');
-    avatar.textContent = post.authorUsername.charAt(0).toUpperCase();
-    avatar.style.background = avatarColorFor(post.authorUsername);
-    node.querySelector('.post-card__author').textContent = post.authorUsername;
+    if (post.authorAvatarUrl) {
+        const img = document.createElement('img');
+        img.src = post.authorAvatarUrl;
+        img.alt = '';
+        avatar.append(img);
+    } else {
+        avatar.textContent = post.authorUsername.charAt(0).toUpperCase();
+        avatar.style.background = avatarColorFor(post.authorUsername);
+    }
+    const openAuthorProfile = () => openProfileSection(post.authorUsername);
+    avatar.addEventListener('click', openAuthorProfile);
+    const authorEl = node.querySelector('.post-card__author');
+    authorEl.textContent = post.authorUsername;
+    authorEl.addEventListener('click', openAuthorProfile);
     node.querySelector('.post-card__time').textContent = formatPostTime(post.createdAt);
     const contentEl = node.querySelector('.post-card__content');
     contentEl.textContent = post.content;
@@ -2629,6 +2974,23 @@ function wireEvents() {
 
     elements.communityNavButton.addEventListener('click', toggleCommunitySection);
     elements.communityBackButton.addEventListener('click', closeCommunitySection);
+    elements.profileNavButton.addEventListener('click', toggleProfileSection);
+    elements.profileBackButton.addEventListener('click', closeProfileSection);
+    elements.profileShareButton.addEventListener('click', shareProfile);
+    elements.profileEditButton.addEventListener('click', openProfileEditModal);
+    elements.profileEditModalCloseButton.addEventListener('click', closeProfileEditModal);
+    elements.profileEditModalBackdrop.addEventListener('click', closeProfileEditModal);
+    elements.profileEditCancelButton.addEventListener('click', closeProfileEditModal);
+    elements.profileEditSaveButton.addEventListener('click', saveProfileEdits);
+    elements.profileAddLinkButton.addEventListener('click', () => addSocialLinkRow('website', ''));
+    elements.profileAvatarFileInput.addEventListener('change', () => {
+        const file = elements.profileAvatarFileInput.files[0];
+        if (file) uploadProfileImage('/api/users/me/avatar', file, elements.profileAvatarUploadMessage);
+    });
+    elements.profileCoverFileInput.addEventListener('change', () => {
+        const file = elements.profileCoverFileInput.files[0];
+        if (file) uploadProfileImage('/api/users/me/cover', file, elements.profileCoverUploadMessage);
+    });
     elements.communityGetStartedButton.addEventListener('click', () => openAuthModal('register'));
     elements.communityLandingLoginButton.addEventListener('click', () => openAuthModal('login'));
     elements.communityLogoutButton.addEventListener('click', logoutCommunityUser);
@@ -2647,8 +3009,12 @@ function wireEvents() {
     });
 
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !elements.authModal.hidden) {
+        if (event.key !== 'Escape') return;
+        if (!elements.authModal.hidden) {
             closeAuthModal();
+        }
+        if (!elements.profileEditModal.hidden) {
+            closeProfileEditModal();
         }
     });
 
@@ -2681,9 +3047,14 @@ async function init() {
     loadLanguage();
     wireEvents();
     wireLandingEvents();
-    if (window.localStorage.getItem(enteredAppStorageKey) === '1') {
+
+    // A shared profile link ("/profile/{username}") always drops the visitor straight
+    // into the app on that profile, even on a first visit that never clicked "Start reading".
+    const sharedProfileMatch = window.location.pathname.match(/^\/profile\/([^/]+)\/?$/);
+    if (sharedProfileMatch || window.localStorage.getItem(enteredAppStorageKey) === '1') {
         enterApp();
     }
+
     loadReadState();
     loadFavoritesState();
     renderHelpTopics(elements.helpSearchInput.value);
@@ -2694,6 +3065,9 @@ async function init() {
     // its own separate guest and only one would "win" the browser's cookie jar. Running
     // this one alone first means every later call in this function reuses that same guest.
     await loadCurrentUser();
+    if (sharedProfileMatch) {
+        openProfileSection(decodeURIComponent(sharedProfileMatch[1]));
+    }
     loadDailySummary();
     loadCommunityTimeline();
     connectCommunityHub();

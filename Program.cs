@@ -73,6 +73,7 @@ builder.Services.AddScoped<Services.IChatService, Services.ChatService>();
 builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>();
 builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
 builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
+builder.Services.AddScoped<Services.IUserService, Services.UserService>();
 builder.Services.AddScoped<Services.IPostService, Services.PostService>();
 // Purges guest accounts (and their cascaded feeds/articles) 7 days after creation.
 builder.Services.AddHostedService<Services.GuestCleanupService>();
@@ -268,6 +269,7 @@ Endpoints.CategoryEndpoints.MapCategoryEndpoints(app);
 Endpoints.SummaryEndpoints.MapSummaryEndpoints(app);
 Endpoints.AuthEndpoints.MapAuthEndpoints(app);
 Endpoints.PostEndpoints.MapPostEndpoints(app);
+Endpoints.UserEndpoints.MapUserEndpoints(app);
 app.MapHub<CommunityHub>("/hubs/community");
 
 app.MapFallbackToFile("index.html");

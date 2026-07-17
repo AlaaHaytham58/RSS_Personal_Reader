@@ -279,6 +279,15 @@ namespace RSS_Personal_Reader.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CoverUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TEXT");
 
@@ -292,6 +301,9 @@ namespace RSS_Personal_Reader.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SocialLinksJson")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
