@@ -65,6 +65,7 @@ namespace Services
             {
                 Id = post.Id,
                 AuthorUsername = author.Username,
+                AuthorAvatarUrl = author.AvatarUrl,
                 Content = post.Content,
                 ParentPostId = post.ParentPostId,
                 ReplyCount = 0,
@@ -92,6 +93,21 @@ namespace Services
                 .ToList();
 
             return roots.Select(p => ToResponse(p, users, replyCounts, likeCounts, likedByCurrentUser)).ToList();
+        }
+
+        public async Task<List<PostResponse>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, Guid? currentUserId)
+        {
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var (users, replyCounts, likeCounts, likedByCurrentUser) = await LoadLookupsAsync(db, currentUserId);
+
+            var posts = (await db.Posts.AsNoTracking().Where(p => p.AuthorId == authorId && p.ParentPostId == null).ToListAsync())
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip(Math.Max(0, page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return posts.Select(p => ToResponse(p, users, replyCounts, likeCounts, likedByCurrentUser)).ToList();
         }
 
         public async Task<PostOutcome> GetThreadAsync(Guid postId, Guid? currentUserId)
@@ -215,6 +231,7 @@ namespace Services
             {
                 Id = post.Id,
                 AuthorUsername = author?.Username ?? "unknown",
+                AuthorAvatarUrl = author?.AvatarUrl,
                 Content = post.Content,
                 ParentPostId = post.ParentPostId,
                 ReplyCount = replyCount,
@@ -228,9 +245,9 @@ namespace Services
             return new PostEdited { Post = response };
         }
 
-        private static async Task<(Dictionary<Guid, string> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, int> LikeCounts, HashSet<Guid> LikedByCurrentUser)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
+        private static async Task<(Dictionary<Guid, (string Username, string? AvatarUrl)> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, int> LikeCounts, HashSet<Guid> LikedByCurrentUser)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
         {
-            var users = await db.Users.AsNoTracking().ToDictionaryAsync(u => u.Id, u => u.Username);
+            var users = await db.Users.AsNoTracking().ToDictionaryAsync(u => u.Id, u => (u.Username, u.AvatarUrl));
 
             var replyCounts = await db.Posts.AsNoTracking()
                 .Where(p => p.ParentPostId != null)
@@ -250,10 +267,11 @@ namespace Services
             return (users, replyCounts, likeCounts, likedByCurrentUser);
         }
 
-        private static PostResponse ToResponse(Post post, Dictionary<Guid, string> users, Dictionary<Guid, int> replyCounts, Dictionary<Guid, int> likeCounts, HashSet<Guid> likedByCurrentUser) => new()
+        private static PostResponse ToResponse(Post post, Dictionary<Guid, (string Username, string? AvatarUrl)> users, Dictionary<Guid, int> replyCounts, Dictionary<Guid, int> likeCounts, HashSet<Guid> likedByCurrentUser) => new()
         {
             Id = post.Id,
-            AuthorUsername = users.TryGetValue(post.AuthorId, out var name) ? name : "unknown",
+            AuthorUsername = users.TryGetValue(post.AuthorId, out var author) ? author.Username : "unknown",
+            AuthorAvatarUrl = users.TryGetValue(post.AuthorId, out var author2) ? author2.AvatarUrl : null,
             Content = post.Content,
             ParentPostId = post.ParentPostId,
             ReplyCount = replyCounts.TryGetValue(post.Id, out var count) ? count : 0,

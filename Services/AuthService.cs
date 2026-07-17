@@ -184,6 +184,15 @@ namespace Services
             return candidate;
         }
 
-        private static UserResponse ToResponse(User user) => new() { Id = user.Id, Username = user.Username, IsGuest = user.IsGuest };
+        private static UserResponse ToResponse(User user) => new()
+        {
+            Id = user.Id,
+            Username = user.Username,
+            IsGuest = user.IsGuest,
+            AvatarUrl = user.AvatarUrl,
+            CoverUrl = user.CoverUrl,
+            Bio = user.Bio,
+            SocialLinks = SocialLinkSerializer.Deserialize(user.SocialLinksJson),
+        };
     }
 }
