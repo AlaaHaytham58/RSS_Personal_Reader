@@ -28,18 +28,35 @@ namespace Services
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task<UserResponse?> GetByIdAsync(Guid userId)
+        public async Task<UserResponse?> GetByIdAsync(Guid userId, Guid? viewerId = null)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
             var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
-            return user is null ? null : ToResponse(user);
+            return user is null ? null : await WithSocialStatsAsync(db, user, viewerId);
         }
 
-        public async Task<UserResponse?> GetByUsernameAsync(string username)
+        public async Task<UserResponse?> GetByUsernameAsync(string username, Guid? viewerId = null)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
             var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
-            return user is null ? null : ToResponse(user);
+            return user is null ? null : await WithSocialStatsAsync(db, user, viewerId);
+        }
+
+        private static async Task<UserResponse> WithSocialStatsAsync(AppDbContext db, User user, Guid? viewerId)
+        {
+            var response = ToResponse(user);
+            response.FollowerCount = await db.Follows.AsNoTracking().CountAsync(f => f.FollowingId == user.Id);
+            response.FollowingCount = await db.Follows.AsNoTracking().CountAsync(f => f.FollowerId == user.Id);
+
+            if (viewerId.HasValue && viewerId.Value != user.Id)
+            {
+                response.IsFollowedByViewer = await db.Follows.AsNoTracking()
+                    .AnyAsync(f => f.FollowerId == viewerId.Value && f.FollowingId == user.Id);
+                response.IsBlockedByViewer = await db.Blocks.AsNoTracking()
+                    .AnyAsync(b => b.BlockerId == viewerId.Value && b.BlockedId == user.Id);
+            }
+
+            return response;
         }
 
         public async Task<UserResponse> UpdateAvatarAsync(Guid userId, string avatarUrl)

@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace RSS_Personal_Reader.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260718001058_AddFollowsAndBlocks")]
+    partial class AddFollowsAndBlocks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
@@ -321,33 +324,6 @@ namespace RSS_Personal_Reader.Migrations
                     b.ToTable("ReadArticles");
                 });
 
-            modelBuilder.Entity("Domain.Report", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Reason")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ReportedUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ReporterId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportedUserId");
-
-                    b.HasIndex("ReporterId");
-
-                    b.ToTable("Reports");
-                });
-
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -485,21 +461,6 @@ namespace RSS_Personal_Reader.Migrations
                         .WithMany()
                         .HasForeignKey("ParentPostId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Domain.Report", b =>
-                {
-                    b.HasOne("Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("ReportedUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("ReporterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Feed", b =>
