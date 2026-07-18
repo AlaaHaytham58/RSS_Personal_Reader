@@ -321,6 +321,7 @@ wwwroot/uploads/
 __pycache__/
 *.pyc
 
+
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
@@ -339,7 +340,7 @@ __pycache__/
 
 # OpenCover UI analysis results
 OpenCover/
-
+.claude/
 # Azure Stream Analytics local run output
 ASALocalRun/
 

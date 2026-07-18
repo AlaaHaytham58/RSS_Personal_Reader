@@ -138,6 +138,14 @@ namespace Services
             if (viewerId.HasValue)
             {
                 matches = matches.Where(u => u.Id != viewerId.Value).ToList();
+
+                var blocks = await db.Blocks.AsNoTracking()
+                    .Where(b => b.BlockerId == viewerId.Value || b.BlockedId == viewerId.Value)
+                    .ToListAsync();
+                var hiddenIds = blocks
+                    .Select(b => b.BlockerId == viewerId.Value ? b.BlockedId : b.BlockerId)
+                    .ToHashSet();
+                matches = matches.Where(u => !hiddenIds.Contains(u.Id)).ToList();
             }
 
             var followedIds = new HashSet<Guid>();
@@ -156,6 +164,31 @@ namespace Services
                 Username = u.Username,
                 AvatarUrl = u.AvatarUrl,
                 IsFollowedByViewer = followedIds.Contains(u.Id),
+            }).ToList();
+        }
+
+        public async Task<List<UserSearchResult>> GetBlockedUsersAsync(Guid blockerId)
+        {
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var blockedIds = await db.Blocks.AsNoTracking()
+                .Where(b => b.BlockerId == blockerId)
+                .Select(b => b.BlockedId)
+                .ToListAsync();
+
+            if (blockedIds.Count == 0) return new List<UserSearchResult>();
+
+            var users = await db.Users.AsNoTracking()
+                .Where(u => blockedIds.Contains(u.Id))
+                .OrderBy(u => u.Username)
+                .ToListAsync();
+
+            return users.Select(u => new UserSearchResult
+            {
+                Id = u.Id,
+                Username = u.Username,
+                AvatarUrl = u.AvatarUrl,
+                IsFollowedByViewer = false,
             }).ToList();
         }
     }

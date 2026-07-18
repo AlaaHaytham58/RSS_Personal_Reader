@@ -13,5 +13,6 @@ namespace Services
         Task<BlockOutcome> UnblockAsync(Guid blockerId, string targetUsername);
         Task<ReportOutcome> ReportAsync(Guid reporterId, string targetUsername, string? reason);
         Task<List<UserSearchResult>> SearchUsersAsync(string query, Guid? viewerId, int limit = 10);
+        Task<List<UserSearchResult>> GetBlockedUsersAsync(Guid blockerId);
     }
 }

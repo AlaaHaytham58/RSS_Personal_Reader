@@ -91,6 +91,15 @@ const elements = {
     profileBio: document.getElementById('profileBio'),
     profileSocialLinks: document.getElementById('profileSocialLinks'),
     profileShareButton: document.getElementById('profileShareButton'),
+    profileBlockedUsersButton: document.getElementById('profileBlockedUsersButton'),
+    blockedUsersModal: document.getElementById('blockedUsersModal'),
+    blockedUsersModalBackdrop: document.getElementById('blockedUsersModalBackdrop'),
+    blockedUsersModalCloseButton: document.getElementById('blockedUsersModalCloseButton'),
+    blockedUsersSubtitle: document.getElementById('blockedUsersSubtitle'),
+    blockedUsersSearchInput: document.getElementById('blockedUsersSearchInput'),
+    blockedUsersList: document.getElementById('blockedUsersList'),
+    blockedUsersEmpty: document.getElementById('blockedUsersEmpty'),
+    blockedUsersDoneButton: document.getElementById('blockedUsersDoneButton'),
     profileRecentPosts: document.getElementById('profileRecentPosts'),
     profileEmptyMessage: document.getElementById('profileEmptyMessage'),
     profileEditModal: document.getElementById('profileEditModal'),
@@ -233,6 +242,11 @@ const translations = {
         yourProfile: 'Your profile',
         moreOptions: 'More options',
         searchPlaceholder: 'Search articles or feeds',
+        searchGroupFeeds: 'Feeds',
+        searchGroupArticles: 'Articles',
+        searchGroupProfiles: 'Profiles',
+        searchFollowingBadge: 'Following',
+        noSearchResults: 'No matches found.',
         refreshAll: 'Refresh all',
         subscriptions: 'Subscriptions',
         sidebarDescription: 'Add a feed URL, refresh sources, or remove one you do not need.',
@@ -414,6 +428,11 @@ const translations = {
         yourProfile: 'ملفك الشخصي',
         moreOptions: 'خيارات إضافية',
         searchPlaceholder: 'ابحث في المقالات أو المصادر',
+        searchGroupFeeds: 'المصادر',
+        searchGroupArticles: 'المقالات',
+        searchGroupProfiles: 'الملفات الشخصية',
+        searchFollowingBadge: 'متابَع',
+        noSearchResults: 'لا توجد نتائج مطابقة.',
         refreshAll: 'تحديث الكل',
         subscriptions: 'الاشتراكات',
         sidebarDescription: 'أضف رابط مصدر RSS، حدّث المصادر، أو احذف مصدرًا لم تعد بحاجة إليه.',
@@ -1404,6 +1423,7 @@ function renderArticles() {
             }
 
             card.dataset.read = state.readArticleIds.has(article.id) ? 'true' : 'false';
+            card.dataset.articleId = article.id;
             card.style.setProperty('--feed-accent', feedAccent);
             const link = card.querySelector('.article-card__link');
             link.href = article.link || '#';
@@ -2028,6 +2048,7 @@ function closePostComposerModal() {
 }
 
 function openCommunitySection() {
+    closeDrawer();
     elements.readerSection.hidden = true;
     elements.profileSection.hidden = true;
     elements.communitySection.hidden = false;
@@ -2052,6 +2073,7 @@ function toggleCommunitySection() {
 }
 
 function openProfileSection(username) {
+    closeDrawer();
     elements.readerSection.hidden = true;
     elements.communitySection.hidden = true;
     elements.profileSection.hidden = false;
@@ -2217,8 +2239,19 @@ async function toggleFollowCurrentProfile() {
 
 let userSearchDebounceTimer = null;
 let userSearchRequestToken = 0;
+let cachedUserResults = [];
 
-function queueUserSearch(rawQuery) {
+function matchFeeds(query) {
+    const q = query.toLowerCase();
+    return state.feeds.filter((feed) => (feed.title || '').toLowerCase().includes(q)).slice(0, 5);
+}
+
+function matchArticles(query) {
+    const q = query.toLowerCase();
+    return state.articles.filter((article) => (article.title || '').toLowerCase().includes(q)).slice(0, 5);
+}
+
+function queueSearchSuggestions(rawQuery) {
     const query = rawQuery.trim();
     if (userSearchDebounceTimer) {
         window.clearTimeout(userSearchDebounceTimer);
@@ -2226,9 +2259,11 @@ function queueUserSearch(rawQuery) {
 
     if (query.length < 2) {
         hideUserSearchSuggestions();
+        cachedUserResults = [];
         return;
     }
 
+    renderSearchSuggestions({ feeds: matchFeeds(query), articles: matchArticles(query), users: cachedUserResults });
     userSearchDebounceTimer = window.setTimeout(() => runUserSearch(query), 250);
 }
 
@@ -2245,62 +2280,157 @@ async function runUserSearch(query) {
     // A newer keystroke already queued another request; drop this stale response.
     if (requestToken !== userSearchRequestToken) return;
 
-    renderUserSearchSuggestions(results);
+    cachedUserResults = results;
+    renderSearchSuggestions({ feeds: matchFeeds(query), articles: matchArticles(query), users: results });
 }
 
-function renderUserSearchSuggestions(results) {
+function buildSuggestionGroup(label, items) {
+    const group = document.createElement('div');
+    group.className = 'search__suggestions-group';
+
+    const heading = document.createElement('p');
+    heading.className = 'search__suggestions-heading';
+    heading.textContent = label;
+
+    group.append(heading, ...items);
+    return group;
+}
+
+function buildFeedSuggestion(feed) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'search__suggestion';
+
+    const icon = document.createElement('span');
+    icon.className = 'search__suggestion-avatar search__suggestion-avatar--icon';
+    const faviconUrl = getFaviconUrl(feed);
+    if (faviconUrl) {
+        const img = document.createElement('img');
+        img.src = faviconUrl;
+        img.alt = '';
+        icon.append(img);
+    } else {
+        icon.innerHTML = '<i class="bi bi-rss" aria-hidden="true"></i>';
+    }
+
+    const name = document.createElement('span');
+    name.className = 'search__suggestion-name';
+    name.textContent = feed.title || t('untitledFeed');
+
+    button.append(icon, name);
+    button.addEventListener('click', () => {
+        hideUserSearchSuggestions();
+        elements.searchInput.value = '';
+        state.search = '';
+        state.selectedFeedId = feed.id;
+        render();
+        if (window.innerWidth < 768) {
+            closeDrawer();
+        }
+    });
+
+    return button;
+}
+
+function buildArticleSuggestion(article) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'search__suggestion';
+
+    const icon = document.createElement('span');
+    icon.className = 'search__suggestion-avatar search__suggestion-avatar--icon';
+    icon.innerHTML = '<i class="bi bi-file-earmark-text" aria-hidden="true"></i>';
+
+    const name = document.createElement('span');
+    name.className = 'search__suggestion-name';
+    name.textContent = article.title || t('untitledArticle');
+
+    button.append(icon, name);
+    button.addEventListener('click', () => {
+        hideUserSearchSuggestions();
+        state.selectedFeedId = 'all';
+        state.search = article.title || '';
+        elements.searchInput.value = state.search;
+        render();
+        highlightArticleCard(article.id);
+    });
+
+    return button;
+}
+
+function buildUserSuggestion(user) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'search__suggestion';
+
+    const avatar = document.createElement('span');
+    avatar.className = 'search__suggestion-avatar';
+    avatar.style.background = avatarColorFor(user.username);
+    if (user.avatarUrl) {
+        const img = document.createElement('img');
+        img.src = user.avatarUrl;
+        img.alt = '';
+        avatar.append(img);
+    } else {
+        avatar.textContent = user.username.charAt(0).toUpperCase();
+    }
+
+    const name = document.createElement('span');
+    name.className = 'search__suggestion-name';
+    name.textContent = user.username;
+
+    button.append(avatar, name);
+
+    if (user.isFollowedByViewer) {
+        const badge = document.createElement('span');
+        badge.className = 'search__suggestion-following';
+        badge.textContent = t('searchFollowingBadge');
+        button.append(badge);
+    }
+
+    button.addEventListener('click', () => {
+        hideUserSearchSuggestions();
+        elements.searchInput.value = '';
+        openProfileSection(user.username);
+    });
+
+    return button;
+}
+
+function renderSearchSuggestions({ feeds, articles, users }) {
     const host = elements.userSearchSuggestions;
     host.innerHTML = '';
 
-    if (results.length === 0) {
+    if (!feeds.length && !articles.length && !users.length) {
         const empty = document.createElement('p');
         empty.className = 'search__suggestions-empty';
-        empty.textContent = 'No people found.';
+        empty.textContent = t('noSearchResults');
         host.append(empty);
         host.hidden = false;
         return;
     }
 
-    results.forEach((user) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'search__suggestion';
-
-        const avatar = document.createElement('span');
-        avatar.className = 'search__suggestion-avatar';
-        avatar.style.background = avatarColorFor(user.username);
-        if (user.avatarUrl) {
-            const img = document.createElement('img');
-            img.src = user.avatarUrl;
-            img.alt = '';
-            avatar.append(img);
-        } else {
-            avatar.textContent = user.username.charAt(0).toUpperCase();
-        }
-
-        const name = document.createElement('span');
-        name.className = 'search__suggestion-name';
-        name.textContent = user.username;
-
-        button.append(avatar, name);
-
-        if (user.isFollowedByViewer) {
-            const badge = document.createElement('span');
-            badge.className = 'search__suggestion-following';
-            badge.textContent = 'Following';
-            button.append(badge);
-        }
-
-        button.addEventListener('click', () => {
-            hideUserSearchSuggestions();
-            elements.searchInput.value = '';
-            openProfileSection(user.username);
-        });
-
-        host.append(button);
-    });
+    if (feeds.length) {
+        host.append(buildSuggestionGroup(t('searchGroupFeeds'), feeds.map(buildFeedSuggestion)));
+    }
+    if (articles.length) {
+        host.append(buildSuggestionGroup(t('searchGroupArticles'), articles.map(buildArticleSuggestion)));
+    }
+    if (users.length) {
+        host.append(buildSuggestionGroup(t('searchGroupProfiles'), users.map(buildUserSuggestion)));
+    }
 
     host.hidden = false;
+}
+
+function highlightArticleCard(articleId) {
+    requestAnimationFrame(() => {
+        const cardEl = elements.articleFeed.querySelector(`[data-article-id="${articleId}"]`);
+        if (!cardEl) return;
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        cardEl.classList.add('article-card--search-highlight');
+        window.setTimeout(() => cardEl.classList.remove('article-card--search-highlight'), 1600);
+    });
 }
 
 function hideUserSearchSuggestions() {
@@ -2372,6 +2502,7 @@ async function renderProfile(username) {
         elements.profileSubtitle.textContent = 'Log in to see your profile.';
         elements.profileAboutType.textContent = '';
         elements.profileEditButton.hidden = true;
+        elements.profileBlockedUsersButton.hidden = true;
         elements.profileFollowButton.hidden = true;
         elements.profileMoreMenu.hidden = true;
         elements.profileRecentPosts.innerHTML = '';
@@ -2399,6 +2530,7 @@ async function renderProfile(username) {
         elements.profileSubtitle.textContent = 'This user could not be found.';
         elements.profileAboutType.textContent = '';
         elements.profileEditButton.hidden = true;
+        elements.profileBlockedUsersButton.hidden = true;
         elements.profileFollowButton.hidden = true;
         elements.profileMoreMenu.hidden = true;
         elements.profileRecentPosts.innerHTML = '';
@@ -2413,6 +2545,7 @@ async function renderProfile(username) {
     elements.profileUsername.textContent = profileUser.username;
     elements.profileSubtitle.textContent = profileUser.isGuest ? 'Guest account' : 'Community member';
     elements.profileEditButton.hidden = !isOwnProfile;
+    elements.profileBlockedUsersButton.hidden = !isOwnProfile || !isSignedIn();
     elements.profileStatFollowers.textContent = profileUser.followerCount ?? 0;
     elements.profileStatFollowing.textContent = profileUser.followingCount ?? 0;
     updateFollowBlockButtons(profileUser, isOwnProfile);
@@ -2456,7 +2589,7 @@ async function renderProfile(username) {
     }
 
     elements.profileStatPosts.textContent = posts.length;
-    elements.profileStatLikes.textContent = posts.reduce((sum, post) => sum + post.likeCount, 0);
+    elements.profileStatLikes.textContent = posts.reduce((sum, post) => sum + totalReactionCount(post), 0);
     elements.profileStatReplies.textContent = posts.reduce((sum, post) => sum + post.replyCount, 0);
 
     elements.profileRecentPosts.innerHTML = '';
@@ -2553,6 +2686,103 @@ function openProfileEditModal() {
 
 function closeProfileEditModal() {
     elements.profileEditModal.hidden = true;
+}
+
+let cachedBlockedUsers = [];
+
+function buildBlockedUserRow(user) {
+    const row = document.createElement('div');
+    row.className = 'blocked-users-modal__row';
+    row.dataset.username = user.username;
+
+    const avatar = document.createElement('span');
+    avatar.className = 'blocked-users-modal__avatar';
+    avatar.style.background = avatarColorFor(user.username);
+    if (user.avatarUrl) {
+        const img = document.createElement('img');
+        img.src = user.avatarUrl;
+        img.alt = '';
+        avatar.append(img);
+    } else {
+        avatar.textContent = user.username.charAt(0).toUpperCase();
+    }
+
+    const info = document.createElement('div');
+    info.className = 'blocked-users-modal__info';
+    const name = document.createElement('p');
+    name.className = 'blocked-users-modal__name';
+    name.textContent = user.username;
+    const handle = document.createElement('p');
+    handle.className = 'blocked-users-modal__handle';
+    handle.textContent = `@${user.username}`;
+    info.append(name, handle);
+
+    const unblockButton = document.createElement('button');
+    unblockButton.type = 'button';
+    unblockButton.className = 'blocked-users-modal__unblock-btn';
+    unblockButton.title = 'Unblock';
+    unblockButton.setAttribute('aria-label', `Unblock ${user.username}`);
+    unblockButton.innerHTML = '<i class="bi bi-dash-circle-fill" aria-hidden="true"></i>';
+    unblockButton.addEventListener('click', () => unblockUserFromList(user.username, row));
+
+    row.append(avatar, info, unblockButton);
+    return row;
+}
+
+function renderBlockedUsersList(filterQuery = '') {
+    const query = filterQuery.trim().toLowerCase();
+    const filtered = query
+        ? cachedBlockedUsers.filter((u) => u.username.toLowerCase().includes(query))
+        : cachedBlockedUsers;
+
+    elements.blockedUsersList.innerHTML = '';
+    filtered.forEach((user) => elements.blockedUsersList.append(buildBlockedUserRow(user)));
+
+    elements.blockedUsersEmpty.hidden = filtered.length > 0;
+    elements.blockedUsersEmpty.textContent = cachedBlockedUsers.length === 0
+        ? "You haven't blocked anyone."
+        : 'No blocked users match your search.';
+    elements.blockedUsersSubtitle.textContent = `Manage blocked users (${cachedBlockedUsers.length} total)`;
+}
+
+async function unblockUserFromList(username, row) {
+    row.classList.add('is-removing');
+    try {
+        const response = await fetch(`/api/users/${encodeURIComponent(username)}/block`, { method: 'DELETE' });
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            throw new Error(body?.error || 'Could not unblock this user.');
+        }
+        cachedBlockedUsers = cachedBlockedUsers.filter((u) => u.username !== username);
+        renderBlockedUsersList(elements.blockedUsersSearchInput.value);
+
+        if (state.viewedProfileUsername === username) {
+            setBlockMenuItemState(false);
+        }
+    } catch (error) {
+        row.classList.remove('is-removing');
+        showToast(error instanceof Error ? error.message : 'Could not unblock this user.', 'error');
+    }
+}
+
+async function openBlockedUsersModal() {
+    elements.blockedUsersSearchInput.value = '';
+    elements.blockedUsersModal.hidden = false;
+    elements.blockedUsersList.innerHTML = '';
+    elements.blockedUsersSubtitle.textContent = 'Loading…';
+
+    try {
+        const response = await fetch('/api/users/me/blocked');
+        cachedBlockedUsers = response.ok ? await response.json() : [];
+    } catch {
+        cachedBlockedUsers = [];
+    }
+
+    renderBlockedUsersList();
+}
+
+function closeBlockedUsersModal() {
+    elements.blockedUsersModal.hidden = true;
 }
 
 async function saveProfileEdits() {
@@ -2856,19 +3086,51 @@ function totalReactionCount(post) {
     return Object.values(post.reactionCounts || {}).reduce((sum, n) => sum + n, 0);
 }
 
+function topReactionTypes(post, limit = 3) {
+    return Object.entries(post.reactionCounts || {})
+        .filter(([, count]) => count > 0)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, limit)
+        .map(([type]) => type);
+}
+
 function updateReactionButton(node, post) {
     const reactButton = node.querySelector('.post-card__react-button');
     const iconEl = node.querySelector('.post-card__react-icon');
-    const countEl = node.querySelector('.post-card__react-count');
 
     const current = post.currentUserReaction && REACTIONS[post.currentUserReaction];
     iconEl.className = `post-card__react-icon bi ${current ? current.icon : 'bi-hand-thumbs-up'}`;
     reactButton.style.color = current ? current.color : '';
     reactButton.classList.toggle('post-card__react-button--active', Boolean(current));
 
+    updateReactionSummary(node, post);
+}
+
+function updateReactionSummary(node, post) {
+    const summary = node.querySelector('.post-card__reactions-summary');
+    const iconsEl = node.querySelector('.post-card__reactions-summary-icons');
+    const countEl = node.querySelector('.post-card__reactions-summary-count');
+
     const total = totalReactionCount(post);
-    countEl.textContent = total > 0 ? total : '';
-    countEl.hidden = total === 0;
+    if (total === 0) {
+        summary.hidden = true;
+        return;
+    }
+
+    iconsEl.innerHTML = '';
+    for (const type of topReactionTypes(post, 3)) {
+        const reaction = REACTIONS[type];
+        if (!reaction) continue;
+        const badge = document.createElement('span');
+        badge.className = 'post-card__reactions-summary-icon';
+        badge.style.background = reaction.color;
+        const icon = document.createElement('i');
+        icon.className = `bi ${reaction.icon}`;
+        badge.append(icon);
+        iconsEl.append(badge);
+    }
+    countEl.textContent = total;
+    summary.hidden = false;
 }
 
 function wireReactionControl(node, post) {
@@ -2880,6 +3142,9 @@ function wireReactionControl(node, post) {
     reactButton.disabled = !isSignedIn();
 
     let hideTimer = null;
+    let longPressTimer = null;
+    let longPressTriggered = false;
+
     const showPicker = () => {
         if (reactButton.disabled) return;
         clearTimeout(hideTimer);
@@ -2893,7 +3158,27 @@ function wireReactionControl(node, post) {
     wrapper.addEventListener('mouseenter', showPicker);
     wrapper.addEventListener('mouseleave', scheduleHide);
 
+    reactButton.addEventListener('touchstart', () => {
+        longPressTriggered = false;
+        longPressTimer = setTimeout(() => {
+            longPressTriggered = true;
+            showPicker();
+        }, 400);
+    }, { passive: true });
+
+    reactButton.addEventListener('touchend', () => {
+        clearTimeout(longPressTimer);
+    });
+
+    reactButton.addEventListener('touchmove', () => {
+        clearTimeout(longPressTimer);
+    });
+
     reactButton.addEventListener('click', () => {
+        if (longPressTriggered) {
+            longPressTriggered = false;
+            return;
+        }
         picker.hidden = true;
         toggleReaction(post.id, post.currentUserReaction || 'Like');
     });
@@ -3330,10 +3615,6 @@ async function loadDailySummary(forceRefresh = false) {
 function wireEvents() {
     elements.menuButton.addEventListener('click', toggleDrawer);
     elements.backdrop.addEventListener('click', closeDrawer);
-    elements.userMenu.addEventListener('mouseenter', () => {
-        showDropdownMenu(elements.userMenuDropdown, elements.userMenuTrigger);
-    });
-    elements.userMenu.addEventListener('mouseleave', hideUserMenu);
     elements.userMenuTrigger.addEventListener('click', () => {
         toggleDropdownMenu(elements.userMenuDropdown, elements.userMenuTrigger);
     });
@@ -3364,6 +3645,7 @@ function wireEvents() {
         if (event.key === 'Escape') {
             hideUserMenu();
             hideMoreMenu();
+            closeBlockedUsersModal();
         }
     });
     elements.langToggle.addEventListener('click', toggleLanguage);
@@ -3374,18 +3656,25 @@ function wireEvents() {
         state.search = event.target.value;
         renderArticles();
         updateViewStatus();
-        queueUserSearch(event.target.value);
+        queueSearchSuggestions(event.target.value);
     });
 
     elements.searchInput.addEventListener('focus', () => {
         if (elements.searchInput.value.trim()) {
-            queueUserSearch(elements.searchInput.value);
+            queueSearchSuggestions(elements.searchInput.value);
         }
     });
 
     document.addEventListener('click', (event) => {
         if (!event.target.closest('.search')) {
             hideUserSearchSuggestions();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (event.target.closest('.post-card__reaction')) return;
+        for (const openPicker of document.querySelectorAll('.post-card__reaction-picker:not([hidden])')) {
+            openPicker.hidden = true;
         }
     });
 
@@ -3528,6 +3817,14 @@ function wireEvents() {
     elements.profileEditButton.addEventListener('click', openProfileEditModal);
     elements.profileEditModalCloseButton.addEventListener('click', closeProfileEditModal);
     elements.profileEditModalBackdrop.addEventListener('click', closeProfileEditModal);
+
+    elements.profileBlockedUsersButton.addEventListener('click', openBlockedUsersModal);
+    elements.blockedUsersModalCloseButton.addEventListener('click', closeBlockedUsersModal);
+    elements.blockedUsersModalBackdrop.addEventListener('click', closeBlockedUsersModal);
+    elements.blockedUsersDoneButton.addEventListener('click', closeBlockedUsersModal);
+    elements.blockedUsersSearchInput.addEventListener('input', (event) => {
+        renderBlockedUsersList(event.target.value);
+    });
     elements.profileEditCancelButton.addEventListener('click', closeProfileEditModal);
     elements.profileEditSaveButton.addEventListener('click', saveProfileEdits);
     elements.profileAddLinkButton.addEventListener('click', () => addSocialLinkRow('website', ''));

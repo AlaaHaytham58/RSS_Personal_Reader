@@ -607,6 +607,28 @@ svg {
     font-size: 0.85rem;
 }
 
+.search__suggestions-group + .search__suggestions-group {
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--border);
+}
+
+.search__suggestions-heading {
+    padding: 0.3rem 0.6rem;
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.search__suggestion-avatar--icon {
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
 .primary-button,
 .icon-button,
 .feed-item,
@@ -1254,6 +1276,19 @@ svg {
     padding-top: 0.55rem;
 }
 
+.article-card--search-highlight {
+    animation: article-search-highlight 1.6s ease-out;
+}
+
+@keyframes article-search-highlight {
+    0% {
+        box-shadow: 0 0 0 3px var(--accent);
+    }
+    100% {
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
 /* ---------- Article image ---------- */
 .article-card__media {
     width: 100%;
@@ -1503,8 +1538,20 @@ svg {
     .topbar__actions {
         display: grid;
         grid-template-columns: auto auto 1fr;
+        align-items: center;
         gap: .75rem;
         width: 100%;
+    }
+
+    /* DOM order is userMenu, search, primary-button, moreMenu, meta — reorder
+       so the two menu triggers sit together on one row with search filling
+       the rest, instead of each icon getting stranded on its own row. */
+    #userMenu {
+        order: 1;
+    }
+
+    #moreMenu {
+        order: 2;
     }
 
     .theme-toggle {
@@ -1522,16 +1569,33 @@ svg {
     }
 
     .search {
+        order: 3;
         width: 100%;
         min-width: 0;
     }
 
+    /* Both triggers sit flush against the left edge on mobile, so a dropdown
+       anchored with right:0 (sized to its own min-width) overflows off the
+       left edge of the viewport and becomes unreadable/untappable. Anchor
+       from the left instead, since there's open space to the right. */
+    .user-menu__dropdown {
+        left: 0;
+        right: auto;
+    }
+
+    [dir='rtl'] .user-menu__dropdown {
+        left: auto;
+        right: 0;
+    }
+
     .primary-button {
+        order: 4;
         grid-column: 1 / -1;
         width: 100%;
     }
 
     .topbar__meta {
+        order: 5;
         grid-column: 1 / -1;
         text-align: center;
         white-space: normal;
@@ -2008,6 +2072,10 @@ body.community-open .sidebar {
     display: none;
 }
 
+body.community-open .topbar__menu {
+    display: none;
+}
+
 body.community-open .app-layout {
     grid-template-columns: 1fr;
 }
@@ -2470,9 +2538,40 @@ body.community-open .app-layout {
     line-height: 1;
 }
 
-.post-card__react-count {
-    color: inherit;
+.post-card__reactions-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
+
+    .post-card__reactions-summary[hidden] {
+        display: none;
+    }
+
+.post-card__reactions-summary-icons {
+    display: inline-flex;
+    align-items: center;
+}
+
+.post-card__reactions-summary-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    color: #fff;
+    font-size: 0.6rem;
+    line-height: 1;
+}
+
+    .post-card__reactions-summary-icon:not(:first-child) {
+        margin-inline-start: -0.4rem;
+    }
 
 .post-card__reaction-picker {
     position: absolute;
@@ -3063,6 +3162,7 @@ body.community-open .app-layout {
 .profile-card__share-button,
 .profile-card__edit-button,
 .profile-card__follow-button,
+.profile-card__blocked-users-button,
 .profile-card__more-button {
     width: 2.25rem;
     min-width: 2.25rem;
@@ -3081,7 +3181,8 @@ body.community-open .app-layout {
     }
 
     .profile-card__edit-button[hidden],
-    .profile-card__follow-button[hidden] {
+    .profile-card__follow-button[hidden],
+    .profile-card__blocked-users-button[hidden] {
         display: none;
     }
 
@@ -3178,7 +3279,7 @@ body.community-open .app-layout {
 
 .profile-card__identity h5 {
     margin: 0 0 0.25rem;
-    font-size: 1.25rem;
+    font-size: 1.85rem;
     font-weight: 700;
 }
 
@@ -3190,12 +3291,20 @@ body.community-open .app-layout {
 
 .profile-card__stats-bar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem 1.5rem;
     text-align: center;
     padding: 1rem;
     border-bottom: 1px solid var(--border);
     background: var(--surface-alt);
     color: var(--text);
+}
+
+.profile-card__stat {
+    flex: 0 1 auto;
+    min-width: 5.5rem;
 }
 
 .profile-card__body {
@@ -3478,4 +3587,157 @@ body.community-open .app-layout {
     text-decoration: underline;
     cursor: pointer;
     align-self: center;
+}
+
+/* ---------- Blocked users modal ---------- */
+
+.blocked-users-modal__panel {
+    width: min(30rem, calc(100vw - 2rem));
+    max-height: min(34rem, calc(100vh - 4rem));
+    display: flex;
+    flex-direction: column;
+}
+
+.blocked-users-modal__header {
+    align-items: flex-start;
+}
+
+.blocked-users-modal__subtitle {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.blocked-users-modal__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+    .blocked-users-modal__search i {
+        position: absolute;
+        left: 0.8rem;
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+
+    .blocked-users-modal__search input {
+        width: 100%;
+        padding: 0.55rem 0.9rem 0.55rem 2.2rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--surface-alt);
+        color: var(--text);
+        font-size: 0.9rem;
+    }
+
+    .blocked-users-modal__search input:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+.blocked-users-modal__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    overflow-y: auto;
+    min-height: 3rem;
+}
+
+.blocked-users-modal__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: opacity var(--transition);
+}
+
+    .blocked-users-modal__row:hover {
+        background: var(--surface-alt);
+    }
+
+    .blocked-users-modal__row.is-removing {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+.blocked-users-modal__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #fff;
+    font-size: 1rem;
+    overflow: hidden;
+}
+
+    .blocked-users-modal__avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.blocked-users-modal__info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.blocked-users-modal__name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.blocked-users-modal__handle {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.blocked-users-modal__unblock-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    min-width: 2.1rem;
+    border-radius: 50%;
+    border: none;
+    background: #e05252;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+    .blocked-users-modal__unblock-btn:hover {
+        background: #c84343;
+    }
+
+.blocked-users-modal__empty {
+    margin: 1.5rem 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.blocked-users-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
 }

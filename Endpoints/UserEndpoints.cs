@@ -38,6 +38,15 @@ namespace Endpoints
                 return Results.Ok(results);
             });
 
+            app.MapGet("/api/users/me/blocked", async (HttpContext ctx, ISocialService svc) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                var results = await svc.GetBlockedUsersAsync(userId.Value);
+                return Results.Ok(results);
+            });
+
             app.MapPost("/api/users/{username}/follow", async (string username, HttpContext ctx, ISocialService svc) =>
             {
                 var userId = GetCurrentUserId(ctx);

@@ -92,10 +92,12 @@ namespace Services
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
 
+            var hiddenAuthorIds = await GetHiddenAuthorIdsAsync(db, currentUserId);
             var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
             // SQLite can't ORDER BY DateTimeOffset server-side, so sort client-side after fetching.
             var roots = (await db.Posts.AsNoTracking().Where(p => p.ParentPostId == null).ToListAsync())
+                .Where(p => !hiddenAuthorIds.Contains(p.AuthorId))
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip(Math.Max(0, page - 1) * pageSize)
                 .Take(pageSize)
@@ -107,6 +109,12 @@ namespace Services
         public async Task<List<PostResponse>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, Guid? currentUserId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var hiddenAuthorIds = await GetHiddenAuthorIdsAsync(db, currentUserId);
+            if (hiddenAuthorIds.Contains(authorId))
+            {
+                return new List<PostResponse>();
+            }
 
             var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
@@ -129,9 +137,16 @@ namespace Services
                 return new PostNotFound();
             }
 
+            var hiddenAuthorIds = await GetHiddenAuthorIdsAsync(db, currentUserId);
+            if (hiddenAuthorIds.Contains(post.AuthorId))
+            {
+                return new PostNotFound();
+            }
+
             var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
             var replies = (await db.Posts.AsNoTracking().Where(p => p.ParentPostId == postId).ToListAsync())
+                .Where(p => !hiddenAuthorIds.Contains(p.AuthorId))
                 .OrderBy(p => p.CreatedAt)
                 .Select(p => ToResponse(p, users, replyCounts, reactionCounts, currentUserReactions))
                 .ToList();
@@ -144,6 +159,21 @@ namespace Services
                     Replies = replies,
                 },
             };
+        }
+
+        // Union of users the viewer has blocked and users who have blocked the viewer —
+        // a block hides content in both directions, not just for the blocker.
+        private static async Task<HashSet<Guid>> GetHiddenAuthorIdsAsync(AppDbContext db, Guid? currentUserId)
+        {
+            if (!currentUserId.HasValue) return new HashSet<Guid>();
+
+            var blocks = await db.Blocks.AsNoTracking()
+                .Where(b => b.BlockerId == currentUserId.Value || b.BlockedId == currentUserId.Value)
+                .ToListAsync();
+
+            return blocks
+                .Select(b => b.BlockerId == currentUserId.Value ? b.BlockedId : b.BlockerId)
+                .ToHashSet();
         }
 
         public async Task<PostOutcome> ToggleReactionAsync(Guid userId, Guid postId, ReactionType reactionType)

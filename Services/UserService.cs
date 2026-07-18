@@ -39,7 +39,19 @@ namespace Services
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
             var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
-            return user is null ? null : await WithSocialStatsAsync(db, user, viewerId);
+            if (user is null) return null;
+
+            if (viewerId.HasValue && viewerId.Value != user.Id)
+            {
+                // If the profile owner has blocked the viewer, the profile doesn't exist for them.
+                // (The reverse — the viewer having blocked the owner — still resolves, so the
+                // viewer can reach the profile's Unblock control.)
+                var blockedByOwner = await db.Blocks.AsNoTracking()
+                    .AnyAsync(b => b.BlockerId == user.Id && b.BlockedId == viewerId.Value);
+                if (blockedByOwner) return null;
+            }
+
+            return await WithSocialStatsAsync(db, user, viewerId);
         }
 
         private static async Task<UserResponse> WithSocialStatsAsync(AppDbContext db, User user, Guid? viewerId)
