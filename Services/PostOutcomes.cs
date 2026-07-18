@@ -11,5 +11,9 @@ namespace Services
     public class PostForbidden : PostOutcome { }
     public class PostDeleted : PostOutcome { }
     public class PostEdited : PostOutcome { public PostResponse Post { get; set; } = new(); }
-    public class LikeSuccess : PostOutcome { public bool Liked { get; set; } public int LikeCount { get; set; } }
+    public class ReactionSuccess : PostOutcome
+    {
+        public System.Collections.Generic.Dictionary<string, int> ReactionCounts { get; set; } = new();
+        public Domain.ReactionType? CurrentUserReaction { get; set; }
+    }
 }

@@ -24,10 +24,13 @@ namespace Services
             _hub = hub ?? throw new ArgumentNullException(nameof(hub));
         }
 
-        public async Task<PostOutcome> CreatePostAsync(Guid authorId, string content, Guid? parentPostId)
+        public async Task<PostOutcome> CreatePostAsync(Guid authorId, string content, Guid? parentPostId, string? imageUrl = null, string? fileUrl = null, string? fileName = null)
         {
             content = content?.Trim() ?? "";
-            if (content.Length == 0 || content.Length > MaxContentLength)
+            imageUrl = string.IsNullOrWhiteSpace(imageUrl) ? null : imageUrl;
+            fileUrl = string.IsNullOrWhiteSpace(fileUrl) ? null : fileUrl;
+            fileName = string.IsNullOrWhiteSpace(fileName) ? null : fileName;
+            if ((content.Length == 0 && imageUrl == null && fileUrl == null) || content.Length > MaxContentLength)
             {
                 return new PostContentInvalid();
             }
@@ -54,6 +57,9 @@ namespace Services
                 Id = Guid.NewGuid(),
                 AuthorId = authorId,
                 Content = content,
+                ImageUrl = imageUrl,
+                FileUrl = fileUrl,
+                FileName = fileUrl != null ? fileName : null,
                 ParentPostId = parentPostId,
                 CreatedAt = DateTimeOffset.UtcNow,
             };
@@ -67,10 +73,13 @@ namespace Services
                 AuthorUsername = author.Username,
                 AuthorAvatarUrl = author.AvatarUrl,
                 Content = post.Content,
+                ImageUrl = post.ImageUrl,
+                FileUrl = post.FileUrl,
+                FileName = post.FileName,
                 ParentPostId = post.ParentPostId,
                 ReplyCount = 0,
-                LikeCount = 0,
-                LikedByCurrentUser = false,
+                ReactionCounts = new Dictionary<string, int>(),
+                CurrentUserReaction = null,
                 CreatedAt = post.CreatedAt,
             };
 
@@ -83,7 +92,7 @@ namespace Services
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var (users, replyCounts, likeCounts, likedByCurrentUser) = await LoadLookupsAsync(db, currentUserId);
+            var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
             // SQLite can't ORDER BY DateTimeOffset server-side, so sort client-side after fetching.
             var roots = (await db.Posts.AsNoTracking().Where(p => p.ParentPostId == null).ToListAsync())
@@ -92,14 +101,14 @@ namespace Services
                 .Take(pageSize)
                 .ToList();
 
-            return roots.Select(p => ToResponse(p, users, replyCounts, likeCounts, likedByCurrentUser)).ToList();
+            return roots.Select(p => ToResponse(p, users, replyCounts, reactionCounts, currentUserReactions)).ToList();
         }
 
         public async Task<List<PostResponse>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, Guid? currentUserId)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var (users, replyCounts, likeCounts, likedByCurrentUser) = await LoadLookupsAsync(db, currentUserId);
+            var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
             var posts = (await db.Posts.AsNoTracking().Where(p => p.AuthorId == authorId && p.ParentPostId == null).ToListAsync())
                 .OrderByDescending(p => p.CreatedAt)
@@ -107,7 +116,7 @@ namespace Services
                 .Take(pageSize)
                 .ToList();
 
-            return posts.Select(p => ToResponse(p, users, replyCounts, likeCounts, likedByCurrentUser)).ToList();
+            return posts.Select(p => ToResponse(p, users, replyCounts, reactionCounts, currentUserReactions)).ToList();
         }
 
         public async Task<PostOutcome> GetThreadAsync(Guid postId, Guid? currentUserId)
@@ -120,24 +129,24 @@ namespace Services
                 return new PostNotFound();
             }
 
-            var (users, replyCounts, likeCounts, likedByCurrentUser) = await LoadLookupsAsync(db, currentUserId);
+            var (users, replyCounts, reactionCounts, currentUserReactions) = await LoadLookupsAsync(db, currentUserId);
 
             var replies = (await db.Posts.AsNoTracking().Where(p => p.ParentPostId == postId).ToListAsync())
                 .OrderBy(p => p.CreatedAt)
-                .Select(p => ToResponse(p, users, replyCounts, likeCounts, likedByCurrentUser))
+                .Select(p => ToResponse(p, users, replyCounts, reactionCounts, currentUserReactions))
                 .ToList();
 
             return new ThreadSuccess
             {
                 Thread = new ThreadResponse
                 {
-                    Post = ToResponse(post, users, replyCounts, likeCounts, likedByCurrentUser),
+                    Post = ToResponse(post, users, replyCounts, reactionCounts, currentUserReactions),
                     Replies = replies,
                 },
             };
         }
 
-        public async Task<PostOutcome> ToggleLikeAsync(Guid userId, Guid postId)
+        public async Task<PostOutcome> ToggleReactionAsync(Guid userId, Guid postId, ReactionType reactionType)
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
 
@@ -147,26 +156,33 @@ namespace Services
                 return new PostNotFound();
             }
 
-            var existingLike = await db.Likes.FirstOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
-            bool liked;
-            if (existingLike != null)
+            var existing = await db.Likes.FirstOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
+            ReactionType? currentReaction;
+            if (existing != null && existing.ReactionType == reactionType)
             {
-                db.Likes.Remove(existingLike);
-                liked = false;
+                // Reacting again with the same type clears it (toggle off).
+                db.Likes.Remove(existing);
+                currentReaction = null;
+            }
+            else if (existing != null)
+            {
+                // A user can only hold one reaction per post; switching type replaces the row.
+                existing.ReactionType = reactionType;
+                currentReaction = reactionType;
             }
             else
             {
-                db.Likes.Add(new Like { PostId = postId, UserId = userId, CreatedAt = DateTimeOffset.UtcNow });
-                liked = true;
+                db.Likes.Add(new Like { PostId = postId, UserId = userId, ReactionType = reactionType, CreatedAt = DateTimeOffset.UtcNow });
+                currentReaction = reactionType;
             }
 
             await db.SaveChangesAsync();
 
-            var likeCount = await db.Likes.CountAsync(l => l.PostId == postId);
+            var reactionCounts = await GetReactionCountsAsync(db, postId);
 
-            await _hub.Clients.All.SendAsync("PostLiked", new { postId, likeCount });
+            await _hub.Clients.All.SendAsync("PostReacted", new { postId, reactionCounts });
 
-            return new LikeSuccess { Liked = liked, LikeCount = likeCount };
+            return new ReactionSuccess { ReactionCounts = reactionCounts, CurrentUserReaction = currentReaction };
         }
 
         public async Task<PostOutcome> DeletePostAsync(Guid userId, Guid postId)
@@ -224,8 +240,8 @@ namespace Services
 
             var author = await db.Users.FirstOrDefaultAsync(u => u.Id == post.AuthorId);
             var replyCount = await db.Posts.CountAsync(p => p.ParentPostId == postId);
-            var likeCount = await db.Likes.CountAsync(l => l.PostId == postId);
-            var likedByCurrentUser = await db.Likes.AnyAsync(l => l.PostId == postId && l.UserId == userId);
+            var reactionCounts = await GetReactionCountsAsync(db, postId);
+            var currentUserReaction = await db.Likes.Where(l => l.PostId == postId && l.UserId == userId).Select(l => (ReactionType?)l.ReactionType).FirstOrDefaultAsync();
 
             var response = new PostResponse
             {
@@ -233,10 +249,13 @@ namespace Services
                 AuthorUsername = author?.Username ?? "unknown",
                 AuthorAvatarUrl = author?.AvatarUrl,
                 Content = post.Content,
+                ImageUrl = post.ImageUrl,
+                FileUrl = post.FileUrl,
+                FileName = post.FileName,
                 ParentPostId = post.ParentPostId,
                 ReplyCount = replyCount,
-                LikeCount = likeCount,
-                LikedByCurrentUser = likedByCurrentUser,
+                ReactionCounts = reactionCounts,
+                CurrentUserReaction = currentUserReaction?.ToString(),
                 CreatedAt = post.CreatedAt,
             };
 
@@ -245,7 +264,16 @@ namespace Services
             return new PostEdited { Post = response };
         }
 
-        private static async Task<(Dictionary<Guid, (string Username, string? AvatarUrl)> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, int> LikeCounts, HashSet<Guid> LikedByCurrentUser)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
+        private static async Task<Dictionary<string, int>> GetReactionCountsAsync(AppDbContext db, Guid postId)
+        {
+            return await db.Likes.AsNoTracking()
+                .Where(l => l.PostId == postId)
+                .GroupBy(l => l.ReactionType)
+                .Select(g => new { g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.Key.ToString(), x => x.Count);
+        }
+
+        private static async Task<(Dictionary<Guid, (string Username, string? AvatarUrl)> Users, Dictionary<Guid, int> ReplyCounts, Dictionary<Guid, Dictionary<string, int>> ReactionCounts, Dictionary<Guid, ReactionType> CurrentUserReactions)> LoadLookupsAsync(AppDbContext db, Guid? currentUserId)
         {
             var users = await db.Users.AsNoTracking().ToDictionaryAsync(u => u.Id, u => (u.Username, u.AvatarUrl));
 
@@ -255,29 +283,40 @@ namespace Services
                 .Select(g => new { ParentId = g.Key, Count = g.Count() })
                 .ToDictionaryAsync(x => x.ParentId, x => x.Count);
 
-            var likeCounts = await db.Likes.AsNoTracking()
-                .GroupBy(l => l.PostId)
-                .Select(g => new { PostId = g.Key, Count = g.Count() })
-                .ToDictionaryAsync(x => x.PostId, x => x.Count);
+            var reactionRows = await db.Likes.AsNoTracking()
+                .GroupBy(l => new { l.PostId, l.ReactionType })
+                .Select(g => new { g.Key.PostId, g.Key.ReactionType, Count = g.Count() })
+                .ToListAsync();
 
-            var likedByCurrentUser = currentUserId.HasValue
-                ? (await db.Likes.AsNoTracking().Where(l => l.UserId == currentUserId.Value).Select(l => l.PostId).ToListAsync()).ToHashSet()
-                : new HashSet<Guid>();
+            var reactionCounts = reactionRows
+                .GroupBy(r => r.PostId)
+                .ToDictionary(g => g.Key, g => g.ToDictionary(r => r.ReactionType.ToString(), r => r.Count));
 
-            return (users, replyCounts, likeCounts, likedByCurrentUser);
+            var currentUserReactions = currentUserId.HasValue
+                ? await db.Likes.AsNoTracking().Where(l => l.UserId == currentUserId.Value).ToDictionaryAsync(l => l.PostId, l => l.ReactionType)
+                : new Dictionary<Guid, ReactionType>();
+
+            return (users, replyCounts, reactionCounts, currentUserReactions);
         }
 
-        private static PostResponse ToResponse(Post post, Dictionary<Guid, (string Username, string? AvatarUrl)> users, Dictionary<Guid, int> replyCounts, Dictionary<Guid, int> likeCounts, HashSet<Guid> likedByCurrentUser) => new()
+        private static PostResponse ToResponse(Post post, Dictionary<Guid, (string Username, string? AvatarUrl)> users, Dictionary<Guid, int> replyCounts, Dictionary<Guid, Dictionary<string, int>> reactionCounts, Dictionary<Guid, ReactionType> currentUserReactions)
         {
-            Id = post.Id,
-            AuthorUsername = users.TryGetValue(post.AuthorId, out var author) ? author.Username : "unknown",
-            AuthorAvatarUrl = users.TryGetValue(post.AuthorId, out var author2) ? author2.AvatarUrl : null,
-            Content = post.Content,
-            ParentPostId = post.ParentPostId,
-            ReplyCount = replyCounts.TryGetValue(post.Id, out var count) ? count : 0,
-            LikeCount = likeCounts.TryGetValue(post.Id, out var likeCount) ? likeCount : 0,
-            LikedByCurrentUser = likedByCurrentUser.Contains(post.Id),
-            CreatedAt = post.CreatedAt,
-        };
+            var currentUserReaction = currentUserReactions.TryGetValue(post.Id, out var reaction) ? reaction.ToString() : null;
+            return new()
+            {
+                Id = post.Id,
+                AuthorUsername = users.TryGetValue(post.AuthorId, out var author) ? author.Username : "unknown",
+                AuthorAvatarUrl = users.TryGetValue(post.AuthorId, out var author2) ? author2.AvatarUrl : null,
+                Content = post.Content,
+                ImageUrl = post.ImageUrl,
+                FileUrl = post.FileUrl,
+                FileName = post.FileName,
+                ParentPostId = post.ParentPostId,
+                ReplyCount = replyCounts.TryGetValue(post.Id, out var count) ? count : 0,
+                ReactionCounts = reactionCounts.TryGetValue(post.Id, out var counts) ? counts : new Dictionary<string, int>(),
+                CurrentUserReaction = currentUserReaction,
+                CreatedAt = post.CreatedAt,
+            };
+        }
     }
 }
