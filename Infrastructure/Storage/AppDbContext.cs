@@ -18,6 +18,9 @@ namespace Infrastructure.Storage
         public DbSet<User> Users => Set<User>();
         public DbSet<Post> Posts => Set<Post>();
         public DbSet<Like> Likes => Set<Like>();
+        public DbSet<Follow> Follows => Set<Follow>();
+        public DbSet<Block> Blocks => Set<Block>();
+        public DbSet<Report> Reports => Set<Report>();
 
         // Fixed ids so the default categories seed deterministically across environments.
         private static readonly Guid SportsCategoryId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -142,6 +145,51 @@ namespace Infrastructure.Storage
                     .WithMany()
                     .HasForeignKey(l => l.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Follow>(entity =>
+            {
+                entity.HasKey(f => new { f.FollowerId, f.FollowingId });
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(f => f.FollowerId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(f => f.FollowingId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Block>(entity =>
+            {
+                entity.HasKey(b => new { b.BlockerId, b.BlockedId });
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(b => b.BlockerId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(b => b.BlockedId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Report>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(r => r.ReporterId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(r => r.ReportedUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
