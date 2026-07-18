@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
@@ -37,7 +38,7 @@ namespace Endpoints
 
                 if (req == null) return Results.BadRequest(new { error = "Content is required" });
 
-                var outcome = await svc.CreatePostAsync(authorId.Value, req.Content, req.ParentPostId);
+                var outcome = await svc.CreatePostAsync(authorId.Value, req.Content, req.ParentPostId, req.ImageUrl, req.FileUrl, req.FileName);
                 return outcome switch
                 {
                     PostSuccess s => Results.Created($"/api/posts/{s.Post.Id}", s.Post),
@@ -47,18 +48,41 @@ namespace Endpoints
                 };
             });
 
-            app.MapPost("/api/posts/{id:guid}/like", async (Guid id, IPostService svc, HttpContext ctx) =>
+            app.MapPost("/api/posts/image", async (HttpContext ctx, IWebHostEnvironment env) =>
             {
                 var userId = GetCurrentUserId(ctx);
                 if (userId == null) return Results.StatusCode(401);
 
-                var outcome = await svc.ToggleLikeAsync(userId.Value, id);
+                var (relativeUrl, error) = await ImageUploadHelper.SaveUploadedImageAsync(ctx, env, "posts");
+                return relativeUrl == null
+                    ? Results.BadRequest(new { error })
+                    : Results.Ok(new { url = relativeUrl });
+            });
+
+            app.MapPost("/api/posts/{id:guid}/react", async (Guid id, ReactToPostRequest req, IPostService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+                if (req == null) return Results.BadRequest(new { error = "Reaction type is required" });
+
+                var outcome = await svc.ToggleReactionAsync(userId.Value, id, req.ReactionType);
                 return outcome switch
                 {
-                    LikeSuccess l => Results.Ok(new { liked = l.Liked, likeCount = l.LikeCount }),
+                    ReactionSuccess r => Results.Ok(new { reactionCounts = r.ReactionCounts, currentUserReaction = r.CurrentUserReaction?.ToString() }),
                     PostNotFound _ => Results.NotFound(),
                     _ => Results.StatusCode(500)
                 };
+            });
+
+            app.MapPost("/api/posts/file", async (HttpContext ctx, IWebHostEnvironment env) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                var (relativeUrl, originalFileName, error) = await FileUploadHelper.SaveUploadedFileAsync(ctx, env, "postfiles");
+                return relativeUrl == null
+                    ? Results.BadRequest(new { error })
+                    : Results.Ok(new { url = relativeUrl, fileName = originalFileName });
             });
             app.MapPut("/api/posts/{id:guid}", async (Guid id, EditPostRequest req, IPostService svc, HttpContext ctx) =>
             {

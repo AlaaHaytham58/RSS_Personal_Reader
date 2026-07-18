@@ -37,5 +37,9 @@ namespace Dtos
         public string? CoverUrl { get; set; }
         public string? Bio { get; set; }
         public List<SocialLinkDto> SocialLinks { get; set; } = new();
+        public int FollowerCount { get; set; }
+        public int FollowingCount { get; set; }
+        public bool IsFollowedByViewer { get; set; }
+        public bool IsBlockedByViewer { get; set; }
     }
 }
