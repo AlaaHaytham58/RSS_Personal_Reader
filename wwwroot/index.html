@@ -98,6 +98,21 @@
             </div>
         </section>
 
+        <section class="py-5 landing__about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <span class="text-muted">Our Story</span>
+                        <h2 class="display-5 fw-bold">About Us</h2>
+                    </div>
+                    <div class="col-md-6 offset-md-1">
+                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+                        <p class="lead">Ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <footer class="landing__footer">
             <p>&copy; 2026 RSS Reader — an independent, open-source project.</p>
         </footer>
@@ -115,30 +130,59 @@
             </div>
 
             <div class="topbar__actions">
-                <button class="icon-button" type="button" id="leaveAppButton" aria-label="Log out" data-i18n-aria-label="logOut" title="Log out">
-                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
-                </button>
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu__trigger" type="button" id="userMenuTrigger" aria-label="Open menu" data-i18n-aria-label="openUserMenu" aria-haspopup="true" aria-expanded="false">
+                        <span class="user-menu__avatar" id="userMenuAvatar">?</span>
+                    </button>
 
-                <button class="lang-toggle" type="button" id="langToggle" aria-label="Switch language">EN</button>
+                    <div class="user-menu__dropdown" id="userMenuDropdown" hidden role="menu">
+                        <button class="user-menu__item" type="button" id="profileNavButton" role="menuitem" aria-pressed="false">
+                            <span class="user-menu__item-avatar" id="userMenuProfileAvatar"></span>
+                            <span data-i18n="yourProfile">Your profile</span>
+                        </button>
 
-                <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode" data-i18n-aria-label="toggleDarkMode">
-                    <i class="bi bi-sun-fill theme-toggle__icon--sun" aria-hidden="true"></i>
-                    <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
-                </button>
+                        <button class="user-menu__item user-menu__item--danger" type="button" id="leaveAppButton" role="menuitem" data-i18n-aria-label="logOut">
+                            <span class="user-menu__item-icon"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></span>
+                            <span data-i18n="logOut">Log out</span>
+                        </button>
+                    </div>
+                </div>
 
-                <button class="icon-button" type="button" id="communityNavButton" aria-label="Community posts" data-i18n-aria-label="communityNav" aria-pressed="false">
-                    <i class="bi bi-chat-square-text" aria-hidden="true"></i>
-                </button>
-
-                <button class="icon-button" type="button" id="profileNavButton" aria-label="Your profile" aria-pressed="false">
-                    <i class="bi bi-person-circle" aria-hidden="true"></i>
-                </button>
-
-                <label class="search" for="searchInput">
-                    <span class="search__icon" aria-hidden="true">⌕</span>
-                    <input id="searchInput" type="search" placeholder="Search articles or feeds" data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
-                </label>
+                <div class="search">
+                    <label class="search__field" for="searchInput">
+                        <span class="search__icon" aria-hidden="true">⌕</span>
+                        <input id="searchInput" type="search" placeholder="Search articles, feeds, or people" data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
+                    </label>
+                    <div class="search__suggestions" id="userSearchSuggestions" hidden></div>
+                </div>
                 <button class="primary-button" type="button" id="refreshAllButton" data-i18n="refreshAll">Refresh all</button>
+
+                <div class="user-menu" id="moreMenu">
+                    <button class="user-menu__trigger" type="button" id="moreMenuTrigger" aria-label="More options" data-i18n-aria-label="moreOptions" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="user-menu__dropdown" id="moreMenuDropdown" hidden role="menu">
+                        <button class="user-menu__item" type="button" id="communityNavButton" role="menuitem" data-i18n-aria-label="communityNav" aria-pressed="false">
+                            <span class="user-menu__item-icon"><i class="bi bi-chat-square-text" aria-hidden="true"></i></span>
+                            <span data-i18n="communityNav">Community posts</span>
+                        </button>
+
+                        <button class="user-menu__item" type="button" id="themeToggle" role="menuitem" data-i18n-aria-label="toggleDarkMode">
+                            <span class="user-menu__item-icon">
+                                <i class="bi bi-sun-fill theme-toggle__icon--sun" aria-hidden="true"></i>
+                                <i class="bi bi-moon-stars-fill theme-toggle__icon--moon" aria-hidden="true"></i>
+                            </span>
+                            <span data-i18n="toggleDarkMode">Toggle dark mode</span>
+                        </button>
+
+                        <button class="user-menu__item" type="button" id="langToggle" role="menuitem">
+                            <span class="user-menu__item-icon"><i class="bi bi-translate" aria-hidden="true"></i></span>
+                            <span id="langToggleLabel">EN</span>
+                        </button>
+                    </div>
+                </div>
+
                 <p class="topbar__meta" id="topbarStat" aria-live="polite">0 feeds · 0 articles · updated —</p>
             </div>
         </header>
@@ -215,9 +259,8 @@
 
             <main class="content community-section" id="communitySection" hidden>
                 <div class="community-section__header">
-                    <button type="button" class="ghost-button community-back-button" id="communityBackButton">
+                    <button type="button" class="icon-button community-back-button" id="communityBackButton" aria-label="Back to RSS Reader" data-i18n-aria-label="backToReader" title="Back to RSS Reader">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                        <span data-i18n="backToReader">Back to RSS Reader</span>
                     </button>
                     <div class="community-auth__status" id="communityAuthStatus" hidden>
                         <span class="community-auth__username" id="communityUsername"></span>
@@ -269,15 +312,9 @@
                 </section>
 
                 <div class="community-app" id="communityApp" hidden>
-                    <form class="post-composer" id="postComposer">
-                        <label class="visually-hidden" for="postComposerInput" data-i18n="postComposerPlaceholder">What's happening?</label>
-                        <textarea id="postComposerInput" maxlength="280" placeholder="What's happening?" data-i18n-placeholder="postComposerPlaceholder" dir="auto"></textarea>
-                        <div class="post-composer__footer">
-                            <span class="post-composer__count" id="postComposerCount">280</span>
-                            <button type="submit" class="primary-button" data-i18n="post">Post</button>
-                        </div>
-                        <p class="form-message" id="postComposerMessage" role="status" aria-live="polite"></p>
-                    </form>
+                    <button type="button" class="community-compose-fab" id="communityComposeButton" aria-label="Create post" data-i18n-aria-label="createPost" title="Create post">
+                        <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                    </button>
 
                     <div class="post-thread" id="postThread" hidden>
                         <button type="button" class="icon-button" id="postThreadBackButton" aria-label="Back to feed" data-i18n-aria-label="backToFeed">
@@ -300,11 +337,27 @@
                                         <i class="bi bi-arrow-left" aria-hidden="true"></i>
                                     </button>
                                     <div class="profile-card__actions">
+                                        <button type="button" class="icon-button profile-card__follow-button" id="profileFollowButton" aria-label="Follow" title="Follow" hidden>
+                                            <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="profile-card__more-menu" id="profileMoreMenu" hidden>
+                                            <button type="button" class="icon-button profile-card__more-button" id="profileMoreButton" aria-label="More options" title="More options" aria-haspopup="true" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="profile-card__more-dropdown" id="profileMoreDropdown" hidden>
+                                                <button type="button" class="profile-card__more-item" id="profileBlockMenuItem">
+                                                    <i class="bi bi-slash-circle" aria-hidden="true"></i> Block
+                                                </button>
+                                                <button type="button" class="profile-card__more-item profile-card__more-item--danger" id="profileReportMenuItem">
+                                                    <i class="bi bi-flag" aria-hidden="true"></i> Report
+                                                </button>
+                                            </div>
+                                        </div>
                                         <button type="button" class="icon-button profile-card__share-button" id="profileShareButton" aria-label="Share profile link" title="Share profile link">
                                             <i class="bi bi-share" aria-hidden="true"></i>
                                         </button>
-                                        <button type="button" class="btn btn-outline-light btn-sm profile-card__edit-button" data-mdb-button-init data-mdb-ripple-init id="profileEditButton" hidden>
-                                            Edit profile
+                                        <button type="button" class="icon-button profile-card__edit-button" id="profileEditButton" aria-label="Edit profile" title="Edit profile" hidden>
+                                            <i class="bi bi-pencil-fill" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                     <div class="ms-4 d-flex flex-column profile-card__avatar-col">
@@ -325,9 +378,17 @@
                                         <p class="mb-1 h5" id="profileStatLikes">0</p>
                                         <p class="small text-muted mb-0">Likes received</p>
                                     </div>
-                                    <div>
+                                    <div class="px-4">
                                         <p class="mb-1 h5" id="profileStatReplies">0</p>
                                         <p class="small text-muted mb-0">Replies received</p>
+                                    </div>
+                                    <div class="px-4">
+                                        <p class="mb-1 h5" id="profileStatFollowers">0</p>
+                                        <p class="small text-muted mb-0">Followers</p>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1 h5" id="profileStatFollowing">0</p>
+                                        <p class="small text-muted mb-0">Following</p>
                                     </div>
                                 </div>
 
@@ -436,6 +497,57 @@
                     <button type="button" class="primary-button" id="profileEditSaveButton">Save changes</button>
                 </div>
             </div>
+        </div>
+
+        <div class="auth-modal post-composer-modal" id="postComposerModal" role="dialog" aria-modal="true" aria-label="Create post" hidden>
+            <div class="auth-modal__backdrop" id="postComposerModalBackdrop"></div>
+            <form class="auth-modal__panel post-composer post-composer-modal__panel" id="postComposer">
+                <div class="auth-modal__header">
+                    <h3 id="postComposerTitle" data-i18n="createPost">Create post</h3>
+                    <button type="button" class="icon-button" id="postComposerCloseButton" aria-label="Close" data-i18n-aria-label="close">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="post-composer__reply-banner" id="postComposerReplyBanner" hidden>
+                    <span><span data-i18n="replyingTo">Replying to</span> <strong id="postComposerReplyTarget"></strong></span>
+                    <button type="button" class="icon-button" id="postComposerCancelReplyButton" aria-label="Cancel reply" data-i18n-aria-label="cancelReply">
+                        <i class="bi bi-x" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <label class="visually-hidden" for="postComposerInput" data-i18n="postComposerPlaceholder">What's happening?</label>
+                <textarea id="postComposerInput" maxlength="280" placeholder="What's happening?" data-i18n-placeholder="postComposerPlaceholder" dir="auto"></textarea>
+
+                <div class="post-composer__image-preview" id="postComposerImagePreview" hidden>
+                    <img id="postComposerImagePreviewImg" alt="" />
+                    <button type="button" class="icon-button post-composer__image-remove" id="postComposerImageRemoveButton" aria-label="Remove image" data-i18n-aria-label="removeImage">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="post-composer__file-preview" id="postComposerFilePreview" hidden>
+                    <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
+                    <span class="post-composer__file-preview-name" id="postComposerFilePreviewName"></span>
+                    <button type="button" class="icon-button post-composer__file-remove" id="postComposerFileRemoveButton" aria-label="Remove file" data-i18n-aria-label="removeFile">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="post-composer__footer">
+                    <button type="button" class="icon-button" id="postComposerAttachImageButton" aria-label="Attach image" data-i18n-aria-label="attachImage" title="Attach image">
+                        <i class="bi bi-image" aria-hidden="true"></i>
+                    </button>
+                    <input type="file" id="postComposerImageFileInput" accept="image/png,image/jpeg,image/gif,image/webp" class="visually-hidden" />
+                    <button type="button" class="icon-button" id="postComposerAttachFileButton" aria-label="Attach file" data-i18n-aria-label="attachFile" title="Attach file">
+                        <i class="bi bi-paperclip" aria-hidden="true"></i>
+                    </button>
+                    <input type="file" id="postComposerFileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z,.mp3,.mp4,.mov,.wav" class="visually-hidden" />
+                    <span class="post-composer__count" id="postComposerCount">280</span>
+                    <button type="submit" class="primary-button" id="postComposerSubmitButton" data-i18n="post">Post</button>
+                </div>
+                <p class="form-message" id="postComposerMessage" role="status" aria-live="polite"></p>
+            </form>
         </div>
 
         <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
@@ -552,6 +664,11 @@
                 </div>
             </div>
             <p class="post-card__content" dir="auto"></p>
+            <img class="post-card__image" alt="" hidden />
+            <a class="post-card__file" target="_blank" rel="noreferrer noopener" hidden>
+                <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
+                <span class="post-card__file-name"></span>
+            </a>
             <div class="post-card__edit-form" hidden>
                 <textarea class="post-card__edit-textarea" dir="auto" maxlength="280"></textarea>
                 <div class="post-card__edit-actions">
@@ -564,9 +681,34 @@
                     <i class="bi bi-chat" aria-hidden="true"></i>
                     <span></span>
                 </button>
-                <button type="button" class="post-card__like">
-                    <i class="bi bi-heart" aria-hidden="true"></i>
-                    <span></span>
+                <div class="post-card__reaction">
+                    <button type="button" class="post-card__react-button">
+                        <i class="post-card__react-icon bi bi-hand-thumbs-up" aria-hidden="true"></i>
+                        <span class="post-card__react-count"></span>
+                    </button>
+                    <div class="post-card__reaction-picker" hidden>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--like" data-reaction="Like" title="Like">
+                            <i class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--love" data-reaction="Love" title="Love">
+                            <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--haha" data-reaction="Haha" title="Haha">
+                            <i class="bi bi-emoji-laughing-fill" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--wow" data-reaction="Wow" title="Wow">
+                            <i class="bi bi-emoji-astonished-fill" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--sad" data-reaction="Sad" title="Sad">
+                            <i class="bi bi-emoji-frown-fill" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="post-card__reaction-option post-card__reaction-option--angry" data-reaction="Angry" title="Angry">
+                            <i class="bi bi-emoji-angry-fill" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" class="post-card__share" aria-label="Share post" data-i18n-aria-label="sharePost" title="Share post">
+                    <i class="bi bi-share" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="post-card__edit" hidden>
                     <i class="bi bi-pencil" aria-hidden="true"></i>

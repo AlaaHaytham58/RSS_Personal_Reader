@@ -20,7 +20,16 @@ const elements = {
     sidebar: document.getElementById('sidebarDrawer'),
     backdrop: document.getElementById('drawerBackdrop'),
     menuButton: document.getElementById('menuButton'),
+    userMenu: document.getElementById('userMenu'),
+    userMenuTrigger: document.getElementById('userMenuTrigger'),
+    userMenuDropdown: document.getElementById('userMenuDropdown'),
+    userMenuAvatar: document.getElementById('userMenuAvatar'),
+    userMenuProfileAvatar: document.getElementById('userMenuProfileAvatar'),
+    moreMenu: document.getElementById('moreMenu'),
+    moreMenuTrigger: document.getElementById('moreMenuTrigger'),
+    moreMenuDropdown: document.getElementById('moreMenuDropdown'),
     langToggle: document.getElementById('langToggle'),
+    langToggleLabel: document.getElementById('langToggleLabel'),
     themeToggle: document.getElementById('themeToggle'),
     searchInput: document.getElementById('searchInput'),
     refreshAllButton: document.getElementById('refreshAllButton'),
@@ -63,12 +72,21 @@ const elements = {
     profileSection: document.getElementById('profileSection'),
     profileCover: document.getElementById('profileCover'),
     profileEditButton: document.getElementById('profileEditButton'),
+    profileFollowButton: document.getElementById('profileFollowButton'),
+    profileMoreMenu: document.getElementById('profileMoreMenu'),
+    profileMoreButton: document.getElementById('profileMoreButton'),
+    profileMoreDropdown: document.getElementById('profileMoreDropdown'),
+    profileBlockMenuItem: document.getElementById('profileBlockMenuItem'),
+    profileReportMenuItem: document.getElementById('profileReportMenuItem'),
     profileAvatar: document.getElementById('profileAvatar'),
     profileUsername: document.getElementById('profileUsername'),
     profileSubtitle: document.getElementById('profileSubtitle'),
     profileStatPosts: document.getElementById('profileStatPosts'),
     profileStatLikes: document.getElementById('profileStatLikes'),
     profileStatReplies: document.getElementById('profileStatReplies'),
+    profileStatFollowers: document.getElementById('profileStatFollowers'),
+    profileStatFollowing: document.getElementById('profileStatFollowing'),
+    userSearchSuggestions: document.getElementById('userSearchSuggestions'),
     profileAboutType: document.getElementById('profileAboutType'),
     profileBio: document.getElementById('profileBio'),
     profileSocialLinks: document.getElementById('profileSocialLinks'),
@@ -99,10 +117,28 @@ const elements = {
     communityApp: document.getElementById('communityApp'),
     communityGetStartedButton: document.getElementById('communityGetStartedButton'),
     communityLandingLoginButton: document.getElementById('communityLandingLoginButton'),
+    communityComposeButton: document.getElementById('communityComposeButton'),
+    postComposerModal: document.getElementById('postComposerModal'),
+    postComposerModalBackdrop: document.getElementById('postComposerModalBackdrop'),
+    postComposerCloseButton: document.getElementById('postComposerCloseButton'),
     postComposer: document.getElementById('postComposer'),
     postComposerInput: document.getElementById('postComposerInput'),
     postComposerCount: document.getElementById('postComposerCount'),
     postComposerMessage: document.getElementById('postComposerMessage'),
+    postComposerSubmitButton: document.getElementById('postComposerSubmitButton'),
+    postComposerReplyBanner: document.getElementById('postComposerReplyBanner'),
+    postComposerReplyTarget: document.getElementById('postComposerReplyTarget'),
+    postComposerCancelReplyButton: document.getElementById('postComposerCancelReplyButton'),
+    postComposerAttachImageButton: document.getElementById('postComposerAttachImageButton'),
+    postComposerImageFileInput: document.getElementById('postComposerImageFileInput'),
+    postComposerImagePreview: document.getElementById('postComposerImagePreview'),
+    postComposerImagePreviewImg: document.getElementById('postComposerImagePreviewImg'),
+    postComposerImageRemoveButton: document.getElementById('postComposerImageRemoveButton'),
+    postComposerAttachFileButton: document.getElementById('postComposerAttachFileButton'),
+    postComposerFileInput: document.getElementById('postComposerFileInput'),
+    postComposerFilePreview: document.getElementById('postComposerFilePreview'),
+    postComposerFilePreviewName: document.getElementById('postComposerFilePreviewName'),
+    postComposerFileRemoveButton: document.getElementById('postComposerFileRemoveButton'),
     postFeed: document.getElementById('postFeed'),
     postCardTemplate: document.getElementById('postCardTemplate'),
     postThread: document.getElementById('postThread'),
@@ -193,6 +229,9 @@ const translations = {
         switchToEnglishAria: 'Switch interface language to English',
         openNavigation: 'Open navigation',
         toggleDarkMode: 'Toggle dark mode',
+        openUserMenu: 'Open menu',
+        yourProfile: 'Your profile',
+        moreOptions: 'More options',
         searchPlaceholder: 'Search articles or feeds',
         refreshAll: 'Refresh all',
         subscriptions: 'Subscriptions',
@@ -334,6 +373,17 @@ const translations = {
         unableToPost: 'Unable to post right now.',
         unableToLoadPosts: 'Unable to load posts right now.',
         noPostsYet: 'No posts yet. Be the first to say something.',
+        createPost: 'Create post',
+        replyingTo: 'Replying to',
+        cancelReply: 'Cancel reply',
+        attachImage: 'Attach image',
+        removeImage: 'Remove image',
+        unableToUploadImage: 'Unable to upload image right now.',
+        attachFile: 'Attach file',
+        removeFile: 'Remove file',
+        unableToUploadFile: 'Unable to upload file right now.',
+        attachedFile: 'Attached file',
+        sharePost: 'Share post',
         deletePost: 'Delete post',
         confirmDeletePost: 'Delete this post? This cannot be undone.',
         unableToDeletePost: 'Unable to delete this post right now.',
@@ -360,6 +410,9 @@ const translations = {
         switchToEnglishAria: 'تبديل لغة الواجهة إلى الإنجليزية',
         openNavigation: 'فتح التنقل',
         toggleDarkMode: 'تبديل الوضع الداكن',
+        openUserMenu: 'فتح القائمة',
+        yourProfile: 'ملفك الشخصي',
+        moreOptions: 'خيارات إضافية',
         searchPlaceholder: 'ابحث في المقالات أو المصادر',
         refreshAll: 'تحديث الكل',
         subscriptions: 'الاشتراكات',
@@ -501,6 +554,17 @@ const translations = {
         unableToPost: 'تعذّر النشر الآن.',
         unableToLoadPosts: 'تعذّر تحميل المنشورات الآن.',
         noPostsYet: 'لا توجد منشورات بعد. كن أول من يكتب شيئًا.',
+        createPost: 'إنشاء منشور',
+        replyingTo: 'الرد على',
+        cancelReply: 'إلغاء الرد',
+        attachImage: 'إرفاق صورة',
+        removeImage: 'إزالة الصورة',
+        unableToUploadImage: 'تعذر رفع الصورة الآن.',
+        attachFile: 'إرفاق ملف',
+        removeFile: 'إزالة الملف',
+        unableToUploadFile: 'تعذر رفع الملف الآن.',
+        attachedFile: 'ملف مرفق',
+        sharePost: 'مشاركة المنشور',
         deletePost: 'حذف المنشور',
         confirmDeletePost: 'هل تريد حذف هذا المنشور؟ لا يمكن التراجع عن هذا الإجراء.',
         unableToDeletePost: 'تعذّر حذف المنشور الآن.',
@@ -548,10 +612,10 @@ function applyStaticTranslations() {
 
 function updateLangToggle() {
     if (currentLang === 'ar') {
-        elements.langToggle.textContent = t('switchToEnglish');
+        elements.langToggleLabel.textContent = t('switchToEnglish');
         elements.langToggle.setAttribute('aria-label', t('switchToEnglishAria'));
     } else {
-        elements.langToggle.textContent = t('switchToArabic');
+        elements.langToggleLabel.textContent = t('switchToArabic');
         elements.langToggle.setAttribute('aria-label', t('switchToArabicAria'));
     }
 }
@@ -1924,6 +1988,44 @@ function toggleChatPanel() {
 
 let authMode = 'login';
 let communityHubConnection = null;
+let pendingPostImageUrl = null;
+let pendingPostFileUrl = null;
+let pendingPostFileName = null;
+
+function updateReplyBanner() {
+    if (state.activeThreadId && activeThread) {
+        elements.postComposerReplyBanner.hidden = false;
+        elements.postComposerReplyTarget.textContent = `@${activeThread.post.authorUsername}`;
+    } else {
+        elements.postComposerReplyBanner.hidden = true;
+    }
+}
+
+function clearPostComposerImage() {
+    pendingPostImageUrl = null;
+    elements.postComposerImageFileInput.value = '';
+    elements.postComposerImagePreview.hidden = true;
+    elements.postComposerImagePreviewImg.src = '';
+}
+
+function clearPostComposerFile() {
+    pendingPostFileUrl = null;
+    pendingPostFileName = null;
+    elements.postComposerFileInput.value = '';
+    elements.postComposerFilePreview.hidden = true;
+    elements.postComposerFilePreviewName.textContent = '';
+}
+
+function openPostComposerModal() {
+    updateReplyBanner();
+    elements.postComposerModal.hidden = false;
+    elements.postComposerInput.focus();
+}
+
+function closePostComposerModal() {
+    elements.postComposerModal.hidden = true;
+    elements.postComposerMessage.textContent = '';
+}
 
 function openCommunitySection() {
     elements.readerSection.hidden = true;
@@ -1984,6 +2086,27 @@ function applyProfileCover(coverUrl) {
     }
 }
 
+function renderHeaderAvatar() {
+    const user = state.currentUser;
+    [elements.userMenuAvatar, elements.userMenuProfileAvatar].forEach((avatar) => {
+        avatar.innerHTML = '';
+        if (!user) {
+            avatar.style.background = '';
+            avatar.textContent = '?';
+            return;
+        }
+        avatar.style.background = avatarColorFor(user.username);
+        if (user.avatarUrl) {
+            const img = document.createElement('img');
+            img.src = user.avatarUrl;
+            img.alt = '';
+            avatar.append(img);
+        } else {
+            avatar.textContent = user.username.charAt(0).toUpperCase();
+        }
+    });
+}
+
 function applyProfileAvatar(username, avatarUrl) {
     elements.profileAvatar.innerHTML = '';
     elements.profileAvatar.style.background = avatarColorFor(username);
@@ -1997,6 +2120,251 @@ function applyProfileAvatar(username, avatarUrl) {
     }
 }
 
+function setFollowButtonState(isFollowing) {
+    elements.profileFollowButton.classList.toggle('is-following', isFollowing);
+    elements.profileFollowButton.setAttribute('aria-label', isFollowing ? 'Following' : 'Follow');
+    elements.profileFollowButton.title = isFollowing ? 'Following' : 'Follow';
+    elements.profileFollowButton.querySelector('i').className = isFollowing
+        ? 'bi bi-person-check-fill'
+        : 'bi bi-person-plus-fill';
+}
+
+function setBlockMenuItemState(isBlocked) {
+    elements.profileBlockMenuItem.classList.toggle('is-active', isBlocked);
+    elements.profileBlockMenuItem.querySelector('i').className = isBlocked
+        ? 'bi bi-slash-circle-fill'
+        : 'bi bi-slash-circle';
+    elements.profileBlockMenuItem.lastChild.textContent = isBlocked ? ' Unblock' : ' Block';
+}
+
+function updateFollowBlockButtons(profileUser, isOwnProfile) {
+    const canAct = !isOwnProfile && isSignedIn();
+
+    elements.profileFollowButton.hidden = isOwnProfile;
+    elements.profileFollowButton.disabled = !canAct;
+    setFollowButtonState(Boolean(profileUser.isFollowedByViewer));
+    elements.profileFollowButton.title = canAct
+        ? (profileUser.isFollowedByViewer ? 'Following' : 'Follow')
+        : 'Sign in to follow this user';
+
+    elements.profileMoreMenu.hidden = isOwnProfile;
+    elements.profileBlockMenuItem.disabled = !canAct;
+    elements.profileReportMenuItem.disabled = !canAct;
+    setBlockMenuItemState(Boolean(profileUser.isBlockedByViewer));
+    hideProfileMoreDropdown();
+}
+
+function showDropdownMenu(dropdown, trigger) {
+    dropdown.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+}
+
+function hideDropdownMenu(dropdown, trigger) {
+    dropdown.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+}
+
+function toggleDropdownMenu(dropdown, trigger) {
+    if (dropdown.hidden) {
+        showDropdownMenu(dropdown, trigger);
+    } else {
+        hideDropdownMenu(dropdown, trigger);
+    }
+}
+
+function hideUserMenu() {
+    hideDropdownMenu(elements.userMenuDropdown, elements.userMenuTrigger);
+}
+
+function hideMoreMenu() {
+    hideDropdownMenu(elements.moreMenuDropdown, elements.moreMenuTrigger);
+}
+
+function hideProfileMoreDropdown() {
+    elements.profileMoreDropdown.hidden = true;
+    elements.profileMoreButton.setAttribute('aria-expanded', 'false');
+}
+
+function toggleProfileMoreDropdown() {
+    const willOpen = elements.profileMoreDropdown.hidden;
+    elements.profileMoreDropdown.hidden = !willOpen;
+    elements.profileMoreButton.setAttribute('aria-expanded', String(willOpen));
+}
+
+async function toggleFollowCurrentProfile() {
+    const username = state.viewedProfileUsername;
+    if (!username || !isSignedIn()) return;
+
+    const isFollowing = elements.profileFollowButton.classList.contains('is-following');
+    elements.profileFollowButton.disabled = true;
+    try {
+        const response = await fetch(`/api/users/${encodeURIComponent(username)}/follow`, {
+            method: isFollowing ? 'DELETE' : 'POST',
+        });
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            throw new Error(body?.error || 'Could not update follow status.');
+        }
+        const result = await response.json();
+        setFollowButtonState(result.isFollowing);
+        elements.profileStatFollowers.textContent = result.followerCount;
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : 'Could not update follow status.', 'error');
+    } finally {
+        elements.profileFollowButton.disabled = false;
+    }
+}
+
+let userSearchDebounceTimer = null;
+let userSearchRequestToken = 0;
+
+function queueUserSearch(rawQuery) {
+    const query = rawQuery.trim();
+    if (userSearchDebounceTimer) {
+        window.clearTimeout(userSearchDebounceTimer);
+    }
+
+    if (query.length < 2) {
+        hideUserSearchSuggestions();
+        return;
+    }
+
+    userSearchDebounceTimer = window.setTimeout(() => runUserSearch(query), 250);
+}
+
+async function runUserSearch(query) {
+    const requestToken = ++userSearchRequestToken;
+    let results = [];
+    try {
+        const response = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`);
+        results = response.ok ? await response.json() : [];
+    } catch {
+        results = [];
+    }
+
+    // A newer keystroke already queued another request; drop this stale response.
+    if (requestToken !== userSearchRequestToken) return;
+
+    renderUserSearchSuggestions(results);
+}
+
+function renderUserSearchSuggestions(results) {
+    const host = elements.userSearchSuggestions;
+    host.innerHTML = '';
+
+    if (results.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'search__suggestions-empty';
+        empty.textContent = 'No people found.';
+        host.append(empty);
+        host.hidden = false;
+        return;
+    }
+
+    results.forEach((user) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'search__suggestion';
+
+        const avatar = document.createElement('span');
+        avatar.className = 'search__suggestion-avatar';
+        avatar.style.background = avatarColorFor(user.username);
+        if (user.avatarUrl) {
+            const img = document.createElement('img');
+            img.src = user.avatarUrl;
+            img.alt = '';
+            avatar.append(img);
+        } else {
+            avatar.textContent = user.username.charAt(0).toUpperCase();
+        }
+
+        const name = document.createElement('span');
+        name.className = 'search__suggestion-name';
+        name.textContent = user.username;
+
+        button.append(avatar, name);
+
+        if (user.isFollowedByViewer) {
+            const badge = document.createElement('span');
+            badge.className = 'search__suggestion-following';
+            badge.textContent = 'Following';
+            button.append(badge);
+        }
+
+        button.addEventListener('click', () => {
+            hideUserSearchSuggestions();
+            elements.searchInput.value = '';
+            openProfileSection(user.username);
+        });
+
+        host.append(button);
+    });
+
+    host.hidden = false;
+}
+
+function hideUserSearchSuggestions() {
+    elements.userSearchSuggestions.hidden = true;
+    elements.userSearchSuggestions.innerHTML = '';
+}
+
+async function toggleBlockCurrentProfile() {
+    const username = state.viewedProfileUsername;
+    hideProfileMoreDropdown();
+    if (!username || !isSignedIn()) return;
+
+    const isBlocked = elements.profileBlockMenuItem.classList.contains('is-active');
+    if (!isBlocked && !window.confirm(`Block ${username}? They won't be able to follow you, and any existing follow between you will be removed.`)) {
+        return;
+    }
+
+    elements.profileBlockMenuItem.disabled = true;
+    try {
+        const response = await fetch(`/api/users/${encodeURIComponent(username)}/block`, {
+            method: isBlocked ? 'DELETE' : 'POST',
+        });
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            throw new Error(body?.error || 'Could not update block status.');
+        }
+        const result = await response.json();
+        setBlockMenuItemState(result.isBlocked);
+        if (result.isBlocked) {
+            setFollowButtonState(false);
+            renderProfile(username);
+        }
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : 'Could not update block status.', 'error');
+    } finally {
+        elements.profileBlockMenuItem.disabled = false;
+    }
+}
+
+async function reportCurrentProfile() {
+    const username = state.viewedProfileUsername;
+    hideProfileMoreDropdown();
+    if (!username || !isSignedIn()) return;
+
+    if (!window.confirm(`Report ${username} to the moderators?`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/users/${encodeURIComponent(username)}/report`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+        });
+        if (!response.ok) {
+            const body = await response.json().catch(() => null);
+            throw new Error(body?.error || 'Could not submit report.');
+        }
+        showToast('Thanks — this profile has been reported to the moderators.', 'success');
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : 'Could not submit report.', 'error');
+    }
+}
+
 async function renderProfile(username) {
     const targetUsername = username || state.currentUser?.username;
     if (!targetUsername) {
@@ -2004,6 +2372,8 @@ async function renderProfile(username) {
         elements.profileSubtitle.textContent = 'Log in to see your profile.';
         elements.profileAboutType.textContent = '';
         elements.profileEditButton.hidden = true;
+        elements.profileFollowButton.hidden = true;
+        elements.profileMoreMenu.hidden = true;
         elements.profileRecentPosts.innerHTML = '';
         applyProfileCover(null);
         elements.profileEmptyMessage.hidden = false;
@@ -2029,6 +2399,8 @@ async function renderProfile(username) {
         elements.profileSubtitle.textContent = 'This user could not be found.';
         elements.profileAboutType.textContent = '';
         elements.profileEditButton.hidden = true;
+        elements.profileFollowButton.hidden = true;
+        elements.profileMoreMenu.hidden = true;
         elements.profileRecentPosts.innerHTML = '';
         applyProfileCover(null);
         elements.profileEmptyMessage.hidden = false;
@@ -2041,6 +2413,9 @@ async function renderProfile(username) {
     elements.profileUsername.textContent = profileUser.username;
     elements.profileSubtitle.textContent = profileUser.isGuest ? 'Guest account' : 'Community member';
     elements.profileEditButton.hidden = !isOwnProfile;
+    elements.profileStatFollowers.textContent = profileUser.followerCount ?? 0;
+    elements.profileStatFollowing.textContent = profileUser.followingCount ?? 0;
+    updateFollowBlockButtons(profileUser, isOwnProfile);
 
     // A written bio replaces the generic placeholder sentence rather than sitting
     // alongside it — otherwise editing your bio never actually clears the old default.
@@ -2144,6 +2519,16 @@ async function shareProfile() {
     }
 }
 
+async function sharePost(postId) {
+    const url = `${window.location.origin}/posts/${postId}`;
+    try {
+        await navigator.clipboard.writeText(url);
+        showToast(t('linkCopied'), 'success');
+    } catch {
+        window.prompt('Copy this post link:', url);
+    }
+}
+
 function openProfileEditModal() {
     const user = state.currentUser;
     if (!user) return;
@@ -2194,6 +2579,7 @@ async function saveProfileEdits() {
         }
 
         state.currentUser = await response.json();
+        renderHeaderAvatar();
         await renderProfile(state.currentUser.username);
         closeProfileEditModal();
         showToast('Profile updated.', 'success');
@@ -2221,6 +2607,7 @@ async function uploadProfileImage(endpoint, file, messageEl) {
         state.currentUser = await response.json();
         applyProfileAvatar(state.currentUser.username, state.currentUser.avatarUrl);
         applyProfileCover(state.currentUser.coverUrl);
+        renderHeaderAvatar();
         applyEditPreviewImage(elements.profileEditAvatarPreview, state.currentUser.avatarUrl);
         applyEditPreviewImage(elements.profileEditCoverPreview, state.currentUser.coverUrl);
         messageEl.textContent = 'Updated.';
@@ -2246,6 +2633,7 @@ function renderAuthStatus() {
         elements.communityUsername.textContent = state.currentUser.username;
     }
     elements.guestBanner.hidden = !state.currentUser?.isGuest;
+    renderHeaderAvatar();
 }
 
 async function loadCurrentUser() {
@@ -2378,13 +2766,24 @@ function buildPostCard(post, options) {
     node.querySelector('.post-card__time').textContent = formatPostTime(post.createdAt);
     const contentEl = node.querySelector('.post-card__content');
     contentEl.textContent = post.content;
+    const imageEl = node.querySelector('.post-card__image');
+    if (post.imageUrl) {
+        imageEl.src = post.imageUrl;
+        imageEl.hidden = false;
+    }
+    const fileEl = node.querySelector('.post-card__file');
+    if (post.fileUrl) {
+        fileEl.href = post.fileUrl;
+        fileEl.download = post.fileName || '';
+        fileEl.querySelector('.post-card__file-name').textContent = post.fileName || t('attachedFile');
+        fileEl.hidden = false;
+    }
     node.querySelector('.post-card__reply-count span').textContent = t('replyCount', { count: post.replyCount });
     node.querySelector('.post-card__reply-count').addEventListener('click', () => openThread(post.id));
 
-    const likeButton = node.querySelector('.post-card__like');
-    updateLikeButton(likeButton, post);
-    likeButton.disabled = !isSignedIn();
-    likeButton.addEventListener('click', () => toggleLike(post.id));
+    wireReactionControl(node, post);
+
+    node.querySelector('.post-card__share').addEventListener('click', () => sharePost(post.id));
 
     const isOwnPost = Boolean(state.currentUser) && post.authorUsername === state.currentUser.username;
 
@@ -2444,10 +2843,67 @@ function buildPostCard(post, options) {
     return node;
 }
 
-function updateLikeButton(likeButton, post) {
-    likeButton.querySelector('span').textContent = post.likeCount;
-    likeButton.classList.toggle('post-card__like--filled', Boolean(post.likedByCurrentUser));
-    likeButton.querySelector('i').className = post.likedByCurrentUser ? 'bi bi-heart-fill' : 'bi bi-heart';
+const REACTIONS = {
+    Like: { icon: 'bi-hand-thumbs-up-fill', color: '#1877f2' },
+    Love: { icon: 'bi-heart-fill', color: '#f33e58' },
+    Haha: { icon: 'bi-emoji-laughing-fill', color: '#f7b125' },
+    Wow: { icon: 'bi-emoji-astonished-fill', color: '#f7b125' },
+    Sad: { icon: 'bi-emoji-frown-fill', color: '#f7b125' },
+    Angry: { icon: 'bi-emoji-angry-fill', color: '#e9710f' },
+};
+
+function totalReactionCount(post) {
+    return Object.values(post.reactionCounts || {}).reduce((sum, n) => sum + n, 0);
+}
+
+function updateReactionButton(node, post) {
+    const reactButton = node.querySelector('.post-card__react-button');
+    const iconEl = node.querySelector('.post-card__react-icon');
+    const countEl = node.querySelector('.post-card__react-count');
+
+    const current = post.currentUserReaction && REACTIONS[post.currentUserReaction];
+    iconEl.className = `post-card__react-icon bi ${current ? current.icon : 'bi-hand-thumbs-up'}`;
+    reactButton.style.color = current ? current.color : '';
+    reactButton.classList.toggle('post-card__react-button--active', Boolean(current));
+
+    const total = totalReactionCount(post);
+    countEl.textContent = total > 0 ? total : '';
+    countEl.hidden = total === 0;
+}
+
+function wireReactionControl(node, post) {
+    const wrapper = node.querySelector('.post-card__reaction');
+    const reactButton = node.querySelector('.post-card__react-button');
+    const picker = node.querySelector('.post-card__reaction-picker');
+
+    updateReactionButton(node, post);
+    reactButton.disabled = !isSignedIn();
+
+    let hideTimer = null;
+    const showPicker = () => {
+        if (reactButton.disabled) return;
+        clearTimeout(hideTimer);
+        picker.hidden = false;
+    };
+    const scheduleHide = () => {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => { picker.hidden = true; }, 300);
+    };
+
+    wrapper.addEventListener('mouseenter', showPicker);
+    wrapper.addEventListener('mouseleave', scheduleHide);
+
+    reactButton.addEventListener('click', () => {
+        picker.hidden = true;
+        toggleReaction(post.id, post.currentUserReaction || 'Like');
+    });
+
+    for (const option of picker.querySelectorAll('.post-card__reaction-option')) {
+        option.addEventListener('click', () => {
+            picker.hidden = true;
+            toggleReaction(post.id, option.dataset.reaction);
+        });
+    }
 }
 
 function renderPostFeed() {
@@ -2481,11 +2937,17 @@ async function loadCommunityTimeline() {
     }
 }
 
-async function submitPost(content, parentPostId) {
+async function submitPost(content, parentPostId, imageUrl, fileUrl, fileName) {
     const response = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content, parentPostId: parentPostId ?? null }),
+        body: JSON.stringify({
+            content,
+            parentPostId: parentPostId ?? null,
+            imageUrl: imageUrl ?? null,
+            fileUrl: fileUrl ?? null,
+            fileName: fileName ?? null,
+        }),
     });
 
     if (!response.ok) {
@@ -2493,6 +2955,28 @@ async function submitPost(content, parentPostId) {
         throw new Error(message);
     }
 
+    return response.json();
+}
+
+async function uploadPostImage(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('/api/posts/image', { method: 'POST', body: formData });
+    if (!response.ok) {
+        throw new Error(t('unableToUploadImage'));
+    }
+    const data = await response.json();
+    return data.url;
+}
+
+async function uploadPostFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('/api/posts/file', { method: 'POST', body: formData });
+    if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || t('unableToUploadFile'));
+    }
     return response.json();
 }
 
@@ -2553,10 +3037,10 @@ function handleIncomingPost(post) {
     renderPostFeed();
 }
 
-function handleLikeUpdate({ postId, likeCount }) {
+function handleReactionUpdate({ postId, reactionCounts }) {
     const feedPost = state.communityPosts.find((p) => p.id === postId);
     if (feedPost) {
-        feedPost.likeCount = likeCount;
+        feedPost.reactionCounts = reactionCounts;
         renderPostFeed();
     }
 
@@ -2565,28 +3049,32 @@ function handleLikeUpdate({ postId, likeCount }) {
             ? activeThread.post
             : activeThread.replies.find((p) => p.id === postId);
         if (threadPost) {
-            threadPost.likeCount = likeCount;
+            threadPost.reactionCounts = reactionCounts;
             renderThread();
         }
     }
 }
 
-async function toggleLike(postId) {
+async function toggleReaction(postId, reactionType) {
     if (!isSignedIn()) {
         return;
     }
 
     try {
-        const response = await fetch(`/api/posts/${postId}/like`, { method: 'POST' });
+        const response = await fetch(`/api/posts/${postId}/react`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reactionType }),
+        });
         if (!response.ok) {
             return;
         }
-        const { liked, likeCount } = await response.json();
+        const { reactionCounts, currentUserReaction } = await response.json();
 
         const feedPost = state.communityPosts.find((p) => p.id === postId);
         if (feedPost) {
-            feedPost.likeCount = likeCount;
-            feedPost.likedByCurrentUser = liked;
+            feedPost.reactionCounts = reactionCounts;
+            feedPost.currentUserReaction = currentUserReaction;
             renderPostFeed();
         }
 
@@ -2595,13 +3083,13 @@ async function toggleLike(postId) {
                 ? activeThread.post
                 : activeThread.replies.find((p) => p.id === postId);
             if (threadPost) {
-                threadPost.likeCount = likeCount;
-                threadPost.likedByCurrentUser = liked;
+                threadPost.reactionCounts = reactionCounts;
+                threadPost.currentUserReaction = currentUserReaction;
                 renderThread();
             }
         }
     } catch {
-        // best-effort; the like button simply reflects the last-known state
+        // best-effort; the reaction buttons simply reflect the last-known state
     }
 }
 
@@ -2711,7 +3199,7 @@ async function connectCommunityHub() {
             .withAutomaticReconnect()
             .build();
         communityHubConnection.on('NewPost', handleIncomingPost);
-        communityHubConnection.on('PostLiked', handleLikeUpdate);
+        communityHubConnection.on('PostReacted', handleReactionUpdate);
         communityHubConnection.on('PostDeleted', handlePostDeleted);
         communityHubConnection.on('PostEdited', handlePostEdited);
         await communityHubConnection.start();
@@ -2842,6 +3330,42 @@ async function loadDailySummary(forceRefresh = false) {
 function wireEvents() {
     elements.menuButton.addEventListener('click', toggleDrawer);
     elements.backdrop.addEventListener('click', closeDrawer);
+    elements.userMenu.addEventListener('mouseenter', () => {
+        showDropdownMenu(elements.userMenuDropdown, elements.userMenuTrigger);
+    });
+    elements.userMenu.addEventListener('mouseleave', hideUserMenu);
+    elements.userMenuTrigger.addEventListener('click', () => {
+        toggleDropdownMenu(elements.userMenuDropdown, elements.userMenuTrigger);
+    });
+    elements.userMenuDropdown.addEventListener('click', (event) => {
+        if (event.target.closest('.user-menu__item')) {
+            hideUserMenu();
+        }
+    });
+
+    elements.moreMenuTrigger.addEventListener('click', () => {
+        toggleDropdownMenu(elements.moreMenuDropdown, elements.moreMenuTrigger);
+    });
+    elements.moreMenuDropdown.addEventListener('click', (event) => {
+        if (event.target.closest('.user-menu__item')) {
+            hideMoreMenu();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('#userMenu')) {
+            hideUserMenu();
+        }
+        if (!event.target.closest('#moreMenu')) {
+            hideMoreMenu();
+        }
+    });
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            hideUserMenu();
+            hideMoreMenu();
+        }
+    });
     elements.langToggle.addEventListener('click', toggleLanguage);
     elements.themeToggle.addEventListener('click', toggleTheme);
     elements.leaveAppButton.addEventListener('click', leaveApp);
@@ -2850,6 +3374,30 @@ function wireEvents() {
         state.search = event.target.value;
         renderArticles();
         updateViewStatus();
+        queueUserSearch(event.target.value);
+    });
+
+    elements.searchInput.addEventListener('focus', () => {
+        if (elements.searchInput.value.trim()) {
+            queueUserSearch(elements.searchInput.value);
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.search')) {
+            hideUserSearchSuggestions();
+        }
+    });
+
+    elements.profileFollowButton.addEventListener('click', toggleFollowCurrentProfile);
+    elements.profileMoreButton.addEventListener('click', toggleProfileMoreDropdown);
+    elements.profileBlockMenuItem.addEventListener('click', toggleBlockCurrentProfile);
+    elements.profileReportMenuItem.addEventListener('click', reportCurrentProfile);
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.profile-card__more-menu')) {
+            hideProfileMoreDropdown();
+        }
     });
 
     elements.refreshAllButton.addEventListener('click', async () => {
@@ -3016,26 +3564,79 @@ function wireEvents() {
         if (!elements.profileEditModal.hidden) {
             closeProfileEditModal();
         }
+        if (!elements.postComposerModal.hidden) {
+            closePostComposerModal();
+        }
     });
 
     elements.postComposerInput.addEventListener('input', () => {
         elements.postComposerCount.textContent = 280 - elements.postComposerInput.value.length;
     });
 
+    elements.communityComposeButton.addEventListener('click', openPostComposerModal);
+    elements.postComposerCloseButton.addEventListener('click', closePostComposerModal);
+    elements.postComposerModalBackdrop.addEventListener('click', closePostComposerModal);
+    elements.postComposerCancelReplyButton.addEventListener('click', () => {
+        closeThread();
+        updateReplyBanner();
+    });
+
+    elements.postComposerAttachImageButton.addEventListener('click', () => elements.postComposerImageFileInput.click());
+    elements.postComposerImageRemoveButton.addEventListener('click', clearPostComposerImage);
+    elements.postComposerImageFileInput.addEventListener('change', async () => {
+        const file = elements.postComposerImageFileInput.files[0];
+        if (!file) return;
+
+        elements.postComposerMessage.textContent = '';
+        try {
+            pendingPostImageUrl = await uploadPostImage(file);
+            elements.postComposerImagePreviewImg.src = pendingPostImageUrl;
+            elements.postComposerImagePreview.hidden = false;
+        } catch (error) {
+            elements.postComposerImageFileInput.value = '';
+            elements.postComposerMessage.textContent = error instanceof Error ? error.message : t('unableToUploadImage');
+        }
+    });
+
+    elements.postComposerAttachFileButton.addEventListener('click', () => elements.postComposerFileInput.click());
+    elements.postComposerFileRemoveButton.addEventListener('click', clearPostComposerFile);
+    elements.postComposerFileInput.addEventListener('change', async () => {
+        const file = elements.postComposerFileInput.files[0];
+        if (!file) return;
+
+        elements.postComposerMessage.textContent = '';
+        try {
+            const uploaded = await uploadPostFile(file);
+            pendingPostFileUrl = uploaded.url;
+            pendingPostFileName = uploaded.fileName;
+            elements.postComposerFilePreviewName.textContent = pendingPostFileName;
+            elements.postComposerFilePreview.hidden = false;
+        } catch (error) {
+            elements.postComposerFileInput.value = '';
+            elements.postComposerMessage.textContent = error instanceof Error ? error.message : t('unableToUploadFile');
+        }
+    });
+
     elements.postComposer.addEventListener('submit', async (event) => {
         event.preventDefault();
         const content = elements.postComposerInput.value.trim();
-        if (!content) {
+        if (!content && !pendingPostImageUrl && !pendingPostFileUrl) {
             return;
         }
 
         elements.postComposerMessage.textContent = '';
+        elements.postComposerSubmitButton.disabled = true;
         try {
-            await submitPost(content, state.activeThreadId);
+            await submitPost(content, state.activeThreadId, pendingPostImageUrl, pendingPostFileUrl, pendingPostFileName);
             elements.postComposerInput.value = '';
             elements.postComposerCount.textContent = '280';
+            clearPostComposerImage();
+            clearPostComposerFile();
+            closePostComposerModal();
         } catch (error) {
             elements.postComposerMessage.textContent = error instanceof Error ? error.message : t('unableToPost');
+        } finally {
+            elements.postComposerSubmitButton.disabled = false;
         }
     });
 
@@ -3051,7 +3652,9 @@ async function init() {
     // A shared profile link ("/profile/{username}") always drops the visitor straight
     // into the app on that profile, even on a first visit that never clicked "Start reading".
     const sharedProfileMatch = window.location.pathname.match(/^\/profile\/([^/]+)\/?$/);
-    if (sharedProfileMatch || window.localStorage.getItem(enteredAppStorageKey) === '1') {
+    // Same idea for a shared post link ("/posts/{id}") - opens straight into that thread.
+    const sharedPostMatch = window.location.pathname.match(/^\/posts\/([^/]+)\/?$/);
+    if (sharedProfileMatch || sharedPostMatch || window.localStorage.getItem(enteredAppStorageKey) === '1') {
         enterApp();
     }
 
@@ -3067,6 +3670,9 @@ async function init() {
     await loadCurrentUser();
     if (sharedProfileMatch) {
         openProfileSection(decodeURIComponent(sharedProfileMatch[1]));
+    } else if (sharedPostMatch && isSignedIn()) {
+        openCommunitySection();
+        openThread(decodeURIComponent(sharedPostMatch[1]));
     }
     loadDailySummary();
     loadCommunityTimeline();

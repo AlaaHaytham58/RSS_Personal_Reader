@@ -75,8 +75,16 @@ builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
 builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
 builder.Services.AddScoped<Services.IUserService, Services.UserService>();
 builder.Services.AddScoped<Services.IPostService, Services.PostService>();
+builder.Services.AddScoped<Services.ISocialService, Services.SocialService>();
 // Purges guest accounts (and their cascaded feeds/articles) 7 days after creation.
 builder.Services.AddHostedService<Services.GuestCleanupService>();
+
+// Reactions are posted as "Like"/"Love" strings (e.g. ReactToPostRequest.ReactionType),
+// not their default numeric form, so minimal-API JSON binding needs the string converter.
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
 
 // Cookie auth for the community posts feature (no login page; API returns status codes)
 var googleClientIdConfig = builder.Configuration["AppSettings:Google:ClientId"];
