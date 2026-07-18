@@ -10,6 +10,9 @@ const state = {
     favoriteArticleIds: new Set(),
     currentUser: null,
     communityPosts: [],
+    communityPage: 1,
+    communityHasMorePosts: true,
+    communityLoadingMore: false,
     activeThreadId: null,
     viewedProfileUsername: null,
 };
@@ -149,6 +152,7 @@ const elements = {
     postComposerFilePreviewName: document.getElementById('postComposerFilePreviewName'),
     postComposerFileRemoveButton: document.getElementById('postComposerFileRemoveButton'),
     postFeed: document.getElementById('postFeed'),
+    postFeedLoadMoreButton: document.getElementById('postFeedLoadMoreButton'),
     postCardTemplate: document.getElementById('postCardTemplate'),
     postThread: document.getElementById('postThread'),
     postThreadBackButton: document.getElementById('postThreadBackButton'),
@@ -387,6 +391,8 @@ const translations = {
         unableToPost: 'Unable to post right now.',
         unableToLoadPosts: 'Unable to load posts right now.',
         noPostsYet: 'No posts yet. Be the first to say something.',
+        loadMorePosts: 'Load more',
+        loadingMorePosts: 'Loading…',
         createPost: 'Create post',
         replyingTo: 'Replying to',
         cancelReply: 'Cancel reply',
@@ -573,6 +579,8 @@ const translations = {
         unableToPost: 'تعذّر النشر الآن.',
         unableToLoadPosts: 'تعذّر تحميل المنشورات الآن.',
         noPostsYet: 'لا توجد منشورات بعد. كن أول من يكتب شيئًا.',
+        loadMorePosts: 'عرض المزيد',
+        loadingMorePosts: 'جارٍ التحميل…',
         createPost: 'إنشاء منشور',
         replyingTo: 'الرد على',
         cancelReply: 'إلغاء الرد',
@@ -3191,6 +3199,8 @@ function wireReactionControl(node, post) {
     }
 }
 
+const COMMUNITY_PAGE_SIZE = 20;
+
 function renderPostFeed() {
     elements.postFeed.innerHTML = '';
 
@@ -3201,24 +3211,57 @@ function renderPostFeed() {
         body.textContent = t('noPostsYet');
         empty.append(body);
         elements.postFeed.append(empty);
-        return;
+    } else {
+        for (const post of state.communityPosts) {
+            elements.postFeed.append(buildPostCard(post));
+        }
     }
 
-    for (const post of state.communityPosts) {
-        elements.postFeed.append(buildPostCard(post));
-    }
+    elements.postFeedLoadMoreButton.hidden = !state.communityHasMorePosts;
 }
 
 async function loadCommunityTimeline() {
     try {
-        const response = await fetch('/api/posts');
+        const response = await fetch(`/api/posts?page=1`);
         if (!response.ok) {
             throw new Error(`Post request failed (${response.status})`);
         }
-        state.communityPosts = await response.json();
+        const posts = await response.json();
+        state.communityPosts = posts;
+        state.communityPage = 1;
+        state.communityHasMorePosts = posts.length === COMMUNITY_PAGE_SIZE;
         renderPostFeed();
     } catch (error) {
         showToast(error instanceof Error ? error.message : t('unableToLoadPosts'), 'error');
+    }
+}
+
+async function loadMoreCommunityPosts() {
+    if (state.communityLoadingMore || !state.communityHasMorePosts) {
+        return;
+    }
+
+    state.communityLoadingMore = true;
+    elements.postFeedLoadMoreButton.disabled = true;
+    elements.postFeedLoadMoreButton.textContent = t('loadingMorePosts');
+
+    try {
+        const nextPage = state.communityPage + 1;
+        const response = await fetch(`/api/posts?page=${nextPage}`);
+        if (!response.ok) {
+            throw new Error(`Post request failed (${response.status})`);
+        }
+        const posts = await response.json();
+        state.communityPosts.push(...posts);
+        state.communityPage = nextPage;
+        state.communityHasMorePosts = posts.length === COMMUNITY_PAGE_SIZE;
+        renderPostFeed();
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : t('unableToLoadPosts'), 'error');
+    } finally {
+        state.communityLoadingMore = false;
+        elements.postFeedLoadMoreButton.disabled = false;
+        elements.postFeedLoadMoreButton.textContent = t('loadMorePosts');
     }
 }
 
@@ -3938,6 +3981,8 @@ function wireEvents() {
     });
 
     elements.postThreadBackButton.addEventListener('click', closeThread);
+
+    elements.postFeedLoadMoreButton.addEventListener('click', loadMoreCommunityPosts);
 }
 
 async function init() {
