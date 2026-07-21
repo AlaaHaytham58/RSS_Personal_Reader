@@ -17,11 +17,13 @@ namespace Services
 
         private readonly IDbContextFactory<AppDbContext> _contextFactory;
         private readonly IHubContext<CommunityHub> _hub;
+        private readonly INotificationService _notifications;
 
-        public PostService(IDbContextFactory<AppDbContext> contextFactory, IHubContext<CommunityHub> hub)
+        public PostService(IDbContextFactory<AppDbContext> contextFactory, IHubContext<CommunityHub> hub, INotificationService notifications)
         {
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
             _hub = hub ?? throw new ArgumentNullException(nameof(hub));
+            _notifications = notifications ?? throw new ArgumentNullException(nameof(notifications));
         }
 
         public async Task<PostOutcome> CreatePostAsync(Guid authorId, string content, Guid? parentPostId, string? imageUrl = null, string? fileUrl = null, string? fileName = null)
@@ -37,10 +39,11 @@ namespace Services
 
             await using var db = await _contextFactory.CreateDbContextAsync();
 
+            Guid? parentAuthorId = null;
             if (parentPostId.HasValue)
             {
-                var parentExists = await db.Posts.AnyAsync(p => p.Id == parentPostId.Value);
-                if (!parentExists)
+                parentAuthorId = await db.Posts.Where(p => p.Id == parentPostId.Value).Select(p => (Guid?)p.AuthorId).FirstOrDefaultAsync();
+                if (parentAuthorId == null)
                 {
                     return new PostParentNotFound();
                 }
@@ -84,6 +87,11 @@ namespace Services
             };
 
             await _hub.Clients.All.SendAsync("NewPost", response);
+
+            if (parentPostId.HasValue && parentAuthorId.HasValue)
+            {
+                await _notifications.CreateAsync(parentAuthorId.Value, authorId, NotificationType.Reply, parentPostId.Value);
+            }
 
             return new PostSuccess { Post = response };
         }
@@ -180,8 +188,8 @@ namespace Services
         {
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var postExists = await db.Posts.AnyAsync(p => p.Id == postId);
-            if (!postExists)
+            var postAuthorId = await db.Posts.Where(p => p.Id == postId).Select(p => (Guid?)p.AuthorId).FirstOrDefaultAsync();
+            if (postAuthorId == null)
             {
                 return new PostNotFound();
             }
@@ -211,6 +219,11 @@ namespace Services
             var reactionCounts = await GetReactionCountsAsync(db, postId);
 
             await _hub.Clients.All.SendAsync("PostReacted", new { postId, reactionCounts });
+
+            if (currentReaction != null)
+            {
+                await _notifications.CreateAsync(postAuthorId.Value, userId, NotificationType.Reaction, postId);
+            }
 
             return new ReactionSuccess { ReactionCounts = reactionCounts, CurrentUserReaction = currentReaction };
         }

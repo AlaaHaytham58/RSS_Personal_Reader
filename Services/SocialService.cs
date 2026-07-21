@@ -12,10 +12,12 @@ namespace Services
     public class SocialService : ISocialService
     {
         private readonly IDbContextFactory<AppDbContext> _contextFactory;
+        private readonly INotificationService _notifications;
 
-        public SocialService(IDbContextFactory<AppDbContext> contextFactory)
+        public SocialService(IDbContextFactory<AppDbContext> contextFactory, INotificationService notifications)
         {
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+            _notifications = notifications ?? throw new ArgumentNullException(nameof(notifications));
         }
 
         public async Task<FollowOutcome> FollowAsync(Guid followerId, string targetUsername)
@@ -35,6 +37,7 @@ namespace Services
             {
                 db.Follows.Add(new Follow { FollowerId = followerId, FollowingId = target.Id, CreatedAt = DateTimeOffset.UtcNow });
                 await db.SaveChangesAsync();
+                await _notifications.CreateAsync(target.Id, followerId, NotificationType.Follow, null);
             }
 
             var followerCount = await db.Follows.AsNoTracking().CountAsync(f => f.FollowingId == target.Id);
