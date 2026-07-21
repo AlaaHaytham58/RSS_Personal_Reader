@@ -76,6 +76,7 @@ builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
 builder.Services.AddScoped<Services.IUserService, Services.UserService>();
 builder.Services.AddScoped<Services.IPostService, Services.PostService>();
 builder.Services.AddScoped<Services.ISocialService, Services.SocialService>();
+builder.Services.AddScoped<Services.INotificationService, Services.NotificationService>();
 // Purges guest accounts (and their cascaded feeds/articles) 7 days after creation.
 builder.Services.AddHostedService<Services.GuestCleanupService>();
 
@@ -264,6 +265,36 @@ using (var scope = app.Services.CreateScope())
     var dbContextFactory = scope.ServiceProvider.GetRequiredService<Microsoft.EntityFrameworkCore.IDbContextFactory<Infrastructure.Storage.AppDbContext>>();
     using var db = dbContextFactory.CreateDbContext();
     db.Database.Migrate();
+
+    // One-time (idempotent) cleanup for feeds that were duplicated before URL
+    // normalization existed (e.g. http vs https, www vs no-www, trailing slash).
+    // Backfills NormalizedUrl for any row that doesn't have it yet, then merges
+    // duplicates per user, keeping the oldest row; cascade delete removes the
+    // duplicates' articles automatically.
+    var allFeeds = db.Feeds.ToList();
+    var needsBackfill = false;
+    foreach (var feed in allFeeds)
+    {
+        var normalized = Services.UrlNormalizer.Normalize(feed.Url);
+        if (feed.NormalizedUrl != normalized)
+        {
+            feed.NormalizedUrl = normalized;
+            needsBackfill = true;
+        }
+    }
+    if (needsBackfill) db.SaveChanges();
+
+    var duplicateGroups = allFeeds
+        .GroupBy(f => (f.UserId, f.NormalizedUrl))
+        .Where(g => g.Count() > 1);
+    var toRemove = duplicateGroups
+        .SelectMany(g => g.OrderBy(f => f.AddedAt).Skip(1))
+        .ToList();
+    if (toRemove.Count > 0)
+    {
+        db.Feeds.RemoveRange(toRemove);
+        db.SaveChanges();
+    }
 }
 
 // Minimal health check
@@ -278,6 +309,7 @@ Endpoints.SummaryEndpoints.MapSummaryEndpoints(app);
 Endpoints.AuthEndpoints.MapAuthEndpoints(app);
 Endpoints.PostEndpoints.MapPostEndpoints(app);
 Endpoints.UserEndpoints.MapUserEndpoints(app);
+Endpoints.NotificationEndpoints.MapNotificationEndpoints(app);
 app.MapHub<CommunityHub>("/hubs/community");
 
 app.MapFallbackToFile("index.html");

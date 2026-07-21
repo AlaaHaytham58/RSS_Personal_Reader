@@ -12,7 +12,9 @@ namespace Infrastructure.Storage
         [Obsolete("Use AddFeedWithArticlesAsync for atomic writes", false)]
         Task AddFeedAsync(Feed feed);
         // Adds a new feed along with its initial articles in a single atomic write.
-        Task AddFeedWithArticlesAsync(Feed feed);
+        // Returns false if a feed with the same (UserId, NormalizedUrl) already exists
+        // (DB-level backstop for the app-layer duplicate check racing a concurrent add).
+        Task<bool> AddFeedWithArticlesAsync(Feed feed);
         Task RemoveFeedAsync(Guid id, Guid userId);
         Task UpdateFeedAsync(Feed feed);
         Task<List<Article>> GetArticlesByFeedIdAsync(Guid feedId);

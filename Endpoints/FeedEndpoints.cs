@@ -31,6 +31,15 @@ namespace Endpoints
                 };
             });
 
+            app.MapGet("/api/feeds/suggestions", async (IFeedService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+
+                var suggestions = await svc.GetSuggestionsAsync(userId.Value);
+                return Results.Ok(suggestions);
+            });
+
             app.MapGet("/api/feeds", async (IFeedService svc, HttpContext ctx) =>
             {
                 var userId = GetCurrentUserId(ctx);

@@ -38,9 +38,9 @@ namespace Infrastructure.Storage
         }
 
         [Obsolete("Use AddFeedWithArticlesAsync for atomic writes", false)]
-        public Task AddFeedAsync(Feed feed) => AddFeedWithArticlesAsync(feed);
+        public async Task AddFeedAsync(Feed feed) => await AddFeedWithArticlesAsync(feed);
 
-        public async Task AddFeedWithArticlesAsync(Feed feed)
+        public async Task<bool> AddFeedWithArticlesAsync(Feed feed)
         {
             if (feed == null) throw new ArgumentNullException(nameof(feed));
 
@@ -51,11 +51,26 @@ namespace Infrastructure.Storage
                 if (await db.Feeds.AnyAsync(f => f.Id == feed.Id))
                 {
                     _logger.LogWarning("Feed with id {FeedId} already exists, skipping add", feed.Id);
-                    return;
+                    return false;
+                }
+
+                if (await db.Feeds.AnyAsync(f => f.UserId == feed.UserId && f.NormalizedUrl == feed.NormalizedUrl))
+                {
+                    return false;
                 }
 
                 db.Feeds.Add(feed);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    // Backstop for a concurrent add of the same URL racing past the checks above.
+                    return false;
+                }
+
+                return true;
             }
             finally
             {

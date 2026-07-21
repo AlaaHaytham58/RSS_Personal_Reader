@@ -21,6 +21,7 @@ namespace Infrastructure.Storage
         public DbSet<Follow> Follows => Set<Follow>();
         public DbSet<Block> Blocks => Set<Block>();
         public DbSet<Report> Reports => Set<Report>();
+        public DbSet<Notification> Notifications => Set<Notification>();
 
         // Fixed ids so the default categories seed deterministically across environments.
         private static readonly Guid SportsCategoryId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -42,6 +43,7 @@ namespace Infrastructure.Storage
                 entity.HasKey(f => f.Id);
                 entity.Property(f => f.Url).IsRequired();
                 entity.Property(f => f.Title).IsRequired();
+                entity.Property(f => f.NormalizedUrl).IsRequired();
 
                 entity.HasMany(f => f.Articles)
                     .WithOne()
@@ -190,6 +192,27 @@ namespace Infrastructure.Storage
                     .WithMany()
                     .HasForeignKey(r => r.ReportedUserId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasKey(n => n.Id);
+                entity.HasIndex(n => new { n.RecipientId, n.IsRead, n.CreatedAt });
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(n => n.RecipientId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey(n => n.ActorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<Post>()
+                    .WithMany()
+                    .HasForeignKey(n => n.PostId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

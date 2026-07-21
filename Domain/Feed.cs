@@ -14,6 +14,7 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Url { get; set; } = string.Empty;
+        public string NormalizedUrl { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string? SiteUrl { get; set; }
         public DateTimeOffset AddedAt { get; set; }
