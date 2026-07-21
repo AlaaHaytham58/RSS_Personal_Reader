@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain;
+using Dtos;
 using Infrastructure.FeedFetching;
 using Infrastructure.FeedParsing;
 using Infrastructure.Storage;
@@ -32,8 +33,9 @@ namespace Services
             if (!Validation.FeedUrlValidator.IsValid(url)) return new AddFeedInvalidUrl();
 
             // 2. Duplicate (scoped to this user's own feeds)
+            var normalizedUrl = UrlNormalizer.Normalize(url);
             var existing = await _repo.GetAllFeedsAsync(userId);
-            if (existing.Exists(f => string.Equals(f.Url.TrimEnd('/'), url.TrimEnd('/'), StringComparison.OrdinalIgnoreCase)))
+            if (existing.Exists(f => f.NormalizedUrl == normalizedUrl))
             {
                 return new AddFeedAlreadyExists();
             }
@@ -52,6 +54,7 @@ namespace Services
                 Id = Guid.NewGuid(),
                 UserId = userId,
                 Url = url,
+                NormalizedUrl = normalizedUrl,
                 Title = parseRes.FeedTitle ?? url,
                 SiteUrl = parseRes.SiteUrl,
                 AddedAt = DateTimeOffset.UtcNow,
@@ -79,7 +82,8 @@ namespace Services
             }
 
             // 6. Persist feed + articles in one atomic write
-            await _repo.AddFeedWithArticlesAsync(feed);
+            var added = await _repo.AddFeedWithArticlesAsync(feed);
+            if (!added) return new AddFeedAlreadyExists();
 
             // 7. Return success
             return new AddFeedSuccess { Feed = feed };
@@ -131,6 +135,25 @@ namespace Services
         public Task<List<Feed>> GetAllFeedsAsync(Guid userId)
         {
             return _repo.GetAllFeedsAsync(userId);
+        }
+
+        public async Task<List<FeedSuggestionResponse>> GetSuggestionsAsync(Guid userId)
+        {
+            var existing = await _repo.GetAllFeedsAsync(userId);
+            var existingNormalized = existing.Select(f => f.NormalizedUrl).ToHashSet();
+
+            var categories = await _categoryService.GetAllAsync();
+            var categoryNameById = categories.ToDictionary(c => c.Id, c => c.Name);
+            var userCategoryNames = existing
+                .Where(f => f.CategoryId.HasValue && categoryNameById.ContainsKey(f.CategoryId!.Value))
+                .Select(f => categoryNameById[f.CategoryId!.Value])
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            return FeedSuggestions.All
+                .Where(s => !existingNormalized.Contains(UrlNormalizer.Normalize(s.Url)))
+                .OrderByDescending(s => userCategoryNames.Contains(s.Category))
+                .Select(s => new FeedSuggestionResponse { Title = s.Title, Url = s.Url, SiteUrl = s.SiteUrl, Category = s.Category })
+                .ToList();
         }
     }
 }

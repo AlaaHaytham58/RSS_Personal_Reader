@@ -15,6 +15,11 @@ const state = {
     communityLoadingMore: false,
     activeThreadId: null,
     viewedProfileUsername: null,
+    notifications: [],
+    unreadNotificationCount: 0,
+    notificationsPage: 1,
+    notificationsHasMore: true,
+    profilePosts: [],
 };
 
 const CATEGORY_FILTER_PREFIX = 'category:';
@@ -31,6 +36,19 @@ const elements = {
     moreMenu: document.getElementById('moreMenu'),
     moreMenuTrigger: document.getElementById('moreMenuTrigger'),
     moreMenuDropdown: document.getElementById('moreMenuDropdown'),
+    notificationMenu: document.getElementById('notificationMenu'),
+    notificationTrigger: document.getElementById('notificationTrigger'),
+    notificationDropdown: document.getElementById('notificationDropdown'),
+    notificationBadge: document.getElementById('notificationBadge'),
+    notificationList: document.getElementById('notificationList'),
+    notificationEmptyMessage: document.getElementById('notificationEmptyMessage'),
+    notificationViewAllButton: document.getElementById('notificationViewAllButton'),
+    notificationMarkAllReadButton: document.getElementById('notificationMarkAllReadButton'),
+    notificationsSection: document.getElementById('notificationsSection'),
+    notificationsBackButton: document.getElementById('notificationsBackButton'),
+    notificationsList: document.getElementById('notificationsList'),
+    notificationsEmptyMessage: document.getElementById('notificationsEmptyMessage'),
+    notificationsLoadMoreButton: document.getElementById('notificationsLoadMoreButton'),
     langToggle: document.getElementById('langToggle'),
     langToggleLabel: document.getElementById('langToggleLabel'),
     themeToggle: document.getElementById('themeToggle'),
@@ -40,6 +58,12 @@ const elements = {
     feedUrlInput: document.getElementById('feedUrlInput'),
     feedFormMessage: document.getElementById('feedFormMessage'),
     feedList: document.getElementById('feedList'),
+    exploreFeedsButton: document.getElementById('exploreFeedsButton'),
+    exploreFeedsModal: document.getElementById('exploreFeedsModal'),
+    exploreFeedsModalBackdrop: document.getElementById('exploreFeedsModalBackdrop'),
+    exploreFeedsModalCloseButton: document.getElementById('exploreFeedsModalCloseButton'),
+    exploreFeedsBody: document.getElementById('exploreFeedsBody'),
+    exploreFeedsEmpty: document.getElementById('exploreFeedsEmpty'),
     categoryPills: document.getElementById('categoryPills'),
     articleFeed: document.getElementById('articleFeed'),
     paginationBar: document.getElementById('paginationBar'),
@@ -2059,6 +2083,7 @@ function openCommunitySection() {
     closeDrawer();
     elements.readerSection.hidden = true;
     elements.profileSection.hidden = true;
+    elements.notificationsSection.hidden = true;
     elements.communitySection.hidden = false;
     elements.profileNavButton.setAttribute('aria-pressed', 'false');
     elements.communityNavButton.setAttribute('aria-pressed', 'true');
@@ -2084,6 +2109,7 @@ function openProfileSection(username) {
     closeDrawer();
     elements.readerSection.hidden = true;
     elements.communitySection.hidden = true;
+    elements.notificationsSection.hidden = true;
     elements.profileSection.hidden = false;
     elements.communityNavButton.setAttribute('aria-pressed', 'false');
     elements.profileNavButton.setAttribute('aria-pressed', 'true');
@@ -2104,6 +2130,26 @@ function toggleProfileSection() {
     } else {
         closeProfileSection();
     }
+}
+
+async function openNotificationsSection() {
+    closeDrawer();
+    hideNotificationDropdown();
+    elements.readerSection.hidden = true;
+    elements.communitySection.hidden = true;
+    elements.profileSection.hidden = true;
+    elements.notificationsSection.hidden = false;
+    document.body.classList.add('community-open');
+    await loadNotificationsPage(1);
+    if (state.unreadNotificationCount > 0) {
+        markAllNotificationsRead();
+    }
+}
+
+function closeNotificationsSection() {
+    elements.readerSection.hidden = false;
+    elements.notificationsSection.hidden = true;
+    document.body.classList.remove('community-open');
 }
 
 function applyProfileCover(coverUrl) {
@@ -2208,6 +2254,10 @@ function hideUserMenu() {
 
 function hideMoreMenu() {
     hideDropdownMenu(elements.moreMenuDropdown, elements.moreMenuTrigger);
+}
+
+function hideNotificationDropdown() {
+    hideDropdownMenu(elements.notificationDropdown, elements.notificationTrigger);
 }
 
 function hideProfileMoreDropdown() {
@@ -2513,6 +2563,7 @@ async function renderProfile(username) {
         elements.profileBlockedUsersButton.hidden = true;
         elements.profileFollowButton.hidden = true;
         elements.profileMoreMenu.hidden = true;
+        state.profilePosts = [];
         elements.profileRecentPosts.innerHTML = '';
         applyProfileCover(null);
         elements.profileEmptyMessage.hidden = false;
@@ -2541,6 +2592,7 @@ async function renderProfile(username) {
         elements.profileBlockedUsersButton.hidden = true;
         elements.profileFollowButton.hidden = true;
         elements.profileMoreMenu.hidden = true;
+        state.profilePosts = [];
         elements.profileRecentPosts.innerHTML = '';
         applyProfileCover(null);
         elements.profileEmptyMessage.hidden = false;
@@ -2600,13 +2652,18 @@ async function renderProfile(username) {
     elements.profileStatLikes.textContent = posts.reduce((sum, post) => sum + totalReactionCount(post), 0);
     elements.profileStatReplies.textContent = posts.reduce((sum, post) => sum + post.replyCount, 0);
 
+    state.profilePosts = posts.slice(0, 6);
+    renderProfilePosts();
+}
+
+function renderProfilePosts() {
     elements.profileRecentPosts.innerHTML = '';
-    if (posts.length === 0) {
+    if (state.profilePosts.length === 0) {
         elements.profileEmptyMessage.hidden = false;
         elements.profileEmptyMessage.textContent = "This user hasn't posted anything yet.";
     } else {
         elements.profileEmptyMessage.hidden = true;
-        posts.slice(0, 6).forEach((post) => {
+        state.profilePosts.forEach((post) => {
             elements.profileRecentPosts.append(buildPostCard(post));
         });
     }
@@ -3329,6 +3386,13 @@ function renderThread() {
 }
 
 async function openThread(postId) {
+    // Replying/viewing a thread only has visible UI inside the community section
+    // (#postThread lives there) - reachable from post cards on the profile page too,
+    // so make sure that section is actually the one showing first.
+    if (elements.communitySection.hidden) {
+        openCommunitySection();
+    }
+
     try {
         const response = await fetch(`/api/posts/${postId}`);
         if (!response.ok) {
@@ -3381,6 +3445,12 @@ function handleReactionUpdate({ postId, reactionCounts }) {
             renderThread();
         }
     }
+
+    const profilePost = state.profilePosts.find((p) => p.id === postId);
+    if (profilePost) {
+        profilePost.reactionCounts = reactionCounts;
+        if (!elements.profileSection.hidden) renderProfilePosts();
+    }
 }
 
 async function toggleReaction(postId, reactionType) {
@@ -3415,6 +3485,13 @@ async function toggleReaction(postId, reactionType) {
                 threadPost.currentUserReaction = currentUserReaction;
                 renderThread();
             }
+        }
+
+        const profilePost = state.profilePosts.find((p) => p.id === postId);
+        if (profilePost) {
+            profilePost.reactionCounts = reactionCounts;
+            profilePost.currentUserReaction = currentUserReaction;
+            if (!elements.profileSection.hidden) renderProfilePosts();
         }
     } catch {
         // best-effort; the reaction buttons simply reflect the last-known state
@@ -3457,12 +3534,18 @@ function applyPostUpdate(updated) {
             }
         }
     }
+
+    const profilePost = state.profilePosts.find((p) => p.id === updated.id);
+    if (profilePost) {
+        profilePost.content = updated.content;
+    }
 }
 
 function handlePostEdited(post) {
     applyPostUpdate(post);
     renderPostFeed();
     renderThread();
+    if (!elements.profileSection.hidden) renderProfilePosts();
 }
 
 async function deletePost(postId) {
@@ -3503,6 +3586,12 @@ function removePostFromState(postId) {
     if (feedPost) {
         renderPostFeed();
     }
+
+    const profilePost = state.profilePosts.find((p) => p.id === postId);
+    state.profilePosts = state.profilePosts.filter((p) => p.id !== postId);
+    if (profilePost && !elements.profileSection.hidden) {
+        renderProfilePosts();
+    }
 }
 
 function handlePostDeleted({ postId, parentPostId }) {
@@ -3520,6 +3609,170 @@ function handlePostDeleted({ postId, parentPostId }) {
     }
 }
 
+/* ---------- Notifications ---------- */
+
+const NOTIFICATION_ICONS = {
+    Reaction: 'bi-heart-fill',
+    Reply: 'bi-chat-fill',
+    Follow: 'bi-person-plus-fill',
+};
+
+function notificationText(n) {
+    switch (n.type) {
+        case 'Reaction':
+            return `reacted to your post`;
+        case 'Reply':
+            return `replied to your post`;
+        case 'Follow':
+            return `started following you`;
+        default:
+            return 'interacted with you';
+    }
+}
+
+function updateNotificationBadge(count) {
+    state.unreadNotificationCount = count;
+    elements.notificationBadge.hidden = count <= 0;
+    elements.notificationBadge.textContent = count > 99 ? '99+' : String(count);
+}
+
+function buildNotificationRow(n) {
+    const row = document.createElement('div');
+    row.className = 'notification-item' + (n.isRead ? '' : ' notification-item--unread');
+
+    const avatar = document.createElement('span');
+    avatar.className = 'notification-item__avatar';
+    if (n.actorAvatarUrl) {
+        const img = document.createElement('img');
+        img.src = n.actorAvatarUrl;
+        img.alt = '';
+        avatar.append(img);
+    } else {
+        avatar.textContent = n.actorUsername.charAt(0).toUpperCase();
+        avatar.style.background = avatarColorFor(n.actorUsername);
+    }
+
+    const icon = document.createElement('span');
+    icon.className = 'notification-item__icon';
+    icon.innerHTML = `<i class="bi ${NOTIFICATION_ICONS[n.type] || 'bi-bell-fill'}" aria-hidden="true"></i>`;
+
+    const body = document.createElement('div');
+    body.className = 'notification-item__body';
+    const text = document.createElement('p');
+    text.className = 'notification-item__text';
+    const strong = document.createElement('strong');
+    strong.textContent = n.actorUsername;
+    text.append(strong, document.createTextNode(' ' + notificationText(n)));
+    const time = document.createElement('time');
+    time.className = 'notification-item__time';
+    time.textContent = formatPostTime(n.createdAt);
+    body.append(text, time);
+
+    row.append(avatar, icon, body);
+    row.addEventListener('click', () => handleNotificationClick(n));
+    return row;
+}
+
+async function handleNotificationClick(n) {
+    hideNotificationDropdown();
+    if (!n.isRead) {
+        markNotificationRead(n.id);
+    }
+    if (n.type === 'Follow') {
+        openProfileSection(n.actorUsername);
+    } else if (n.postId) {
+        openCommunitySection();
+        openThread(n.postId);
+    }
+}
+
+function renderNotificationDropdown() {
+    elements.notificationList.innerHTML = '';
+    const recent = state.notifications.slice(0, 5);
+    elements.notificationEmptyMessage.hidden = recent.length > 0;
+    for (const n of recent) {
+        elements.notificationList.append(buildNotificationRow(n));
+    }
+}
+
+function renderNotificationsPage() {
+    elements.notificationsList.innerHTML = '';
+    elements.notificationsEmptyMessage.hidden = state.notifications.length > 0;
+    for (const n of state.notifications) {
+        elements.notificationsList.append(buildNotificationRow(n));
+    }
+    elements.notificationsLoadMoreButton.hidden = !state.notificationsHasMore;
+}
+
+async function loadUnreadCount() {
+    try {
+        const response = await fetch('/api/notifications/unread-count');
+        if (!response.ok) return;
+        const body = await response.json();
+        updateNotificationBadge(body.unreadCount);
+    } catch {
+        // best-effort; badge just won't update this pass
+    }
+}
+
+async function loadRecentNotifications() {
+    try {
+        const response = await fetch('/api/notifications?page=1');
+        if (!response.ok) return;
+        const body = await response.json();
+        state.notifications = body.items;
+        updateNotificationBadge(body.unreadCount);
+        renderNotificationDropdown();
+    } catch {
+        // best-effort; dropdown just won't populate this pass
+    }
+}
+
+async function loadNotificationsPage(page) {
+    try {
+        const response = await fetch(`/api/notifications?page=${page}`);
+        if (!response.ok) return;
+        const body = await response.json();
+        state.notifications = page === 1 ? body.items : state.notifications.concat(body.items);
+        state.notificationsPage = page;
+        state.notificationsHasMore = body.hasMore;
+        updateNotificationBadge(body.unreadCount);
+        renderNotificationsPage();
+    } catch (error) {
+        showToast(error instanceof Error ? error.message : 'Unable to load notifications.', 'error');
+    }
+}
+
+async function markNotificationRead(id) {
+    const n = state.notifications.find((item) => item.id === id);
+    if (n) n.isRead = true;
+    try {
+        await fetch(`/api/notifications/${id}/read`, { method: 'POST' });
+        await loadUnreadCount();
+    } catch {
+        // best-effort
+    }
+}
+
+async function markAllNotificationsRead() {
+    for (const n of state.notifications) n.isRead = true;
+    renderNotificationDropdown();
+    if (!elements.notificationsSection.hidden) renderNotificationsPage();
+    try {
+        await fetch('/api/notifications/read-all', { method: 'POST' });
+        updateNotificationBadge(0);
+    } catch {
+        // best-effort
+    }
+}
+
+function handleIncomingNotification({ notification, unreadCount }) {
+    state.notifications = [notification, ...state.notifications];
+    updateNotificationBadge(unreadCount);
+    if (!elements.notificationDropdown.hidden) renderNotificationDropdown();
+    if (!elements.notificationsSection.hidden) renderNotificationsPage();
+}
+
 async function connectCommunityHub() {
     try {
         communityHubConnection = new signalR.HubConnectionBuilder()
@@ -3530,6 +3783,7 @@ async function connectCommunityHub() {
         communityHubConnection.on('PostReacted', handleReactionUpdate);
         communityHubConnection.on('PostDeleted', handlePostDeleted);
         communityHubConnection.on('PostEdited', handlePostEdited);
+        communityHubConnection.on('Notification', handleIncomingNotification);
         await communityHubConnection.start();
     } catch {
         // real-time updates are a progressive enhancement; timeline still loads via fetch
@@ -3604,7 +3858,7 @@ async function addFeed(url) {
         clearFeedMessage();
         elements.feedUrlInput.value = '';
         await loadData();
-        return;
+        return true;
     }
 
     let message = t('unableToAddFeed');
@@ -3616,6 +3870,89 @@ async function addFeed(url) {
     }
 
     showToast(getFriendlyFeedError(message, t('unableToAddFeed')), 'error');
+    return false;
+}
+
+/* ---------- Explore feeds ---------- */
+
+function buildExploreFeedsGroup(category, suggestions) {
+    const group = document.createElement('div');
+    group.className = 'explore-feeds-group';
+
+    const heading = document.createElement('h4');
+    heading.className = 'explore-feeds-group__heading';
+    heading.textContent = category;
+    group.append(heading);
+
+    const list = document.createElement('div');
+    list.className = 'explore-feeds-group__list';
+
+    for (const suggestion of suggestions) {
+        const card = document.createElement('div');
+        card.className = 'explore-feed-card';
+
+        const info = document.createElement('div');
+        info.className = 'explore-feed-card__info';
+        const title = document.createElement('strong');
+        title.textContent = suggestion.title;
+        const site = document.createElement('span');
+        site.className = 'explore-feed-card__site';
+        site.textContent = suggestion.siteUrl || suggestion.url;
+        info.append(title, site);
+
+        const subscribeButton = document.createElement('button');
+        subscribeButton.type = 'button';
+        subscribeButton.className = 'explore-feed-card__subscribe';
+        subscribeButton.textContent = 'Subscribe';
+        subscribeButton.addEventListener('click', async () => {
+            subscribeButton.disabled = true;
+            subscribeButton.textContent = 'Adding…';
+            const success = await addFeed(suggestion.url);
+            if (success) {
+                subscribeButton.textContent = 'Subscribed';
+                subscribeButton.classList.add('is-subscribed');
+            } else {
+                subscribeButton.disabled = false;
+                subscribeButton.textContent = 'Subscribe';
+            }
+        });
+
+        card.append(info, subscribeButton);
+        list.append(card);
+    }
+
+    group.append(list);
+    return group;
+}
+
+async function openExploreFeedsModal() {
+    elements.exploreFeedsModal.hidden = false;
+    elements.exploreFeedsBody.innerHTML = '<p class="explore-feeds-modal__loading">Loading suggestions…</p>';
+    elements.exploreFeedsEmpty.hidden = true;
+
+    try {
+        const response = await fetch('/api/feeds/suggestions');
+        const suggestions = response.ok ? await response.json() : [];
+
+        elements.exploreFeedsBody.innerHTML = '';
+        elements.exploreFeedsEmpty.hidden = suggestions.length > 0;
+
+        const byCategory = new Map();
+        for (const suggestion of suggestions) {
+            if (!byCategory.has(suggestion.category)) byCategory.set(suggestion.category, []);
+            byCategory.get(suggestion.category).push(suggestion);
+        }
+        for (const [category, items] of byCategory) {
+            elements.exploreFeedsBody.append(buildExploreFeedsGroup(category, items));
+        }
+    } catch (error) {
+        elements.exploreFeedsBody.innerHTML = '';
+        showToast(error instanceof Error ? error.message : 'Unable to load feed suggestions.', 'error');
+    }
+}
+
+function closeExploreFeedsModal() {
+    elements.exploreFeedsModal.hidden = true;
 }
 
 /* ---------- Daily AI summary ---------- */
@@ -3676,6 +4013,18 @@ function wireEvents() {
         }
     });
 
+    elements.notificationTrigger.addEventListener('click', () => {
+        const willOpen = elements.notificationDropdown.hidden;
+        toggleDropdownMenu(elements.notificationDropdown, elements.notificationTrigger);
+        if (willOpen) loadRecentNotifications();
+    });
+    elements.notificationViewAllButton.addEventListener('click', openNotificationsSection);
+    elements.notificationMarkAllReadButton.addEventListener('click', markAllNotificationsRead);
+    elements.notificationsBackButton.addEventListener('click', closeNotificationsSection);
+    elements.notificationsLoadMoreButton.addEventListener('click', () => {
+        loadNotificationsPage(state.notificationsPage + 1);
+    });
+
     document.addEventListener('click', (event) => {
         if (!event.target.closest('#userMenu')) {
             hideUserMenu();
@@ -3683,11 +4032,15 @@ function wireEvents() {
         if (!event.target.closest('#moreMenu')) {
             hideMoreMenu();
         }
+        if (!event.target.closest('#notificationMenu')) {
+            hideNotificationDropdown();
+        }
     });
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             hideUserMenu();
             hideMoreMenu();
+            hideNotificationDropdown();
             closeBlockedUsersModal();
         }
     });
@@ -3744,6 +4097,10 @@ function wireEvents() {
         }
     });
 
+    elements.exploreFeedsButton.addEventListener('click', openExploreFeedsModal);
+    elements.exploreFeedsModalCloseButton.addEventListener('click', closeExploreFeedsModal);
+    elements.exploreFeedsModalBackdrop.addEventListener('click', closeExploreFeedsModal);
+
     elements.addFeedForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const url = elements.feedUrlInput.value.trim();
@@ -3765,6 +4122,7 @@ function wireEvents() {
         if (event.key === 'Escape') {
             closeDrawer();
             closeAllFeedActions();
+            closeExploreFeedsModal();
         }
     });
 
@@ -4018,6 +4376,7 @@ async function init() {
     }
     loadDailySummary();
     loadCommunityTimeline();
+    loadUnreadCount();
     connectCommunityHub();
     try {
         await loadData();

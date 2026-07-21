@@ -142,6 +142,23 @@
                 </div>
                 <button class="primary-button" type="button" id="refreshAllButton" data-i18n="refreshAll">Refresh all</button>
 
+                <div class="user-menu" id="notificationMenu">
+                    <button class="user-menu__trigger" type="button" id="notificationTrigger" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-bell" aria-hidden="true"></i>
+                        <span class="notification-badge" id="notificationBadge" hidden>0</span>
+                    </button>
+
+                    <div class="user-menu__dropdown notification-dropdown" id="notificationDropdown" hidden role="menu">
+                        <div class="notification-dropdown__header">
+                            <h4>Notifications</h4>
+                            <button type="button" class="notification-dropdown__settings" id="notificationMarkAllReadButton">Mark all read</button>
+                        </div>
+                        <div class="notification-dropdown__list" id="notificationList"></div>
+                        <p class="notification-dropdown__empty" id="notificationEmptyMessage" hidden>No notifications yet.</p>
+                        <button type="button" class="notification-dropdown__view-all" id="notificationViewAllButton">View all notifications</button>
+                    </div>
+                </div>
+
                 <div class="user-menu" id="moreMenu">
                     <button class="user-menu__trigger" type="button" id="moreMenuTrigger" aria-label="More options" data-i18n-aria-label="moreOptions" aria-haspopup="true" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
@@ -198,6 +215,10 @@
                         <button class="primary-button primary-button--full" type="submit" data-i18n="addFeed">Add feed</button>
                         <p class="form-message" id="feedFormMessage" role="status" aria-live="polite"></p>
                     </form>
+                    <button type="button" class="explore-feeds-button" id="exploreFeedsButton">
+                        <span>Explore feeds</span>
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
                 </section>
 
                 <section class="sidebar__section sidebar__section--feeds">
@@ -404,6 +425,18 @@
                     </div>
                 </div>
             </main>
+
+            <main class="content community-section" id="notificationsSection" hidden>
+                <div class="community-section__header">
+                    <button type="button" class="icon-button community-back-button" id="notificationsBackButton" aria-label="Back to RSS Reader" title="Back to RSS Reader">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </button>
+                    <h2>Notifications</h2>
+                </div>
+                <section class="notifications-page" id="notificationsList" aria-label="All notifications"></section>
+                <p class="notification-dropdown__empty" id="notificationsEmptyMessage" hidden>No notifications yet.</p>
+                <button type="button" class="ghost-button post-feed__load-more" id="notificationsLoadMoreButton" hidden>Load more</button>
+            </main>
         </div>
 
         <div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-label="Account" hidden>
@@ -512,6 +545,24 @@
                 <div class="blocked-users-modal__footer">
                     <button type="button" class="primary-button" id="blockedUsersDoneButton">Done</button>
                 </div>
+            </div>
+        </div>
+
+        <div class="auth-modal explore-feeds-modal" id="exploreFeedsModal" role="dialog" aria-modal="true" aria-label="Explore feeds" hidden>
+            <div class="auth-modal__backdrop" id="exploreFeedsModalBackdrop"></div>
+            <div class="auth-modal__panel explore-feeds-modal__panel">
+                <div class="auth-modal__header">
+                    <div>
+                        <h3>Explore feeds</h3>
+                        <p class="explore-feeds-modal__subtitle">Subscribe to popular channels without typing a URL.</p>
+                    </div>
+                    <button type="button" class="icon-button" id="exploreFeedsModalCloseButton" aria-label="Close">
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="explore-feeds-modal__body" id="exploreFeedsBody"></div>
+                <p class="explore-feeds-modal__empty" id="exploreFeedsEmpty" hidden>You're already subscribed to every suggested channel.</p>
             </div>
         </div>
 

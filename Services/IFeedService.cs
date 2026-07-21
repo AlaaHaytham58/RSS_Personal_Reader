@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
+using Dtos;
 
 namespace Services
 {
@@ -11,6 +12,7 @@ namespace Services
         Task<RefreshOutcome> RefreshFeedAsync(Guid userId, Guid feedId);
         Task<bool> RemoveFeedAsync(Guid userId, Guid feedId);
         Task<List<Feed>> GetAllFeedsAsync(Guid userId);
+        Task<List<FeedSuggestionResponse>> GetSuggestionsAsync(Guid userId);
         // Optional: repository-backed implementations may expose a bulk add; kept here for completeness
         // (not required for callers of the service)
     }
