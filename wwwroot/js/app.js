@@ -416,6 +416,7 @@ const translations = {
         signUp: 'Sign up',
         logOut: 'Log out',
         username: 'Username',
+        usernameOrEmail: 'Username or email',
         password: 'Password',
         loggingOut: 'Logging out...',
         confirmLogOut: 'Are you sure you want to log out?',
@@ -469,6 +470,7 @@ const translations = {
         backToLogin: 'Back to login',
         resetPasswordTitle: 'Reset your password',
         sendResetLink: 'Send reset link',
+        resetLinkSent: 'Reset link sent',
         resetPasswordAction: 'Reset password',
         newPassword: 'New password',
         confirmPassword: 'Confirm password',
@@ -623,6 +625,7 @@ const translations = {
         signUp: 'إنشاء حساب',
         logOut: 'تسجيل الخروج',
         username: 'اسم المستخدم',
+        usernameOrEmail: 'اسم المستخدم أو البريد الإلكتروني',
         password: 'كلمة المرور',
         loggingOut: 'جارٍ تسجيل الخروج...',
         confirmLogOut: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
@@ -676,6 +679,7 @@ const translations = {
         backToLogin: 'العودة لتسجيل الدخول',
         resetPasswordTitle: 'إعادة تعيين كلمة المرور',
         sendResetLink: 'إرسال رابط إعادة التعيين',
+        resetLinkSent: 'تم إرسال الرابط',
         resetPasswordAction: 'إعادة تعيين كلمة المرور',
         newPassword: 'كلمة المرور الجديدة',
         confirmPassword: 'تأكيد كلمة المرور',
@@ -2112,6 +2116,7 @@ function toggleChatPanel() {
 let authMode = 'login';
 let pendingResetToken = null;
 let pendingResetEmail = null;
+let forgotPasswordLinkSent = false;
 let communityHubConnection = null;
 let pendingPostImageUrl = null;
 let pendingPostFileUrl = null;
@@ -3022,6 +3027,8 @@ function openAuthModal(mode) {
     authMode = mode;
     elements.authForm.reset();
     elements.authFormMessage.textContent = '';
+    elements.authFormMessage.removeAttribute('data-tone');
+    forgotPasswordLinkSent = false;
 
     const isRegister = mode === 'register';
     const isForgot = mode === 'forgot';
@@ -3037,6 +3044,10 @@ function openAuthModal(mode) {
     elements.authEmailInput.required = isRegister || isForgot;
     elements.authUsernameField.hidden = isForgot || isReset;
     elements.authUsernameInput.required = isLogin || isRegister;
+    // The login form accepts either a username or an email address; signup still
+    // wants a plain username since email has its own dedicated field there.
+    elements.authUsernameInput.dataset.i18nPlaceholder = isLogin ? 'usernameOrEmail' : 'username';
+    elements.authUsernameInput.placeholder = t(isLogin ? 'usernameOrEmail' : 'username');
     elements.authPasswordField.hidden = isForgot || isReset;
     elements.authPasswordInput.required = isLogin || isRegister;
     elements.authNewPasswordField.hidden = !isReset;
@@ -3136,6 +3147,12 @@ async function submitForgotPassword() {
             body: JSON.stringify({ email }),
         });
         elements.authFormMessage.textContent = t('checkYourEmail');
+        elements.authFormMessage.setAttribute('data-tone', 'success');
+        // Keep the button disabled after a successful send so an impatient user
+        // can't fire off several reset emails in a row; editing the email field
+        // (e.g. to fix a typo) re-enables it via the input listener in wireEvents.
+        forgotPasswordLinkSent = true;
+        elements.authSubmitButton.textContent = t('resetLinkSent');
     } catch {
         elements.authFormMessage.textContent = t('authUnavailable');
     }
@@ -4499,6 +4516,14 @@ function wireEvents() {
     elements.authModalBackdrop.addEventListener('click', closeAuthModal);
     elements.authGoogleButton.addEventListener('click', goToGoogleLogin);
     elements.authForgotPasswordButton.addEventListener('click', () => openAuthModal('forgot'));
+    elements.authEmailInput.addEventListener('input', () => {
+        if (authMode !== 'forgot' || !forgotPasswordLinkSent) return;
+        forgotPasswordLinkSent = false;
+        elements.authSubmitButton.disabled = false;
+        elements.authSubmitButton.textContent = t('sendResetLink');
+        elements.authFormMessage.textContent = '';
+        elements.authFormMessage.removeAttribute('data-tone');
+    });
     elements.authBackToLoginButton.addEventListener('click', () => openAuthModal('login'));
     elements.authSwitchModeButton.addEventListener('click', () => openAuthModal(authMode === 'register' ? 'login' : 'register'));
     elements.authForm.addEventListener('submit', async (event) => {
@@ -4507,7 +4532,7 @@ function wireEvents() {
         try {
             await submitAuth();
         } finally {
-            elements.authSubmitButton.disabled = false;
+            elements.authSubmitButton.disabled = forgotPasswordLinkSent;
         }
     });
 

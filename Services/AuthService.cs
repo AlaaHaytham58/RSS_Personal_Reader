@@ -49,7 +49,8 @@ namespace Services
                 return new AuthUsernameTaken();
             }
 
-            var emailExists = await db.Users.AnyAsync(u => u.Email == email && u.Id != claimGuestUserId);
+            var emailLower = email.ToLower();
+            var emailExists = await db.Users.AnyAsync(u => u.Email != null && u.Email.ToLower() == emailLower && u.Id != claimGuestUserId);
             if (emailExists)
             {
                 return new AuthEmailTaken();
@@ -122,17 +123,21 @@ namespace Services
             return ToResponse(user);
         }
 
-        public async Task<AuthOutcome> ValidateCredentialsAsync(string username, string password)
+        public async Task<AuthOutcome> ValidateCredentialsAsync(string usernameOrEmail, string password)
         {
-            username = username?.Trim() ?? "";
-            if (username.Length == 0 || string.IsNullOrEmpty(password))
+            usernameOrEmail = usernameOrEmail?.Trim() ?? "";
+            if (usernameOrEmail.Length == 0 || string.IsNullOrEmpty(password))
             {
                 return new AuthValidationError();
             }
 
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var user = await db.Users.FirstOrDefaultAsync(u => u.Username == username);
+            // Login accepts either the exact (case-sensitive) username or the email
+            // address, matched case-insensitively since emails aren't stored normalized.
+            var identifierLower = usernameOrEmail.ToLower();
+            var user = await db.Users.FirstOrDefaultAsync(u =>
+                u.Username == usernameOrEmail || (u.Email != null && u.Email.ToLower() == identifierLower));
             if (user == null || user.PasswordHash == null || !PasswordHasher.Verify(password, user.PasswordHash))
             {
                 return new AuthInvalidCredentials();
@@ -151,7 +156,8 @@ namespace Services
 
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var emailLower = email.ToLower();
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == emailLower);
             if (user != null)
             {
                 var rawToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))
@@ -186,7 +192,8 @@ namespace Services
 
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var emailLower = email.ToLower();
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == emailLower);
             if (user?.PasswordResetTokenHash == null
                 || user.PasswordResetTokenExpiresAt is null
                 || user.PasswordResetTokenExpiresAt < DateTimeOffset.UtcNow
