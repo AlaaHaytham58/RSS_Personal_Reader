@@ -1789,14 +1789,6 @@ svg {
         right: 0;
     }
 
-    /* Duplicated into the "more" menu on mobile (#refreshAllMenuButton) so
-       it no longer needs its own full-width row here. ".primary-button" is
-       a shared class (also used by the landing page CTA etc.) so scope this
-       to the topbar's instance only. */
-    .topbar__actions .primary-button {
-        display: none;
-    }
-
     .topbar__meta {
         order: 6;
         flex-basis: 100%;

@@ -55,7 +55,6 @@ const elements = {
     searchInput: document.getElementById('searchInput'),
     searchToggleButton: document.getElementById('searchToggleButton'),
     search: document.querySelector('.search'),
-    refreshAllButton: document.getElementById('refreshAllButton'),
     refreshAllMenuButton: document.getElementById('refreshAllMenuButton'),
     addFeedForm: document.getElementById('addFeedForm'),
     feedUrlInput: document.getElementById('feedUrlInput'),
@@ -4307,20 +4306,16 @@ function wireEvents() {
         }
     });
 
-    elements.refreshAllButton.addEventListener('click', async () => {
-        elements.refreshAllButton.disabled = true;
+    elements.refreshAllMenuButton.addEventListener('click', async () => {
+        elements.refreshAllMenuButton.disabled = true;
         try {
             await refreshAllFeeds();
             showToast(t('feedsRefreshed'), 'success');
         } catch (error) {
             showToast(error instanceof Error ? error.message : t('failedToRefreshFeeds'), 'error');
         } finally {
-            elements.refreshAllButton.disabled = false;
+            elements.refreshAllMenuButton.disabled = false;
         }
-    });
-
-    elements.refreshAllMenuButton.addEventListener('click', () => {
-        elements.refreshAllButton.click();
     });
 
     elements.searchToggleButton.addEventListener('click', () => {
