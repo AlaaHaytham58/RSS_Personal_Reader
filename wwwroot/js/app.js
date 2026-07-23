@@ -53,7 +53,10 @@ const elements = {
     langToggleLabel: document.getElementById('langToggleLabel'),
     themeToggle: document.getElementById('themeToggle'),
     searchInput: document.getElementById('searchInput'),
+    searchToggleButton: document.getElementById('searchToggleButton'),
+    search: document.querySelector('.search'),
     refreshAllButton: document.getElementById('refreshAllButton'),
+    refreshAllMenuButton: document.getElementById('refreshAllMenuButton'),
     addFeedForm: document.getElementById('addFeedForm'),
     feedUrlInput: document.getElementById('feedUrlInput'),
     feedFormMessage: document.getElementById('feedFormMessage'),
@@ -64,6 +67,9 @@ const elements = {
     exploreFeedsModalCloseButton: document.getElementById('exploreFeedsModalCloseButton'),
     exploreFeedsBody: document.getElementById('exploreFeedsBody'),
     exploreFeedsEmpty: document.getElementById('exploreFeedsEmpty'),
+    exploreFeedsSearchForm: document.getElementById('exploreFeedsSearchForm'),
+    exploreFeedsSearchInput: document.getElementById('exploreFeedsSearchInput'),
+    exploreFeedsClearSearchButton: document.getElementById('exploreFeedsClearSearchButton'),
     categoryPills: document.getElementById('categoryPills'),
     articleFeed: document.getElementById('articleFeed'),
     paginationBar: document.getElementById('paginationBar'),
@@ -183,14 +189,28 @@ const elements = {
     postThreadContent: document.getElementById('postThreadContent'),
     authModal: document.getElementById('authModal'),
     authModalBackdrop: document.getElementById('authModalBackdrop'),
+    authModalShell: document.getElementById('authModalShell'),
+    authModalMarketing: document.getElementById('authModalMarketing'),
     authModalCloseButton: document.getElementById('authModalCloseButton'),
     authModalTitle: document.getElementById('authModalTitle'),
+    authGoogleButton: document.getElementById('authGoogleButton'),
+    authDivider: document.getElementById('authDivider'),
     authForm: document.getElementById('authForm'),
+    authEmailField: document.getElementById('authEmailField'),
+    authEmailInput: document.getElementById('authEmailInput'),
+    authUsernameField: document.getElementById('authUsernameField'),
     authUsernameInput: document.getElementById('authUsernameInput'),
+    authPasswordField: document.getElementById('authPasswordField'),
     authPasswordInput: document.getElementById('authPasswordInput'),
+    authNewPasswordField: document.getElementById('authNewPasswordField'),
+    authNewPasswordInput: document.getElementById('authNewPasswordInput'),
+    authConfirmPasswordField: document.getElementById('authConfirmPasswordField'),
+    authConfirmPasswordInput: document.getElementById('authConfirmPasswordInput'),
+    authForgotPasswordButton: document.getElementById('authForgotPasswordButton'),
     authFormMessage: document.getElementById('authFormMessage'),
     authSubmitButton: document.getElementById('authSubmitButton'),
     authSwitchModeButton: document.getElementById('authSwitchModeButton'),
+    authBackToLoginButton: document.getElementById('authBackToLoginButton'),
     landingPage: document.getElementById('landingPage'),
     appShell: document.getElementById('appShell'),
     landingThemeToggle: document.getElementById('landingThemeToggle'),
@@ -250,9 +270,7 @@ function wireLandingEvents() {
         enterApp();
         openAuthModal('register');
     });
-    elements.landingGoogleButton.addEventListener('click', () => {
-        window.location.href = '/api/auth/google/login?returnUrl=' + encodeURIComponent(window.location.pathname);
-    });
+    elements.landingGoogleButton.addEventListener('click', goToGoogleLogin);
 }
 
 /* ---------- Localization ---------- */
@@ -442,6 +460,25 @@ const translations = {
         invalidCredentials: 'Invalid username or password.',
         authValidationError: 'Username must be 3-32 characters and password at least 8 characters.',
         authUnavailable: 'Could not reach the server. Please try again.',
+        continueWithGoogle: 'Continue with Google',
+        orDivider: 'Or',
+        emailAddress: 'Email address',
+        authMarketingBullet1: 'Organize every feed you follow in one place',
+        authMarketingBullet2: 'Get an AI-powered daily summary of what matters',
+        authMarketingBullet3: 'Free and open source — no ads, no algorithm feed',
+        forgotPassword: 'Forgot password?',
+        backToLogin: 'Back to login',
+        resetPasswordTitle: 'Reset your password',
+        sendResetLink: 'Send reset link',
+        resetPasswordAction: 'Reset password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+        checkYourEmail: "If that email is registered, we've sent a password reset link.",
+        passwordsDoNotMatch: 'Passwords do not match.',
+        passwordResetSuccess: 'Your password has been reset. Please log in.',
+        resetLinkInvalid: 'This reset link is invalid or has expired.',
+        authEmailTaken: 'That email is already registered.',
+        authEmailInvalid: 'Enter a valid email address.',
         communityLandingTitle: 'Join the conversation',
         communityLandingSubtitle: 'Share short updates and reply to other readers of this site, in real time.',
         getStarted: 'Get started',
@@ -630,6 +667,25 @@ const translations = {
         invalidCredentials: 'اسم المستخدم أو كلمة المرور غير صحيحة.',
         authValidationError: 'يجب أن يكون اسم المستخدم بين 3 و32 حرفًا وكلمة المرور 8 أحرف على الأقل.',
         authUnavailable: 'تعذّر الوصول إلى الخادم. حاول مرة أخرى.',
+        continueWithGoogle: 'المتابعة باستخدام Google',
+        orDivider: 'أو',
+        emailAddress: 'البريد الإلكتروني',
+        authMarketingBullet1: 'نظّم كل الخلاصات التي تتابعها في مكان واحد',
+        authMarketingBullet2: 'احصل على ملخص يومي مدعوم بالذكاء الاصطناعي لأهم ما يهمك',
+        authMarketingBullet3: 'مجاني ومفتوح المصدر — بلا إعلانات وبلا خوارزمية ترتيب',
+        forgotPassword: 'نسيت كلمة المرور؟',
+        backToLogin: 'العودة لتسجيل الدخول',
+        resetPasswordTitle: 'إعادة تعيين كلمة المرور',
+        sendResetLink: 'إرسال رابط إعادة التعيين',
+        resetPasswordAction: 'إعادة تعيين كلمة المرور',
+        newPassword: 'كلمة المرور الجديدة',
+        confirmPassword: 'تأكيد كلمة المرور',
+        checkYourEmail: 'إذا كان هذا البريد مسجلاً لدينا، فقد أرسلنا رابط إعادة تعيين كلمة المرور.',
+        passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين.',
+        passwordResetSuccess: 'تم إعادة تعيين كلمة المرور. الرجاء تسجيل الدخول.',
+        resetLinkInvalid: 'رابط إعادة التعيين هذا غير صالح أو منتهي الصلاحية.',
+        authEmailTaken: 'هذا البريد الإلكتروني مُستخدم بالفعل.',
+        authEmailInvalid: 'أدخل بريدًا إلكترونيًا صالحًا.',
         communityLandingTitle: 'انضم إلى النقاش',
         communityLandingSubtitle: 'شارك تحديثات قصيرة ورُدّ على قراء آخرين لهذا الموقع، في الوقت الفعلي.',
         getStarted: 'ابدأ الآن',
@@ -1058,7 +1114,17 @@ function openDrawer() {
     elements.backdrop.classList.add('is-open');
     elements.backdrop.hidden = false;
     elements.menuButton.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+
+    // `overflow: hidden` alone breaks `position: sticky` on the topbar once
+    // the page is already scrolled — the topbar "unsticks" and jumps
+    // off-screen, taking the burger button with it, so the drawer can't be
+    // closed. Pin the body in place instead and restore the scroll offset
+    // on close.
+    const scrollY = window.scrollY;
+    document.body.dataset.scrollLockY = String(scrollY);
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
 }
 
 function closeDrawer() {
@@ -1066,7 +1132,13 @@ function closeDrawer() {
     elements.backdrop.classList.remove('is-open');
     elements.backdrop.hidden = true;
     elements.menuButton.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+
+    const scrollY = Number(document.body.dataset.scrollLockY || '0');
+    delete document.body.dataset.scrollLockY;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
 }
 
 function toggleDrawer() {
@@ -2039,6 +2111,8 @@ function toggleChatPanel() {
 /* ---------- Community posts (public timeline) ---------- */
 
 let authMode = 'login';
+let pendingResetToken = null;
+let pendingResetEmail = null;
 let communityHubConnection = null;
 let pendingPostImageUrl = null;
 let pendingPostFileUrl = null;
@@ -2941,15 +3015,57 @@ async function loadCurrentUser() {
     renderAuthStatus();
 }
 
+function goToGoogleLogin() {
+    window.location.href = '/api/auth/google/login?returnUrl=' + encodeURIComponent(window.location.pathname);
+}
+
 function openAuthModal(mode) {
     authMode = mode;
     elements.authForm.reset();
     elements.authFormMessage.textContent = '';
-    elements.authModalTitle.textContent = mode === 'register' ? t('signUp') : t('logIn');
-    elements.authSubmitButton.textContent = mode === 'register' ? t('signUp') : t('logIn');
-    elements.authSwitchModeButton.textContent = mode === 'register' ? t('haveAccount') : t('needAccount');
+
+    const isRegister = mode === 'register';
+    const isForgot = mode === 'forgot';
+    const isReset = mode === 'reset';
+    const isLogin = mode === 'login';
+
+    elements.authModalShell.classList.toggle('auth-modal__shell--register', isRegister);
+    elements.authModalMarketing.hidden = !isRegister;
+
+    elements.authGoogleButton.hidden = isForgot || isReset;
+    elements.authDivider.hidden = isForgot || isReset;
+    elements.authEmailField.hidden = !(isRegister || isForgot);
+    elements.authEmailInput.required = isRegister || isForgot;
+    elements.authUsernameField.hidden = isForgot || isReset;
+    elements.authUsernameInput.required = isLogin || isRegister;
+    elements.authPasswordField.hidden = isForgot || isReset;
+    elements.authPasswordInput.required = isLogin || isRegister;
+    elements.authNewPasswordField.hidden = !isReset;
+    elements.authNewPasswordInput.required = isReset;
+    elements.authConfirmPasswordField.hidden = !isReset;
+    elements.authConfirmPasswordInput.required = isReset;
+    elements.authForgotPasswordButton.hidden = !isLogin;
+    elements.authSwitchModeButton.hidden = isForgot || isReset;
+    elements.authBackToLoginButton.hidden = isLogin || isRegister;
+
+    if (isRegister) {
+        elements.authModalTitle.textContent = t('signUp');
+        elements.authSubmitButton.textContent = t('signUp');
+    } else if (isForgot) {
+        elements.authModalTitle.textContent = t('resetPasswordTitle');
+        elements.authSubmitButton.textContent = t('sendResetLink');
+    } else if (isReset) {
+        elements.authModalTitle.textContent = t('resetPasswordTitle');
+        elements.authSubmitButton.textContent = t('resetPasswordAction');
+    } else {
+        elements.authModalTitle.textContent = t('logIn');
+        elements.authSubmitButton.textContent = t('logIn');
+    }
+    elements.authSwitchModeButton.textContent = isRegister ? t('haveAccount') : t('needAccount');
+
     elements.authModal.hidden = false;
-    elements.authUsernameInput.focus();
+    const focusTarget = isForgot ? elements.authEmailInput : isReset ? elements.authNewPasswordInput : elements.authUsernameInput;
+    focusTarget.focus();
 }
 
 function closeAuthModal() {
@@ -2957,15 +3073,27 @@ function closeAuthModal() {
 }
 
 async function submitAuth() {
+    if (authMode === 'forgot') {
+        await submitForgotPassword();
+        return;
+    }
+    if (authMode === 'reset') {
+        await submitResetPassword();
+        return;
+    }
+
     const username = elements.authUsernameInput.value.trim();
     const password = elements.authPasswordInput.value;
     const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/login';
+    const body = authMode === 'register'
+        ? { username, password, email: elements.authEmailInput.value.trim() }
+        : { username, password };
 
     try {
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify(body),
         });
 
         if (response.ok) {
@@ -2985,15 +3113,78 @@ async function submitAuth() {
         }
 
         if (response.status === 409) {
-            elements.authFormMessage.textContent = t('usernameTaken');
+            const payload = await response.json().catch(() => null);
+            elements.authFormMessage.textContent = /email/i.test(payload?.error || '')
+                ? t('authEmailTaken')
+                : t('usernameTaken');
         } else if (response.status === 401) {
             elements.authFormMessage.textContent = t('invalidCredentials');
         } else {
-            elements.authFormMessage.textContent = t('authValidationError');
+            const payload = await response.json().catch(() => null);
+            elements.authFormMessage.textContent = payload?.error || t('authValidationError');
         }
     } catch {
         elements.authFormMessage.textContent = t('authUnavailable');
     }
+}
+
+async function submitForgotPassword() {
+    const email = elements.authEmailInput.value.trim();
+    try {
+        await fetch('/api/auth/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+        elements.authFormMessage.textContent = t('checkYourEmail');
+    } catch {
+        elements.authFormMessage.textContent = t('authUnavailable');
+    }
+}
+
+async function submitResetPassword() {
+    const newPassword = elements.authNewPasswordInput.value;
+    const confirmPassword = elements.authConfirmPasswordInput.value;
+
+    if (newPassword !== confirmPassword) {
+        elements.authFormMessage.textContent = t('passwordsDoNotMatch');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/auth/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: pendingResetEmail, token: pendingResetToken, newPassword }),
+        });
+
+        if (response.ok) {
+            openAuthModal('login');
+            elements.authFormMessage.textContent = t('passwordResetSuccess');
+            return;
+        }
+
+        const payload = await response.json().catch(() => null);
+        elements.authFormMessage.textContent = payload?.error || t('resetLinkInvalid');
+    } catch {
+        elements.authFormMessage.textContent = t('authUnavailable');
+    }
+}
+
+function openResetPasswordModal() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const email = params.get('email');
+
+    if (!token || !email) {
+        showToast(t('resetLinkInvalid'), 'error');
+        openAuthModal('login');
+        return;
+    }
+
+    pendingResetToken = token;
+    pendingResetEmail = email;
+    openAuthModal('reset');
 }
 
 async function logoutCommunityUser() {
@@ -3925,30 +4116,55 @@ function buildExploreFeedsGroup(category, suggestions) {
     return group;
 }
 
-async function openExploreFeedsModal() {
-    elements.exploreFeedsModal.hidden = false;
+function renderExploreFeedsResults(suggestions, emptyMessage) {
+    elements.exploreFeedsBody.innerHTML = '';
+    elements.exploreFeedsEmpty.hidden = suggestions.length > 0;
+    elements.exploreFeedsEmpty.textContent = emptyMessage;
+
+    const byCategory = new Map();
+    for (const suggestion of suggestions) {
+        if (!byCategory.has(suggestion.category)) byCategory.set(suggestion.category, []);
+        byCategory.get(suggestion.category).push(suggestion);
+    }
+    for (const [category, items] of byCategory) {
+        elements.exploreFeedsBody.append(buildExploreFeedsGroup(category, items));
+    }
+}
+
+async function loadExploreFeedsSuggestions() {
+    elements.exploreFeedsClearSearchButton.hidden = true;
     elements.exploreFeedsBody.innerHTML = '<p class="explore-feeds-modal__loading">Loading suggestions…</p>';
     elements.exploreFeedsEmpty.hidden = true;
 
     try {
         const response = await fetch('/api/feeds/suggestions');
         const suggestions = response.ok ? await response.json() : [];
-
-        elements.exploreFeedsBody.innerHTML = '';
-        elements.exploreFeedsEmpty.hidden = suggestions.length > 0;
-
-        const byCategory = new Map();
-        for (const suggestion of suggestions) {
-            if (!byCategory.has(suggestion.category)) byCategory.set(suggestion.category, []);
-            byCategory.get(suggestion.category).push(suggestion);
-        }
-        for (const [category, items] of byCategory) {
-            elements.exploreFeedsBody.append(buildExploreFeedsGroup(category, items));
-        }
+        renderExploreFeedsResults(suggestions, "You're already subscribed to every suggested channel. Try searching a topic or a website above.");
     } catch (error) {
         elements.exploreFeedsBody.innerHTML = '';
         showToast(error instanceof Error ? error.message : 'Unable to load feed suggestions.', 'error');
     }
+}
+
+async function searchExploreFeeds(query) {
+    elements.exploreFeedsClearSearchButton.hidden = false;
+    elements.exploreFeedsBody.innerHTML = '<p class="explore-feeds-modal__loading">Searching…</p>';
+    elements.exploreFeedsEmpty.hidden = true;
+
+    try {
+        const response = await fetch(`/api/feeds/discover?query=${encodeURIComponent(query)}`);
+        const results = response.ok ? await response.json() : [];
+        renderExploreFeedsResults(results, `No feeds found for "${query}". Try a different topic or paste the site's homepage URL.`);
+    } catch (error) {
+        elements.exploreFeedsBody.innerHTML = '';
+        showToast(error instanceof Error ? error.message : 'Unable to search for feeds.', 'error');
+    }
+}
+
+async function openExploreFeedsModal() {
+    elements.exploreFeedsModal.hidden = false;
+    elements.exploreFeedsSearchInput.value = '';
+    await loadExploreFeedsSuggestions();
 }
 
 function closeExploreFeedsModal() {
@@ -3990,6 +4206,12 @@ async function loadDailySummary(forceRefresh = false) {
     } catch {
         elements.dailySummaryBody.textContent = t('summaryUnavailable');
     }
+}
+
+function syncHeaderHeight() {
+    const topbar = document.querySelector('.topbar');
+    if (!topbar) return;
+    document.documentElement.style.setProperty('--header-height', `${topbar.getBoundingClientRect().height}px`);
 }
 
 function wireEvents() {
@@ -4097,9 +4319,46 @@ function wireEvents() {
         }
     });
 
-    elements.exploreFeedsButton.addEventListener('click', openExploreFeedsModal);
+    elements.refreshAllMenuButton.addEventListener('click', () => {
+        elements.refreshAllButton.click();
+    });
+
+    elements.searchToggleButton.addEventListener('click', () => {
+        const isActive = elements.search.classList.toggle('is-active');
+        elements.searchToggleButton.setAttribute('aria-expanded', String(isActive));
+        if (isActive) {
+            elements.searchInput.focus();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (elements.search.classList.contains('is-active')
+            && !event.target.closest('.search')
+            && !event.target.closest('#searchToggleButton')) {
+            elements.search.classList.remove('is-active');
+            elements.searchToggleButton.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    elements.exploreFeedsButton.addEventListener('click', () => {
+        // The trigger lives inside the sidebar drawer, which is a higher
+        // z-index than this modal on mobile — leaving the drawer open would
+        // bury the modal behind it, making the button look broken.
+        closeDrawer();
+        openExploreFeedsModal();
+    });
     elements.exploreFeedsModalCloseButton.addEventListener('click', closeExploreFeedsModal);
     elements.exploreFeedsModalBackdrop.addEventListener('click', closeExploreFeedsModal);
+    elements.exploreFeedsSearchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const query = elements.exploreFeedsSearchInput.value.trim();
+        if (!query) return;
+        searchExploreFeeds(query);
+    });
+    elements.exploreFeedsClearSearchButton.addEventListener('click', () => {
+        elements.exploreFeedsSearchInput.value = '';
+        loadExploreFeedsSuggestions();
+    });
 
     elements.addFeedForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -4243,6 +4502,9 @@ function wireEvents() {
 
     elements.authModalCloseButton.addEventListener('click', closeAuthModal);
     elements.authModalBackdrop.addEventListener('click', closeAuthModal);
+    elements.authGoogleButton.addEventListener('click', goToGoogleLogin);
+    elements.authForgotPasswordButton.addEventListener('click', () => openAuthModal('forgot'));
+    elements.authBackToLoginButton.addEventListener('click', () => openAuthModal('login'));
     elements.authSwitchModeButton.addEventListener('click', () => openAuthModal(authMode === 'register' ? 'login' : 'register'));
     elements.authForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -4349,12 +4611,21 @@ async function init() {
     wireEvents();
     wireLandingEvents();
 
+    const topbarEl = document.querySelector('.topbar');
+    if (topbarEl) {
+        syncHeaderHeight();
+        new ResizeObserver(syncHeaderHeight).observe(topbarEl);
+    }
+
     // A shared profile link ("/profile/{username}") always drops the visitor straight
     // into the app on that profile, even on a first visit that never clicked "Start reading".
     const sharedProfileMatch = window.location.pathname.match(/^\/profile\/([^/]+)\/?$/);
     // Same idea for a shared post link ("/posts/{id}") - opens straight into that thread.
     const sharedPostMatch = window.location.pathname.match(/^\/posts\/([^/]+)\/?$/);
-    if (sharedProfileMatch || sharedPostMatch || window.localStorage.getItem(enteredAppStorageKey) === '1') {
+    // A password-reset email link ("/reset-password?token=...&email=...") also drops the
+    // visitor straight into the app so it can open the reset form.
+    const resetPasswordMatch = window.location.pathname.match(/^\/reset-password\/?$/);
+    if (sharedProfileMatch || sharedPostMatch || resetPasswordMatch || window.localStorage.getItem(enteredAppStorageKey) === '1') {
         enterApp();
     }
 
@@ -4373,6 +4644,8 @@ async function init() {
     } else if (sharedPostMatch && isSignedIn()) {
         openCommunitySection();
         openThread(decodeURIComponent(sharedPostMatch[1]));
+    } else if (resetPasswordMatch) {
+        openResetPasswordModal();
     }
     loadDailySummary();
     loadCommunityTimeline();
