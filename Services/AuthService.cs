@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Domain;
 using Dtos;
@@ -16,27 +18,41 @@ namespace Services
         private const int MinPasswordLength = 8;
 
         private readonly IDbContextFactory<AppDbContext> _contextFactory;
+        private readonly IEmailSender _emailSender;
 
-        public AuthService(IDbContextFactory<AppDbContext> contextFactory)
+        public AuthService(IDbContextFactory<AppDbContext> contextFactory, IEmailSender emailSender)
         {
             _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
         }
 
-        public async Task<AuthOutcome> RegisterAsync(string username, string password, Guid? claimGuestUserId = null)
+        public async Task<AuthOutcome> RegisterAsync(string username, string email, string password, Guid? claimGuestUserId = null)
         {
             username = username?.Trim() ?? "";
+            email = email?.Trim() ?? "";
             if (username.Length < MinUsernameLength || username.Length > MaxUsernameLength
                 || string.IsNullOrEmpty(password) || password.Length < MinPasswordLength)
             {
                 return new AuthValidationError();
             }
 
+            if (!IsValidEmail(email))
+            {
+                return new AuthEmailInvalid();
+            }
+
             await using var db = await _contextFactory.CreateDbContextAsync();
 
-            var exists = await db.Users.AnyAsync(u => u.Username == username && u.Id != claimGuestUserId);
-            if (exists)
+            var usernameExists = await db.Users.AnyAsync(u => u.Username == username && u.Id != claimGuestUserId);
+            if (usernameExists)
             {
                 return new AuthUsernameTaken();
+            }
+
+            var emailExists = await db.Users.AnyAsync(u => u.Email == email && u.Id != claimGuestUserId);
+            if (emailExists)
+            {
+                return new AuthEmailTaken();
             }
 
             // If the caller is currently browsing as a guest, upgrade that same row in place
@@ -48,6 +64,7 @@ namespace Services
             if (user != null)
             {
                 user.Username = username;
+                user.Email = email;
                 user.PasswordHash = PasswordHasher.Hash(password);
                 user.IsGuest = false;
             }
@@ -57,6 +74,7 @@ namespace Services
                 {
                     Id = Guid.NewGuid(),
                     Username = username,
+                    Email = email,
                     PasswordHash = PasswordHasher.Hash(password),
                     CreatedAt = DateTimeOffset.UtcNow,
                 };
@@ -66,6 +84,24 @@ namespace Services
             await db.SaveChangesAsync();
 
             return new AuthSuccess { User = ToResponse(user) };
+        }
+
+        private static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            try
+            {
+                var address = new System.Net.Mail.MailAddress(email);
+                return address.Address == email;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
 
         public async Task<Dtos.UserResponse> CreateGuestAsync()
@@ -104,6 +140,73 @@ namespace Services
 
             return new AuthSuccess { User = ToResponse(user) };
         }
+
+        public async Task<AuthOutcome> ForgotPasswordAsync(string email, string baseUrl)
+        {
+            email = email?.Trim() ?? "";
+            if (email.Length == 0)
+            {
+                return new AuthValidationError();
+            }
+
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                var rawToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))
+                    .Replace('+', '-').Replace('/', '_').TrimEnd('=');
+                user.PasswordResetTokenHash = HashToken(rawToken);
+                user.PasswordResetTokenExpiresAt = DateTimeOffset.UtcNow.AddHours(1);
+                await db.SaveChangesAsync();
+
+                var link = $"{baseUrl.TrimEnd('/')}/reset-password?token={Uri.EscapeDataString(rawToken)}&email={Uri.EscapeDataString(email)}";
+                await _emailSender.SendAsync(
+                    email,
+                    "Reset your RSS Reader password",
+                    $"We received a request to reset your password. Open this link to choose a new one (valid for 1 hour):\n\n{link}\n\nIf you didn't request this, you can safely ignore this email.");
+            }
+
+            // Always the same outcome whether or not the email matched, to avoid user enumeration.
+            return new ForgotPasswordAccepted();
+        }
+
+        public async Task<AuthOutcome> ResetPasswordAsync(string email, string token, string newPassword)
+        {
+            email = email?.Trim() ?? "";
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+            {
+                return new AuthResetTokenInvalid();
+            }
+
+            if (string.IsNullOrEmpty(newPassword) || newPassword.Length < MinPasswordLength)
+            {
+                return new AuthValidationError();
+            }
+
+            await using var db = await _contextFactory.CreateDbContextAsync();
+
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user?.PasswordResetTokenHash == null
+                || user.PasswordResetTokenExpiresAt is null
+                || user.PasswordResetTokenExpiresAt < DateTimeOffset.UtcNow
+                || !CryptographicOperations.FixedTimeEquals(
+                    Encoding.UTF8.GetBytes(HashToken(token)),
+                    Encoding.UTF8.GetBytes(user.PasswordResetTokenHash)))
+            {
+                return new AuthResetTokenInvalid();
+            }
+
+            user.PasswordHash = PasswordHasher.Hash(newPassword);
+            user.PasswordResetTokenHash = null;
+            user.PasswordResetTokenExpiresAt = null;
+            await db.SaveChangesAsync();
+
+            return new AuthSuccess { User = ToResponse(user) };
+        }
+
+        private static string HashToken(string token) =>
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(token)));
 
         public async Task<AuthOutcome> ExternalLoginAsync(string googleId, string? email, string? displayName, Guid? claimGuestUserId = null)
         {

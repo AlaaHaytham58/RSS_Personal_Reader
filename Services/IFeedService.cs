@@ -13,6 +13,7 @@ namespace Services
         Task<bool> RemoveFeedAsync(Guid userId, Guid feedId);
         Task<List<Feed>> GetAllFeedsAsync(Guid userId);
         Task<List<FeedSuggestionResponse>> GetSuggestionsAsync(Guid userId);
+        Task<List<FeedSuggestionResponse>> SearchFeedsAsync(Guid userId, string query);
         // Optional: repository-backed implementations may expose a bulk add; kept here for completeness
         // (not required for callers of the service)
     }
