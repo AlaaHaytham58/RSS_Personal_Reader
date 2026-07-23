@@ -40,6 +40,16 @@ namespace Endpoints
                 return Results.Ok(suggestions);
             });
 
+            app.MapGet("/api/feeds/discover", async (string? query, IFeedService svc, HttpContext ctx) =>
+            {
+                var userId = GetCurrentUserId(ctx);
+                if (userId == null) return Results.StatusCode(401);
+                if (string.IsNullOrWhiteSpace(query)) return Results.Ok(new List<Dtos.FeedSuggestionResponse>());
+
+                var results = await svc.SearchFeedsAsync(userId.Value, query);
+                return Results.Ok(results);
+            });
+
             app.MapGet("/api/feeds", async (IFeedService svc, HttpContext ctx) =>
             {
                 var userId = GetCurrentUserId(ctx);

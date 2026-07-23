@@ -33,6 +33,38 @@ if (Environment.GetEnvironmentVariable("AppSettings__Google__ClientSecret") is n
     Environment.SetEnvironmentVariable("AppSettings__Google__ClientSecret", googleClientSecret);
 }
 
+if (Environment.GetEnvironmentVariable("AppSettings__Tavily__ApiKey") is null
+    && Environment.GetEnvironmentVariable("TAVILY_API_KEY") is { Length: > 0 } tavilyKey)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Tavily__ApiKey", tavilyKey);
+}
+
+if (Environment.GetEnvironmentVariable("AppSettings__Smtp__Host") is null
+    && Environment.GetEnvironmentVariable("SMTP_HOST") is { Length: > 0 } smtpHost)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Smtp__Host", smtpHost);
+}
+if (Environment.GetEnvironmentVariable("AppSettings__Smtp__Port") is null
+    && Environment.GetEnvironmentVariable("SMTP_PORT") is { Length: > 0 } smtpPort)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Smtp__Port", smtpPort);
+}
+if (Environment.GetEnvironmentVariable("AppSettings__Smtp__Username") is null
+    && Environment.GetEnvironmentVariable("SMTP_USER") is { Length: > 0 } smtpUser)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Smtp__Username", smtpUser);
+}
+if (Environment.GetEnvironmentVariable("AppSettings__Smtp__Password") is null
+    && Environment.GetEnvironmentVariable("SMTP_PASSWORD") is { Length: > 0 } smtpPassword)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Smtp__Password", smtpPassword);
+}
+if (Environment.GetEnvironmentVariable("AppSettings__Smtp__FromAddress") is null
+    && Environment.GetEnvironmentVariable("SMTP_FROM") is { Length: > 0 } smtpFrom)
+{
+    Environment.SetEnvironmentVariable("AppSettings__Smtp__FromAddress", smtpFrom);
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Only override the URL when running on Railway (or any host that sets PORT)
@@ -52,6 +84,7 @@ builder.Services.AddSingleton(new SemaphoreSlim(1, 1));
 // HttpClient factory for outbound fetches
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("deepseek");
+builder.Services.AddHttpClient("tavily");
 
 // Repository (SQLite storage via EF Core)
 builder.Services.AddDbContextFactory<Infrastructure.Storage.AppDbContext>((sp, options) =>
@@ -72,6 +105,7 @@ builder.Services.AddScoped<Services.IArticleService, Services.ArticleService>();
 builder.Services.AddScoped<Services.IChatService, Services.ChatService>();
 builder.Services.AddScoped<Services.ICategoryService, Services.CategoryService>();
 builder.Services.AddScoped<Services.ISummaryService, Services.SummaryService>();
+builder.Services.AddScoped<Services.IEmailSender, Services.EmailSenderService>();
 builder.Services.AddScoped<Services.IAuthService, Services.AuthService>();
 builder.Services.AddScoped<Services.IUserService, Services.UserService>();
 builder.Services.AddScoped<Services.IPostService, Services.PostService>();

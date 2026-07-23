@@ -21,6 +21,11 @@ namespace Domain
 
         public string? Bio { get; set; }
 
+        // Hash of the current single-use password-reset token (raw token is emailed,
+        // never stored). A new forgot-password request overwrites/invalidates the previous one.
+        public string? PasswordResetTokenHash { get; set; }
+        public DateTimeOffset? PasswordResetTokenExpiresAt { get; set; }
+
         // Serialized List<Dtos.SocialLinkDto> ("platform"/"url" pairs); parsed on read in UserService.
         public string? SocialLinksJson { get; set; }
 

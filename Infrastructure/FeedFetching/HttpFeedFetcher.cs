@@ -75,6 +75,10 @@ namespace Infrastructure.FeedFetching
                 var client = _httpClientFactory.CreateClient();
                 client.Timeout = TimeSpan.FromSeconds(Math.Max(1, _settings.FeedFetchTimeoutSeconds));
                 using var req = new HttpRequestMessage(HttpMethod.Get, uri);
+                // Several sites (feed URLs and, especially, plain homepages used for feed
+                // autodiscovery) sit behind bot-detection that rejects requests with no
+                // User-Agent header at all - HttpClient sends none by default.
+                req.Headers.UserAgent.ParseAdd("Mozilla/5.0 (compatible; RSSPersonalReader/1.0; +https://github.com)");
                 using var resp = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(false);
                 if (!resp.IsSuccessStatusCode)
                 {

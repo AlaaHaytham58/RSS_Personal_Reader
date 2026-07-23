@@ -7,12 +7,25 @@ namespace Dtos
     {
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
+        public string Email { get; set; } = "";
     }
 
     public class LoginRequest
     {
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
+    }
+
+    public class ForgotPasswordRequest
+    {
+        public string Email { get; set; } = "";
+    }
+
+    public class ResetPasswordRequest
+    {
+        public string Email { get; set; } = "";
+        public string Token { get; set; } = "";
+        public string NewPassword { get; set; } = "";
     }
 
     public class SocialLinkDto

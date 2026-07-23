@@ -17,9 +17,9 @@ namespace Endpoints
         {
             app.MapPost("/api/auth/register", async (RegisterRequest req, IAuthService svc, HttpContext ctx) =>
             {
-                if (req == null) return Results.BadRequest(new { error = "Username and password are required" });
+                if (req == null) return Results.BadRequest(new { error = "Username, email and password are required" });
 
-                var outcome = await svc.RegisterAsync(req.Username, req.Password, GetGuestUserId(ctx));
+                var outcome = await svc.RegisterAsync(req.Username, req.Email, req.Password, GetGuestUserId(ctx));
                 if (outcome is AuthSuccess s)
                 {
                     await SignInAsync(ctx, s.User);
@@ -29,6 +29,40 @@ namespace Endpoints
                 return outcome switch
                 {
                     AuthUsernameTaken t => Results.Conflict(new { error = t.Message }),
+                    AuthEmailTaken e => Results.Conflict(new { error = e.Message }),
+                    AuthEmailInvalid i => Results.BadRequest(new { error = i.Message }),
+                    AuthValidationError v => Results.BadRequest(new { error = v.Message }),
+                    _ => Results.StatusCode(500)
+                };
+            });
+
+            app.MapPost("/api/auth/forgot-password", async (ForgotPasswordRequest req, IAuthService svc, HttpContext ctx) =>
+            {
+                if (req == null || string.IsNullOrWhiteSpace(req.Email))
+                {
+                    return Results.BadRequest(new { error = "Email is required" });
+                }
+
+                var baseUrl = $"{ctx.Request.Scheme}://{ctx.Request.Host}";
+                await svc.ForgotPasswordAsync(req.Email, baseUrl);
+
+                // Always the same generic response regardless of whether the email matched,
+                // so this endpoint can't be used to enumerate registered accounts.
+                return Results.Ok(new { message = "If that email is registered, a reset link has been sent." });
+            });
+
+            app.MapPost("/api/auth/reset-password", async (ResetPasswordRequest req, IAuthService svc) =>
+            {
+                if (req == null || string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Token))
+                {
+                    return Results.BadRequest(new { error = "Email and token are required" });
+                }
+
+                var outcome = await svc.ResetPasswordAsync(req.Email, req.Token, req.NewPassword);
+                return outcome switch
+                {
+                    AuthSuccess => Results.Ok(new { message = "Password updated." }),
+                    AuthResetTokenInvalid i => Results.Json(new { error = i.Message }, statusCode: 400),
                     AuthValidationError v => Results.BadRequest(new { error = v.Message }),
                     _ => Results.StatusCode(500)
                 };
